@@ -6,11 +6,11 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Hexo</title>
+  <title>Archives: 2016/4 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta property="og:url" content="http://yoursite.com/archives/2016/04/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
@@ -151,476 +151,34 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-【C++】时间片轮转算法模拟" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/20/【C++】时间片轮转算法模拟/">【C++】时间片轮转算法模拟</a>
-    </h1>
-  
-
-        
-        <a href="/2016/11/20/【C++】时间片轮转算法模拟/" class="archive-article-date">
-  	<time datetime="2016-11-20T12:03:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-11-20</time>
-</a>
-        
-      </header>
     
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="就一个链式队列实现进程控制块的扔来扔去，不说了直接贴代码"><a href="#就一个链式队列实现进程控制块的扔来扔去，不说了直接贴代码" class="headerlink" title="就一个链式队列实现进程控制块的扔来扔去，不说了直接贴代码"></a>就一个链式队列实现进程控制块的扔来扔去，不说了直接贴代码</h3><ul>
-<li><em>主要代码</em></li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">pcb</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">char</span> Name[<span class="number">256</span>]; <span class="comment">//进程名</span></div><div class="line">    <span class="keyword">int</span> ArriveTime; <span class="comment">//到达时间</span></div><div class="line">    <span class="keyword">int</span> ServeTime; <span class="comment">//服务时间</span></div><div class="line">    <span class="keyword">int</span> cpuTime; <span class="comment">//cpu执行时间</span></div><div class="line">    <span class="keyword">char</span> status; <span class="comment">//进程状态 C-Coming, W-Wait, R-Run, F-Finish</span></div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">pcb</span> *<span class="title">next</span>;</span> <span class="comment">//向下一个pcb</span></div><div class="line"></div><div class="line">    <span class="keyword">int</span> finishTime; <span class="comment">//完成时间</span></div><div class="line">    <span class="keyword">int</span> RoundTime; <span class="comment">//周转时间</span></div><div class="line">    <span class="keyword">double</span> WRoundTime; <span class="comment">//带权周转时间</span></div><div class="line">&#125;*PCB;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">LinkPCB</span></span></div><div class="line">&#123;</div><div class="line">    PCB Front;</div><div class="line">    PCB Rear;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">int</span> pTime; <span class="comment">//时间片大小</span></div><div class="line"><span class="keyword">int</span> now; <span class="comment">//时间线</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintPCB</span><span class="params">(pcb* k)</span></span>; <span class="comment">//打印pcb</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintTitle</span><span class="params">()</span></span>; <span class="comment">//打印表头</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintLinkPCB</span><span class="params">(LinkPCB* k)</span></span>; <span class="comment">//打印pcb队列</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">InitQueue</span><span class="params">(LinkPCB* p)</span></span>; <span class="comment">//初始化队列</span></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isEmpty</span><span class="params">(LinkPCB* p)</span></span>; <span class="comment">//判断队列是否为空</span></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">EnQueue</span><span class="params">(LinkPCB* p, pcb* e)</span></span>; <span class="comment">//入队，将e入队</span></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">DeQueue</span><span class="params">(LinkPCB* p, pcb* e)</span></span>; <span class="comment">//出队，出队到e</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">FromA2B</span><span class="params">(LinkPCB* a, LinkPCB* b, <span class="keyword">char</span> st)</span></span>; <span class="comment">//出队列a，进队列b，改变状态为st</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">create</span><span class="params">(LinkPCB* head)</span></span>; <span class="comment">//创建pcb列表</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Test</span><span class="params">(LinkPCB* head)</span></span>; <span class="comment">//队列测试函数</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">RoundRobin</span><span class="params">(LinkPCB *head)</span></span>; <span class="comment">//时间片轮转调度模拟</span></div><div class="line"></div><div class="line">LinkPCB HEAD;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    create(&amp;HEAD);</div><div class="line">    RoundRobin(&amp;HEAD);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li><em>函数实现</em></li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintPCB</span><span class="params">(pcb* k)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"%s\t%c\t%d\t%d\n"</span>, k-&gt;Name, k-&gt;status, k-&gt;ServeTime, k-&gt;cpuTime);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintTitle</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"name\tstatus\tserve\tcpu\n"</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintLinkPCB</span><span class="params">(LinkPCB* k)</span></span></div><div class="line">&#123;</div><div class="line">    pcb* p = k-&gt;Front-&gt;next;</div><div class="line">    <span class="keyword">while</span> (p)</div><div class="line">    &#123;</div><div class="line">        PrintPCB(p);</div><div class="line">        p = p-&gt;next;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">InitQueue</span><span class="params">(LinkPCB* p)</span></span></div><div class="line">&#123;</div><div class="line">    p-&gt;Front = p-&gt;Rear = <span class="keyword">new</span> pcb;</div><div class="line">    p-&gt;Front-&gt;next = <span class="literal">NULL</span>;</div><div class="line">    p-&gt;Rear-&gt;next = <span class="literal">NULL</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isEmpty</span><span class="params">(LinkPCB* p)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> p-&gt;Front == p-&gt;Rear;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">EnQueue</span><span class="params">(LinkPCB* p, pcb* e)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (e)</div><div class="line">    &#123;</div><div class="line">        e-&gt;next = <span class="literal">NULL</span>;</div><div class="line">        p-&gt;Rear-&gt;next = e;</div><div class="line">        p-&gt;Rear = e;</div><div class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">DeQueue</span><span class="params">(LinkPCB* p, pcb* e)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (p-&gt;Rear == p-&gt;Front)</div><div class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">    pcb* top = p-&gt;Front-&gt;next;</div><div class="line">    *e = *top; <span class="comment">// important</span></div><div class="line">    p-&gt;Front-&gt;next = top-&gt;next;</div><div class="line">    <span class="keyword">if</span> (p-&gt;Rear == top)</div><div class="line">    &#123;</div><div class="line">        p-&gt;Rear = p-&gt;Front;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">FromA2B</span><span class="params">(LinkPCB* a, LinkPCB* b, <span class="keyword">char</span> st)</span></span></div><div class="line">&#123;</div><div class="line">    pcb* p = <span class="keyword">new</span> pcb;</div><div class="line">    DeQueue(a, p);</div><div class="line">    p-&gt;status = st;</div><div class="line">    EnQueue(b, p);</div><div class="line">    <span class="keyword">switch</span> (st)</div><div class="line">    &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">'W'</span>: <span class="built_in">cout</span> &lt;&lt; p-&gt;Name &lt;&lt; <span class="string">" is waiting\ttime: "</span> &lt;&lt; now &lt;&lt; <span class="string">"\n"</span>; <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">case</span> <span class="string">'R'</span>: <span class="built_in">cout</span> &lt;&lt; p-&gt;Name &lt;&lt; <span class="string">" is running\ttime: "</span> &lt;&lt; now &lt;&lt; <span class="string">"\n"</span>; <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">case</span> <span class="string">'F'</span>:</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; p-&gt;Name &lt;&lt; <span class="string">" is finish\ttime: "</span> &lt;&lt; now &lt;&lt; <span class="string">"\n"</span>;</div><div class="line">        p-&gt;finishTime = now;</div><div class="line">        p-&gt;RoundTime = p-&gt;finishTime-p-&gt;ArriveTime;</div><div class="line">        p-&gt;WRoundTime = <span class="number">1.0</span>*p-&gt;RoundTime/p-&gt;ServeTime;</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">case</span> <span class="string">'C'</span>:</div><div class="line">    <span class="keyword">default</span>: <span class="built_in">cout</span> &lt;&lt; <span class="string">"......"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">create</span><span class="params">(LinkPCB* head)</span></span></div><div class="line">&#123;</div><div class="line">    InitQueue(head);</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入时间片大小："</span>;</div><div class="line">    <span class="built_in">cin</span> &gt;&gt; pTime;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入要创建的进程数："</span>;</div><div class="line">    <span class="keyword">int</span> n;</div><div class="line">    <span class="built_in">cin</span> &gt;&gt; n;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</div><div class="line">    &#123;</div><div class="line">        pcb* ft = head-&gt;Front-&gt;next;</div><div class="line">        pcb* p = <span class="keyword">new</span> pcb; <span class="comment">// important</span></div><div class="line">        <span class="built_in">printf</span>(<span class="string">"输入第%d个进程的“ 进程名 到达时间 服务时间” （以空格隔开）"</span>, i);</div><div class="line">        <span class="keyword">char</span> Name[<span class="number">256</span>];</div><div class="line">        <span class="keyword">int</span> Atime, Stime;</div><div class="line">        <span class="built_in">cin</span> &gt;&gt; Name &gt;&gt; Atime &gt;&gt; Stime;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (Atime &gt;= <span class="number">0</span> &amp;&amp; Stime &gt;= <span class="number">0</span>)</div><div class="line">        &#123;</div><div class="line">            <span class="built_in">strcpy</span>(p-&gt;Name, Name);</div><div class="line">            p-&gt;ArriveTime = Atime;</div><div class="line">            p-&gt;ServeTime = Stime;</div><div class="line">            p-&gt;cpuTime = <span class="number">0</span>;</div><div class="line">            p-&gt;status = <span class="string">'C'</span>;</div><div class="line">            p-&gt;next = <span class="literal">NULL</span>;</div><div class="line"></div><div class="line">            <span class="comment">// sort</span></div><div class="line">            <span class="keyword">if</span> (ft == <span class="literal">NULL</span>)</div><div class="line">            &#123;</div><div class="line">                EnQueue(head, p);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (p-&gt;ArriveTime &lt; ft-&gt;ArriveTime)</div><div class="line">            &#123;</div><div class="line">                p-&gt;next = ft;</div><div class="line">                head-&gt;Front-&gt;next = p;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span></div><div class="line">            &#123;</div><div class="line">                pcb* a = ft;</div><div class="line">                pcb* b = a-&gt;next;</div><div class="line">                <span class="keyword">bool</span> flag = <span class="literal">true</span>;</div><div class="line">                <span class="keyword">while</span> (b)</div><div class="line">                &#123;</div><div class="line">                    <span class="keyword">if</span> (p-&gt;ArriveTime &lt; b-&gt;ArriveTime)</div><div class="line">                    &#123;</div><div class="line">                        p-&gt;next = b;</div><div class="line">                        a-&gt;next = p;</div><div class="line">                        b = <span class="literal">NULL</span>;</div><div class="line">                        flag = <span class="literal">false</span>;</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">else</span></div><div class="line">                    &#123;</div><div class="line">                        a = a-&gt;next;</div><div class="line">                        b = b-&gt;next;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span> (flag)</div><div class="line">                &#123;</div><div class="line">                    EnQueue(head, p);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">"输入错误,请重输!"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">            i--;</div><div class="line">            <span class="keyword">continue</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// PrintLinkPCB(head);</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Test</span><span class="params">(LinkPCB* head)</span></span></div><div class="line">&#123;</div><div class="line">    InitQueue(head);</div><div class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"1.EnQueue 2.DeQueue 3.Print"</span>;</div><div class="line">        <span class="keyword">int</span> ch;</div><div class="line">        <span class="built_in">cin</span> &gt;&gt; ch;</div><div class="line">        pcb* p = <span class="keyword">new</span> pcb;</div><div class="line">        <span class="keyword">switch</span> (ch)</div><div class="line">        &#123;</div><div class="line">        <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">"input: name atime stime"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">            <span class="keyword">char</span> Name[<span class="number">256</span>];</div><div class="line">            <span class="keyword">int</span> Atime, Stime;</div><div class="line">            <span class="built_in">cin</span> &gt;&gt; Name &gt;&gt; Atime &gt;&gt; Stime;</div><div class="line">            <span class="built_in">strcpy</span>(p-&gt;Name, Name);</div><div class="line">            p-&gt;ArriveTime = Atime;</div><div class="line">            p-&gt;ServeTime = Stime;</div><div class="line">            p-&gt;cpuTime = <span class="number">0</span>;</div><div class="line">            p-&gt;status = <span class="string">'W'</span>;</div><div class="line">            p-&gt;next = <span class="literal">NULL</span>;</div><div class="line">            EnQueue(head, p);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">2</span>:</div><div class="line">            <span class="keyword">if</span> (DeQueue(head, p))</div><div class="line">                PrintPCB(p);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">3</span>:</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            PrintLinkPCB(head);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">RoundRobin</span><span class="params">(LinkPCB *head)</span></span></div><div class="line">&#123;</div><div class="line">    LinkPCB *ready = <span class="keyword">new</span> LinkPCB;</div><div class="line">    LinkPCB *run = <span class="keyword">new</span> LinkPCB;</div><div class="line">    LinkPCB *finish = <span class="keyword">new</span> LinkPCB;</div><div class="line">    InitQueue(ready);</div><div class="line">    InitQueue(run);</div><div class="line">    InitQueue(finish);</div><div class="line"></div><div class="line">    now = head-&gt;Front-&gt;next-&gt;ArriveTime; <span class="comment">//开始时刻</span></div><div class="line">    FromA2B(head, ready, <span class="string">'W'</span>);</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (!(isEmpty(head) &amp;&amp; isEmpty(ready)))</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">int</span> Tnow = now; <span class="comment">//备份开始时刻</span></div><div class="line"></div><div class="line">        <span class="keyword">while</span> (!isEmpty(head))</div><div class="line">        &#123;</div><div class="line">            pcb* t = head-&gt;Front-&gt;next;</div><div class="line">            <span class="keyword">if</span> (now &gt;= t-&gt;ArriveTime)</div><div class="line">            &#123;</div><div class="line">                FromA2B(head, ready, <span class="string">'W'</span>);</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (!isEmpty(ready))</div><div class="line">        &#123;</div><div class="line">            FromA2B(ready, run, <span class="string">'R'</span>);</div><div class="line">            pcb* p = run-&gt;Front-&gt;next;</div><div class="line">            <span class="keyword">if</span> (p-&gt;ServeTime - p-&gt;cpuTime &lt;= pTime) <span class="comment">//时间片内完成</span></div><div class="line">            &#123;</div><div class="line">                now += p-&gt;ServeTime - p-&gt;cpuTime;</div><div class="line">                p-&gt;cpuTime = p-&gt;ServeTime;</div><div class="line">                FromA2B(run, finish, <span class="string">'F'</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span></div><div class="line">            &#123;</div><div class="line">                now += pTime;</div><div class="line">                p-&gt;cpuTime += pTime;</div><div class="line">                FromA2B(run, ready, <span class="string">'W'</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (Tnow == now) <span class="comment">//若没发生轮转，时间继续推移</span></div><div class="line">        &#123;</div><div class="line">            now++;</div><div class="line">            <span class="keyword">continue</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        PrintTitle();</div><div class="line">        PrintLinkPCB(head);</div><div class="line">        PrintLinkPCB(run);</div><div class="line">        PrintLinkPCB(ready);</div><div class="line">        PrintLinkPCB(finish);</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"time: "</span> &lt;&lt; now &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// result</span></div><div class="line">    pcb* p = finish-&gt;Front-&gt;next;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Result:\n"</span>;</div><div class="line">    <span class="keyword">while</span> (p)</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"Name: %s\tFinishtime: %d\tRoundtime: %d\twRoundtime: %.2f\n"</span>, p-&gt;Name, p-&gt;finishTime, p-&gt;RoundTime, p-&gt;WRoundTime);</div><div class="line">        p = p-&gt;next;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
+    
       
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">C++,操作系统,时间片轮转</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/11/20/【C++】时间片轮转算法模拟/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2016" class="archive-year">2016</a>
         </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-使用 Terminator  &amp; ZSH的配置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
+        <div class="archives">
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/01/使用 Terminator  & ZSH的配置/">使用 Terminator &amp; ZSH的配置</a>
-    </h1>
-  
-
-        
-        <a href="/2016/10/01/使用 Terminator  & ZSH的配置/" class="archive-article-date">
-  	<time datetime="2016-10-01T13:11:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-10-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="在别人博客里看到-Terminator-挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧"><a href="#在别人博客里看到-Terminator-挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧" class="headerlink" title="在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧"></a>在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧</h2><h3 id="安装-Terminator"><a href="#安装-Terminator" class="headerlink" title="安装 Terminator"></a>安装 Terminator</h3><pre class="lang:sh decode:true ">sudo apt-get install terminator</pre> 
-
-<ul>
-<li><em>利用 Debian 的重新配置命令选择默认终端：</em></li>
-</ul>
-<pre class="lang:sh decode:true ">sudo update-alternatives --config x-terminal-emulator</pre> 
-
-
-<ul>
-<li><em>非ubuntu系统设置terminator快捷键</em></li>
-</ul>
-<pre class="lang:default decode:true ">Setting -> Keyboard -> Shortcuts -> Custom Shortcuts -> add(+)
-Name : Terminal
-Command : /usr/bin/terminator
-Apply
-Click "Disable"
-press Ctrl + Alt + T</pre> 
-
-
-<h3 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h3><pre class="lang:default decode:true ">
-/* 打开Terminator ，进行如下操作 */
-Preferenvces -> General
-Disable ‘Show titlebar’
-Preferenvces -> Profiles -> Colors -> Foreground and Background -> Build-in schemes
-Choose ‘Solarized dark’
-</pre>
-
-
-<h3 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h3><pre class="lang:sh decode:true ">sudo apt-get install zsh</pre> 
-
-<ul>
-<li><em>设置当前用户使用zsh</em></li>
-</ul>
-<pre class="lang:sh decode:true ">chsh -s /bin/zsh</pre> 
-
-<h3 id="安装on-my-zsh"><a href="#安装on-my-zsh" class="headerlink" title="安装on my zsh"></a>安装on my zsh</h3><ul>
-<li><em>自动安装：(推荐)</em></li>
-</ul>
-<pre class="lang:sh decode:true ">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</pre> 
-
-<ul>
-<li><em>手动安装：</em></li>
-</ul>
-<pre class="lang:sh decode:true ">git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
-cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</pre> 
-
-
-<h3 id="安装powerline字体"><a href="#安装powerline字体" class="headerlink" title="安装powerline字体"></a>安装powerline字体</h3><pre class="lang:sh decode:true ">git clone https://github.com/powerline/fonts
-cd fonts
-./install.sh</pre> 
-
-<p><em>然后在终端中使用powerline字体</em></p>
-<h3 id="编辑：-zshrc"><a href="#编辑：-zshrc" class="headerlink" title="编辑： ~/.zshrc"></a>编辑： ~/.zshrc</h3><ul>
-<li><em>增加自己的用户名：</em></li>
-</ul>
-<pre class="lang:sh decode:true ">DEFAULT_USER="Shank"</pre> 
-
-<p><em>PS：上面 Shank 替换成你当前的用户名，用whoami查看你的用户名</em></p>
-<ul>
-<li><em>修改主题：</em></li>
-</ul>
-<pre class="lang:sh decode:true ">ZSH_THEME="agnoster"</pre> 
-
-<ul>
-<li><em>启用几个功能：</em></li>
-</ul>
-<pre class="lang:sh decode:true ">COMPLETION_WAITING_DOTS="true"</pre> 
-
-
-<h3 id="或者用以下简单粗暴的方式屏蔽zsh中的用户名："><a href="#或者用以下简单粗暴的方式屏蔽zsh中的用户名：" class="headerlink" title="或者用以下简单粗暴的方式屏蔽zsh中的用户名："></a>或者用以下简单粗暴的方式屏蔽zsh中的用户名：</h3><pre class="lang:sh decode:true ">cd ~/.oh-my-zsh/themes
-sudo vim 当前主题名称</pre> 
-
-<p>_看到最下面对build_prompt的定义，把prompt<em>context用#注释掉即可</em></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux,terminator,zsh</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/10/01/使用 Terminator  & ZSH的配置/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-Thinkpad X250 安装ubuntu16.04.1LTS 的记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/01/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/">Thinkpad X250 安装ubuntu16.04.1LTS 的记录</a>
-    </h1>
-  
-
-        
-        <a href="/2016/10/01/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/" class="archive-article-date">
-  	<time datetime="2016-10-01T13:11:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-10-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。<br>因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。<br>U盘制作ubuntu安装盘，开机启动到U盘。</p>
-<p>安装时，对空闲20G手动分区 ：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">分区类型</th>
-<th style="text-align:left">挂载点</th>
-<th style="text-align:left">大小</th>
-<th style="text-align:left">位置</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">主分区</td>
-<td style="text-align:left">/boot</td>
-<td style="text-align:left">400M</td>
-<td style="text-align:left">起始</td>
-</tr>
-<tr>
-<td style="text-align:left">逻辑区</td>
-<td style="text-align:left">/</td>
-<td style="text-align:left">15000M</td>
-<td style="text-align:left">起始</td>
-</tr>
-<tr>
-<td style="text-align:left">逻辑区</td>
-<td style="text-align:left">swap</td>
-<td style="text-align:left">512M</td>
-<td style="text-align:left">末尾</td>
-</tr>
-<tr>
-<td style="text-align:left">逻辑区</td>
-<td style="text-align:left">/home</td>
-<td style="text-align:left">剩余所有</td>
-<td style="text-align:left">起始</td>
-</tr>
-</tbody>
-</table>
-<p>因为我不希望ubuntu覆盖我的windows引导，所以启动选择器 sdb<br>（因为内存有8G，交换空间就不分那么多了。启动选择在第二快盘，就不会覆盖win的引导，倒时开机bios改下硬盘启动顺序就行了。<br>我可能随时会把ubuntu的分区格掉，毕竟ssd空间有限，到时候不至于用easybcd或者PE重做引导）<br>安装完成后，重启。</p>
-<p><strong>安装burg，美化开机选择界面：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:n-muench/burg &amp;&amp; sudo apt-get update</div><div class="line">sudo apt-get install burg burg-themes burg-emu</div></pre></td></tr></table></figure>
-<p>安装过程可以一路回车，注意在Configuring burg-pc时选择sdb。<br>更换burg themes ，下载Lightness BURG Theme by SWOriginal<br>解压后cp到/boot/burg/themes里。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo update-burg</div><div class="line">gedit /boot/burg/burg.cfg</div></pre></td></tr></table></figure>
-<p>删除一个recoverymode引导，提前win引导项<br>sudo burg-emu -&gt; F2 -&gt; 选择Lightness<br>(每次grub更新后都要重置burg sudo burg-install /dev/sdx )</p>
-<p><strong>安装指纹识别fingerprint：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:fingerprint/fprint &amp;&amp; sudo apt-get update</div><div class="line">sudo apt-get install libfprint0 fprint-demo libpam-fprintd gksu</div></pre></td></tr></table></figure>
-<p>在 “系统设置” -&gt; “用户账户” 里会多一个 “指纹登录”，照着提示进行设置就可以了。</p>
-<p><strong>关闭鼠标加速：</strong><br>在Dashboard里搜索:<br>gnome-session-properties<br>点击添加：<br>名称：setmouse<br>命令：xset m 0 或者 xset m default<br>重启。</p>
-<p><strong>安装TLP电源管理：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install tlp tlp-rdw</div><div class="line">sudo apt-get install tp-smapi-dkms acpi-call-dkms</div><div class="line">sudo apt-get install thermald</div><div class="line">sudo apt-get install powertop</div></pre></td></tr></table></figure>
-<p>配置 TLP</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/default/tlp</div><div class="line">sudo tlp start</div></pre></td></tr></table></figure>
-<p><strong>使用 terminator <a href="http://www.findshank.website/index.php/2016/10/01/terminator/" target="_blank" rel="external">替换默认终端以及使用zsh</a></strong> (另外写一篇介绍这个)</p>
-<p><strong>安装Arc GTK主题：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_16.04/ /' &gt;&gt; /etc/apt/sources.list.d/arc-theme.list"</div><div class="line">wget http://download.opensuse.org/repositories/home:Horst3180/xUbuntu_16.04/Release.key</div><div class="line">sudo apt-key add - &lt; Release.key</div><div class="line">sudo apt update</div><div class="line">sudo apt install arc-theme</div></pre></td></tr></table></figure>
-<p>安装Unity Tweak Tool管理主题：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt install unity-tweak-tool</div></pre></td></tr></table></figure>
-<p>个人觉得Arc-darker 好看，更换之。</p>
-<p><strong>安装Deadbeef，播放更多音频：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:starws-box/deadbeef-player</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install deadbeef</div></pre></td></tr></table></figure>
-<p><strong>安装MPV播放器：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install mpv</div></pre></td></tr></table></figure>
-<p><strong>安装cherrytree笔记本：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install cherrytree</div></pre></td></tr></table></figure>
-<p><strong>安装lantern翻墙：</strong><br><a href="https://github.com/getlantern/forum/issues/833" target="_blank" rel="external">传送门</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux,terminator,zsh</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/10/01/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-闲来无事，做个课表UWP练练手" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/30/闲来无事，做个课表UWP练练手/">闲来无事，做个课表UWP练练手</a>
-    </h1>
-  
-
-        
-        <a href="/2016/08/30/闲来无事，做个课表UWP练练手/" class="archive-article-date">
-  	<time datetime="2016-08-30T09:49:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-08-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="→-→-为什么我总是这么闲……"><a href="#→-→-为什么我总是这么闲……" class="headerlink" title="→_→ 为什么我总是这么闲……"></a>→_→ 为什么我总是这么闲……</h3><p>正好学了一段时间UWP，我觉得我可以做一个自己用啊。<br>目前是自用版本，等我写好爬虫和教务登录，试试放到微软商店怎样？</p>
-<p><a href="http://www.findshank.website/wp-content/uploads/2016/08/QQ截图20160830173641.jpg" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2016/08/QQ截图20160830173641.jpg" alt="" width="816" height="586" class="aligncenter size-full wp-image-72"></a></p>
-<p>尽管很low，但还是放自己网站上秀一下吧。<br><a href="git@github.com:lwy0007123/ClassSchedule.git">git@github.com:lwy0007123/ClassSchedule.git</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">UWP,好闲啊,课表</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/08/30/闲来无事，做个课表UWP练练手/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-太久不更新，我都快忘了这个站点了" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/04/17/太久不更新，我都快忘了这个站点了/">太久不更新，我都快忘了这个站点了</a>
-    </h1>
-  
-
-        
-        <a href="/2016/04/17/太久不更新，我都快忘了这个站点了/" class="archive-article-date">
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2016/04/17/太久不更新，我都快忘了这个站点了/" class="archive-article-date">
   	<time datetime="2016-04-17T12:33:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-04-17</time>
 </a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>做了一段视频来恶搞我的室友凯子同学，插进来看看效果</p>
-<embed src="http://player.youku.com/player.php/sid/XMTUzODQyMjM1Mg==/v.swf" type="application/x-shockwave-flash" width="480" height="400" align="middle">
-      
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2016/04/17/太久不更新，我都快忘了这个站点了/">太久不更新，我都快忘了这个站点了</a>
+    </h1>
+  
 
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -632,217 +190,19 @@ sudo vim 当前主题名称</pre>
 		</ul>
 	</div>
 
-      
+          
 
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2016/04/17/太久不更新，我都快忘了这个站点了/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
-    <article id="post-画一个微软标志" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
+  
+    </div></section>
+  
+
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/15/画一个微软标志/">画一个微软标志</a>
-    </h1>
-  
-
-        
-        <a href="/2015/12/15/画一个微软标志/" class="archive-article-date">
-  	<time datetime="2015-12-14T16:29:50.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-12-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="http://www.findshank.website/wp-content/uploads/2015/12/QQ截图20151209232926.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2015/12/QQ截图20151209232926-947x1024.png" alt="" width="756" height="817" class="aligncenter size-large wp-image-48"></a></p>
-<h3 id="闲来无事，玩了会CSS，所以画一个微软标志展示我的信仰"><a href="#闲来无事，玩了会CSS，所以画一个微软标志展示我的信仰" class="headerlink" title="闲来无事，玩了会CSS，所以画一个微软标志展示我的信仰"></a>闲来无事，玩了会CSS，所以画一个微软标志展示我的信仰</h3><ul>
-<li><p>index.html</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"use.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>画一个微软标志<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"icon"</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"text"</span>&gt;</span>Microsoft<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"zz"</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"s1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"s2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"s3"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"s4"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>use.css</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">@<span class="keyword">CHARSET</span> <span class="string">"UTF-8"</span>;</div><div class="line"><span class="selector-id">#icon</span>&#123;</div><div class="line"> <span class="attribute">height</span>: <span class="number">420px</span>;</div><div class="line"> <span class="attribute">width</span>:<span class="number">1500px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.text</span>&#123;</div><div class="line"> <span class="attribute">width</span>: <span class="number">1000px</span>;</div><div class="line"> <span class="attribute">height</span>: <span class="number">420px</span>;</div><div class="line"> <span class="attribute">line-height</span>:<span class="number">420px</span>;</div><div class="line"> <span class="attribute">font-size</span>: <span class="number">340px</span>;</div><div class="line"> <span class="attribute">float</span>: right;</div><div class="line"> <span class="attribute">font-family</span>: <span class="string">"Microsoft YaHei"</span>! important; </div><div class="line"> <span class="attribute">font-weight</span>:bold;</div><div class="line"> <span class="attribute">letter-spacing</span>: -<span class="number">10px</span>;</div><div class="line"> <span class="attribute">color</span>: <span class="built_in">rgb</span>(119,119,119);</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.zz</span> &#123;</div><div class="line"> <span class="attribute">width</span>: <span class="number">420px</span>;</div><div class="line"> <span class="attribute">height</span>: <span class="number">420px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.s1</span> &#123;</div><div class="line"> <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">background</span>: <span class="built_in">rgb</span>(243,100,34);</div><div class="line"> <span class="attribute">float</span>: left;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.s2</span> &#123;</div><div class="line"> <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">background</span>: <span class="built_in">rgb</span>(141,197,62);</div><div class="line"> <span class="attribute">float</span>: right;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.s3</span> &#123;</div><div class="line"> <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">background</span>: <span class="built_in">rgb</span>(0,173,239);</div><div class="line"> <span class="attribute">float</span>: left;</div><div class="line"> <span class="attribute">margin-top</span>: <span class="number">20px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.s4</span> &#123;</div><div class="line"> <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">background</span>: <span class="built_in">rgb</span>(255,195,13);</div><div class="line"> <span class="attribute">float</span>: right;</div><div class="line"> <span class="attribute">margin-top</span>: <span class="number">20px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>​</p>
-</li>
-</ul>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">扯淡</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2015/12/15/画一个微软标志/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-第一篇就谈谈这个吧" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/12/01/第一篇就谈谈这个吧/">第一篇就谈谈这个吧</a>
-    </h1>
-  
-
-        
-        <a href="/2015/12/01/第一篇就谈谈这个吧/" class="archive-article-date">
-  	<time datetime="2015-12-01T15:21:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-12-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="这网站怎么建的"><a href="#这网站怎么建的" class="headerlink" title="这网站怎么建的"></a>这网站怎么建的</h2><p><em>准备好云空间和域名云解析，Xshell 和 Xftp</em><br><em>本站运行于CentOS 7，使用阿里云ecs</em><br><em>用ssh客户端(xshell,putty等)连接你的服务器，root下执行以下命令行操作：</em></p>
-<h3 id="安装mqsql-（mariadb）、apache、php"><a href="#安装mqsql-（mariadb）、apache、php" class="headerlink" title="安装mqsql （mariadb）、apache、php"></a>安装mqsql （mariadb）、apache、php</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">yum install mariadb-server mariadb-client</div><div class="line">yum install httpd httpd-devel</div><div class="line">yum install php php-devel php-mysql /</div><div class="line">php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc</div></pre></td></tr></table></figure>
-<h3 id="重设mysql-root用户密码"><a href="#重设mysql-root用户密码" class="headerlink" title="重设mysql root用户密码"></a>重设mysql root用户密码</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysqladmin -u root password 'PASSWORD'</div></pre></td></tr></table></figure>
-<h3 id="登陆mysql"><a href="#登陆mysql" class="headerlink" title="登陆mysql"></a>登陆mysql</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -u root -p # 新建一个wordpress的数据库</div></pre></td></tr></table></figure>
-<h3 id="配置-wordpress"><a href="#配置-wordpress" class="headerlink" title="配置 wordpress"></a>配置 wordpress</h3><p><em>使用ftp上传wordpress到 /var/www/html/ 并解压</em><br><em>根据readme.html 中的说明配置 wordpress</em></p>
-<h3 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h3><p><em>在wordpress管理页面直接搜索插件安装即可</em></p>
-<ul>
-<li><p>Useso take over Google<br><em>替换所有的Google字体、谷歌JS公用库、Gravatar头像的源(解决页面访问慢的问题，必装！)</em></p>
-</li>
-<li><p>JP Markdown<br><em>使页面支持Markdown，Markdown是个好东西，Geek嘛，谁愿意拿着鼠标改格式，但要注意编辑文章不要用可视化视图</em></p>
-</li>
-<li><p>Crayon Syntax Highlighter<br><em>代码格式化插件，安装后文章编辑器多了个crayon标签，把代码选择然后点标签，你就会用了</em></p>
-</li>
-</ul>
-<h3 id="解决插件或主题更新-安装失败的问题"><a href="#解决插件或主题更新-安装失败的问题" class="headerlink" title="解决插件或主题更新/安装失败的问题"></a>解决插件或主题更新/安装失败的问题</h3><p><em>方法1</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> www目录及文件所有者设置为你apache的用户和组</span></div><div class="line">sudo chown -R apache:apache /var/www/</div><div class="line"><span class="meta">#</span><span class="bash"> 如果你改过wordpress里文件的权限，最好改回来</span></div><div class="line">find $path -type f -exec chmod 644 &#123;&#125; \;  #设置文件权限为644</div><div class="line">find $path -type d -exec chmod 755 &#123;&#125; \;  #设置目录权限为755</div><div class="line"><span class="meta">#</span><span class="bash">PS: <span class="variable">$path</span> 处填你的wordpress路径</span></div></pre></td></tr></table></figure></p>
-<p><em>方法2 (PS:不安全,不推荐)</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> 直接简单粗暴改权限</span></div><div class="line">sudo chmod -R 777 /var/www/html/wp-content/</div><div class="line"><span class="meta">#</span><span class="bash"> 更新完成后再改回来</span></div><div class="line">sudo chmod -R 751 /var/www/html/wp-content/</div></pre></td></tr></table></figure></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux,Wordpress</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2015/12/01/第一篇就谈谈这个吧/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-  
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-    </nav>
-  
 
 
           </div>
@@ -864,9 +224,9 @@ sudo vim 当前主题名称</pre>
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: true,
+		isHome: false,
 		isPost: false,
-		isArchive: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
