@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Página 2 | Shank &amp; Tech</title>
+  <title>Seite 2 | Shank &amp; Tech</title>
   <meta name="author" content="SHANK">
   
   <meta name="description" content="专注 代码 &amp; 科技 &amp; 闲扯">
@@ -30,7 +30,7 @@
 <body>
   <header id="header" class="inner"><div class="alignleft">
   <h1><a href="/">Shank &amp; Tech</a></h1>
-  <h2><a href="/">蛤蛤蛤</a></h2>
+  <h2><a href="/">专注 代码 &amp; 科技 &amp; 闲扯</a></h2>
 </div>
 <nav id="main-nav" class="alignright">
   <ul>
@@ -46,6 +46,103 @@
 </header>
   <div id="content" class="inner">
     <div id="main-col" class="alignleft"><div id="wrapper">
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-10-01T13:11:38.000Z"><a href="/2016/10/01/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/">2016-10-01</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/10/01/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/">Thinkpad X250 安装ubuntu16.04.1LTS 的记录</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。<br>因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。<br>U盘制作ubuntu安装盘，开机启动到U盘。</p>
+<p>安装时，对空闲20G手动分区 ：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">分区类型</th>
+<th style="text-align:left">挂载点</th>
+<th style="text-align:left">大小</th>
+<th style="text-align:left">位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">主分区</td>
+<td style="text-align:left">/boot</td>
+<td style="text-align:left">400M</td>
+<td style="text-align:left">起始</td>
+</tr>
+<tr>
+<td style="text-align:left">逻辑区</td>
+<td style="text-align:left">/</td>
+<td style="text-align:left">15000M</td>
+<td style="text-align:left">起始</td>
+</tr>
+<tr>
+<td style="text-align:left">逻辑区</td>
+<td style="text-align:left">swap</td>
+<td style="text-align:left">512M</td>
+<td style="text-align:left">末尾</td>
+</tr>
+<tr>
+<td style="text-align:left">逻辑区</td>
+<td style="text-align:left">/home</td>
+<td style="text-align:left">剩余所有</td>
+<td style="text-align:left">起始</td>
+</tr>
+</tbody>
+</table>
+<p>因为我不希望ubuntu覆盖我的windows引导，所以启动选择器 sdb<br>（因为内存有8G，交换空间就不分那么多了。启动选择在第二快盘，就不会覆盖win的引导，倒时开机bios改下硬盘启动顺序就行了。<br>我可能随时会把ubuntu的分区格掉，毕竟ssd空间有限，到时候不至于用easybcd或者PE重做引导）<br>安装完成后，重启。</p>
+<p><strong>安装burg，美化开机选择界面：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:n-muench/burg &amp;&amp; sudo apt-get update</div><div class="line">sudo apt-get install burg burg-themes burg-emu</div></pre></td></tr></table></figure>
+<p>安装过程可以一路回车，注意在Configuring burg-pc时选择sdb。<br>更换burg themes ，下载Lightness BURG Theme by SWOriginal<br>解压后cp到/boot/burg/themes里。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo update-burg</div><div class="line">gedit /boot/burg/burg.cfg</div></pre></td></tr></table></figure>
+<p>删除一个recoverymode引导，提前win引导项<br>sudo burg-emu -&gt; F2 -&gt; 选择Lightness<br>(每次grub更新后都要重置burg sudo burg-install /dev/sdx )</p>
+<p><strong>安装指纹识别fingerprint：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:fingerprint/fprint &amp;&amp; sudo apt-get update</div><div class="line">sudo apt-get install libfprint0 fprint-demo libpam-fprintd gksu</div></pre></td></tr></table></figure>
+<p>在 “系统设置” -&gt; “用户账户” 里会多一个 “指纹登录”，照着提示进行设置就可以了。</p>
+<p><strong>关闭鼠标加速：</strong><br>在Dashboard里搜索:<br>gnome-session-properties<br>点击添加：<br>名称：setmouse<br>命令：xset m 0 或者 xset m default<br>重启。</p>
+<p><strong>安装TLP电源管理：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install tlp tlp-rdw</div><div class="line">sudo apt-get install tp-smapi-dkms acpi-call-dkms</div><div class="line">sudo apt-get install thermald</div><div class="line">sudo apt-get install powertop</div></pre></td></tr></table></figure>
+<p>配置 TLP</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/default/tlp</div><div class="line">sudo tlp start</div></pre></td></tr></table></figure>
+<p><strong>使用 terminator <a href="http://www.findshank.website/index.php/2016/10/01/terminator/" target="_blank" rel="external">替换默认终端以及使用zsh</a></strong> (另外写一篇介绍这个)</p>
+<p><strong>安装Arc GTK主题：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_16.04/ /' &gt;&gt; /etc/apt/sources.list.d/arc-theme.list"</div><div class="line">wget http://download.opensuse.org/repositories/home:Horst3180/xUbuntu_16.04/Release.key</div><div class="line">sudo apt-key add - &lt; Release.key</div><div class="line">sudo apt update</div><div class="line">sudo apt install arc-theme</div></pre></td></tr></table></figure>
+<p>安装Unity Tweak Tool管理主题：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt install unity-tweak-tool</div></pre></td></tr></table></figure>
+<p>个人觉得Arc-darker 好看，更换之。</p>
+<p><strong>安装Deadbeef，播放更多音频：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:starws-box/deadbeef-player</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install deadbeef</div></pre></td></tr></table></figure>
+<p><strong>安装MPV播放器：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install mpv</div></pre></td></tr></table></figure>
+<p><strong>安装cherrytree笔记本：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install cherrytree</div></pre></td></tr></table></figure>
+<p><strong>安装lantern翻墙：</strong><br><a href="https://github.com/getlantern/forum/issues/833" target="_blank" rel="external">传送门</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
   <article class="post">
   
   <div class="post-content">
@@ -135,103 +232,6 @@ cd fonts
 sudo vim 当前主题名称</pre> 
 
 <p>_看到最下面对build_prompt的定义，把prompt<em>context用#注释掉即可</em></p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2016-10-01T13:11:38.000Z"><a href="/2016/10/01/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/">2016-10-01</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2016/10/01/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/">Thinkpad X250 安装ubuntu16.04.1LTS 的记录</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。<br>因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。<br>U盘制作ubuntu安装盘，开机启动到U盘。</p>
-<p>安装时，对空闲20G手动分区 ：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">分区类型</th>
-<th style="text-align:left">挂载点</th>
-<th style="text-align:left">大小</th>
-<th style="text-align:left">位置</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">主分区</td>
-<td style="text-align:left">/boot</td>
-<td style="text-align:left">400M</td>
-<td style="text-align:left">起始</td>
-</tr>
-<tr>
-<td style="text-align:left">逻辑区</td>
-<td style="text-align:left">/</td>
-<td style="text-align:left">15000M</td>
-<td style="text-align:left">起始</td>
-</tr>
-<tr>
-<td style="text-align:left">逻辑区</td>
-<td style="text-align:left">swap</td>
-<td style="text-align:left">512M</td>
-<td style="text-align:left">末尾</td>
-</tr>
-<tr>
-<td style="text-align:left">逻辑区</td>
-<td style="text-align:left">/home</td>
-<td style="text-align:left">剩余所有</td>
-<td style="text-align:left">起始</td>
-</tr>
-</tbody>
-</table>
-<p>因为我不希望ubuntu覆盖我的windows引导，所以启动选择器 sdb<br>（因为内存有8G，交换空间就不分那么多了。启动选择在第二快盘，就不会覆盖win的引导，倒时开机bios改下硬盘启动顺序就行了。<br>我可能随时会把ubuntu的分区格掉，毕竟ssd空间有限，到时候不至于用easybcd或者PE重做引导）<br>安装完成后，重启。</p>
-<p><strong>安装burg，美化开机选择界面：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:n-muench/burg &amp;&amp; sudo apt-get update</div><div class="line">sudo apt-get install burg burg-themes burg-emu</div></pre></td></tr></table></figure>
-<p>安装过程可以一路回车，注意在Configuring burg-pc时选择sdb。<br>更换burg themes ，下载Lightness BURG Theme by SWOriginal<br>解压后cp到/boot/burg/themes里。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo update-burg</div><div class="line">gedit /boot/burg/burg.cfg</div></pre></td></tr></table></figure>
-<p>删除一个recoverymode引导，提前win引导项<br>sudo burg-emu -&gt; F2 -&gt; 选择Lightness<br>(每次grub更新后都要重置burg sudo burg-install /dev/sdx )</p>
-<p><strong>安装指纹识别fingerprint：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:fingerprint/fprint &amp;&amp; sudo apt-get update</div><div class="line">sudo apt-get install libfprint0 fprint-demo libpam-fprintd gksu</div></pre></td></tr></table></figure>
-<p>在 “系统设置” -&gt; “用户账户” 里会多一个 “指纹登录”，照着提示进行设置就可以了。</p>
-<p><strong>关闭鼠标加速：</strong><br>在Dashboard里搜索:<br>gnome-session-properties<br>点击添加：<br>名称：setmouse<br>命令：xset m 0 或者 xset m default<br>重启。</p>
-<p><strong>安装TLP电源管理：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install tlp tlp-rdw</div><div class="line">sudo apt-get install tp-smapi-dkms acpi-call-dkms</div><div class="line">sudo apt-get install thermald</div><div class="line">sudo apt-get install powertop</div></pre></td></tr></table></figure>
-<p>配置 TLP</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/default/tlp</div><div class="line">sudo tlp start</div></pre></td></tr></table></figure>
-<p><strong>使用 terminator <a href="http://www.findshank.website/index.php/2016/10/01/terminator/" target="_blank" rel="external">替换默认终端以及使用zsh</a></strong> (另外写一篇介绍这个)</p>
-<p><strong>安装Arc GTK主题：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_16.04/ /' &gt;&gt; /etc/apt/sources.list.d/arc-theme.list"</div><div class="line">wget http://download.opensuse.org/repositories/home:Horst3180/xUbuntu_16.04/Release.key</div><div class="line">sudo apt-key add - &lt; Release.key</div><div class="line">sudo apt update</div><div class="line">sudo apt install arc-theme</div></pre></td></tr></table></figure>
-<p>安装Unity Tweak Tool管理主题：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt install unity-tweak-tool</div></pre></td></tr></table></figure>
-<p>个人觉得Arc-darker 好看，更换之。</p>
-<p><strong>安装Deadbeef，播放更多音频：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:starws-box/deadbeef-player</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install deadbeef</div></pre></td></tr></table></figure>
-<p><strong>安装MPV播放器：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install mpv</div></pre></td></tr></table></figure>
-<p><strong>安装cherrytree笔记本：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install cherrytree</div></pre></td></tr></table></figure>
-<p><strong>安装lantern翻墙：</strong><br><a href="https://github.com/getlantern/forum/issues/833" target="_blank" rel="external">传送门</a></p>
 
       
     </div>
@@ -409,7 +409,7 @@ sudo vim 当前主题名称</pre>
 
 <nav id="pagination">
   
-    <a href="/" class="alignleft prev">Anterior</a>
+    <a href="/" class="alignleft prev">Vorherige Seite</a>
   
   
   <div class="clearfix"></div>
@@ -417,7 +417,7 @@ sudo vim 当前主题名称</pre>
     <aside id="sidebar" class="alignright">
   <div class="search">
   <form action="//google.com/search" method="get" accept-charset="utf-8">
-    <input type="search" name="q" results="0" placeholder="Buscar">
+    <input type="search" name="q" results="0" placeholder="Suche">
     <input type="hidden" name="q" value="site:findshank.com">
   </form>
 </div>
@@ -426,7 +426,7 @@ sudo vim 当前主题名称</pre>
 
   
 <div class="widget tag">
-  <h3 class="title">Etiquetas</h3>
+  <h3 class="title">Tags</h3>
   <ul class="entry">
   
     <li><a href="/tags/C/">C++</a><small>1</small></li>
