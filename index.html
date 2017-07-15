@@ -151,27 +151,139 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-新的文章" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-折腾rEFInd安装" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/15/新的文章/">新的文章</a>
-    </h1>
-  
-
-        
-        <a href="/2017/07/15/新的文章/" class="archive-article-date">
-  	<time datetime="2017-07-15T11:50:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        
-      </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <p>为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到<a href="#refind">rEFInd的配置</a>。</p>
+<h3 id="先安装win10"><a href="#先安装win10" class="headerlink" title="先安装win10"></a>先安装win10</h3><p>用<a href="https://www.microsoft.com/zh-cn/software-download/windows10" target="_blank" rel="external">官方工具</a>做一个安装盘，bios选择中启动方式<strong>EFI Only</strong>，并开启<strong>Secure Boot</strong> 。（<em>对，网上那些辣鸡教程都TM教你关掉，但是不告诉你原因，听我的，不用关，装ubuntu也不用关，因为ubuntu申请了EFI安全证书的！</em>）</p>
+<p>接着开机插入U盘，按提示安装就好，记得把分区方式改成<strong>GPT</strong>。（<em>若你之前是MBR，要么把原来分区全删掉，要么按网上教程做个EFI+MBR，反正我是强迫症，我就要格盘！</em>）</p>
+<p>如何辨别是不是EFI启动呢？</p>
+<p>win + R ，输入 msinfo32 ，回车，引导方式那行是 EFI 就对了。</p>
+<h3 id="再安装ubuntu16-04"><a href="#再安装ubuntu16-04" class="headerlink" title="再安装ubuntu16.04"></a>再安装ubuntu16.04</h3><p>这个更简单，把官方iso镜像文件，直接解压到<strong>FAT32</strong>格式U盘的根目录，开机，进U盘，安装。到那个然要现在win下切好未分配空间，这次我切了40G。小本子有8G内存，swap分区完全不用分的。在之前我试过所有未分配空间都挂到根目录，一样用着好好的，只有一点问题，只能挂起，不能休眠。</p>
+<p>那么这次的分区方案是8G的swap，剩下全挂 / 根目录。 启动器挂在ubuntu所在硬盘，我是在第二快硬盘 /dev/sdb 上。</p>
+<h3 id="ubuntu配置记录"><a href="#ubuntu配置记录" class="headerlink" title="ubuntu配置记录"></a>ubuntu配置记录</h3><p><strong>先要感谢<a href="https://plumz.me/" target="_blank" rel="external">plum的博客</a>，看他的博客让我解决的不少问题</strong></p>
+<p>既然用了一段时间的ubuntu，解决了不少问题，这里的配置与上一篇有点不同，重新记录如下：</p>
+<ul>
+<li>修改本地文件夹名称为英文</li>
+</ul>
+<p><em>如果你安装系统时选择了中文，那么用户目录就默认是中文，带你cd目录的时候就知道多蛋疼！</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">export LANG=en_US</div><div class="line">xdg-user-dirs-gtk-update</div><div class="line">export LANG=zh_CN</div><div class="line">reboot</div></pre></td></tr></table></figure>
+<ul>
+<li>关闭鼠标加速</li>
+</ul>
+<p><em>Ubuntu16.04默认开启了鼠标加速，用触控板到感觉不到，用鼠标这么飘就不能忍了！</em><br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">在Dashboard里搜索:</div><div class="line">gnome-session-properties</div><div class="line">点击添加：</div><div class="line">名称：setmouse</div><div class="line">命令：xset m 0 或者 xset m default</div><div class="line">重启。</div></pre></td></tr></table></figure></p>
+<ul>
+<li>安装 lantern </li>
+</ul>
+<p><em>接下来要安装软件了，我希望网络要没有阻碍，梯子是必须先装的！</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd ~/Downloads/</div><div class="line">wget https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-beta-64-bit.deb</div><div class="line">sudo dpkg -i lantern-installer-beta-64-bit.deb</div></pre></td></tr></table></figure></p>
+<p>打开lantern，进入设置，查看两个端口号，我的是：<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">HTTP(S) proxy: 127.0.0.1:44045</div><div class="line">SOCKS proxy: 127.0.0.1:43355</div></pre></td></tr></table></figure></p>
+<p>然后终端输入下面两句来全局代理<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">export all_proxy=socks://127.0.0.1:43355</div><div class="line">export ALL_PROXY=socks://127.0.0.1:43355</div></pre></td></tr></table></figure></p>
+<p>如果想取消掉的话：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">unset all_proxy</div><div class="line">unset ALL_PROXY</div></pre></td></tr></table></figure></p>
+<p>接着配置 lantern 的开机无界面启动<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">在Dashboard里搜索:</div><div class="line">gnome-session-properties</div><div class="line">点击添加：</div><div class="line">名称：lantern</div><div class="line">命令：/usr/bin/lantern -headless</div></pre></td></tr></table></figure></p>
+<ul>
+<li>安装 git</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo apt install git -y</div><div class="line"><span class="meta">#</span><span class="bash"> 设置 git 代理（http &amp; https 代理）</span></div><div class="line">git config --global http.proxy socks5://127.0.0.1:43355</div><div class="line">git config --global https.proxy socks5://127.0.0.1:43355</div></pre></td></tr></table></figure>
+<ul>
+<li>安装功耗控制 TLP</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install tlp tlp-rdw -y</div><div class="line">sudo apt-get install tp-smapi-dkms acpi-call-dkms -y</div><div class="line">sudo apt-get install thermald -y</div><div class="line">sudo apt-get install powertop -y</div><div class="line"><span class="meta">#</span><span class="bash"> 配置 TLP</span></div><div class="line">sudo vim /etc/default/tlp</div><div class="line"><span class="meta">#</span><span class="bash"> 启动 TLP</span></div><div class="line">sudo tlp start</div></pre></td></tr></table></figure>
+<ul>
+<li>消除 Ubuntu LightDM 登陆界面背景白点</li>
+</ul>
+<p><em>不能忍，影响我看锁屏壁纸！</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">gsettings set com.canonical.unity-greeter draw-grid false</div><div class="line">sudo xhost +SI:localuser:lightdm</div><div class="line">sudo su lightdm -s /bin/bash</div><div class="line">gsettings set com.canonical.unity-greeter draw-grid false</div><div class="line">exit</div></pre></td></tr></table></figure></p>
+<ul>
+<li>安装 arc-flatabulous 主题</li>
+</ul>
+<p><em><a href="https://github.com/andreisergiu98/arc-flatabulous-theme" target="_blank" rel="external">Arc-Flatabulous Theme</a></em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> 安装依赖</span></div><div class="line">sudo apt install autoconf automake libgtk-3-dev -y</div><div class="line"><span class="meta">#</span><span class="bash"> 安装 unity-tweek-tool</span></div><div class="line">sudo apt install unity-tweak-tool -y</div><div class="line"><span class="meta">#</span><span class="bash"> 官方安装方式</span></div><div class="line">sudo rm -rf /usr/share/themes/&#123;Arc-Flatabulous,Arc-Flatabulous-Darker,Arc-Flatabulous-Dark&#125;</div><div class="line">rm -rf ~/.local/share/themes/&#123;Arc-Flatabulous,Arc-Flatabulous-Darker,Arc-Flatabulous-Dark&#125;</div><div class="line">rm -rf ~/.themes/&#123;Arc-Flatabulous,Arc-Flatabulous-Darker,Arc-Flatabulous-Dark&#125;</div><div class="line">git clone https://github.com/andreisergiu98/arc-flatabulous-theme &amp;&amp; cd arc-flatabulous-theme</div><div class="line"><span class="meta">#</span><span class="bash"> 编译安装，不想见透明效果，编译时加参数 --<span class="built_in">disable</span>-transparency</span></div><div class="line">./autogen.sh --prefix=/usr &amp;&amp; sudo make install</div></pre></td></tr></table></figure>
+<ul>
+<li>安装 papirus 图标主题</li>
+</ul>
+<p><em><a href="https://github.com/PapirusDevelopmentTeam/papirus-icon-theme" target="_blank" rel="external">papirus-icon-theme</a></em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt install wget git libqt4-svg -y </div><div class="line">wget -qO- https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/install-papirus-root.sh | sh</div></pre></td></tr></table></figure>
+<ul>
+<li>安装 Hardcode-Tray 图标修复</li>
+</ul>
+<p><em>对右上角那些图标风格不统一，可以试试，但是只支持部分图标修复，这个软件蛮鸡肋的……</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:andreas-angerer89/sni-qt-patched</div><div class="line">sudo apt update</div><div class="line">sudo apt install sni-qt sni-qt:i386 hardcode-tray -y</div><div class="line"><span class="meta">#</span><span class="bash"> 使用 Hardcode-Tray</span></div><div class="line">hardcode-tray --apply</div><div class="line"><span class="meta">#</span><span class="bash"> 如果出现 FileNotFoundError: [Errno 2] ，建一个软链接</span></div><div class="line">ln -s  /usr/share/icons/ ~/.local/share/icons</div><div class="line">hardcode-tray --apply</div></pre></td></tr></table></figure></p>
+<ul>
+<li>更改鼠标指针样式</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">下载 Breeze-Hacked 并解压</div><div class="line">cp -a Breeze-Hacked/ /usr/share/icons/</div><div class="line">在 unity-tweek-tool 里更换</div></pre></td></tr></table></figure>
+<ul>
+<li><p id="refind">安装&amp;配置 rEFInd</p>
+
+</li>
+</ul>
+<p><em><a href="http://www.rodsbooks.com/refind/configfile.html" target="_blank" rel="external">rEFInd官方链接</a></em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">sudo apt-add-repository ppa:rodsmith/refind -y </div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install refind -y</div><div class="line">sudo cd /boot/eft/EFI/refind</div><div class="line">sudo su</div><div class="line">mkdir themes</div><div class="line">cd themes</div><div class="line"><span class="meta">#</span><span class="bash"> 下载新主题</span></div><div class="line">git clone https://github.com/EvanPurkhiser/rEFInd-minimal.git</div><div class="line">cd ..</div><div class="line">cp refind.conf refind.conf.bak</div><div class="line">gedit refind.conf</div></pre></td></tr></table></figure>
+<p>添加设置到文件结尾，具体看配置文件或者Google<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">resolution 1920 1080</div><div class="line">scan_all_linux_kernels false</div><div class="line">default_selection Microsoft</div><div class="line"><span class="meta">#</span><span class="bash"> 导入主题配置：</span></div><div class="line">include themes/rEFInd-minimal/theme.conf</div></pre></td></tr></table></figure></p>
+<p>这个时候重启是使用不了rEFInd的，因为开了Secure Boot的缘故。那么要解决允许Secure Boot的问题，就要给他授权。官方提供的方案有 Shim 和 PreLoader，外文博客基本介绍的也是Shim。都比较麻烦，不愿看也不愿做（—。—），偶然发现了 boot-repair 。这个软件是傻瓜化修复启动引导用的，它解决安全引导的同时也会装 Shim，正好省得我动手。<br>先装 boot-repair<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:yannubuntu/boot-repair</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install -y boot-repair &amp;&amp; boot-repair</div></pre></td></tr></table></figure></p>
+<p>选择推荐方案(Recommended repair)，接着都是“yes”<br>引导修复后，可以apt重装下refind，应该同时会申请 <em>.cer 文件<br>然后重启，和官方 Slim授权的方式一样，Select key选第一个，<br>给EFI/refind/key目录下的<strong>refind.cer</strong>和<em>*refind_local.cer</em></em>文件授权，然后选择重启。</p>
+<p>授权后的一些调整</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">sudo su</div><div class="line"><span class="meta">#</span><span class="bash"> 删除一个多余启动文件</span></div><div class="line">rm -f /boot/efi/EFI/Boot/bkpbootx64.efi</div><div class="line"><span class="meta">#</span><span class="bash"> 想要refind选择ubuntu就直接进系统，不用再显示grub2菜单</span></div><div class="line">vim /etc/default/grub # 修改 GRUB_TIMEOUT=0</div><div class="line">rm -f /etc/grub.d/30_os-prober # grub不记录win10引导</div><div class="line"><span class="meta">#</span><span class="bash"> 更新gurb</span></div><div class="line">update-grub</div></pre></td></tr></table></figure>
+<ul>
+<li>使用terminator及ZSH</li>
+</ul>
+<p><em>普通用户</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install terminator zsh -y</div><div class="line">chsh -s /bin/zsh</div><div class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</div><div class="line">vim ~/.zshrc # 添加以下内容</div><div class="line"><span class="meta">#</span><span class="bash"> ZSH_THEME=<span class="string">"agnoster"</span></span></div><div class="line"><span class="meta">#</span><span class="bash"> DEFAULT_USER=<span class="string">"shank"</span></span></div><div class="line"><span class="meta">#</span><span class="bash"> COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span></div></pre></td></tr></table></figure></p>
+<p><em>root用户</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo su</div><div class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</div><div class="line">vim ~/.zshrc # 添加以下内容</div><div class="line"><span class="meta">#</span><span class="bash"> ZSH_THEME=<span class="string">"agnoster"</span></span></div><div class="line"><span class="meta">#</span><span class="bash"> DEFAULT_USER=<span class="string">"root"</span></span></div><div class="line"><span class="meta">#</span><span class="bash"> COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span></div><div class="line">exit</div></pre></td></tr></table></figure></p>
+<p><em>安装PowerLine字体</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd ~/Downloads</div><div class="line">git clone https://github.com/powerline/fonts</div><div class="line">cd fonts</div><div class="line">./install.sh</div></pre></td></tr></table></figure></p>
+<ul>
+<li>常规更新</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt update</div><div class="line">sudo apt upgrade</div></pre></td></tr></table></figure>
+<ul>
+<li>安装 Deluge </li>
+</ul>
+<p><em>下载工具，带有BT和磁链下载</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt install deluge -y</div></pre></td></tr></table></figure>
+<ul>
+<li>安装 caffeine</li>
+</ul>
+<p><em>用于暂时取消屏保和睡眠模式，用linux看视频时记得把它设为Active</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo apt install caffeine -y</div><div class="line"><span class="meta">#</span><span class="bash"> 在 gnome-session-properties 开机启动中添加或修改Caffeine的命令为下面这句</span></div><div class="line"><span class="meta">#</span><span class="bash"> /usr/bin/caffeine-indicator</span></div></pre></td></tr></table></figure>
+<ul>
+<li>安装 mpv</li>
+</ul>
+<p><em>简介而强大的播放器，不用VLC因为它对字幕支持不好！</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install mpv -y</div></pre></td></tr></table></figure>
+<ul>
+<li>安装 flash 支持</li>
+</ul>
+<p><em>B站的Html5播放器总是没速度，所以flash还是必需的！</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash">先在设置中允许 Canonical Partners 打包的应用</span></div><div class="line">sudo apt install adobe-flashplugin -y</div></pre></td></tr></table></figure>
+<ul>
+<li>解决待机后重启会自动断线的 Bug</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo systemctl enable NetworkManager.service</div></pre></td></tr></table></figure>
+<ul>
+<li>使用 Canonical Livepatch Service</li>
+</ul>
+<p><em><a href="https://www.ubuntu.com/server/livepatch" target="_blank" rel="external">Canonical Livepatch Service</a> 免重新开机做核心</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo snap install canonical-livepatch</div><div class="line">sudo canonical-livepatch enable XXX #XXX从官方获取</div></pre></td></tr></table></figure>
+<ul>
+<li>安装指纹识别支持</li>
+</ul>
+<p><em>这个可以用，但是会觉得的有点烦，因为这个软件有个bug，刷指纹一定要刷两下，验证成功，还要再刷一下指纹灯才会灭，所以我已经不用了……</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:fingerprint/fprint -y &amp;&amp; sudo apt-get update</div><div class="line">sudo apt-get install libfprint0 fprint-demo libpam-fprintd gksu -y</div></pre></td></tr></table></figure></p>
+<ul>
+<li>Fcitx 输入法换回原生 indicator，不用那个 qim</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt remove fcitx-ui-qimpanel -y</div></pre></td></tr></table></figure>
+<ul>
+<li>安装 android studio</li>
+</ul>
+<p><em><a href="https://developer.android.com/studio/index.html" target="_blank" rel="external">官方链接</a>下载zip安装包</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> 安装 jdk</span></div><div class="line">sudo apt install openjdk-8-jdk -y</div><div class="line"><span class="meta">#</span><span class="bash"> 安装依赖</span></div><div class="line">sudo apt-get install lib32z1 lib32ncurses5 lib32stdc++6 -y</div><div class="line"><span class="meta">#</span><span class="bash"> 解决无 pixmap 问题</span></div><div class="line">sudo apt-get install gtk2-engines-pixbuf -y</div><div class="line"><span class="meta">#</span><span class="bash"> 解决无 adwaita 问题</span></div><div class="line">sudo apt-get install gnome-themes-standard gnome-themes-standard-data -y</div><div class="line"><span class="meta">#</span><span class="bash"> 安装a.s.，我习惯把a.s.装到 /opt 目录</span></div><div class="line">sudo unzip -q ~/Downloads/android-studio……… -d /opt # 省略号部分自己按TAB替换</div><div class="line">cd /opt/android-studio/bin/</div><div class="line">./studio.sh</div></pre></td></tr></table></figure></p>
+<ul>
+<li>Firefox 字体问题 （不用改了，新版本好像解决了这个问题）</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">地址栏输入 about:config</div><div class="line">找到 gfx.font_rendering.fontconfig.fontlist.enabled</div><div class="line">设置为 false</div></pre></td></tr></table></figure>
+<ul>
+<li>安装 typola ,本人最喜欢的 markdown 编辑器</li>
+</ul>
+<p><em><a href="https://typora.io/" target="_blank" rel="external">typola官方链接</a></em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> optional, but recommended</span></div><div class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BA300B7755AFCFAE</div><div class="line"><span class="meta">#</span><span class="bash"> add Typora<span class="string">'s repository</span></span></div><div class="line">sudo add-apt-repository 'deb https://typora.io ./linux/' -y</div><div class="line">sudo apt-get update</div><div class="line"><span class="meta">#</span><span class="bash"><span class="string"> install typora</span></span></div><div class="line">sudo apt-get install typora -y</div></pre></td></tr></table></figure>
       
 
       
@@ -183,7 +295,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/07/15/新的文章/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/07/15/折腾rEFInd安装/">展开全文 >></a>
         </p>
       
 
@@ -213,35 +325,436 @@
 
 
   
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-一点数据库笔记" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/15/hello-world/">Hello World</a>
-    </h1>
-  
-
-        
-        <a href="/2017/07/15/hello-world/" class="archive-article-date">
-  	<time datetime="2017-07-15T11:17:17.024Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        
-      </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p><em>Markdown是个好东西，用了一段时间，这次把自己一点数据库课的笔记放上来，修一修。</em></p>
+<h1 id="函数介绍"><a href="#函数介绍" class="headerlink" title="函数介绍"></a>函数介绍</h1><h2 id="数据语句"><a href="#数据语句" class="headerlink" title="数据语句"></a>数据语句</h2><ul>
+<li>DECLARE <em>声明若干局部变量</em></li>
+<li>SET <em>一个变量赋值</em></li>
+<li>SELECT <em>多个变量赋值</em> </li>
+<li>PRINT <em>返回用户自定义信息</em> </li>
+</ul>
+<h2 id="循环控制语句"><a href="#循环控制语句" class="headerlink" title="循环控制语句"></a>循环控制语句</h2><ul>
+<li><p>BEGIN END <em>语句块</em> </p>
+</li>
+<li><p>GOTO <em>跳转到标签</em></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">BEGIN</span></div><div class="line"><span class="keyword">GOTO</span> <span class="keyword">skip</span></div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> student</div><div class="line"><span class="keyword">skip</span>:</div><div class="line">PRINT <span class="string">'hello'</span></div><div class="line"><span class="keyword">END</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>IF ELSE <em>条件判断</em></p>
+</li>
+<li><p>CASE <em>多分支选择</em></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> score,</div><div class="line">(<span class="keyword">case</span> </div><div class="line"><span class="keyword">when</span> score &gt; <span class="number">90</span> <span class="keyword">then</span> <span class="string">'excellent'</span></div><div class="line"><span class="keyword">when</span> score &gt; <span class="number">80</span> <span class="keyword">then</span> <span class="string">'good'</span></div><div class="line"><span class="keyword">when</span> score &gt; <span class="number">60</span> <span class="keyword">then</span> <span class="string">'ok'</span></div><div class="line"><span class="keyword">else</span> <span class="string">'not well'</span></div><div class="line"><span class="keyword">end</span>) <span class="keyword">as</span> rate</div><div class="line"><span class="keyword">from</span> student</div></pre></td></tr></table></figure>
+</li>
+<li><p>WHILE <em>循环</em></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">while </div><div class="line"><span class="keyword">begin</span> </div><div class="line"><span class="comment">--code here</span></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>WAITFOR <em>暂停</em> </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">WAITFOR DELAY '11:00'</div><div class="line">WAITFOR TIME '01:00'</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ul>
+<h2 id="聚合函数"><a href="#聚合函数" class="headerlink" title="聚合函数"></a>聚合函数</h2><ul>
+<li>AVG</li>
+<li>COUNT</li>
+<li>MAX</li>
+<li>MIN</li>
+<li>SUM</li>
+<li>DISTINCT</li>
+</ul>
+<h2 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h2><ul>
+<li>ABS <em>绝对值</em></li>
+<li>ceiling <em>大于或等于</em></li>
+<li>floor <em>小于或等于</em></li>
+<li>rand <em>返回0-1的随机数</em></li>
+<li>round <em>四舍五入到指定精度</em></li>
+</ul>
+<h2 id="字符串函数"><a href="#字符串函数" class="headerlink" title="字符串函数"></a>字符串函数</h2><ul>
+<li>ascii <em>第一字符的ascii值</em></li>
+<li>char <em>返回ascii对应字符</em></li>
+<li>charindex <em>返回匹配位置</em></li>
+<li>itrim <em>去除左空格</em></li>
+<li>rtrim <em>去除右空格</em></li>
+<li>left <em>截断左侧指定长度字符</em></li>
+<li>right <em>截断右侧指定长度字符</em></li>
+<li>len <em>返回长度</em></li>
+<li>lower <em>小写</em></li>
+<li>upper <em>大写</em></li>
+<li>reverse <em>转置</em></li>
+<li>replace <em>指定字符替换</em></li>
+<li>space <em>指定空格数</em></li>
+<li>stuff <em>替换字符串的指定范围</em></li>
+<li>substring <em>返回指定范围字符串</em></li>
+</ul>
+<h2 id="日期和时间函数"><a href="#日期和时间函数" class="headerlink" title="日期和时间函数"></a>日期和时间函数</h2><ul>
+<li>dateadd <em>给指定日期添加一段时间</em></li>
+<li>datediff <em>两日期相减</em></li>
+<li>datename <em>返回指定日期的部分</em></li>
+<li>day <em>指定日期的天数</em></li>
+<li>dayofyear <em>年内天数</em></li>
+<li>month <em>返回日期的月份</em></li>
+<li>year <em>返回日期的年份</em></li>
+<li>getdate <em>返回系统时间</em></li>
+<li>datepart <em>返回指定部分整数</em></li>
+<li>isDate <em>检测日期有效性</em></li>
+</ul>
+<h1 id="语句提升"><a href="#语句提升" class="headerlink" title="语句提升"></a>语句提升</h1><h2 id="约束与规则"><a href="#约束与规则" class="headerlink" title="约束与规则"></a>约束与规则</h2><h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><ol>
+<li>规则只允许在当前数据库创建</li>
+<li>规则不能绑定到数据类型 char、 int、 image、 text 中</li>
+</ol>
+<ul>
+<li>创建规则</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> rule 规则名</div><div class="line"><span class="keyword">as</span> 规则</div><div class="line"><span class="comment">/* 规则可以是where语句任何有效的表达式 */</span></div></pre></td></tr></table></figure>
+<ul>
+<li>绑定规则</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">use</span> 数据库名</div><div class="line">exec sp_bindrule <span class="string">'规则名'</span>,<span class="string">'数据库表字段'</span></div></pre></td></tr></table></figure>
+<ul>
+<li>解绑规则</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">use</span> 数据库名</div><div class="line">exec sp_unbindrule <span class="string">'数据库表字段'</span></div></pre></td></tr></table></figure>
+<ul>
+<li>删除规则</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">drop</span> rule <span class="string">'规则名'</span></div></pre></td></tr></table></figure>
+<h3 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h3><ul>
+<li>添加check约束</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名</div><div class="line"><span class="keyword">add</span> [<span class="keyword">constraint</span> 约束名] <span class="keyword">check</span>(约束)</div></pre></td></tr></table></figure>
+<ul>
+<li>删除check约束</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名</div><div class="line"><span class="keyword">drop</span> <span class="keyword">constraint</span> 约束名</div></pre></td></tr></table></figure>
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><ol>
+<li>约束和表的定义联系，删除表的同时约束也删除。规则是单独存储的数据库对象，独立于表外，删除表时并不能删除规则。</li>
+<li>一个字段可有多个约束，但只能有一个规则。</li>
+</ol>
+<h2 id="SELECT高级查询"><a href="#SELECT高级查询" class="headerlink" title="SELECT高级查询"></a>SELECT高级查询</h2><h3 id="IN-NULL"><a href="#IN-NULL" class="headerlink" title="IN, NULL"></a>IN, NULL</h3><ul>
+<li>IN <em>查询符合列表中任何一个值的记录</em></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table1 <span class="keyword">where</span> score <span class="keyword">in</span> (<span class="number">70</span>,<span class="number">80</span>,<span class="number">90</span>);</div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table2 <span class="keyword">where</span> score <span class="keyword">in</span> (<span class="keyword">select</span> score <span class="keyword">from</span> table1);</div></pre></td></tr></table></figure>
+<ul>
+<li>NULL | NOT NULL <em>字段是否为空</em></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table1 <span class="keyword">where</span> items <span class="keyword">in</span> <span class="literal">null</span>;</div></pre></td></tr></table></figure>
+<h3 id="SELECT"><a href="#SELECT" class="headerlink" title="SELECT"></a>SELECT</h3><p><em>用于将查询结果存储到另一个表</em></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> top <span class="number">5</span> * </div><div class="line"><span class="keyword">into</span> table3</div><div class="line"><span class="keyword">from</span> table2;</div></pre></td></tr></table></figure>
+<h3 id="GROUP-BY"><a href="#GROUP-BY" class="headerlink" title="GROUP BY"></a>GROUP BY</h3><p><em>用于数据汇总</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">select name,avg(age) as avg_age </div><div class="line">from student </div><div class="line">group by name;</div></pre></td></tr></table></figure>
+<h2 id="嵌套查询"><a href="#嵌套查询" class="headerlink" title="嵌套查询"></a>嵌套查询</h2><ul>
+<li>子查询作为新增列 <em>作为外层select语句的列值</em></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> avg_score = (</div><div class="line"><span class="keyword">select</span> <span class="keyword">avg</span>(score) </div><div class="line">  <span class="keyword">from</span> score</div><div class="line">)<span class="keyword">from</span> score</div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> score.id;</div></pre></td></tr></table></figure>
+<ul>
+<li>使用IN关键字 <em>主要用于where子句后面的子查询。</em></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> a.name</div><div class="line"><span class="keyword">from</span> student <span class="keyword">as</span> a</div><div class="line"><span class="keyword">where</span> a.id <span class="keyword">in</span>(</div><div class="line"><span class="keyword">select</span> b.id </div><div class="line">  <span class="keyword">from</span> score <span class="keyword">as</span> b</div><div class="line"><span class="keyword">where</span> b.score = <span class="number">80</span></div><div class="line">)<span class="keyword">order</span> <span class="keyword">by</span> a.id;</div></pre></td></tr></table></figure>
+<ul>
+<li>比较运算符</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> a.name</div><div class="line"><span class="keyword">from</span> student <span class="keyword">as</span> a</div><div class="line"><span class="keyword">where</span> a.id <span class="keyword">in</span>(</div><div class="line"><span class="keyword">select</span> b.id</div><div class="line"><span class="keyword">from</span> score <span class="keyword">as</span> b</div><div class="line"><span class="keyword">where</span> b.score &lt;= <span class="number">80</span></div><div class="line">) <span class="keyword">order</span> <span class="keyword">by</span> a.id;</div></pre></td></tr></table></figure>
+<ul>
+<li>BETWEEN</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> a.name</div><div class="line"><span class="keyword">from</span> student <span class="keyword">as</span> a</div><div class="line"><span class="keyword">where</span> a.id <span class="keyword">in</span>(</div><div class="line"><span class="keyword">select</span> b.id </div><div class="line"><span class="keyword">from</span> score <span class="keyword">as</span> b</div><div class="line"><span class="keyword">where</span> b.score</div><div class="line"><span class="keyword">between</span> <span class="number">80</span> <span class="keyword">and</span> <span class="number">90</span></div><div class="line">) <span class="keyword">order</span> <span class="keyword">by</span> a.id;</div></pre></td></tr></table></figure>
+<ul>
+<li>EXISTS</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * </div><div class="line"><span class="keyword">from</span> table1</div><div class="line"><span class="keyword">where</span> <span class="keyword">exists</span>(</div><div class="line"><span class="keyword">select</span> score </div><div class="line"><span class="keyword">from</span> table1</div><div class="line"><span class="keyword">where</span> score = <span class="number">80</span>)</div><div class="line"><span class="comment">/* IN和EXISTS都代表的是子查询存在某个值，但是IN用的时候，子查询只能是一个字段，但是EXISTS可以用多个字段。 */</span></div></pre></td></tr></table></figure>
+<h2 id="多表连接"><a href="#多表连接" class="headerlink" title="多表连接"></a>多表连接</h2><h3 id="JOIN…ON"><a href="#JOIN…ON" class="headerlink" title="JOIN…ON"></a>JOIN…ON</h3><h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><ul>
+<li>表A</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">name</th>
+<th style="text-align:center">age</th>
+<th style="text-align:center">sex</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">AA</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">M</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">BB</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">F</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">CC</td>
+<td style="text-align:center">24</td>
+<td style="text-align:center">M</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">DD</td>
+<td style="text-align:center">21</td>
+<td style="text-align:center">F</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>表B</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">20</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">40</td>
+</tr>
+</tbody>
+</table>
+<h4 id="inner-join"><a href="#inner-join" class="headerlink" title="inner join"></a>inner join</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">name</th>
+<th style="text-align:center">age</th>
+<th style="text-align:center">sex</th>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">AA</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">BB</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">F</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">20</td>
+</tr>
+</tbody>
+</table>
+<h4 id="left-join"><a href="#left-join" class="headerlink" title="left join"></a>left join</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">name</th>
+<th style="text-align:center">age</th>
+<th style="text-align:center">sex</th>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">AA</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">BB</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">F</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">20</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">CC</td>
+<td style="text-align:center">24</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">DD</td>
+<td style="text-align:center">21</td>
+<td style="text-align:center">F</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+</tr>
+</tbody>
+</table>
+<h4 id="right-join"><a href="#right-join" class="headerlink" title="right join"></a>right join</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">score</th>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">name</th>
+<th style="text-align:center">age</th>
+<th style="text-align:center">sex</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">AA</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">M</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">20</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">BB</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">F</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">40</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+</tr>
+</tbody>
+</table>
+<h4 id="full-join"><a href="#full-join" class="headerlink" title="full join"></a>full join</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">name</th>
+<th style="text-align:center">age</th>
+<th style="text-align:center">sex</th>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">AA</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">BB</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">F</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">20</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">CC</td>
+<td style="text-align:center">24</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">DD</td>
+<td style="text-align:center">21</td>
+<td style="text-align:center">F</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+</tr>
+<tr>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">40</td>
+</tr>
+</tbody>
+</table>
+<h3 id="UNION"><a href="#UNION" class="headerlink" title="UNION"></a>UNION</h3><p><em>拼接字段相同的表</em></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> student <span class="keyword">as</span> a </div><div class="line"><span class="keyword">union</span></div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> student <span class="keyword">as</span> b</div></pre></td></tr></table></figure>
+<h3 id="数据操纵进阶"><a href="#数据操纵进阶" class="headerlink" title="数据操纵进阶"></a>数据操纵进阶</h3><h2 id="insert"><a href="#insert" class="headerlink" title="insert"></a>insert</h2><h3 id="插入多行"><a href="#插入多行" class="headerlink" title="插入多行"></a>插入多行</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> table2</div><div class="line"><span class="keyword">select</span> <span class="keyword">name</span>,sex,phone,email </div><div class="line"><span class="keyword">from</span> table2</div></pre></td></tr></table></figure>
+<h3 id="select-…-into"><a href="#select-…-into" class="headerlink" title="select … into"></a>select … into</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">into</span> table1 <span class="keyword">from</span> table2</div></pre></td></tr></table></figure>
+<h2 id="update"><a href="#update" class="headerlink" title="update"></a>update</h2><h3 id="基于级联"><a href="#基于级联" class="headerlink" title="基于级联"></a>基于级联</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">update</span> table1 <span class="keyword">set</span> table1.c = table2.c</div><div class="line"><span class="keyword">from</span> table1 <span class="keyword">inner</span> <span class="keyword">join</span> table2</div><div class="line"><span class="keyword">on</span> table1.a = table2.a </div><div class="line"><span class="keyword">where</span> table1.c <span class="keyword">is</span> <span class="literal">null</span></div></pre></td></tr></table></figure>
+<h3 id="带有output"><a href="#带有output" class="headerlink" title="带有output"></a>带有output</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 查询新行的属性</span></div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> table1(a) <span class="keyword">output</span> inserted.a <span class="keyword">values</span>(<span class="string">'123'</span>)</div><div class="line"><span class="comment">-- 查询旧行的属性</span></div><div class="line"><span class="keyword">delete</span> <span class="keyword">into</span> table1 <span class="keyword">output</span> deleted.a <span class="keyword">where</span> a = <span class="string">'123'</span></div><div class="line"><span class="comment">-- 返回修改后的值</span></div><div class="line"><span class="keyword">update</span> table1 <span class="keyword">set</span> a = <span class="string">'b'</span> <span class="keyword">output</span> inserted.a <span class="keyword">where</span> a = <span class="string">'123'</span></div><div class="line"><span class="comment">-- 返回修改前的值</span></div><div class="line"><span class="keyword">update</span> table1 <span class="keyword">set</span> a = <span class="string">'b'</span> <span class="keyword">output</span> deleted.a wherer a = <span class="string">'123'</span></div></pre></td></tr></table></figure>
+<h1 id="视图、索引、触发器"><a href="#视图、索引、触发器" class="headerlink" title="视图、索引、触发器"></a>视图、索引、触发器</h1><h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><ul>
+<li>创建视图</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">view</span> 视图名</div><div class="line"><span class="keyword">as</span> </div><div class="line"><span class="keyword">select</span>语句</div></pre></td></tr></table></figure>
+<ul>
+<li>视图结果集排序</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">view</span> stu1</div><div class="line"><span class="keyword">as</span> </div><div class="line"><span class="keyword">select</span> top <span class="number">3</span> * <span class="keyword">from</span> table2 </div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">id</span></div></pre></td></tr></table></figure>
+<ul>
+<li>多张表进行视图查询</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">view</span> stu2</div><div class="line"><span class="keyword">as</span> </div><div class="line"><span class="keyword">select</span> b.score,b.name,a.name,sex,age</div><div class="line"><span class="keyword">from</span> student <span class="keyword">as</span> a</div><div class="line"><span class="keyword">inner</span> <span class="keyword">join</span></div><div class="line">score <span class="keyword">as</span> b</div><div class="line"><span class="keyword">on</span> a.id = b.id</div></pre></td></tr></table></figure>
+<ul>
+<li>修改视图</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">alter</span> <span class="keyword">view</span> 视图名</div><div class="line"><span class="keyword">as</span> </div><div class="line"><span class="keyword">select</span>语句</div></pre></td></tr></table></figure>
+<ul>
+<li>删除视图</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">drop</span> <span class="keyword">view</span> 视图名</div></pre></td></tr></table></figure>
+<h3 id="增删改"><a href="#增删改" class="headerlink" title="增删改"></a>增删改</h3><ol>
+<li>视图可以对基本表的数据进行查询，还可以向基本表增删改</li>
+<li>select 子句不可用聚合函数</li>
+<li>不能包含算式表达式结果的列</li>
+<li>视图引用多表，无法使用delete</li>
+</ol>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
+<li>通过创建唯一索引，可以保证数据记录的唯一性。</li>
+<li>可以大大加快数据检索速度。</li>
+<li>可以加速表与表之间的连接，这一点在实现数据的参照完整性方面有特别的意义。</li>
+<li>在使用order by和group by子句中进行检索数据时，可以显著减少查询中分组和排序的时间。</li>
+<li>使用索引可以在检索数据的过程中使用优化隐藏，提高系统性能。</li>
+</ol>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>创建索引要花费时间和占用存储空间。</li>
+<li>建立索引加快了数据检索速度，但是减慢了数据修改速度。</li>
+</ol>
+<h3 id="不应创建索引列的情况"><a href="#不应创建索引列的情况" class="headerlink" title="不应创建索引列的情况"></a>不应创建索引列的情况</h3><ol>
+<li>很少或从来不在查询中引用的列，因为系统很少或从来不根据这个列的值去查找数据行。</li>
+<li>只有两个或很少几个值的列，例如性别。</li>
+<li>以bit、text、image数据类型定义的列。</li>
+<li>数据行输很少的表一般也没有必要创建索引。</li>
+</ol>
+<h2 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h2><h3 id="DML触发器"><a href="#DML触发器" class="headerlink" title="DML触发器"></a>DML触发器</h3><ul>
+<li>after触发器 <em>记录改变后才激活触发器</em></li>
+</ul>
+<p><em>after触发器包括 insert、delete、update触发器</em></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">after <span class="keyword">insert</span> </div><div class="line"><span class="keyword">as</span> </div><div class="line"><span class="keyword">begin</span> </div><div class="line"><span class="keyword">SET</span> NOCOUNT <span class="keyword">ON</span>;</div><div class="line"><span class="comment">/* process */</span></div><div class="line"><span class="keyword">end</span></div><div class="line"><span class="keyword">go</span></div></pre></td></tr></table></figure>
+<ul>
+<li>instead of 触发器 <em>直接执行触发器，不执行sql语句</em></li>
+</ul>
+<p><em>instead of 触发器包括insert、delete、update触发器</em></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">instead of insert</div><div class="line">as </div><div class="line">begin</div><div class="line">SET NOCOUNT ON;</div><div class="line">/* process */</div><div class="line">if @age &gt; 25</div><div class="line">print 'Too old!'</div><div class="line">else </div><div class="line">insert into score(name,age) values(@name,@age)</div><div class="line">end</div><div class="line">go</div></pre></td></tr></table></figure>
 
       
 
@@ -254,7 +767,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/07/15/hello-world/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/07/15/一点数据库笔记/">展开全文 >></a>
         </p>
       
 
@@ -284,6 +797,534 @@
 
 
   
+    <article id="post-闲来无事，做个课表UWP练练手" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="→-→-为什么我总是这么闲……"><a href="#→-→-为什么我总是这么闲……" class="headerlink" title="→_→ 为什么我总是这么闲……"></a>→_→ 为什么我总是这么闲……</h3><p>正好学了一段时间UWP，我觉得我可以做一个自己用啊。<br>目前是自用版本，等我写好爬虫和教务登录，试试放到微软商店怎样？</p>
+<p><a href="http://www.findshank.website/wp-content/uploads/2016/08/QQ截图20160830173641.jpg" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2016/08/QQ截图20160830173641.jpg" alt="" width="816" height="586" class="aligncenter size-full wp-image-72"></a></p>
+<p>尽管很low，但还是放自己网站上秀一下吧。<br><a href="git@github.com:lwy0007123/ClassSchedule.git">git@github.com:lwy0007123/ClassSchedule.git</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/15/闲来无事，做个课表UWP练练手/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-太久不更新，我都快忘了这个站点了" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>做了一段视频来恶搞我的室友凯子同学，插进来看看效果</p>
+<embed src="http://player.youku.com/player.php/sid/XMTUzODQyMjM1Mg==/v.swf" type="application/x-shockwave-flash" width="480" height="400" align="middle">
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/15/太久不更新，我都快忘了这个站点了/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-使用 Terminator  &amp; ZSH的配置" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="在别人博客里看到-Terminator-挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧"><a href="#在别人博客里看到-Terminator-挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧" class="headerlink" title="在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧"></a>在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧</h2><h3 id="安装-Terminator"><a href="#安装-Terminator" class="headerlink" title="安装 Terminator"></a>安装 Terminator</h3><pre class="lang:sh decode:true ">sudo apt-get install terminator</pre> 
+
+<ul>
+<li><em>利用 Debian 的重新配置命令选择默认终端：</em></li>
+</ul>
+<pre class="lang:sh decode:true ">sudo update-alternatives --config x-terminal-emulator</pre> 
+
+
+<ul>
+<li><em>非ubuntu系统设置terminator快捷键</em></li>
+</ul>
+<pre class="lang:default decode:true ">Setting -> Keyboard -> Shortcuts -> Custom Shortcuts -> add(+)
+Name : Terminal
+Command : /usr/bin/terminator
+Apply
+Click "Disable"
+press Ctrl + Alt + T</pre> 
+
+
+<h3 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h3><pre class="lang:default decode:true ">
+/* 打开Terminator ，进行如下操作 */
+Preferenvces -> General
+Disable ‘Show titlebar’
+Preferenvces -> Profiles -> Colors -> Foreground and Background -> Build-in schemes
+Choose ‘Solarized dark’
+</pre>
+
+
+<h3 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h3><pre class="lang:sh decode:true ">sudo apt-get install zsh</pre> 
+
+<ul>
+<li><em>设置当前用户使用zsh</em></li>
+</ul>
+<pre class="lang:sh decode:true ">chsh -s /bin/zsh</pre> 
+
+<h3 id="安装on-my-zsh"><a href="#安装on-my-zsh" class="headerlink" title="安装on my zsh"></a>安装on my zsh</h3><ul>
+<li><em>自动安装：(推荐)</em></li>
+</ul>
+<pre class="lang:sh decode:true ">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</pre> 
+
+<ul>
+<li><em>手动安装：</em></li>
+</ul>
+<pre class="lang:sh decode:true ">git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</pre> 
+
+
+<h3 id="安装powerline字体"><a href="#安装powerline字体" class="headerlink" title="安装powerline字体"></a>安装powerline字体</h3><pre class="lang:sh decode:true ">git clone https://github.com/powerline/fonts
+cd fonts
+./install.sh</pre> 
+
+<p><em>然后在终端中使用powerline字体</em></p>
+<h3 id="编辑：-zshrc"><a href="#编辑：-zshrc" class="headerlink" title="编辑： ~/.zshrc"></a>编辑： ~/.zshrc</h3><ul>
+<li><em>增加自己的用户名：</em></li>
+</ul>
+<pre class="lang:sh decode:true ">DEFAULT_USER="Shank"</pre> 
+
+<p><em>PS：上面 Shank 替换成你当前的用户名，用whoami查看你的用户名</em></p>
+<ul>
+<li><em>修改主题：</em></li>
+</ul>
+<pre class="lang:sh decode:true ">ZSH_THEME="agnoster"</pre> 
+
+<ul>
+<li><em>启用几个功能：</em></li>
+</ul>
+<pre class="lang:sh decode:true ">COMPLETION_WAITING_DOTS="true"</pre> 
+
+
+<h3 id="或者用以下简单粗暴的方式屏蔽zsh中的用户名："><a href="#或者用以下简单粗暴的方式屏蔽zsh中的用户名：" class="headerlink" title="或者用以下简单粗暴的方式屏蔽zsh中的用户名："></a>或者用以下简单粗暴的方式屏蔽zsh中的用户名：</h3><pre class="lang:sh decode:true ">cd ~/.oh-my-zsh/themes
+sudo vim 当前主题名称</pre> 
+
+<p>_看到最下面对build_prompt的定义，把prompt<em>context用#注释掉即可</em></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/15/使用 Terminator  & ZSH的配置/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-将UWP应用部署到其他win10设备" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="老夫有台VenuePro8，系统是win10，所以想把它作为UWP测试机，一直不知道怎么把应用部署到平板上。"><a href="#老夫有台VenuePro8，系统是win10，所以想把它作为UWP测试机，一直不知道怎么把应用部署到平板上。" class="headerlink" title="老夫有台VenuePro8，系统是win10，所以想把它作为UWP测试机，一直不知道怎么把应用部署到平板上。"></a>老夫有台VenuePro8，系统是win10，所以想把它作为UWP测试机，一直不知道怎么把应用部署到平板上。</h2><h2 id="最近才发现，原来vs2015早就有这个功能了，下面来讲一讲具体的操作。"><a href="#最近才发现，原来vs2015早就有这个功能了，下面来讲一讲具体的操作。" class="headerlink" title="最近才发现，原来vs2015早就有这个功能了，下面来讲一讲具体的操作。"></a>最近才发现，原来vs2015早就有这个功能了，下面来讲一讲具体的操作。</h2><ul>
+<li>首先在开发机上打开vs2015，打开项目</li>
+<li>视线先切换到win10平板，cmd -&gt; ipconfig 默默记下它的ip，打开设置 -&gt; 更新和安全 -&gt; 针对开发者 -&gt; 打开“设备发现”<br><a href="http://www.findshank.website/wp-content/uploads/2016/12/屏幕截图4.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2016/12/屏幕截图4-1024x640.png" alt="" width="756" height="473" class="aligncenter size-large wp-image-169"></a></li>
+<li>接着出现一个配对按钮，点击。默默记下PIN码。<br><a href="http://www.findshank.website/wp-content/uploads/2016/12/屏幕截图5.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2016/12/屏幕截图5-1024x640.png" alt="" width="756" height="473" class="aligncenter size-large wp-image-170"></a></li>
+<li>视线切回开发机，右键vs菜单栏底部，勾上“标准”（默认那个是勾上的……）<br><a href="http://www.findshank.website/wp-content/uploads/2016/12/QQ截图20161220121241.jpg" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2016/12/QQ截图20161220121241.jpg" alt="" width="358" height="262" class="aligncenter size-full wp-image-172"></a></li>
+<li>选择你需要的解决方案平台，然后部署设备切换到远程计算机<br><a href="http://www.findshank.website/wp-content/uploads/2016/12/snipaste20161220_115218.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2016/12/snipaste20161220_115218.png" alt="" width="492" height="223" class="aligncenter size-full wp-image-165"></a></li>
+<li>输入平板的ip，再点击“选择”。<br><a href="http://www.findshank.website/wp-content/uploads/2016/12/snipaste20161220_115923.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2016/12/snipaste20161220_115923.png" alt="" width="484" height="617" class="aligncenter size-full wp-image-166"></a></li>
+<li>Ctrl+F5，开始执行项目。</li>
+<li>编译过程中会弹出对话框，要求输入另一台主机的PIN，输入上面的找到的PIN即可。<br><a href="http://www.findshank.website/wp-content/uploads/2016/12/snipaste20161220_120059.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2016/12/snipaste20161220_120059.png" alt="" width="562" height="321" class="aligncenter size-full wp-image-167"></a></li>
+<li>然后你的UWP项目就会在你的平板上安装了。(-_-||) 请无视我的low逼课程表UWP……<br><a href="http://www.findshank.website/wp-content/uploads/2016/12/snipaste20161220_123214.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2016/12/snipaste20161220_123214-1250x778.png" alt="" width="756" height="471" class="aligncenter size-escutcheon-large wp-image-173"></a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/15/将UWP应用部署到其他win10设备/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-画一个微软标志" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://www.findshank.website/wp-content/uploads/2015/12/QQ截图20151209232926.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2015/12/QQ截图20151209232926-947x1024.png" alt="" width="756" height="817" class="aligncenter size-large wp-image-48"></a></p>
+<h3 id="闲来无事，玩了会CSS，所以画一个微软标志展示我的信仰"><a href="#闲来无事，玩了会CSS，所以画一个微软标志展示我的信仰" class="headerlink" title="闲来无事，玩了会CSS，所以画一个微软标志展示我的信仰"></a>闲来无事，玩了会CSS，所以画一个微软标志展示我的信仰</h3><ul>
+<li><p>index.html</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"use.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>画一个微软标志<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"icon"</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"text"</span>&gt;</span>Microsoft<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"zz"</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"s1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"s2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"s3"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"s4"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>use.css</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">@<span class="keyword">CHARSET</span> <span class="string">"UTF-8"</span>;</div><div class="line"><span class="selector-id">#icon</span>&#123;</div><div class="line"> <span class="attribute">height</span>: <span class="number">420px</span>;</div><div class="line"> <span class="attribute">width</span>:<span class="number">1500px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.text</span>&#123;</div><div class="line"> <span class="attribute">width</span>: <span class="number">1000px</span>;</div><div class="line"> <span class="attribute">height</span>: <span class="number">420px</span>;</div><div class="line"> <span class="attribute">line-height</span>:<span class="number">420px</span>;</div><div class="line"> <span class="attribute">font-size</span>: <span class="number">340px</span>;</div><div class="line"> <span class="attribute">float</span>: right;</div><div class="line"> <span class="attribute">font-family</span>: <span class="string">"Microsoft YaHei"</span>! important; </div><div class="line"> <span class="attribute">font-weight</span>:bold;</div><div class="line"> <span class="attribute">letter-spacing</span>: -<span class="number">10px</span>;</div><div class="line"> <span class="attribute">color</span>: <span class="built_in">rgb</span>(119,119,119);</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.zz</span> &#123;</div><div class="line"> <span class="attribute">width</span>: <span class="number">420px</span>;</div><div class="line"> <span class="attribute">height</span>: <span class="number">420px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.s1</span> &#123;</div><div class="line"> <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">background</span>: <span class="built_in">rgb</span>(243,100,34);</div><div class="line"> <span class="attribute">float</span>: left;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.s2</span> &#123;</div><div class="line"> <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">background</span>: <span class="built_in">rgb</span>(141,197,62);</div><div class="line"> <span class="attribute">float</span>: right;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.s3</span> &#123;</div><div class="line"> <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">background</span>: <span class="built_in">rgb</span>(0,173,239);</div><div class="line"> <span class="attribute">float</span>: left;</div><div class="line"> <span class="attribute">margin-top</span>: <span class="number">20px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.s4</span> &#123;</div><div class="line"> <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">background</span>: <span class="built_in">rgb</span>(255,195,13);</div><div class="line"> <span class="attribute">float</span>: right;</div><div class="line"> <span class="attribute">margin-top</span>: <span class="number">20px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/15/画一个微软标志/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-第一篇就谈谈这个吧" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="这网站怎么建的"><a href="#这网站怎么建的" class="headerlink" title="这网站怎么建的"></a>这网站怎么建的</h2><p><em>准备好云空间和域名云解析，Xshell 和 Xftp</em><br><em>本站运行于CentOS 7，使用阿里云ecs</em><br><em>用ssh客户端(xshell,putty等)连接你的服务器，root下执行以下命令行操作：</em></p>
+<h3 id="安装mqsql-（mariadb）、apache、php"><a href="#安装mqsql-（mariadb）、apache、php" class="headerlink" title="安装mqsql （mariadb）、apache、php"></a>安装mqsql （mariadb）、apache、php</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">yum install mariadb-server mariadb-client</div><div class="line">yum install httpd httpd-devel</div><div class="line">yum install php php-devel php-mysql /</div><div class="line">php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc</div></pre></td></tr></table></figure>
+<h3 id="重设mysql-root用户密码"><a href="#重设mysql-root用户密码" class="headerlink" title="重设mysql root用户密码"></a>重设mysql root用户密码</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysqladmin -u root password 'PASSWORD'</div></pre></td></tr></table></figure>
+<h3 id="登陆mysql"><a href="#登陆mysql" class="headerlink" title="登陆mysql"></a>登陆mysql</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -u root -p # 新建一个wordpress的数据库</div></pre></td></tr></table></figure>
+<h3 id="配置-wordpress"><a href="#配置-wordpress" class="headerlink" title="配置 wordpress"></a>配置 wordpress</h3><p><em>使用ftp上传wordpress到 /var/www/html/ 并解压</em><br><em>根据readme.html 中的说明配置 wordpress</em></p>
+<h3 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h3><p><em>在wordpress管理页面直接搜索插件安装即可</em></p>
+<ul>
+<li><p>Useso take over Google<br><em>替换所有的Google字体、谷歌JS公用库、Gravatar头像的源(解决页面访问慢的问题，必装！)</em></p>
+</li>
+<li><p>JP Markdown<br><em>使页面支持Markdown，Markdown是个好东西，Geek嘛，谁愿意拿着鼠标改格式，但要注意编辑文章不要用可视化视图</em></p>
+</li>
+<li><p>Crayon Syntax Highlighter<br><em>代码格式化插件，安装后文章编辑器多了个crayon标签，把代码选择然后点标签，你就会用了</em></p>
+</li>
+</ul>
+<h3 id="解决插件或主题更新-安装失败的问题"><a href="#解决插件或主题更新-安装失败的问题" class="headerlink" title="解决插件或主题更新/安装失败的问题"></a>解决插件或主题更新/安装失败的问题</h3><p><em>方法1</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> www目录及文件所有者设置为你apache的用户和组</span></div><div class="line">sudo chown -R apache:apache /var/www/</div><div class="line"><span class="meta">#</span><span class="bash"> 如果你改过wordpress里文件的权限，最好改回来</span></div><div class="line">find $path -type f -exec chmod 644 &#123;&#125; \;  #设置文件权限为644</div><div class="line">find $path -type d -exec chmod 755 &#123;&#125; \;  #设置目录权限为755</div><div class="line"><span class="meta">#</span><span class="bash">PS: <span class="variable">$path</span> 处填你的wordpress路径</span></div></pre></td></tr></table></figure></p>
+<p><em>方法2 (PS:不安全,不推荐)</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> 直接简单粗暴改权限</span></div><div class="line">sudo chmod -R 777 /var/www/html/wp-content/</div><div class="line"><span class="meta">#</span><span class="bash"> 更新完成后再改回来</span></div><div class="line">sudo chmod -R 751 /var/www/html/wp-content/</div></pre></td></tr></table></figure></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/15/第一篇就谈谈这个吧/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-从放弃Windows到使用IRC" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。"><a href="#不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。" class="headerlink" title="不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。"></a>不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。</h3><p><em>IRC（Internet Relay Chat的缩写，“因特网中继聊天”）是一种通过网络的即时聊天方式。</em></p>
+<p><a href="https://zh.wikipedia.org/wiki/IRC" target="_blank" rel="external">见Wiki</a></p>
+<h4 id="讲故事"><a href="#讲故事" class="headerlink" title="讲故事"></a>讲故事</h4><ul>
+<li><p>背景</p>
+<p>准备好好适应使用linux来编程，趁着假期，打算完全不去碰windows，重新安装了双系统，这次仗着内存8G够用，swap分区就不要了，全部40G都挂到 / 目录上。</p>
+</li>
+<li><p>问题</p>
+<p>觉得跟外界联系还是挺重要的，虽然QQ可以挂在手机上，但是用着linux要分享个链接什么的麻烦的要死，没法好好聊天啊。</p>
+</li>
+<li><p>Telegram</p>
+<p>看别人用着Telegram好好的，可是到我想用时，GFW就把让失联了。而且为了找人聊天让别人在装个软件也麻烦。</p>
+</li>
+<li><p>IRC</p>
+<p>第一次见IRC还是上次整越狱的老iTouch时，搜资料偶然发现了Kiwi IRC。正好是开源的，这次拿来练手。</p>
+</li>
+</ul>
+<h4 id="说正事"><a href="#说正事" class="headerlink" title="说正事"></a>说正事</h4><p>其实安装过程官方给的太详细了，没什么好说的 (-_-|||</p>
+<p>Kiwi的安装过程参考官方教程：</p>
+<p><a href="https://kiwiirc.com/docs/installing" target="_blank" rel="external">传送门</a></p>
+<p>务必先装好 openssl 和 openssl-dev | openssl-devel</p>
+<p>参考另一款老牌IRC （UnrealIRCd）的安装，就可以理解配置文件的设置，下面推荐连个博客</p>
+<p><a href="https://www.dadclab.com/archives/6007.jiecao" target="_blank" rel="external">博客1</a> <a href="http://soft.dog/2016/03/25/unrealircd-basic/" target="_blank" rel="external">博客2</a></p>
+<h4 id="讲废话"><a href="#讲废话" class="headerlink" title="讲废话"></a>讲废话</h4><p>为什么我不用 UnrealIRCd 呢？因为只有一个服务端，客户端还要自己另外找。</p>
+<p>Kiwi IRC 的易用在于，它把服务端和客户端整合了，在云主机上装好后，直接从端口进入客户端，直接连接另一端口的服务端。</p>
+<p>去看看本站的聊天室吧： <a href="http://www.findshank.website:7778/" target="_blank" rel="external">Chatting Room</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/15/从放弃Windows到使用IRC/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-迟来的情书" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="迟来的情书"><a href="#迟来的情书" class="headerlink" title="迟来的情书"></a>迟来的情书</h1><p>感谢这个阴雨天，从来都不喜欢雨天的我也觉得这天像你一样可爱，今天绝对是个值得纪念的日子。</p>
+<p>我们的话题不再只是家人、朋友、室友、爱好、吐槽，我们能聊起各自的感情。有一种说法是第一段感情不会长久，还好我们各自都有一些经历，既然能互相诉说，那么我们也能与过去说拜拜了。能聊起与自己最亲密的人都没说过的话，多么美好，意味着我们也将成为最亲密的人。</p>
+<p>生活总是不能如人所愿，六月底你要去杭州，而我还要留校。我表白之前不愿考虑那么多，表白之后却会顾虑重重。我没有主人公的光环，也没遇到过电影中那般传奇的故事，所以我一直在想，如何给你留下深刻的印象。</p>
+<p>目前我还是个一无所有的小子，二十多岁还用着父母的钱，说是啃老也不为过，我很希望能够去工作，但是顾虑于社会环境以及自身能力，我就犹犹豫豫的选择了考研。我其实是个不自信的人，总会在意别人的目光，别人的想法，以至于一直没有确定自己的考研目标。从你同意了我的表白的那天，我有目标了。如果能就此改变自己的人生轨迹，那也是因为有你。同时这也是我希望给你留下的深刻印象。</p>
+<p>感谢你的包容，能够答应我突如其来的请求，每次看到你肯定的答复，我的心情如测试完一段没有抛出异常的代码那样欣喜。也感谢咱们的种种相似点让我们能够不断找到话题，作为一个太习惯正经的人，能够让你笑，我更加喜悦。</p>
+<p>和你在一起两周多，我觉得自己已经改变不少，我愿意和不熟的的人表达自己的想法。因为那次表白是我长这么大最刺激的一次发言，相信日后很难遇到需要更大勇气才能说出的话了。感谢你给我勇气，因为这也是我妈一直希望我能做到的。</p>
+<p>即使千言万语，我们依旧要面对六月底的那次离别，不如我们做个简单的约定，到我们再次相遇前一定要健康，不仅是生理上的还有心理上的。即使年轻需要拼搏，但是不意味着要牺牲健康。</p>
+<p>我向你保证我会去杭州。同时我还有两个请求：一、临走那天我送你；二、留我一张你的照片。</p>
+<p>最后，我还想说，这篇文章最大的槽点就是题目……</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/15/迟来的情书/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    </nav>
   
 
 

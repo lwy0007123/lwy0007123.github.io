@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="去年某宝上买了 Raspberry Pi 2B，期间玩过一段时间的Raspbian，没有买其他配件，全当练习使用linux了。最近盯上了 OSMC，所以，要搞事情！ 设备 Raspberry Pi 2B   ​    官方说支持全系列的Pi板子  32G SAMSUNG micro SDHC   ​    支持的SD卡可以去官方看支持列表，容量不低于8G  HDMI to HDMI 线 ​">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/07/15/OSMC使用/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="去年某宝上买了 Raspberry Pi 2B，期间玩过一段时间的Raspbian，没有买其他配件，全当练习使用linux了。最近盯上了 OSMC，所以，要搞事情！ 设备 Raspberry Pi 2B   ​    官方说支持全系列的Pi板子  32G SAMSUNG micro SDHC   ​    支持的SD卡可以去官方看支持列表，容量不低于8G  HDMI to HDMI 线 ​">
+<meta property="og:updated_time" content="2017-01-18T06:23:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="去年某宝上买了 Raspberry Pi 2B，期间玩过一段时间的Raspbian，没有买其他配件，全当练习使用linux了。最近盯上了 OSMC，所以，要搞事情！ 设备 Raspberry Pi 2B   ​    官方说支持全系列的Pi板子  32G SAMSUNG micro SDHC   ​    支持的SD卡可以去官方看支持列表，容量不低于8G  HDMI to HDMI 线 ​">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -149,235 +153,231 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-OSMC使用" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>去年某宝上买了 Raspberry Pi 2B，期间玩过一段时间的Raspbian，没有买其他配件，全当练习使用linux了。最近盯上了 OSMC，所以，要搞事情！</p>
+<h3 id="设备"><a href="#设备" class="headerlink" title="设备"></a>设备</h3><ul>
+<li><p>Raspberry Pi 2B  </p>
+<p>​    <em>官方说支持全系列的Pi板子</em></p>
+</li>
+<li><p>32G SAMSUNG micro SDHC  </p>
+<p>​    <em>支持的SD卡可以去官方看支持列表，容量不低于8G</em></p>
+</li>
+<li><p>HDMI to HDMI 线</p>
+<p>​    <em>看需求吧，能把Pi连上电视就行</em></p>
+</li>
+<li><p>EDUP EP-N8508GS USB网卡</p>
+<p>​    <em>即插即用，支持802.11N。如果你的网线够长可以不用</em></p>
+</li>
+</ul>
+<h3 id="刷系统"><a href="#刷系统" class="headerlink" title="刷系统"></a>刷系统</h3><p>传送门 <a href="https://osmc.tv/download/" target="_blank" rel="external">OSMC</a></p>
+<p>你可以使用官方的安装器(支持Windows/Linux/OSX)，也可以下载镜像自己刷。</p>
+<p>我选择下载镜像在win下刷入：</p>
+<ul>
+<li>准备<ul>
+<li>SD卡 插入电脑</li>
+<li>安装 <a href="https://www.sdcard.org/downloads/formatter_4/" target="_blank" rel="external">SD Card Formatter</a></li>
+<li>安装 <a href="https://sourceforge.net/projects/win32diskimager/" target="_blank" rel="external">Win32 Disk Imager</a></li>
+<li>解压下载的系统zip包</li>
+</ul>
+</li>
+<li>操作<ul>
+<li>使用 SDFormatter V4.0 格式化SD卡<ul>
+<li>Drive 选中你的SD卡盘符</li>
+<li>选项设置 -&gt; 逻辑大小调整 -&gt; 开启（ON）-&gt; OK -&gt; 格式化</li>
+</ul>
+</li>
+<li>使用 Win32 Disk Imager V0.9.5 刷入系统<ul>
+<li>Device 选中你的SD卡盘符</li>
+<li>Image File 选中OSMC的img文件</li>
+<li>选择 Write</li>
+</ul>
+</li>
+<li>刷好SD卡插入Pi<ul>
+<li>Pi 用视频线接电视，开电视，切换信号源到 HDMI</li>
+<li>Pi 用microUSB接电源适配器</li>
+<li>Pi 上接键盘</li>
+</ul>
+</li>
+<li>开机配置系统……语言暂时用English(US)，联网</li>
+</ul>
+</li>
+</ul>
+<h3 id="软件配置"><a href="#软件配置" class="headerlink" title="软件配置"></a>软件配置</h3><ul>
+<li><p>语言设置</p>
+<p>Settings -&gt; Apperance -&gt; Skin -&gt; Fonts -&gt; Arial</p>
+<p>Settings -&gt; Apperance -&gt; International -&gt; Language -&gt; Chinese(Simple)</p>
+<p>现在就是显示中文了，下面还有些鸡肋的设置</p>
+<p>设置 -&gt; 用户界面 -&gt; 字符集 -&gt; Chinese Simplified (GBK)</p>
+<p>设置 -&gt; 用户界面 -&gt; 键盘布局 -&gt; 添加 Chinese BaiduPY</p>
+</li>
+<li><p>安装插件库</p>
+<p><a href="http://dkmc.tv/2013/04/07/xbmc%E6%8F%92%E4%BB%B6%E5%BA%93%E6%B1%87%E6%80%BB/" target="_blank" rel="external">传送门</a></p>
+<p>使用zip包的安装方式，先在同局域网的电脑上下载</p>
+<p> <a href="https://github.com/taxigps/xbmc-addons-chinese/raw/master/repo/repository.xbmc-addons-chinese/repository.xbmc-addons-chinese-1.2.0.zip" target="_blank" rel="external">chinese addon</a> 、<a href="http://xbmc.hdpfans.com/repository.hdpfans.xbmc-addons.zip" target="_blank" rel="external">hdpfans</a></p>
+<p>选择插件，选择安装，按Backspace到最外层，选择zip包安装插件，选择安装刚下的两个插件。</p>
+</li>
+<li><p>寻找你需要的插件，安装即可。</p>
+</li>
+</ul>
+<h3 id="使用手机的控制"><a href="#使用手机的控制" class="headerlink" title="使用手机的控制"></a>使用手机的控制</h3><p><a href="http://kodi.wiki/view/Remote_controls" target="_blank" rel="external">Remote Control</a></p>
+<ul>
+<li>Android<ul>
+<li><a href="http://mirrors.kodi.tv/tools/kore/releases/" target="_blank" rel="external">Kore</a> <em>官方软件</em></li>
+<li><a href="http://yatse.tv/redmine/projects/yatse/wiki/XbmcStarter#Download-and-install-2" target="_blank" rel="external">Yatse</a> <em>功能一样，<a href="https://play.google.com/store/apps/details?id=tv.yatse.android.remotestarter" target="_blank" rel="external">Google Play</a>上售价0.99$</em></li>
+</ul>
+</li>
+<li>iOS<ul>
+<li><a href="https://itunes.apple.com/cn/app/official-kodi-remote/id520480364?mt=8" target="_blank" rel="external">Official Kodi Remote</a> <em>官方软件</em></li>
+</ul>
+</li>
+<li>WP  <em>下面摘抄自kodi.wiki</em><ul>
+<li><a href="https://www.microsoft.com/store/apps/9nblggh4qvkx" target="_blank" rel="external">mrRemote for Kodi</a> by Domenico Rescigno (free)</li>
+<li><a href="http://www.windowsphone.com/s?appid=3897b459-b11b-41eb-9cea-dd9e53c55b78" target="_blank" rel="external">Kodi Assist</a> by akshay2000 (free)</li>
+<li><a href="http://www.windowsphone.com/s?appid=3a35a8c6-bf35-49a1-b67b-f8104be2b05c" target="_blank" rel="external">xbmc remote free</a> by CRW Solutions (free)</li>
+<li><a href="http://kodi.wiki/view/XBMC_Maestro" target="_blank" rel="external">XBMC Maestro</a> by 3Webers ($0.99 USD)</li>
+<li><a href="http://www.windowsphone.com/s?appid=7cdb0b87-1e00-4328-b839-43a6bf9c8556" target="_blank" rel="external">Kodi Remote</a> by Fabien Lavocat (free)</li>
+</ul>
+</li>
+</ul>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/折腾rEFInd安装/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.973Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/07/15/OSMC使用/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/一点数据库笔记/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.966Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/闲来无事，做个课表UWP练练手/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.959Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+<nav id="article-nav">
+  
+    <a href="/2017/07/15/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/07/15/MVC 部分刷新的尝试/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/太久不更新，我都快忘了这个站点了/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.949Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/使用 Terminator  & ZSH的配置/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.941Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+        
+        
+    </div>
+</aside>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/将UWP应用部署到其他win10设备/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.934Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/画一个微软标志/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.924Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/第一篇就谈谈这个吧/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.916Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/从放弃Windows到使用IRC/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.910Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/迟来的情书/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.903Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
+  
+
   
 
 
@@ -401,8 +401,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

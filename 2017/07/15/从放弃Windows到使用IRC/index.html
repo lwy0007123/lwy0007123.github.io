@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。IRC（Internet Relay Chat的缩写，“因特网中继聊天”）是一种通过网络的即时聊天方式。 见Wiki 讲故事 背景 准备好好适应使用linux来编程，趁着假期，打算完全不去碰windows，重新安装了双系统，这次仗着内存8G够用，swap分区就不要了，全部40G都挂到 / 目录上。  问题 觉得跟外界联系还是挺重要的">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/07/15/从放弃Windows到使用IRC/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。IRC（Internet Relay Chat的缩写，“因特网中继聊天”）是一种通过网络的即时聊天方式。 见Wiki 讲故事 背景 准备好好适应使用linux来编程，趁着假期，打算完全不去碰windows，重新安装了双系统，这次仗着内存8G够用，swap分区就不要了，全部40G都挂到 / 目录上。  问题 觉得跟外界联系还是挺重要的">
+<meta property="og:updated_time" content="2017-01-18T05:33:03.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。IRC（Internet Relay Chat的缩写，“因特网中继聊天”）是一种通过网络的即时聊天方式。 见Wiki 讲故事 背景 准备好好适应使用linux来编程，趁着假期，打算完全不去碰windows，重新安装了双系统，这次仗着内存8G够用，swap分区就不要了，全部40G都挂到 / 目录上。  问题 觉得跟外界联系还是挺重要的">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -149,235 +153,171 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-从放弃Windows到使用IRC" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。"><a href="#不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。" class="headerlink" title="不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。"></a>不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。</h3><p><em>IRC（Internet Relay Chat的缩写，“因特网中继聊天”）是一种通过网络的即时聊天方式。</em></p>
+<p><a href="https://zh.wikipedia.org/wiki/IRC" target="_blank" rel="external">见Wiki</a></p>
+<h4 id="讲故事"><a href="#讲故事" class="headerlink" title="讲故事"></a>讲故事</h4><ul>
+<li><p>背景</p>
+<p>准备好好适应使用linux来编程，趁着假期，打算完全不去碰windows，重新安装了双系统，这次仗着内存8G够用，swap分区就不要了，全部40G都挂到 / 目录上。</p>
+</li>
+<li><p>问题</p>
+<p>觉得跟外界联系还是挺重要的，虽然QQ可以挂在手机上，但是用着linux要分享个链接什么的麻烦的要死，没法好好聊天啊。</p>
+</li>
+<li><p>Telegram</p>
+<p>看别人用着Telegram好好的，可是到我想用时，GFW就把让失联了。而且为了找人聊天让别人在装个软件也麻烦。</p>
+</li>
+<li><p>IRC</p>
+<p>第一次见IRC还是上次整越狱的老iTouch时，搜资料偶然发现了Kiwi IRC。正好是开源的，这次拿来练手。</p>
+</li>
+</ul>
+<h4 id="说正事"><a href="#说正事" class="headerlink" title="说正事"></a>说正事</h4><p>其实安装过程官方给的太详细了，没什么好说的 (-_-|||</p>
+<p>Kiwi的安装过程参考官方教程：</p>
+<p><a href="https://kiwiirc.com/docs/installing" target="_blank" rel="external">传送门</a></p>
+<p>务必先装好 openssl 和 openssl-dev | openssl-devel</p>
+<p>参考另一款老牌IRC （UnrealIRCd）的安装，就可以理解配置文件的设置，下面推荐连个博客</p>
+<p><a href="https://www.dadclab.com/archives/6007.jiecao" target="_blank" rel="external">博客1</a> <a href="http://soft.dog/2016/03/25/unrealircd-basic/" target="_blank" rel="external">博客2</a></p>
+<h4 id="讲废话"><a href="#讲废话" class="headerlink" title="讲废话"></a>讲废话</h4><p>为什么我不用 UnrealIRCd 呢？因为只有一个服务端，客户端还要自己另外找。</p>
+<p>Kiwi IRC 的易用在于，它把服务端和客户端整合了，在云主机上装好后，直接从端口进入客户端，直接连接另一端口的服务端。</p>
+<p>去看看本站的聊天室吧： <a href="http://www.findshank.website:7778/" target="_blank" rel="external">Chatting Room</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/折腾rEFInd安装/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.973Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/07/15/从放弃Windows到使用IRC/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/一点数据库笔记/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.966Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/闲来无事，做个课表UWP练练手/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.959Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+<nav id="article-nav">
+  
+    <a href="/2017/07/15/第一篇就谈谈这个吧/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/07/15/迟来的情书/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/太久不更新，我都快忘了这个站点了/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.949Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/使用 Terminator  & ZSH的配置/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.941Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+        
+        
+    </div>
+</aside>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/将UWP应用部署到其他win10设备/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.934Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/画一个微软标志/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.924Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/第一篇就谈谈这个吧/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.916Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/从放弃Windows到使用IRC/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.910Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/迟来的情书/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.903Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
+  
+
   
 
 
@@ -401,8 +341,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

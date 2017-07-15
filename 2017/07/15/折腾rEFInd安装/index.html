@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到rEFInd的配置。 先安装win10用官方工具做一个安装盘，bios选择中启动方式EFI Only，并开启Secure Boot 。（对，网上那些辣鸡教程都TM教你关掉，但是不告诉你原因">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/07/15/折腾rEFInd安装/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到rEFInd的配置。 先安装win10用官方工具做一个安装盘，bios选择中启动方式EFI Only，并开启Secure Boot 。（对，网上那些辣鸡教程都TM教你关掉，但是不告诉你原因">
+<meta property="og:updated_time" content="2017-01-18T05:31:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到rEFInd的配置。 先安装win10用官方工具做一个安装盘，bios选择中启动方式EFI Only，并开启Secure Boot 。（对，网上那些辣鸡教程都TM教你关掉，但是不告诉你原因">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -149,235 +153,264 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-折腾rEFInd安装" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到<a href="#refind">rEFInd的配置</a>。</p>
+<h3 id="先安装win10"><a href="#先安装win10" class="headerlink" title="先安装win10"></a>先安装win10</h3><p>用<a href="https://www.microsoft.com/zh-cn/software-download/windows10" target="_blank" rel="external">官方工具</a>做一个安装盘，bios选择中启动方式<strong>EFI Only</strong>，并开启<strong>Secure Boot</strong> 。（<em>对，网上那些辣鸡教程都TM教你关掉，但是不告诉你原因，听我的，不用关，装ubuntu也不用关，因为ubuntu申请了EFI安全证书的！</em>）</p>
+<p>接着开机插入U盘，按提示安装就好，记得把分区方式改成<strong>GPT</strong>。（<em>若你之前是MBR，要么把原来分区全删掉，要么按网上教程做个EFI+MBR，反正我是强迫症，我就要格盘！</em>）</p>
+<p>如何辨别是不是EFI启动呢？</p>
+<p>win + R ，输入 msinfo32 ，回车，引导方式那行是 EFI 就对了。</p>
+<h3 id="再安装ubuntu16-04"><a href="#再安装ubuntu16-04" class="headerlink" title="再安装ubuntu16.04"></a>再安装ubuntu16.04</h3><p>这个更简单，把官方iso镜像文件，直接解压到<strong>FAT32</strong>格式U盘的根目录，开机，进U盘，安装。到那个然要现在win下切好未分配空间，这次我切了40G。小本子有8G内存，swap分区完全不用分的。在之前我试过所有未分配空间都挂到根目录，一样用着好好的，只有一点问题，只能挂起，不能休眠。</p>
+<p>那么这次的分区方案是8G的swap，剩下全挂 / 根目录。 启动器挂在ubuntu所在硬盘，我是在第二快硬盘 /dev/sdb 上。</p>
+<h3 id="ubuntu配置记录"><a href="#ubuntu配置记录" class="headerlink" title="ubuntu配置记录"></a>ubuntu配置记录</h3><p><strong>先要感谢<a href="https://plumz.me/" target="_blank" rel="external">plum的博客</a>，看他的博客让我解决的不少问题</strong></p>
+<p>既然用了一段时间的ubuntu，解决了不少问题，这里的配置与上一篇有点不同，重新记录如下：</p>
+<ul>
+<li>修改本地文件夹名称为英文</li>
+</ul>
+<p><em>如果你安装系统时选择了中文，那么用户目录就默认是中文，带你cd目录的时候就知道多蛋疼！</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">export LANG=en_US</div><div class="line">xdg-user-dirs-gtk-update</div><div class="line">export LANG=zh_CN</div><div class="line">reboot</div></pre></td></tr></table></figure>
+<ul>
+<li>关闭鼠标加速</li>
+</ul>
+<p><em>Ubuntu16.04默认开启了鼠标加速，用触控板到感觉不到，用鼠标这么飘就不能忍了！</em><br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">在Dashboard里搜索:</div><div class="line">gnome-session-properties</div><div class="line">点击添加：</div><div class="line">名称：setmouse</div><div class="line">命令：xset m 0 或者 xset m default</div><div class="line">重启。</div></pre></td></tr></table></figure></p>
+<ul>
+<li>安装 lantern </li>
+</ul>
+<p><em>接下来要安装软件了，我希望网络要没有阻碍，梯子是必须先装的！</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd ~/Downloads/</div><div class="line">wget https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-beta-64-bit.deb</div><div class="line">sudo dpkg -i lantern-installer-beta-64-bit.deb</div></pre></td></tr></table></figure></p>
+<p>打开lantern，进入设置，查看两个端口号，我的是：<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">HTTP(S) proxy: 127.0.0.1:44045</div><div class="line">SOCKS proxy: 127.0.0.1:43355</div></pre></td></tr></table></figure></p>
+<p>然后终端输入下面两句来全局代理<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">export all_proxy=socks://127.0.0.1:43355</div><div class="line">export ALL_PROXY=socks://127.0.0.1:43355</div></pre></td></tr></table></figure></p>
+<p>如果想取消掉的话：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">unset all_proxy</div><div class="line">unset ALL_PROXY</div></pre></td></tr></table></figure></p>
+<p>接着配置 lantern 的开机无界面启动<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">在Dashboard里搜索:</div><div class="line">gnome-session-properties</div><div class="line">点击添加：</div><div class="line">名称：lantern</div><div class="line">命令：/usr/bin/lantern -headless</div></pre></td></tr></table></figure></p>
+<ul>
+<li>安装 git</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo apt install git -y</div><div class="line"><span class="meta">#</span><span class="bash"> 设置 git 代理（http &amp; https 代理）</span></div><div class="line">git config --global http.proxy socks5://127.0.0.1:43355</div><div class="line">git config --global https.proxy socks5://127.0.0.1:43355</div></pre></td></tr></table></figure>
+<ul>
+<li>安装功耗控制 TLP</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install tlp tlp-rdw -y</div><div class="line">sudo apt-get install tp-smapi-dkms acpi-call-dkms -y</div><div class="line">sudo apt-get install thermald -y</div><div class="line">sudo apt-get install powertop -y</div><div class="line"><span class="meta">#</span><span class="bash"> 配置 TLP</span></div><div class="line">sudo vim /etc/default/tlp</div><div class="line"><span class="meta">#</span><span class="bash"> 启动 TLP</span></div><div class="line">sudo tlp start</div></pre></td></tr></table></figure>
+<ul>
+<li>消除 Ubuntu LightDM 登陆界面背景白点</li>
+</ul>
+<p><em>不能忍，影响我看锁屏壁纸！</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">gsettings set com.canonical.unity-greeter draw-grid false</div><div class="line">sudo xhost +SI:localuser:lightdm</div><div class="line">sudo su lightdm -s /bin/bash</div><div class="line">gsettings set com.canonical.unity-greeter draw-grid false</div><div class="line">exit</div></pre></td></tr></table></figure></p>
+<ul>
+<li>安装 arc-flatabulous 主题</li>
+</ul>
+<p><em><a href="https://github.com/andreisergiu98/arc-flatabulous-theme" target="_blank" rel="external">Arc-Flatabulous Theme</a></em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> 安装依赖</span></div><div class="line">sudo apt install autoconf automake libgtk-3-dev -y</div><div class="line"><span class="meta">#</span><span class="bash"> 安装 unity-tweek-tool</span></div><div class="line">sudo apt install unity-tweak-tool -y</div><div class="line"><span class="meta">#</span><span class="bash"> 官方安装方式</span></div><div class="line">sudo rm -rf /usr/share/themes/&#123;Arc-Flatabulous,Arc-Flatabulous-Darker,Arc-Flatabulous-Dark&#125;</div><div class="line">rm -rf ~/.local/share/themes/&#123;Arc-Flatabulous,Arc-Flatabulous-Darker,Arc-Flatabulous-Dark&#125;</div><div class="line">rm -rf ~/.themes/&#123;Arc-Flatabulous,Arc-Flatabulous-Darker,Arc-Flatabulous-Dark&#125;</div><div class="line">git clone https://github.com/andreisergiu98/arc-flatabulous-theme &amp;&amp; cd arc-flatabulous-theme</div><div class="line"><span class="meta">#</span><span class="bash"> 编译安装，不想见透明效果，编译时加参数 --<span class="built_in">disable</span>-transparency</span></div><div class="line">./autogen.sh --prefix=/usr &amp;&amp; sudo make install</div></pre></td></tr></table></figure>
+<ul>
+<li>安装 papirus 图标主题</li>
+</ul>
+<p><em><a href="https://github.com/PapirusDevelopmentTeam/papirus-icon-theme" target="_blank" rel="external">papirus-icon-theme</a></em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt install wget git libqt4-svg -y </div><div class="line">wget -qO- https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/install-papirus-root.sh | sh</div></pre></td></tr></table></figure>
+<ul>
+<li>安装 Hardcode-Tray 图标修复</li>
+</ul>
+<p><em>对右上角那些图标风格不统一，可以试试，但是只支持部分图标修复，这个软件蛮鸡肋的……</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:andreas-angerer89/sni-qt-patched</div><div class="line">sudo apt update</div><div class="line">sudo apt install sni-qt sni-qt:i386 hardcode-tray -y</div><div class="line"><span class="meta">#</span><span class="bash"> 使用 Hardcode-Tray</span></div><div class="line">hardcode-tray --apply</div><div class="line"><span class="meta">#</span><span class="bash"> 如果出现 FileNotFoundError: [Errno 2] ，建一个软链接</span></div><div class="line">ln -s  /usr/share/icons/ ~/.local/share/icons</div><div class="line">hardcode-tray --apply</div></pre></td></tr></table></figure></p>
+<ul>
+<li>更改鼠标指针样式</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">下载 Breeze-Hacked 并解压</div><div class="line">cp -a Breeze-Hacked/ /usr/share/icons/</div><div class="line">在 unity-tweek-tool 里更换</div></pre></td></tr></table></figure>
+<ul>
+<li><p id="refind">安装&amp;配置 rEFInd</p>
+
+</li>
+</ul>
+<p><em><a href="http://www.rodsbooks.com/refind/configfile.html" target="_blank" rel="external">rEFInd官方链接</a></em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">sudo apt-add-repository ppa:rodsmith/refind -y </div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install refind -y</div><div class="line">sudo cd /boot/eft/EFI/refind</div><div class="line">sudo su</div><div class="line">mkdir themes</div><div class="line">cd themes</div><div class="line"><span class="meta">#</span><span class="bash"> 下载新主题</span></div><div class="line">git clone https://github.com/EvanPurkhiser/rEFInd-minimal.git</div><div class="line">cd ..</div><div class="line">cp refind.conf refind.conf.bak</div><div class="line">gedit refind.conf</div></pre></td></tr></table></figure>
+<p>添加设置到文件结尾，具体看配置文件或者Google<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">resolution 1920 1080</div><div class="line">scan_all_linux_kernels false</div><div class="line">default_selection Microsoft</div><div class="line"><span class="meta">#</span><span class="bash"> 导入主题配置：</span></div><div class="line">include themes/rEFInd-minimal/theme.conf</div></pre></td></tr></table></figure></p>
+<p>这个时候重启是使用不了rEFInd的，因为开了Secure Boot的缘故。那么要解决允许Secure Boot的问题，就要给他授权。官方提供的方案有 Shim 和 PreLoader，外文博客基本介绍的也是Shim。都比较麻烦，不愿看也不愿做（—。—），偶然发现了 boot-repair 。这个软件是傻瓜化修复启动引导用的，它解决安全引导的同时也会装 Shim，正好省得我动手。<br>先装 boot-repair<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:yannubuntu/boot-repair</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install -y boot-repair &amp;&amp; boot-repair</div></pre></td></tr></table></figure></p>
+<p>选择推荐方案(Recommended repair)，接着都是“yes”<br>引导修复后，可以apt重装下refind，应该同时会申请 <em>.cer 文件<br>然后重启，和官方 Slim授权的方式一样，Select key选第一个，<br>给EFI/refind/key目录下的<strong>refind.cer</strong>和<em>*refind_local.cer</em></em>文件授权，然后选择重启。</p>
+<p>授权后的一些调整</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">sudo su</div><div class="line"><span class="meta">#</span><span class="bash"> 删除一个多余启动文件</span></div><div class="line">rm -f /boot/efi/EFI/Boot/bkpbootx64.efi</div><div class="line"><span class="meta">#</span><span class="bash"> 想要refind选择ubuntu就直接进系统，不用再显示grub2菜单</span></div><div class="line">vim /etc/default/grub # 修改 GRUB_TIMEOUT=0</div><div class="line">rm -f /etc/grub.d/30_os-prober # grub不记录win10引导</div><div class="line"><span class="meta">#</span><span class="bash"> 更新gurb</span></div><div class="line">update-grub</div></pre></td></tr></table></figure>
+<ul>
+<li>使用terminator及ZSH</li>
+</ul>
+<p><em>普通用户</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install terminator zsh -y</div><div class="line">chsh -s /bin/zsh</div><div class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</div><div class="line">vim ~/.zshrc # 添加以下内容</div><div class="line"><span class="meta">#</span><span class="bash"> ZSH_THEME=<span class="string">"agnoster"</span></span></div><div class="line"><span class="meta">#</span><span class="bash"> DEFAULT_USER=<span class="string">"shank"</span></span></div><div class="line"><span class="meta">#</span><span class="bash"> COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span></div></pre></td></tr></table></figure></p>
+<p><em>root用户</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo su</div><div class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</div><div class="line">vim ~/.zshrc # 添加以下内容</div><div class="line"><span class="meta">#</span><span class="bash"> ZSH_THEME=<span class="string">"agnoster"</span></span></div><div class="line"><span class="meta">#</span><span class="bash"> DEFAULT_USER=<span class="string">"root"</span></span></div><div class="line"><span class="meta">#</span><span class="bash"> COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span></div><div class="line">exit</div></pre></td></tr></table></figure></p>
+<p><em>安装PowerLine字体</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd ~/Downloads</div><div class="line">git clone https://github.com/powerline/fonts</div><div class="line">cd fonts</div><div class="line">./install.sh</div></pre></td></tr></table></figure></p>
+<ul>
+<li>常规更新</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt update</div><div class="line">sudo apt upgrade</div></pre></td></tr></table></figure>
+<ul>
+<li>安装 Deluge </li>
+</ul>
+<p><em>下载工具，带有BT和磁链下载</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt install deluge -y</div></pre></td></tr></table></figure>
+<ul>
+<li>安装 caffeine</li>
+</ul>
+<p><em>用于暂时取消屏保和睡眠模式，用linux看视频时记得把它设为Active</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo apt install caffeine -y</div><div class="line"><span class="meta">#</span><span class="bash"> 在 gnome-session-properties 开机启动中添加或修改Caffeine的命令为下面这句</span></div><div class="line"><span class="meta">#</span><span class="bash"> /usr/bin/caffeine-indicator</span></div></pre></td></tr></table></figure>
+<ul>
+<li>安装 mpv</li>
+</ul>
+<p><em>简介而强大的播放器，不用VLC因为它对字幕支持不好！</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install mpv -y</div></pre></td></tr></table></figure>
+<ul>
+<li>安装 flash 支持</li>
+</ul>
+<p><em>B站的Html5播放器总是没速度，所以flash还是必需的！</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash">先在设置中允许 Canonical Partners 打包的应用</span></div><div class="line">sudo apt install adobe-flashplugin -y</div></pre></td></tr></table></figure>
+<ul>
+<li>解决待机后重启会自动断线的 Bug</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo systemctl enable NetworkManager.service</div></pre></td></tr></table></figure>
+<ul>
+<li>使用 Canonical Livepatch Service</li>
+</ul>
+<p><em><a href="https://www.ubuntu.com/server/livepatch" target="_blank" rel="external">Canonical Livepatch Service</a> 免重新开机做核心</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo snap install canonical-livepatch</div><div class="line">sudo canonical-livepatch enable XXX #XXX从官方获取</div></pre></td></tr></table></figure>
+<ul>
+<li>安装指纹识别支持</li>
+</ul>
+<p><em>这个可以用，但是会觉得的有点烦，因为这个软件有个bug，刷指纹一定要刷两下，验证成功，还要再刷一下指纹灯才会灭，所以我已经不用了……</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:fingerprint/fprint -y &amp;&amp; sudo apt-get update</div><div class="line">sudo apt-get install libfprint0 fprint-demo libpam-fprintd gksu -y</div></pre></td></tr></table></figure></p>
+<ul>
+<li>Fcitx 输入法换回原生 indicator，不用那个 qim</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt remove fcitx-ui-qimpanel -y</div></pre></td></tr></table></figure>
+<ul>
+<li>安装 android studio</li>
+</ul>
+<p><em><a href="https://developer.android.com/studio/index.html" target="_blank" rel="external">官方链接</a>下载zip安装包</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> 安装 jdk</span></div><div class="line">sudo apt install openjdk-8-jdk -y</div><div class="line"><span class="meta">#</span><span class="bash"> 安装依赖</span></div><div class="line">sudo apt-get install lib32z1 lib32ncurses5 lib32stdc++6 -y</div><div class="line"><span class="meta">#</span><span class="bash"> 解决无 pixmap 问题</span></div><div class="line">sudo apt-get install gtk2-engines-pixbuf -y</div><div class="line"><span class="meta">#</span><span class="bash"> 解决无 adwaita 问题</span></div><div class="line">sudo apt-get install gnome-themes-standard gnome-themes-standard-data -y</div><div class="line"><span class="meta">#</span><span class="bash"> 安装a.s.，我习惯把a.s.装到 /opt 目录</span></div><div class="line">sudo unzip -q ~/Downloads/android-studio……… -d /opt # 省略号部分自己按TAB替换</div><div class="line">cd /opt/android-studio/bin/</div><div class="line">./studio.sh</div></pre></td></tr></table></figure></p>
+<ul>
+<li>Firefox 字体问题 （不用改了，新版本好像解决了这个问题）</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">地址栏输入 about:config</div><div class="line">找到 gfx.font_rendering.fontconfig.fontlist.enabled</div><div class="line">设置为 false</div></pre></td></tr></table></figure>
+<ul>
+<li>安装 typola ,本人最喜欢的 markdown 编辑器</li>
+</ul>
+<p><em><a href="https://typora.io/" target="_blank" rel="external">typola官方链接</a></em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> optional, but recommended</span></div><div class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BA300B7755AFCFAE</div><div class="line"><span class="meta">#</span><span class="bash"> add Typora<span class="string">'s repository</span></span></div><div class="line">sudo add-apt-repository 'deb https://typora.io ./linux/' -y</div><div class="line">sudo apt-get update</div><div class="line"><span class="meta">#</span><span class="bash"><span class="string"> install typora</span></span></div><div class="line">sudo apt-get install typora -y</div></pre></td></tr></table></figure>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/折腾rEFInd安装/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.973Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/07/15/折腾rEFInd安装/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/一点数据库笔记/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.966Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/闲来无事，做个课表UWP练练手/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.959Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+<nav id="article-nav">
+  
+  
+    <a href="/2017/07/15/一点数据库笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/太久不更新，我都快忘了这个站点了/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.949Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/使用 Terminator  & ZSH的配置/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.941Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+        
+        
+    </div>
+</aside>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/将UWP应用部署到其他win10设备/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.934Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/画一个微软标志/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.924Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/第一篇就谈谈这个吧/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.916Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/从放弃Windows到使用IRC/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.910Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/迟来的情书/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.903Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
+  
+
   
 
 
@@ -401,8 +434,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

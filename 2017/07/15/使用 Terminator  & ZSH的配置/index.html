@@ -6,14 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧安装 Terminatorsudo apt-get install terminator    利用 Debian 的重新配置命令选择默认终端：  sudo update-alternatives --config x-terminal-emulator     非ubuntu系统设置terminato">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/07/15/使用 Terminator  & ZSH的配置/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧安装 Terminatorsudo apt-get install terminator    利用 Debian 的重新配置命令选择默认终端：  sudo update-alternatives --config x-terminal-emulator     非ubuntu系统设置terminato">
+<meta property="og:updated_time" content="2017-01-18T05:43:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧安装 Terminatorsudo apt-get install terminator    利用 Debian 的重新配置命令选择默认终端：  sudo update-alternatives --config x-terminal-emulator     非ubuntu系统设置terminato">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -149,235 +153,219 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-使用 Terminator  &amp; ZSH的配置" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="在别人博客里看到-Terminator-挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧"><a href="#在别人博客里看到-Terminator-挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧" class="headerlink" title="在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧"></a>在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧</h2><h3 id="安装-Terminator"><a href="#安装-Terminator" class="headerlink" title="安装 Terminator"></a>安装 Terminator</h3><pre class="lang:sh decode:true ">sudo apt-get install terminator</pre> 
+
+<ul>
+<li><em>利用 Debian 的重新配置命令选择默认终端：</em></li>
+</ul>
+<pre class="lang:sh decode:true ">sudo update-alternatives --config x-terminal-emulator</pre> 
+
+
+<ul>
+<li><em>非ubuntu系统设置terminator快捷键</em></li>
+</ul>
+<pre class="lang:default decode:true ">Setting -> Keyboard -> Shortcuts -> Custom Shortcuts -> add(+)
+Name : Terminal
+Command : /usr/bin/terminator
+Apply
+Click "Disable"
+press Ctrl + Alt + T</pre> 
+
+
+<h3 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h3><pre class="lang:default decode:true ">
+/* 打开Terminator ，进行如下操作 */
+Preferenvces -> General
+Disable ‘Show titlebar’
+Preferenvces -> Profiles -> Colors -> Foreground and Background -> Build-in schemes
+Choose ‘Solarized dark’
+</pre>
+
+
+<h3 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h3><pre class="lang:sh decode:true ">sudo apt-get install zsh</pre> 
+
+<ul>
+<li><em>设置当前用户使用zsh</em></li>
+</ul>
+<pre class="lang:sh decode:true ">chsh -s /bin/zsh</pre> 
+
+<h3 id="安装on-my-zsh"><a href="#安装on-my-zsh" class="headerlink" title="安装on my zsh"></a>安装on my zsh</h3><ul>
+<li><em>自动安装：(推荐)</em></li>
+</ul>
+<pre class="lang:sh decode:true ">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</pre> 
+
+<ul>
+<li><em>手动安装：</em></li>
+</ul>
+<pre class="lang:sh decode:true ">git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</pre> 
+
+
+<h3 id="安装powerline字体"><a href="#安装powerline字体" class="headerlink" title="安装powerline字体"></a>安装powerline字体</h3><pre class="lang:sh decode:true ">git clone https://github.com/powerline/fonts
+cd fonts
+./install.sh</pre> 
+
+<p><em>然后在终端中使用powerline字体</em></p>
+<h3 id="编辑：-zshrc"><a href="#编辑：-zshrc" class="headerlink" title="编辑： ~/.zshrc"></a>编辑： ~/.zshrc</h3><ul>
+<li><em>增加自己的用户名：</em></li>
+</ul>
+<pre class="lang:sh decode:true ">DEFAULT_USER="Shank"</pre> 
+
+<p><em>PS：上面 Shank 替换成你当前的用户名，用whoami查看你的用户名</em></p>
+<ul>
+<li><em>修改主题：</em></li>
+</ul>
+<pre class="lang:sh decode:true ">ZSH_THEME="agnoster"</pre> 
+
+<ul>
+<li><em>启用几个功能：</em></li>
+</ul>
+<pre class="lang:sh decode:true ">COMPLETION_WAITING_DOTS="true"</pre> 
+
+
+<h3 id="或者用以下简单粗暴的方式屏蔽zsh中的用户名："><a href="#或者用以下简单粗暴的方式屏蔽zsh中的用户名：" class="headerlink" title="或者用以下简单粗暴的方式屏蔽zsh中的用户名："></a>或者用以下简单粗暴的方式屏蔽zsh中的用户名：</h3><pre class="lang:sh decode:true ">cd ~/.oh-my-zsh/themes
+sudo vim 当前主题名称</pre> 
+
+<p>_看到最下面对build_prompt的定义，把prompt<em>context用#注释掉即可</em></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/折腾rEFInd安装/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.973Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/07/15/使用 Terminator  & ZSH的配置/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/一点数据库笔记/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.966Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/闲来无事，做个课表UWP练练手/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.959Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+<nav id="article-nav">
+  
+    <a href="/2017/07/15/太久不更新，我都快忘了这个站点了/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/07/15/将UWP应用部署到其他win10设备/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/太久不更新，我都快忘了这个站点了/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.949Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/使用 Terminator  & ZSH的配置/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.941Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+        
+        
+    </div>
+</aside>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/将UWP应用部署到其他win10设备/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.934Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/画一个微软标志/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.924Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/第一篇就谈谈这个吧/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.916Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/从放弃Windows到使用IRC/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.910Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/迟来的情书/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.903Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
+  
+
   
 
 
@@ -401,8 +389,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

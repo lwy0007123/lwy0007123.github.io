@@ -6,11 +6,11 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
@@ -151,232 +151,726 @@
           <div id="js-content" class="content-ll">
             
   
-  
+    <article id="post-Thinkpad X250 安装ubuntu16.04.1LTS 的记录" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。<br>因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。<br>U盘制作ubuntu安装盘，开机启动到U盘。</p>
+<p>安装时，对空闲20G手动分区 ：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">分区类型</th>
+<th style="text-align:left">挂载点</th>
+<th style="text-align:left">大小</th>
+<th style="text-align:left">位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">主分区</td>
+<td style="text-align:left">/boot</td>
+<td style="text-align:left">400M</td>
+<td style="text-align:left">起始</td>
+</tr>
+<tr>
+<td style="text-align:left">逻辑区</td>
+<td style="text-align:left">/</td>
+<td style="text-align:left">15000M</td>
+<td style="text-align:left">起始</td>
+</tr>
+<tr>
+<td style="text-align:left">逻辑区</td>
+<td style="text-align:left">swap</td>
+<td style="text-align:left">512M</td>
+<td style="text-align:left">末尾</td>
+</tr>
+<tr>
+<td style="text-align:left">逻辑区</td>
+<td style="text-align:left">/home</td>
+<td style="text-align:left">剩余所有</td>
+<td style="text-align:left">起始</td>
+</tr>
+</tbody>
+</table>
+<p>因为我不希望ubuntu覆盖我的windows引导，所以启动选择器 sdb<br>（因为内存有8G，交换空间就不分那么多了。启动选择在第二快盘，就不会覆盖win的引导，倒时开机bios改下硬盘启动顺序就行了。<br>我可能随时会把ubuntu的分区格掉，毕竟ssd空间有限，到时候不至于用easybcd或者PE重做引导）<br>安装完成后，重启。</p>
+<p><strong>安装burg，美化开机选择界面：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:n-muench/burg &amp;&amp; sudo apt-get update</div><div class="line">sudo apt-get install burg burg-themes burg-emu</div></pre></td></tr></table></figure>
+<p>安装过程可以一路回车，注意在Configuring burg-pc时选择sdb。<br>更换burg themes ，下载Lightness BURG Theme by SWOriginal<br>解压后cp到/boot/burg/themes里。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo update-burg</div><div class="line">gedit /boot/burg/burg.cfg</div></pre></td></tr></table></figure>
+<p>删除一个recoverymode引导，提前win引导项<br>sudo burg-emu -&gt; F2 -&gt; 选择Lightness<br>(每次grub更新后都要重置burg sudo burg-install /dev/sdx )</p>
+<p><strong>安装指纹识别fingerprint：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:fingerprint/fprint &amp;&amp; sudo apt-get update</div><div class="line">sudo apt-get install libfprint0 fprint-demo libpam-fprintd gksu</div></pre></td></tr></table></figure>
+<p>在 “系统设置” -&gt; “用户账户” 里会多一个 “指纹登录”，照着提示进行设置就可以了。</p>
+<p><strong>关闭鼠标加速：</strong><br>在Dashboard里搜索:<br>gnome-session-properties<br>点击添加：<br>名称：setmouse<br>命令：xset m 0 或者 xset m default<br>重启。</p>
+<p><strong>安装TLP电源管理：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install tlp tlp-rdw</div><div class="line">sudo apt-get install tp-smapi-dkms acpi-call-dkms</div><div class="line">sudo apt-get install thermald</div><div class="line">sudo apt-get install powertop</div></pre></td></tr></table></figure>
+<p>配置 TLP</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/default/tlp</div><div class="line">sudo tlp start</div></pre></td></tr></table></figure>
+<p><strong>使用 terminator <a href="http://www.findshank.website/index.php/2016/10/01/terminator/" target="_blank" rel="external">替换默认终端以及使用zsh</a></strong> (另外写一篇介绍这个)</p>
+<p><strong>安装Arc GTK主题：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_16.04/ /' &gt;&gt; /etc/apt/sources.list.d/arc-theme.list"</div><div class="line">wget http://download.opensuse.org/repositories/home:Horst3180/xUbuntu_16.04/Release.key</div><div class="line">sudo apt-key add - &lt; Release.key</div><div class="line">sudo apt update</div><div class="line">sudo apt install arc-theme</div></pre></td></tr></table></figure>
+<p>安装Unity Tweak Tool管理主题：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt install unity-tweak-tool</div></pre></td></tr></table></figure>
+<p>个人觉得Arc-darker 好看，更换之。</p>
+<p><strong>安装Deadbeef，播放更多音频：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:starws-box/deadbeef-player</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install deadbeef</div></pre></td></tr></table></figure>
+<p><strong>安装MPV播放器：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install mpv</div></pre></td></tr></table></figure>
+<p><strong>安装cherrytree笔记本：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install cherrytree</div></pre></td></tr></table></figure>
+<p><strong>安装lantern翻墙：</strong><br><a href="https://github.com/getlantern/forum/issues/833" target="_blank" rel="external">传送门</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/折腾rEFInd安装/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.973Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/15/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/一点数据库笔记/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.966Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-OSMC使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>去年某宝上买了 Raspberry Pi 2B，期间玩过一段时间的Raspbian，没有买其他配件，全当练习使用linux了。最近盯上了 OSMC，所以，要搞事情！</p>
+<h3 id="设备"><a href="#设备" class="headerlink" title="设备"></a>设备</h3><ul>
+<li><p>Raspberry Pi 2B  </p>
+<p>​    <em>官方说支持全系列的Pi板子</em></p>
+</li>
+<li><p>32G SAMSUNG micro SDHC  </p>
+<p>​    <em>支持的SD卡可以去官方看支持列表，容量不低于8G</em></p>
+</li>
+<li><p>HDMI to HDMI 线</p>
+<p>​    <em>看需求吧，能把Pi连上电视就行</em></p>
+</li>
+<li><p>EDUP EP-N8508GS USB网卡</p>
+<p>​    <em>即插即用，支持802.11N。如果你的网线够长可以不用</em></p>
+</li>
+</ul>
+<h3 id="刷系统"><a href="#刷系统" class="headerlink" title="刷系统"></a>刷系统</h3><p>传送门 <a href="https://osmc.tv/download/" target="_blank" rel="external">OSMC</a></p>
+<p>你可以使用官方的安装器(支持Windows/Linux/OSX)，也可以下载镜像自己刷。</p>
+<p>我选择下载镜像在win下刷入：</p>
+<ul>
+<li>准备<ul>
+<li>SD卡 插入电脑</li>
+<li>安装 <a href="https://www.sdcard.org/downloads/formatter_4/" target="_blank" rel="external">SD Card Formatter</a></li>
+<li>安装 <a href="https://sourceforge.net/projects/win32diskimager/" target="_blank" rel="external">Win32 Disk Imager</a></li>
+<li>解压下载的系统zip包</li>
+</ul>
+</li>
+<li>操作<ul>
+<li>使用 SDFormatter V4.0 格式化SD卡<ul>
+<li>Drive 选中你的SD卡盘符</li>
+<li>选项设置 -&gt; 逻辑大小调整 -&gt; 开启（ON）-&gt; OK -&gt; 格式化</li>
+</ul>
+</li>
+<li>使用 Win32 Disk Imager V0.9.5 刷入系统<ul>
+<li>Device 选中你的SD卡盘符</li>
+<li>Image File 选中OSMC的img文件</li>
+<li>选择 Write</li>
+</ul>
+</li>
+<li>刷好SD卡插入Pi<ul>
+<li>Pi 用视频线接电视，开电视，切换信号源到 HDMI</li>
+<li>Pi 用microUSB接电源适配器</li>
+<li>Pi 上接键盘</li>
+</ul>
+</li>
+<li>开机配置系统……语言暂时用English(US)，联网</li>
+</ul>
+</li>
+</ul>
+<h3 id="软件配置"><a href="#软件配置" class="headerlink" title="软件配置"></a>软件配置</h3><ul>
+<li><p>语言设置</p>
+<p>Settings -&gt; Apperance -&gt; Skin -&gt; Fonts -&gt; Arial</p>
+<p>Settings -&gt; Apperance -&gt; International -&gt; Language -&gt; Chinese(Simple)</p>
+<p>现在就是显示中文了，下面还有些鸡肋的设置</p>
+<p>设置 -&gt; 用户界面 -&gt; 字符集 -&gt; Chinese Simplified (GBK)</p>
+<p>设置 -&gt; 用户界面 -&gt; 键盘布局 -&gt; 添加 Chinese BaiduPY</p>
+</li>
+<li><p>安装插件库</p>
+<p><a href="http://dkmc.tv/2013/04/07/xbmc%E6%8F%92%E4%BB%B6%E5%BA%93%E6%B1%87%E6%80%BB/" target="_blank" rel="external">传送门</a></p>
+<p>使用zip包的安装方式，先在同局域网的电脑上下载</p>
+<p> <a href="https://github.com/taxigps/xbmc-addons-chinese/raw/master/repo/repository.xbmc-addons-chinese/repository.xbmc-addons-chinese-1.2.0.zip" target="_blank" rel="external">chinese addon</a> 、<a href="http://xbmc.hdpfans.com/repository.hdpfans.xbmc-addons.zip" target="_blank" rel="external">hdpfans</a></p>
+<p>选择插件，选择安装，按Backspace到最外层，选择zip包安装插件，选择安装刚下的两个插件。</p>
+</li>
+<li><p>寻找你需要的插件，安装即可。</p>
+</li>
+</ul>
+<h3 id="使用手机的控制"><a href="#使用手机的控制" class="headerlink" title="使用手机的控制"></a>使用手机的控制</h3><p><a href="http://kodi.wiki/view/Remote_controls" target="_blank" rel="external">Remote Control</a></p>
+<ul>
+<li>Android<ul>
+<li><a href="http://mirrors.kodi.tv/tools/kore/releases/" target="_blank" rel="external">Kore</a> <em>官方软件</em></li>
+<li><a href="http://yatse.tv/redmine/projects/yatse/wiki/XbmcStarter#Download-and-install-2" target="_blank" rel="external">Yatse</a> <em>功能一样，<a href="https://play.google.com/store/apps/details?id=tv.yatse.android.remotestarter" target="_blank" rel="external">Google Play</a>上售价0.99$</em></li>
+</ul>
+</li>
+<li>iOS<ul>
+<li><a href="https://itunes.apple.com/cn/app/official-kodi-remote/id520480364?mt=8" target="_blank" rel="external">Official Kodi Remote</a> <em>官方软件</em></li>
+</ul>
+</li>
+<li>WP  <em>下面摘抄自kodi.wiki</em><ul>
+<li><a href="https://www.microsoft.com/store/apps/9nblggh4qvkx" target="_blank" rel="external">mrRemote for Kodi</a> by Domenico Rescigno (free)</li>
+<li><a href="http://www.windowsphone.com/s?appid=3897b459-b11b-41eb-9cea-dd9e53c55b78" target="_blank" rel="external">Kodi Assist</a> by akshay2000 (free)</li>
+<li><a href="http://www.windowsphone.com/s?appid=3a35a8c6-bf35-49a1-b67b-f8104be2b05c" target="_blank" rel="external">xbmc remote free</a> by CRW Solutions (free)</li>
+<li><a href="http://kodi.wiki/view/XBMC_Maestro" target="_blank" rel="external">XBMC Maestro</a> by 3Webers ($0.99 USD)</li>
+<li><a href="http://www.windowsphone.com/s?appid=7cdb0b87-1e00-4328-b839-43a6bf9c8556" target="_blank" rel="external">Kodi Remote</a> by Fabien Lavocat (free)</li>
+</ul>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/15/OSMC使用/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/闲来无事，做个课表UWP练练手/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.959Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-MVC 部分刷新的尝试" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="#NewVersion">直接跳到2.0版本</a></p>
+<h1 id="版本0-1-简单的异步刷新尝试"><a href="#版本0-1-简单的异步刷新尝试" class="headerlink" title="版本0.1 - 简单的异步刷新尝试"></a>版本0.1 - 简单的异步刷新尝试</h1><ul>
+<li>ProcessController中加入</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">[<span class="meta">AllowAnonymous</span>] <span class="comment">// 这是允许匿名访问的声明，没有用ASP.NET IDENTITY可以删掉</span></div><div class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">PartialTest</span>(<span class="params"></span>)</span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">return</span> View();</div><div class="line">&#125;</div><div class="line">[<span class="meta">AllowAnonymous</span>]</div><div class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">Fetch</span>(<span class="params"><span class="keyword">int</span> num</span>)</span></div><div class="line">&#123;</div><div class="line">  <span class="comment">// 取前num条数据</span></div><div class="line">  <span class="keyword">var</span> model = db.Movies.Take(num).ToList();</div><div class="line">  <span class="comment">// MovieList是你的Partial页面的名字,model是与该Partial页头部接受的类型一致的model</span></div><div class="line">  <span class="keyword">return</span> PartialView(<span class="string">"MovieList"</span>, model);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>/View/Process/PartialTest.cshtml</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"btn"</span> <span class="attr">class</span>=<span class="string">"btn"</span>&gt;</span>加一条<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"notificationsTable"</span>&gt;</span></div><div class="line">    @&#123;Html.RenderAction("Fetch", new &#123; num = 1 &#125;);&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">@* 添加JS到布局页，否则找不到jQuery的$标记 *@</div><div class="line">@section scripts&#123;</div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">    var n = 2;</div><div class="line">    $(document).ready(function () &#123;</div><div class="line">        $("#btn").click(function () &#123;</div><div class="line">            $("#notificationsTable").load('/Process/Fetch?num=' + n);</div><div class="line">            n++;</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>地址栏运行/Process/PartialTest 即可</li>
+</ul>
+<h1 id="更新-1-0-使用-Ajax-ActionLink"><a href="#更新-1-0-使用-Ajax-ActionLink" class="headerlink" title="更新 1.0 - 使用@Ajax.ActionLink"></a>更新 1.0 - 使用@Ajax.ActionLink</h1><p>不希望在cshtml代码里用JS?  Razor Helper 还提供了 @Ajax.ActionLink</p>
+<p>感谢下面链接里的大佬 </p>
+<p><a href="http://www.c-sharpcorner.com/UploadFile/abhikumarvatsa/ajax-actionlink-and-html-actionlink-in-mvc/" target="_blank">传送门</a></p>
+<ul>
+<li>先在VS的程序包管理器控制台输入 (PS.如果有问题就在NuGet搜索安装) </li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Install-Package Microsoft.jQuery.Unobtrusive.Ajax</div></pre></td></tr></table></figure>
+<ul>
+<li>修改/View/Process/PartialTest.cshtml为</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">@Ajax.ActionLink("一条变两条", "Fetch",new &#123; num = 2 &#125;,</div><div class="line">   new AjaxOptions</div><div class="line">   &#123;</div><div class="line">       UpdateTargetId = "notificationsTable",</div><div class="line">       InsertionMode = InsertionMode.Replace,</div><div class="line">       HttpMethod = "GET"</div><div class="line">   &#125;,</div><div class="line">   new</div><div class="line">   &#123;</div><div class="line">       @class = "btn btn-default",</div><div class="line">       @role = "button"</div><div class="line">   &#125;</div><div class="line">)</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"notificationsTable"</span>&gt;</span></div><div class="line">    @&#123;Html.RenderAction("Fetch", new &#123; num = 1 &#125;);&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">@section scripts&#123;</div><div class="line">    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>由于用@Ajax.ActionLink生成的按钮是固定的，所以没法像JS那样动态修改请求变量，但是页面的异步刷新效果还是有的</li>
+</ul>
+<h1 id="更新-1-1-解决上面的问题"><a href="#更新-1-1-解决上面的问题" class="headerlink" title="更新 1.1 - 解决上面的问题"></a>更新 1.1 - 解决上面的问题</h1><p>动态更改ActionLink的routeValues，StackOverflow的回答基本是用JQuery，下面是解决办法：</p>
+<ul>
+<li>修改/View/Process/PartialTest.cshtml为：</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">@Ajax.ActionLink(<span class="string">"加一条"</span>, <span class="string">"Fetch"</span>,<span class="keyword">new</span> &#123; num = <span class="string">"xxx"</span> &#125;,</div><div class="line">   <span class="keyword">new</span> AjaxOptions</div><div class="line">   &#123;</div><div class="line">       UpdateTargetId = <span class="string">"notificationsTable"</span>,</div><div class="line">       InsertionMode = InsertionMode.Replace,</div><div class="line">       HttpMethod = <span class="string">"GET"</span></div><div class="line">   &#125;,</div><div class="line">   <span class="keyword">new</span></div><div class="line">   &#123;</div><div class="line">       @id = <span class="string">"btn"</span>,</div><div class="line">       @<span class="keyword">class</span> = <span class="string">"btn btn-default"</span>,</div><div class="line">       @role = <span class="string">"button"</span></div><div class="line">   &#125;</div><div class="line">)</div><div class="line">@section scripts&#123;</div><div class="line">    &lt;script&gt;</div><div class="line">        <span class="keyword">var</span> n = <span class="number">2</span>;</div><div class="line">        <span class="keyword">var</span> href = $(<span class="string">'#btn'</span>).attr(<span class="string">'href'</span>);</div><div class="line">        $(document).ready(function () &#123;</div><div class="line">            $(<span class="string">"#btn"</span>).click(function () &#123;</div><div class="line">                <span class="keyword">this</span>.href = href.replace(<span class="string">"xxx"</span>, n++);</div><div class="line">            &#125;);</div><div class="line">        &#125;);</div><div class="line">    &lt;/script&gt;</div><div class="line">    @Scripts.Render(<span class="string">"~/Scripts/jquery.unobtrusive-ajax.min.js"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>这里实现了0.1版本一样的功能，是不是有种转了一圈回到原点的感觉？好讽刺啊……</li>
+</ul>
+<p id="NewVersion"></p>
+
+<h1 id="更新2-0-Form表单提交实现指定DIV的异步刷新"><a href="#更新2-0-Form表单提交实现指定DIV的异步刷新" class="headerlink" title="更新2.0 - Form表单提交实现指定DIV的异步刷新"></a>更新2.0 - Form表单提交实现指定DIV的异步刷新</h1><p>上面讨论了如何按下按钮时异步刷新页面，那么在表单提交我不想跳转，我也要异步刷新，怎么办呢？下面介绍解决办法。这部分实现一个展示不同分类下的电影列表。从 Model - View - Controller 一步步来实现：</p>
+<ul>
+<li>Model - /Models/Movie</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Movie</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> Id &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</div><div class="line"></div><div class="line">    [<span class="meta">Display(Name = <span class="meta-string">"电影名"</span>)</span>]</div><div class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">enum</span> Types</div><div class="line">    &#123;</div><div class="line">        动作, 喜剧, 科幻, 爱情, 纪录, 动画, 恐怖, 悬疑, 青春, 文艺, 励志, 战争, 犯罪</div><div class="line">    &#125;</div><div class="line">    [<span class="meta">Display(Name = <span class="meta-string">"类型"</span>)</span>]</div><div class="line">    <span class="keyword">public</span> Types? Type &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>View - /View/Process/PartialTest2.cshtml</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">@model ZeroMovie.Models.Movie</div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">"tForm"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-horizontal"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></div><div class="line">            @Html.LabelFor(model =&gt; model.Type, htmlAttributes: new &#123; @class = "control-label col-md-2" &#125;)</div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-md-10"</span>&gt;</span></div><div class="line">                @Html.EnumDropDownListFor(model =&gt; model.Type, htmlAttributes: new &#123; @class = "form-control" &#125;)</div><div class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-md-offset-2 col-md-10"</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"提交"</span> <span class="attr">id</span>=<span class="string">"btn"</span> <span class="attr">class</span>=<span class="string">"btn btn-default"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span>   </div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"PartialRefreshArea"</span>&gt;</span>刷新这里<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">@section scripts&#123;</div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">        $(document).ready(function () &#123;</div><div class="line">            $('#tform').on('submit', function (e) &#123;</div><div class="line">                e.preventDefault();</div><div class="line">                $.ajax(&#123;</div><div class="line">                    type: 'post', // Form的Method</div><div class="line">                    url: '@Url.Action("Fetch","Process")', // Form的Action</div><div class="line">                    data: $('#tform').serialize(), // 序列化提交数据</div><div class="line">                    success: function (res) &#123;</div><div class="line">                        $('#PartialRefreshArea').html(res);</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">            &#125;);</div><div class="line">        &#125;);</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>View - /View/Process/MovieList.cshtml</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">@model IEnumerable<span class="tag">&lt;<span class="name">ZeroMovie.Models.Movie</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">class</span>=<span class="string">"table"</span> <span class="attr">style</span>=<span class="string">"table-layout:fixed"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span></div><div class="line">            @Html.DisplayNameFor(model =&gt; model.Name)</div><div class="line">        <span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span></div><div class="line">            @Html.DisplayNameFor(model =&gt; model.Type)</div><div class="line">        <span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">@foreach (var item in Model) &#123;</div><div class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span></div><div class="line">            @Html.DisplayFor(modelItem =&gt; item.Name)</div><div class="line">        <span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span></div><div class="line">            @Html.DisplayFor(modelItem =&gt; item.Type)</div><div class="line">        <span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>Controller - /Controller/ProcessController.cs</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ProcessController</span> : <span class="title">Controller</span></div><div class="line">&#123;</div><div class="line">    <span class="comment">// 上下文类有 DbSet&lt;Movie&gt;</span></div><div class="line">    <span class="keyword">private</span> ApplicationDbContext db = <span class="keyword">new</span> ApplicationDbContext(); </div><div class="line">    <span class="function"><span class="keyword">public</span> ActionResult <span class="title">PartialTest2</span>(<span class="params"></span>)</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">return</span> View();</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> ActionResult <span class="title">Fetch2</span>(<span class="params">[Bind(Include = <span class="string">"Type"</span></span>)] Movie movie)</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">var</span> model = db.Movies.ToList();</div><div class="line">        <span class="keyword">if</span>(movie.Type != <span class="literal">null</span>)</div><div class="line">            model = db.Movies.Where(p =&gt; p.Type == movie.Type).ToList();</div><div class="line">        <span class="keyword">return</span> PartialView(<span class="string">"MovieList"</span>, model); <span class="comment">// model的类型要与MovieList接受的类型一致</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>运行后地址栏访问/Process/PartialTest2即可</li>
+</ul>
+<h2 id="总结：JS大法好"><a href="#总结：JS大法好" class="headerlink" title="总结：JS大法好"></a>总结：JS大法好</h2><p>弱弱问一句垃圾代码有人要看吗：</p>
+<p><a href="https://github.com/lwy0007123/ZeroMovie" target="_blank">传送门</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/15/MVC 部分刷新的尝试/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/太久不更新，我都快忘了这个站点了/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.949Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-iPod touch 上搭建开发环境" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="老touch在抽屉里躺了好几年，偶然把它翻出来，这么一个PDA，现在顶多用来听歌，怪可惜的，好像用它搞事情啊。"><a href="#老touch在抽屉里躺了好几年，偶然把它翻出来，这么一个PDA，现在顶多用来听歌，怪可惜的，好像用它搞事情啊。" class="headerlink" title="老touch在抽屉里躺了好几年，偶然把它翻出来，这么一个PDA，现在顶多用来听歌，怪可惜的，好像用它搞事情啊。"></a>老touch在抽屉里躺了好几年，偶然把它翻出来，这么一个PDA，现在顶多用来听歌，怪可惜的，好像用它搞事情啊。</h3><h2 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h2><h3 id="闲来无事google了一下”iTouch-c-”，发现一个大神的博客"><a href="#闲来无事google了一下”iTouch-c-”，发现一个大神的博客" class="headerlink" title="闲来无事google了一下”iTouch c++”，发现一个大神的博客"></a><em>闲来无事google了一下”iTouch c++”，发现一个大神的博客</em></h3><p><a href="http://blog.csdn.net/jackjones86/article/details/41802515" target="_blank">博客传送门</a></p>
+<p>这么详细的教程，妥妥的要动手试一试啊。</p>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p>抄别人的没意思，自己又不愿写，毕竟大神写得太完整了！</p>
+<p>虽然有些小问题，我就说说我碰到的问题:</p>
+<ul>
+<li><p>测试 nic 时，输入nic提示没有找到perl</p>
+<p><em>解决：估计是版本升级后安装位置改了，为了不影响老的配置文件，直接建个软链接解决问题</em></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s /usr/<span class="built_in">local</span>/bin/perl /usr/bin/</div></pre></td></tr></table></figure>
+</li>
+<li><p>测试mysql时，我在设置里找半天没看到mysql</p>
+<p><em>解决：原来博客未提到要装mysql，直接在cydia里搜索安装就好</em></p>
+</li>
+</ul>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p><a href="http://www.findshank.website/wp-content/uploads/2017/01/IMG_0001.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2017/01/IMG_0001.png" alt="" width="640" height="960" class="aligncenter size-full wp-image-212"></a></p>
+<p><a href="http://www.findshank.website/wp-content/uploads/2017/01/IMG_0002.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2017/01/IMG_0002.png" alt="" width="640" height="960" class="aligncenter size-full wp-image-213"></a></p>
+<p><a href="http://www.findshank.website/wp-content/uploads/2017/01/IMG_0003.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2017/01/IMG_0003.png" alt="" width="640" height="960" class="aligncenter size-full wp-image-214"></a></p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ul>
+<li>轻量级webserver</li>
+</ul>
+<p>话说在cydia里搜索”mysql”时，看到还有个搜索结果 “touch-lighttpd-php-mysql”，这个玩意有趣了，轻量级的webserver整合，有了它，可以在touch里搭个wordpress了，哈哈。<br>安装好插件，浏览器访问touch的ip，精简的”is works”页面……<br><a href="http://www.findshank.website/wp-content/uploads/2017/01/20170101133551.jpg" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2017/01/20170101133551-1024x535.jpg" alt="" width="756" height="395" class="aligncenter size-large wp-image-215"></a></p>
+<p>然后装wordpress我就不在这谈了，直接上结果<br><a href="http://www.findshank.website/wp-content/uploads/2017/01/20170101133908.jpg" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2017/01/20170101133908-768x524.jpg" alt="" width="756" height="516" class="aligncenter size-medium_large wp-image-216"></a></p>
+<p>但是装好的wordpress遇到点小问题，进入”仪表盘”会出现 服务器500 错误，这个貌似是内存不足，唉~touch的硬伤，写文章是没有问题的，所以不管了。</p>
+<ul>
+<li>apt 工具</li>
+</ul>
+<p>按照博客装了 apt 的插件后，装其他插件完全可以向用 linux 一样爽啊<br>但是同样遇到一个小问题，我使用 “sudo apt-get install XXX” 安装软件时，出现了 “segmentation fault 11…”<br>google了一番，解决方案是：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo rm -rf /var/cache/apt/*.bin</div></pre></td></tr></table></figure>
+<p>再推荐大家装些常用插件，内容见另一篇的博客<br><a href="http://m.blog.csdn.net/article/details?id=50855627" target="_blank">博客传送门</a></p>
+<h2 id="最后感谢-iOS-Jailbreak"><a href="#最后感谢-iOS-Jailbreak" class="headerlink" title="最后感谢 iOS Jailbreak"></a>最后感谢 iOS Jailbreak</h2><p><a href="https://www.reddit.com/r/jailbreak/" target="_blank">iOS Jailbreak</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/15/iPod touch 上搭建开发环境/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/使用 Terminator  & ZSH的配置/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.941Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-EF框架下优雅地使用各种数据库" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[TOC]</p>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p><em>环境： Visual Studio Community 2017，Windows 10.0.15063 pro</em></p>
+<ul>
+<li><p>先新建一个ASP.NET MVC项目DbConnectPrac</p>
+<p><img src="/2017/06/0.png" alt="0"></p>
+<p><img src="/2017/06/00.png" alt="00"></p>
+</li>
+<li><p>程序包管理器控制台安装EF框架</p>
+</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Install-Package EntityFramework</div></pre></td></tr></table></figure>
+<p>  <em>PS. 如果解决方里有多个项目，默认项目注意选择DbConnectPrac</em></p>
+<ul>
+<li><p>Models中新建一个类</p>
+<p><img src="/2017/06/1.png" alt="1"></p>
+<p><em>Program.cs</em></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">using System.ComponentModel.DataAnnotations;</div><div class="line">namespace DbConnectPrac.Models</div><div class="line">&#123;</div><div class="line">    public class User</div><div class="line">    &#123;</div><div class="line">        [Key]</div><div class="line">        public int Uid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        [StringLength(16, MinimumLength = 3)]</div><div class="line">        public string NickName &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        [StringLength(16, MinimumLength = 6)]</div><div class="line">        public string Password &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        [RegularExpression(@&quot;^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$&quot;)]</div><div class="line">        public string Email &#123; get; set; &#125;</div><div class="line">        public int Privilege &#123; get; set; &#125;</div><div class="line">    &#125;</div><div class="line">    public class Video</div><div class="line">    &#123;</div><div class="line">        [Key]</div><div class="line">        public int Vid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        [StringLength(30)]</div><div class="line">        public string Vname &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public string Vurl &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public string Thumbnail &#123; get; set; &#125;</div><div class="line">        public int ViewedNum &#123; get; set; &#125;</div><div class="line">        [DataType(DataType.Date)]</div><div class="line">        [DisplayFormat(DataFormatString = &quot;&#123;0:yyyy-MM-dd&#125;&quot;, ApplyFormatInEditMode = true)]</div><div class="line">        [Required]</div><div class="line">        public string UploadTime &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public string Vtype &#123; get; set; &#125;</div><div class="line">        public int Uid &#123; get; set; &#125;</div><div class="line">        [StringLength(200)]</div><div class="line">        public string Vinfo &#123; get; set; &#125;</div><div class="line">    &#125;</div><div class="line">    public class Comment</div><div class="line">    &#123;</div><div class="line">        [Key]</div><div class="line">        public int Cid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public int Uid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public int Vid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public string Content &#123; get; set; &#125;</div><div class="line">        [DataType(DataType.Date)]</div><div class="line">        [DisplayFormat(DataFormatString = &quot;&#123;0:yyyy-MM-dd&#125;&quot;, ApplyFormatInEditMode = true)]</div><div class="line">        [Required]</div><div class="line">        public string CommentTime &#123; get; set; &#125;</div><div class="line">    &#125;</div><div class="line">    public class History</div><div class="line">    &#123;</div><div class="line">        [Key]</div><div class="line">        public int Hid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public int Uid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public int Vid &#123; get; set; &#125;</div><div class="line">        [DataType(DataType.Date)]</div><div class="line">        [DisplayFormat(DataFormatString = &quot;&#123;0:yyyy-MM-dd&#125;&quot;, ApplyFormatInEditMode = true)]</div><div class="line">        [Required]</div><div class="line">        public string HistoryTime &#123; get; set; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>生成解决方案</li>
+</ul>
+<p>快捷键 Ctrl+Shift+b</p>
+<ul>
+<li>Controllers中新建控制器</li>
+</ul>
+<p><img src="/2017/06/2.png" alt="2"></p>
+<p><img src="/2017/06/3.png" alt="3"></p>
+<p>点击添加，将生成以下文件</p>
+<p><img src="/2017/06/5.png" alt="5"></p>
+<p><em>分别把另外几个类也创建好带视图的控制器</em></p>
+<h3 id="LocalDB"><a href="#LocalDB" class="headerlink" title="LocalDB"></a>LocalDB</h3><p><em>LocalDB是VS自带的简化版SQL Server</em></p>
+<ul>
+<li>查看项目根目录的Web.config，发现已添加了LocalDB的相关内容</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connectionStrings</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"DbConnectPracContext"</span> <span class="attr">connectionString</span>=<span class="string">"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DbConnectPracContext-20170603111224; Integrated Security=True; MultipleActiveResultSets=True; AttachDbFilename=|DataDirectory|DbConnectPracContext-20170603111224.mdf"</span> <span class="attr">providerName</span>=<span class="string">"System.Data.SqlClient"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">connectionStrings</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">entityFramework</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">defaultConnectionFactory</span> <span class="attr">type</span>=<span class="string">"System.Data.Entity.Infrastructure.LocalDbConnectionFactory, EntityFramework"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">parameters</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">parameter</span> <span class="attr">value</span>=<span class="string">"mssqllocaldb"</span> /&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">parameters</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">defaultConnectionFactory</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">providers</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">provider</span> <span class="attr">invariantName</span>=<span class="string">"System.Data.SqlClient"</span> <span class="attr">type</span>=<span class="string">"System.Data.Entity.SqlServer.SqlProviderServices, EntityFramework.SqlServer"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">providers</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">entityFramework</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>运行项目进入对应的Controller你可以方便的实现增删改查(CRUD)操作。</li>
+</ul>
+<p><img src="/2017/06/6.png" alt="6"></p>
+<h3 id="SQL-Server"><a href="#SQL-Server" class="headerlink" title="SQL Server"></a>SQL Server</h3><p><em>版本 2016 Developer edition</em></p>
+<ul>
+<li>在根目录的Web.config中添加SQL Server的连接字段</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connectionStrings</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- 按实际情况更改 Data Source, User ID, Password --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"MSSQLConnectContext"</span> </span></div><div class="line">     <span class="attr">connectionString</span>=<span class="string">"Data Source=localhost; Initial Catalog=TESTDB; Persist Security Info=True; User ID=sa; Password=123"</span> </div><div class="line">     <span class="attr">providerName</span>=<span class="string">"System.Data.SqlClient"</span>/&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">connectionStrings</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>打开Models/DbConnectPracContext.cs</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public class DbConnectPracContext : DbContext</div><div class="line">&#123;</div><div class="line">  // 修改指定使用的数据库连接</div><div class="line">  //public DbConnectPracContext() : base(&quot;name=DbConnectPracContext&quot;)&#123;&#125; // LocalDB</div><div class="line">  public DbConnectPracContext() : base(&quot;name=MSSQLConnectContext&quot;) &#123;&#125; // SQL Server</div><div class="line">  // .....省略......</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>程序包管理器控制台输入</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Enable-Migrations -EnableAutomaticMigrations</div></pre></td></tr></table></figure>
+<ul>
+<li>运行项目进入对应的Controller你可以方便的实现增删改查(CRUD)操作。</li>
+</ul>
+<h3 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h3><p><em>版本 5.7.18</em></p>
+<ul>
+<li>程序包管理器控制台安装EF框架</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Install-Package MySql.Data.Entity</div></pre></td></tr></table></figure>
+<ul>
+<li><p>查看项目根目录的Web.config</p>
+<p><em>更新了以下有关MySQL的内容</em></p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">entityFramework</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">providers</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">provider</span> <span class="attr">invariantName</span>=<span class="string">"MySql.Data.MySqlClient"</span> <span class="attr">type</span>=<span class="string">"MySql.Data.MySqlClient.MySqlProviderServices, MySql.Data.Entity.EF6, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d"</span>&gt;</span><span class="tag">&lt;/<span class="name">provider</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">providers</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">entityFramework</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">system.data</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">DbProviderFactories</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">remove</span> <span class="attr">invariant</span>=<span class="string">"MySql.Data.MySqlClient"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"MySQL Data Provider"</span> <span class="attr">invariant</span>=<span class="string">"MySql.Data.MySqlClient"</span> <span class="attr">description</span>=<span class="string">".Net Framework Data Provider for MySQL"</span> <span class="attr">type</span>=<span class="string">"MySql.Data.MySqlClient.MySqlClientFactory, MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">DbProviderFactories</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">system.data</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>connectionStrings中添加MySQL的连接字段</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connectionStrings</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"MySQLConnectContext"</span> </span></div><div class="line">         <span class="attr">connectionString</span>=<span class="string">"server=localhost; port=3306; database=TESTDB; uid=root; password=123"</span></div><div class="line">         <span class="attr">providerName</span>=<span class="string">"MySql.Data.MySqlClient"</span>/&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">connectionStrings</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>打开Models/DbConnectPracContext.cs完成两处修改</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// 在Context指定mySql的配置文件</div><div class="line">[DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]</div><div class="line">public class DbConnectPracContext : DbContext</div><div class="line">&#123;</div><div class="line">  // 修改指定使用的数据库连接</div><div class="line">  //public DbConnectPracContext() : base(&quot;name=DbConnectPracContext&quot;)&#123;&#125; // LocalDB</div><div class="line">  public DbConnectPracContext() : base(&quot;name=MySQLConnectContext&quot;)&#123;&#125; // MySQL</div><div class="line">  // .....省略......</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>程序包管理器控制台输入</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Enable-Migrations -EnableAutomaticMigrations</div></pre></td></tr></table></figure>
+<ul>
+<li>运行项目进入对应的Controller你可以方便的实现增删改查(CRUD)操作。</li>
+</ul>
+<p>  <em>连接MySQL查看生成的testdb表</em></p>
+<p><img src="/2017/06/7.png" alt="7"></p>
+<h3 id="Oracle"><a href="#Oracle" class="headerlink" title="Oracle"></a>Oracle</h3><p><em>版本 12.2.0.1.0</em></p>
+<ul>
+<li>建议先创建一个新用户，否则使用默认用户可能有意想不到的问题</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 用SQLPLUS登录后，连接管理员 (system_password 是你的管理员密码)</span></div><div class="line">CONNECT system/system_password@ORCL</div><div class="line"><span class="comment">-- 该版本Oracle上创建新用户名必须C##或c##开头，否则不合法</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> C##TESTUSER <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="number">123</span>;</div><div class="line"><span class="comment">-- 创建测试用户并授权，要给DBA权限</span></div><div class="line"><span class="keyword">GRANT</span> <span class="keyword">CONNECT</span>, <span class="keyword">RESOURCE</span>, DBA, <span class="keyword">CREATE</span> <span class="keyword">VIEW</span> <span class="keyword">TO</span>  C##TESTUSER ;</div></pre></td></tr></table></figure>
+<ul>
+<li>程序包管理器控制台安装EF框架</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Install-Package Oracle.ManagedDataAccess.EntityFramework</div></pre></td></tr></table></figure>
+<ul>
+<li><p>查看根目录的Web.config</p>
+<p><em>更新了以下有关Oracle的内容</em></p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">configSections</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">section</span> <span class="attr">name</span>=<span class="string">"oracle.manageddataaccess.client"</span> <span class="attr">type</span>=<span class="string">"OracleInternal.Common.ODPMSectionHandler, Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">configSections</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">connectionStrings</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"OracleDbContext"</span> <span class="attr">providerName</span>=<span class="string">"Oracle.ManagedDataAccess.Client"</span> <span class="attr">connectionString</span>=<span class="string">"User Id=oracle_user;Password=oracle_user_password;Data Source=oracle"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">connectionStrings</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">entityFramework</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">providers</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">provider</span> <span class="attr">invariantName</span>=<span class="string">"Oracle.ManagedDataAccess.Client"</span> <span class="attr">type</span>=<span class="string">"Oracle.ManagedDataAccess.EntityFramework.EFOracleProviderServices, Oracle.ManagedDataAccess.EntityFramework, Version=6.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">providers</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">entityFramework</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">system.data</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">DbProviderFactories</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">remove</span> <span class="attr">invariant</span>=<span class="string">"Oracle.ManagedDataAccess.Client"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"ODP.NET, Managed Driver"</span> <span class="attr">invariant</span>=<span class="string">"Oracle.ManagedDataAccess.Client"</span> <span class="attr">description</span>=<span class="string">"Oracle Data Provider for .NET, Managed Driver"</span> <span class="attr">type</span>=<span class="string">"Oracle.ManagedDataAccess.Client.OracleClientFactory, Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">DbProviderFactories</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">system.data</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">oracle.manageddataaccess.client</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">version</span> <span class="attr">number</span>=<span class="string">"*"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dataSources</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">dataSource</span> <span class="attr">alias</span>=<span class="string">"SampleDataSource"</span> <span class="attr">descriptor</span>=<span class="string">"(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=ORCL))) "</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">dataSources</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">oracle.manageddataaccess.client</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>connectionStrings中修改Oracle的连接字段的参数</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connectionStrings</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 因为生成的&lt;dataSources&gt;中服务名是ORCL，与我的设置相同，所以这里直接用别名SampleDataSource--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"OracleDbContext"</span> </span></div><div class="line">         <span class="attr">providerName</span>=<span class="string">"Oracle.ManagedDataAccess.Client"</span> </div><div class="line">         <span class="attr">connectionString</span>=<span class="string">"User Id=C##TESTUSER;Password=123;Data Source=SampleDataSource"</span> /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">connectionStrings</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>修改Models/DbConnectPracContext.cs</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">namespace DbConnectPrac.Models</div><div class="line">&#123;</div><div class="line">    public class DbConnectPracContext : DbContext</div><div class="line">    &#123;</div><div class="line">        // 修改指定使用的数据库连接</div><div class="line">        //public DbConnectPracContext() : base(&quot;name=DbConnectPracContext&quot;) &#123; &#125; // LocalDB</div><div class="line">        public DbConnectPracContext() : base(&quot;name=OracleDbContext&quot;) &#123; &#125; // Oracle</div><div class="line">        // 默认的模式名是dbo，但Oracle中不存在模式名为dbo，需要指定默认模式名</div><div class="line">      	protected override void OnModelCreating(DbModelBuilder modelBuilder)</div><div class="line">        &#123;</div><div class="line">            modelBuilder.HasDefaultSchema(&quot;C##TESTUSER&quot;); // 默认模式名就是把你用户名大写</div><div class="line">        &#125;</div><div class="line">        // .....省略......</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Oracle中不存在模式名为dbo，dbo是SQL Server数据库的，如图例。</p>
+<p><img src="/2017/06/9.png" alt="9"></p>
+<ul>
+<li>程序包管理器控制台输入</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Enable-Migrations -EnableAutomaticMigrations</div></pre></td></tr></table></figure>
+<ul>
+<li>运行项目进入对应的Controller你可以方便的实现增删改查(CRUD)操作。</li>
+</ul>
+<p><em>连接Oracle查看生成的表</em></p>
+<p><img src="/2017/06/10.png" alt="10"></p>
+<p><strong>最后一次测试时，发现一个BUG，如果把刚生成的表全删除，试图通过重新运行项目重新建表，会失败。这个情况只在Oracle上发生，大概官方还没注意到这个BUG。“一次性”用户真是尴尬……</strong></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/15/EF框架下优雅地使用各种数据库/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/将UWP应用部署到其他win10设备/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.934Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-【C++】时间片轮转算法模拟" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="就一个链式队列实现进程控制块的扔来扔去，不说了直接贴代码"><a href="#就一个链式队列实现进程控制块的扔来扔去，不说了直接贴代码" class="headerlink" title="就一个链式队列实现进程控制块的扔来扔去，不说了直接贴代码"></a>就一个链式队列实现进程控制块的扔来扔去，不说了直接贴代码</h3><ul>
+<li><em>主要代码</em></li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">pcb</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">char</span> Name[<span class="number">256</span>]; <span class="comment">//进程名</span></div><div class="line">    <span class="keyword">int</span> ArriveTime; <span class="comment">//到达时间</span></div><div class="line">    <span class="keyword">int</span> ServeTime; <span class="comment">//服务时间</span></div><div class="line">    <span class="keyword">int</span> cpuTime; <span class="comment">//cpu执行时间</span></div><div class="line">    <span class="keyword">char</span> status; <span class="comment">//进程状态 C-Coming, W-Wait, R-Run, F-Finish</span></div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">pcb</span> *<span class="title">next</span>;</span> <span class="comment">//向下一个pcb</span></div><div class="line"></div><div class="line">    <span class="keyword">int</span> finishTime; <span class="comment">//完成时间</span></div><div class="line">    <span class="keyword">int</span> RoundTime; <span class="comment">//周转时间</span></div><div class="line">    <span class="keyword">double</span> WRoundTime; <span class="comment">//带权周转时间</span></div><div class="line">&#125;*PCB;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">LinkPCB</span></span></div><div class="line">&#123;</div><div class="line">    PCB Front;</div><div class="line">    PCB Rear;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">int</span> pTime; <span class="comment">//时间片大小</span></div><div class="line"><span class="keyword">int</span> now; <span class="comment">//时间线</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintPCB</span><span class="params">(pcb* k)</span></span>; <span class="comment">//打印pcb</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintTitle</span><span class="params">()</span></span>; <span class="comment">//打印表头</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintLinkPCB</span><span class="params">(LinkPCB* k)</span></span>; <span class="comment">//打印pcb队列</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">InitQueue</span><span class="params">(LinkPCB* p)</span></span>; <span class="comment">//初始化队列</span></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isEmpty</span><span class="params">(LinkPCB* p)</span></span>; <span class="comment">//判断队列是否为空</span></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">EnQueue</span><span class="params">(LinkPCB* p, pcb* e)</span></span>; <span class="comment">//入队，将e入队</span></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">DeQueue</span><span class="params">(LinkPCB* p, pcb* e)</span></span>; <span class="comment">//出队，出队到e</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">FromA2B</span><span class="params">(LinkPCB* a, LinkPCB* b, <span class="keyword">char</span> st)</span></span>; <span class="comment">//出队列a，进队列b，改变状态为st</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">create</span><span class="params">(LinkPCB* head)</span></span>; <span class="comment">//创建pcb列表</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Test</span><span class="params">(LinkPCB* head)</span></span>; <span class="comment">//队列测试函数</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">RoundRobin</span><span class="params">(LinkPCB *head)</span></span>; <span class="comment">//时间片轮转调度模拟</span></div><div class="line"></div><div class="line">LinkPCB HEAD;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    create(&amp;HEAD);</div><div class="line">    RoundRobin(&amp;HEAD);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><em>函数实现</em></li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintPCB</span><span class="params">(pcb* k)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"%s\t%c\t%d\t%d\n"</span>, k-&gt;Name, k-&gt;status, k-&gt;ServeTime, k-&gt;cpuTime);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintTitle</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"name\tstatus\tserve\tcpu\n"</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintLinkPCB</span><span class="params">(LinkPCB* k)</span></span></div><div class="line">&#123;</div><div class="line">    pcb* p = k-&gt;Front-&gt;next;</div><div class="line">    <span class="keyword">while</span> (p)</div><div class="line">    &#123;</div><div class="line">        PrintPCB(p);</div><div class="line">        p = p-&gt;next;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">InitQueue</span><span class="params">(LinkPCB* p)</span></span></div><div class="line">&#123;</div><div class="line">    p-&gt;Front = p-&gt;Rear = <span class="keyword">new</span> pcb;</div><div class="line">    p-&gt;Front-&gt;next = <span class="literal">NULL</span>;</div><div class="line">    p-&gt;Rear-&gt;next = <span class="literal">NULL</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isEmpty</span><span class="params">(LinkPCB* p)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> p-&gt;Front == p-&gt;Rear;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">EnQueue</span><span class="params">(LinkPCB* p, pcb* e)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (e)</div><div class="line">    &#123;</div><div class="line">        e-&gt;next = <span class="literal">NULL</span>;</div><div class="line">        p-&gt;Rear-&gt;next = e;</div><div class="line">        p-&gt;Rear = e;</div><div class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">DeQueue</span><span class="params">(LinkPCB* p, pcb* e)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (p-&gt;Rear == p-&gt;Front)</div><div class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">    pcb* top = p-&gt;Front-&gt;next;</div><div class="line">    *e = *top; <span class="comment">// important</span></div><div class="line">    p-&gt;Front-&gt;next = top-&gt;next;</div><div class="line">    <span class="keyword">if</span> (p-&gt;Rear == top)</div><div class="line">    &#123;</div><div class="line">        p-&gt;Rear = p-&gt;Front;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">FromA2B</span><span class="params">(LinkPCB* a, LinkPCB* b, <span class="keyword">char</span> st)</span></span></div><div class="line">&#123;</div><div class="line">    pcb* p = <span class="keyword">new</span> pcb;</div><div class="line">    DeQueue(a, p);</div><div class="line">    p-&gt;status = st;</div><div class="line">    EnQueue(b, p);</div><div class="line">    <span class="keyword">switch</span> (st)</div><div class="line">    &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">'W'</span>: <span class="built_in">cout</span> &lt;&lt; p-&gt;Name &lt;&lt; <span class="string">" is waiting\ttime: "</span> &lt;&lt; now &lt;&lt; <span class="string">"\n"</span>; <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">case</span> <span class="string">'R'</span>: <span class="built_in">cout</span> &lt;&lt; p-&gt;Name &lt;&lt; <span class="string">" is running\ttime: "</span> &lt;&lt; now &lt;&lt; <span class="string">"\n"</span>; <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">case</span> <span class="string">'F'</span>:</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; p-&gt;Name &lt;&lt; <span class="string">" is finish\ttime: "</span> &lt;&lt; now &lt;&lt; <span class="string">"\n"</span>;</div><div class="line">        p-&gt;finishTime = now;</div><div class="line">        p-&gt;RoundTime = p-&gt;finishTime-p-&gt;ArriveTime;</div><div class="line">        p-&gt;WRoundTime = <span class="number">1.0</span>*p-&gt;RoundTime/p-&gt;ServeTime;</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">case</span> <span class="string">'C'</span>:</div><div class="line">    <span class="keyword">default</span>: <span class="built_in">cout</span> &lt;&lt; <span class="string">"......"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">create</span><span class="params">(LinkPCB* head)</span></span></div><div class="line">&#123;</div><div class="line">    InitQueue(head);</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入时间片大小："</span>;</div><div class="line">    <span class="built_in">cin</span> &gt;&gt; pTime;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入要创建的进程数："</span>;</div><div class="line">    <span class="keyword">int</span> n;</div><div class="line">    <span class="built_in">cin</span> &gt;&gt; n;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</div><div class="line">    &#123;</div><div class="line">        pcb* ft = head-&gt;Front-&gt;next;</div><div class="line">        pcb* p = <span class="keyword">new</span> pcb; <span class="comment">// important</span></div><div class="line">        <span class="built_in">printf</span>(<span class="string">"输入第%d个进程的“ 进程名 到达时间 服务时间” （以空格隔开）"</span>, i);</div><div class="line">        <span class="keyword">char</span> Name[<span class="number">256</span>];</div><div class="line">        <span class="keyword">int</span> Atime, Stime;</div><div class="line">        <span class="built_in">cin</span> &gt;&gt; Name &gt;&gt; Atime &gt;&gt; Stime;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (Atime &gt;= <span class="number">0</span> &amp;&amp; Stime &gt;= <span class="number">0</span>)</div><div class="line">        &#123;</div><div class="line">            <span class="built_in">strcpy</span>(p-&gt;Name, Name);</div><div class="line">            p-&gt;ArriveTime = Atime;</div><div class="line">            p-&gt;ServeTime = Stime;</div><div class="line">            p-&gt;cpuTime = <span class="number">0</span>;</div><div class="line">            p-&gt;status = <span class="string">'C'</span>;</div><div class="line">            p-&gt;next = <span class="literal">NULL</span>;</div><div class="line"></div><div class="line">            <span class="comment">// sort</span></div><div class="line">            <span class="keyword">if</span> (ft == <span class="literal">NULL</span>)</div><div class="line">            &#123;</div><div class="line">                EnQueue(head, p);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (p-&gt;ArriveTime &lt; ft-&gt;ArriveTime)</div><div class="line">            &#123;</div><div class="line">                p-&gt;next = ft;</div><div class="line">                head-&gt;Front-&gt;next = p;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span></div><div class="line">            &#123;</div><div class="line">                pcb* a = ft;</div><div class="line">                pcb* b = a-&gt;next;</div><div class="line">                <span class="keyword">bool</span> flag = <span class="literal">true</span>;</div><div class="line">                <span class="keyword">while</span> (b)</div><div class="line">                &#123;</div><div class="line">                    <span class="keyword">if</span> (p-&gt;ArriveTime &lt; b-&gt;ArriveTime)</div><div class="line">                    &#123;</div><div class="line">                        p-&gt;next = b;</div><div class="line">                        a-&gt;next = p;</div><div class="line">                        b = <span class="literal">NULL</span>;</div><div class="line">                        flag = <span class="literal">false</span>;</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">else</span></div><div class="line">                    &#123;</div><div class="line">                        a = a-&gt;next;</div><div class="line">                        b = b-&gt;next;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span> (flag)</div><div class="line">                &#123;</div><div class="line">                    EnQueue(head, p);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">"输入错误,请重输!"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">            i--;</div><div class="line">            <span class="keyword">continue</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// PrintLinkPCB(head);</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Test</span><span class="params">(LinkPCB* head)</span></span></div><div class="line">&#123;</div><div class="line">    InitQueue(head);</div><div class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"1.EnQueue 2.DeQueue 3.Print"</span>;</div><div class="line">        <span class="keyword">int</span> ch;</div><div class="line">        <span class="built_in">cin</span> &gt;&gt; ch;</div><div class="line">        pcb* p = <span class="keyword">new</span> pcb;</div><div class="line">        <span class="keyword">switch</span> (ch)</div><div class="line">        &#123;</div><div class="line">        <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">"input: name atime stime"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">            <span class="keyword">char</span> Name[<span class="number">256</span>];</div><div class="line">            <span class="keyword">int</span> Atime, Stime;</div><div class="line">            <span class="built_in">cin</span> &gt;&gt; Name &gt;&gt; Atime &gt;&gt; Stime;</div><div class="line">            <span class="built_in">strcpy</span>(p-&gt;Name, Name);</div><div class="line">            p-&gt;ArriveTime = Atime;</div><div class="line">            p-&gt;ServeTime = Stime;</div><div class="line">            p-&gt;cpuTime = <span class="number">0</span>;</div><div class="line">            p-&gt;status = <span class="string">'W'</span>;</div><div class="line">            p-&gt;next = <span class="literal">NULL</span>;</div><div class="line">            EnQueue(head, p);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">2</span>:</div><div class="line">            <span class="keyword">if</span> (DeQueue(head, p))</div><div class="line">                PrintPCB(p);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">3</span>:</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            PrintLinkPCB(head);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">RoundRobin</span><span class="params">(LinkPCB *head)</span></span></div><div class="line">&#123;</div><div class="line">    LinkPCB *ready = <span class="keyword">new</span> LinkPCB;</div><div class="line">    LinkPCB *run = <span class="keyword">new</span> LinkPCB;</div><div class="line">    LinkPCB *finish = <span class="keyword">new</span> LinkPCB;</div><div class="line">    InitQueue(ready);</div><div class="line">    InitQueue(run);</div><div class="line">    InitQueue(finish);</div><div class="line"></div><div class="line">    now = head-&gt;Front-&gt;next-&gt;ArriveTime; <span class="comment">//开始时刻</span></div><div class="line">    FromA2B(head, ready, <span class="string">'W'</span>);</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (!(isEmpty(head) &amp;&amp; isEmpty(ready)))</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">int</span> Tnow = now; <span class="comment">//备份开始时刻</span></div><div class="line"></div><div class="line">        <span class="keyword">while</span> (!isEmpty(head))</div><div class="line">        &#123;</div><div class="line">            pcb* t = head-&gt;Front-&gt;next;</div><div class="line">            <span class="keyword">if</span> (now &gt;= t-&gt;ArriveTime)</div><div class="line">            &#123;</div><div class="line">                FromA2B(head, ready, <span class="string">'W'</span>);</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (!isEmpty(ready))</div><div class="line">        &#123;</div><div class="line">            FromA2B(ready, run, <span class="string">'R'</span>);</div><div class="line">            pcb* p = run-&gt;Front-&gt;next;</div><div class="line">            <span class="keyword">if</span> (p-&gt;ServeTime - p-&gt;cpuTime &lt;= pTime) <span class="comment">//时间片内完成</span></div><div class="line">            &#123;</div><div class="line">                now += p-&gt;ServeTime - p-&gt;cpuTime;</div><div class="line">                p-&gt;cpuTime = p-&gt;ServeTime;</div><div class="line">                FromA2B(run, finish, <span class="string">'F'</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span></div><div class="line">            &#123;</div><div class="line">                now += pTime;</div><div class="line">                p-&gt;cpuTime += pTime;</div><div class="line">                FromA2B(run, ready, <span class="string">'W'</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (Tnow == now) <span class="comment">//若没发生轮转，时间继续推移</span></div><div class="line">        &#123;</div><div class="line">            now++;</div><div class="line">            <span class="keyword">continue</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        PrintTitle();</div><div class="line">        PrintLinkPCB(head);</div><div class="line">        PrintLinkPCB(run);</div><div class="line">        PrintLinkPCB(ready);</div><div class="line">        PrintLinkPCB(finish);</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"time: "</span> &lt;&lt; now &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// result</span></div><div class="line">    pcb* p = finish-&gt;Front-&gt;next;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Result:\n"</span>;</div><div class="line">    <span class="keyword">while</span> (p)</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"Name: %s\tFinishtime: %d\tRoundtime: %d\twRoundtime: %.2f\n"</span>, p-&gt;Name, p-&gt;finishTime, p-&gt;RoundTime, p-&gt;WRoundTime);</div><div class="line">        p = p-&gt;next;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/15/【C++】时间片轮转算法模拟/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/画一个微软标志/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.924Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/15/hello-world/">Hello World</a>
+    </h1>
+  
+
+        
+        <a href="/2017/07/15/hello-world/" class="archive-article-date">
+  	<time datetime="2017-07-15T11:17:17.024Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/15/hello-world/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/第一篇就谈谈这个吧/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.916Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/从放弃Windows到使用IRC/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.910Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+        
+        
+    </div>
+</aside>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/迟来的情书/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.903Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
+
+  
+  
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
     </nav>
   
 
@@ -400,9 +894,9 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: false,
+		isHome: true,
 		isPost: false,
-		isArchive: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

@@ -6,14 +6,29 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="[TOC] 准备工作环境： Visual Studio Community 2017，Windows 10.0.15063 pro  先新建一个ASP.NET MVC项目DbConnectPrac    程序包管理器控制台安装EF框架   1Install-Package EntityFramework   PS. 如果解决方里有多个项目，默认项目注意选择DbConnectPrac  Models">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/07/15/EF框架下优雅地使用各种数据库/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="[TOC] 准备工作环境： Visual Studio Community 2017，Windows 10.0.15063 pro  先新建一个ASP.NET MVC项目DbConnectPrac    程序包管理器控制台安装EF框架   1Install-Package EntityFramework   PS. 如果解决方里有多个项目，默认项目注意选择DbConnectPrac  Models">
+<meta property="og:image" content="http://yoursite.com/2017/06/0.png">
+<meta property="og:image" content="http://yoursite.com/2017/06/00.png">
+<meta property="og:image" content="http://yoursite.com/2017/06/1.png">
+<meta property="og:image" content="http://yoursite.com/2017/06/2.png">
+<meta property="og:image" content="http://yoursite.com/2017/06/3.png">
+<meta property="og:image" content="http://yoursite.com/2017/06/5.png">
+<meta property="og:image" content="http://yoursite.com/2017/06/6.png">
+<meta property="og:image" content="http://yoursite.com/2017/06/7.png">
+<meta property="og:image" content="http://yoursite.com/2017/06/9.png">
+<meta property="og:image" content="http://yoursite.com/2017/06/10.png">
+<meta property="og:updated_time" content="2017-06-04T06:41:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="[TOC] 准备工作环境： Visual Studio Community 2017，Windows 10.0.15063 pro  先新建一个ASP.NET MVC项目DbConnectPrac    程序包管理器控制台安装EF框架   1Install-Package EntityFramework   PS. 如果解决方里有多个项目，默认项目注意选择DbConnectPrac  Models">
+<meta name="twitter:image" content="http://yoursite.com/2017/06/0.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -149,235 +164,265 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-EF框架下优雅地使用各种数据库" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[TOC]</p>
+<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p><em>环境： Visual Studio Community 2017，Windows 10.0.15063 pro</em></p>
+<ul>
+<li><p>先新建一个ASP.NET MVC项目DbConnectPrac</p>
+<p><img src="/2017/06/0.png" alt="0"></p>
+<p><img src="/2017/06/00.png" alt="00"></p>
+</li>
+<li><p>程序包管理器控制台安装EF框架</p>
+</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Install-Package EntityFramework</div></pre></td></tr></table></figure>
+<p>  <em>PS. 如果解决方里有多个项目，默认项目注意选择DbConnectPrac</em></p>
+<ul>
+<li><p>Models中新建一个类</p>
+<p><img src="/2017/06/1.png" alt="1"></p>
+<p><em>Program.cs</em></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">using System.ComponentModel.DataAnnotations;</div><div class="line">namespace DbConnectPrac.Models</div><div class="line">&#123;</div><div class="line">    public class User</div><div class="line">    &#123;</div><div class="line">        [Key]</div><div class="line">        public int Uid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        [StringLength(16, MinimumLength = 3)]</div><div class="line">        public string NickName &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        [StringLength(16, MinimumLength = 6)]</div><div class="line">        public string Password &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        [RegularExpression(@&quot;^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$&quot;)]</div><div class="line">        public string Email &#123; get; set; &#125;</div><div class="line">        public int Privilege &#123; get; set; &#125;</div><div class="line">    &#125;</div><div class="line">    public class Video</div><div class="line">    &#123;</div><div class="line">        [Key]</div><div class="line">        public int Vid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        [StringLength(30)]</div><div class="line">        public string Vname &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public string Vurl &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public string Thumbnail &#123; get; set; &#125;</div><div class="line">        public int ViewedNum &#123; get; set; &#125;</div><div class="line">        [DataType(DataType.Date)]</div><div class="line">        [DisplayFormat(DataFormatString = &quot;&#123;0:yyyy-MM-dd&#125;&quot;, ApplyFormatInEditMode = true)]</div><div class="line">        [Required]</div><div class="line">        public string UploadTime &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public string Vtype &#123; get; set; &#125;</div><div class="line">        public int Uid &#123; get; set; &#125;</div><div class="line">        [StringLength(200)]</div><div class="line">        public string Vinfo &#123; get; set; &#125;</div><div class="line">    &#125;</div><div class="line">    public class Comment</div><div class="line">    &#123;</div><div class="line">        [Key]</div><div class="line">        public int Cid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public int Uid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public int Vid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public string Content &#123; get; set; &#125;</div><div class="line">        [DataType(DataType.Date)]</div><div class="line">        [DisplayFormat(DataFormatString = &quot;&#123;0:yyyy-MM-dd&#125;&quot;, ApplyFormatInEditMode = true)]</div><div class="line">        [Required]</div><div class="line">        public string CommentTime &#123; get; set; &#125;</div><div class="line">    &#125;</div><div class="line">    public class History</div><div class="line">    &#123;</div><div class="line">        [Key]</div><div class="line">        public int Hid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public int Uid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public int Vid &#123; get; set; &#125;</div><div class="line">        [DataType(DataType.Date)]</div><div class="line">        [DisplayFormat(DataFormatString = &quot;&#123;0:yyyy-MM-dd&#125;&quot;, ApplyFormatInEditMode = true)]</div><div class="line">        [Required]</div><div class="line">        public string HistoryTime &#123; get; set; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>生成解决方案</li>
+</ul>
+<p>快捷键 Ctrl+Shift+b</p>
+<ul>
+<li>Controllers中新建控制器</li>
+</ul>
+<p><img src="/2017/06/2.png" alt="2"></p>
+<p><img src="/2017/06/3.png" alt="3"></p>
+<p>点击添加，将生成以下文件</p>
+<p><img src="/2017/06/5.png" alt="5"></p>
+<p><em>分别把另外几个类也创建好带视图的控制器</em></p>
+<h3 id="LocalDB"><a href="#LocalDB" class="headerlink" title="LocalDB"></a>LocalDB</h3><p><em>LocalDB是VS自带的简化版SQL Server</em></p>
+<ul>
+<li>查看项目根目录的Web.config，发现已添加了LocalDB的相关内容</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connectionStrings</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"DbConnectPracContext"</span> <span class="attr">connectionString</span>=<span class="string">"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DbConnectPracContext-20170603111224; Integrated Security=True; MultipleActiveResultSets=True; AttachDbFilename=|DataDirectory|DbConnectPracContext-20170603111224.mdf"</span> <span class="attr">providerName</span>=<span class="string">"System.Data.SqlClient"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">connectionStrings</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">entityFramework</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">defaultConnectionFactory</span> <span class="attr">type</span>=<span class="string">"System.Data.Entity.Infrastructure.LocalDbConnectionFactory, EntityFramework"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">parameters</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">parameter</span> <span class="attr">value</span>=<span class="string">"mssqllocaldb"</span> /&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">parameters</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">defaultConnectionFactory</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">providers</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">provider</span> <span class="attr">invariantName</span>=<span class="string">"System.Data.SqlClient"</span> <span class="attr">type</span>=<span class="string">"System.Data.Entity.SqlServer.SqlProviderServices, EntityFramework.SqlServer"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">providers</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">entityFramework</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>运行项目进入对应的Controller你可以方便的实现增删改查(CRUD)操作。</li>
+</ul>
+<p><img src="/2017/06/6.png" alt="6"></p>
+<h3 id="SQL-Server"><a href="#SQL-Server" class="headerlink" title="SQL Server"></a>SQL Server</h3><p><em>版本 2016 Developer edition</em></p>
+<ul>
+<li>在根目录的Web.config中添加SQL Server的连接字段</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connectionStrings</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- 按实际情况更改 Data Source, User ID, Password --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"MSSQLConnectContext"</span> </span></div><div class="line">     <span class="attr">connectionString</span>=<span class="string">"Data Source=localhost; Initial Catalog=TESTDB; Persist Security Info=True; User ID=sa; Password=123"</span> </div><div class="line">     <span class="attr">providerName</span>=<span class="string">"System.Data.SqlClient"</span>/&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">connectionStrings</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>打开Models/DbConnectPracContext.cs</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public class DbConnectPracContext : DbContext</div><div class="line">&#123;</div><div class="line">  // 修改指定使用的数据库连接</div><div class="line">  //public DbConnectPracContext() : base(&quot;name=DbConnectPracContext&quot;)&#123;&#125; // LocalDB</div><div class="line">  public DbConnectPracContext() : base(&quot;name=MSSQLConnectContext&quot;) &#123;&#125; // SQL Server</div><div class="line">  // .....省略......</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>程序包管理器控制台输入</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Enable-Migrations -EnableAutomaticMigrations</div></pre></td></tr></table></figure>
+<ul>
+<li>运行项目进入对应的Controller你可以方便的实现增删改查(CRUD)操作。</li>
+</ul>
+<h3 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h3><p><em>版本 5.7.18</em></p>
+<ul>
+<li>程序包管理器控制台安装EF框架</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Install-Package MySql.Data.Entity</div></pre></td></tr></table></figure>
+<ul>
+<li><p>查看项目根目录的Web.config</p>
+<p><em>更新了以下有关MySQL的内容</em></p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">entityFramework</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">providers</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">provider</span> <span class="attr">invariantName</span>=<span class="string">"MySql.Data.MySqlClient"</span> <span class="attr">type</span>=<span class="string">"MySql.Data.MySqlClient.MySqlProviderServices, MySql.Data.Entity.EF6, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d"</span>&gt;</span><span class="tag">&lt;/<span class="name">provider</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">providers</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">entityFramework</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">system.data</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">DbProviderFactories</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">remove</span> <span class="attr">invariant</span>=<span class="string">"MySql.Data.MySqlClient"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"MySQL Data Provider"</span> <span class="attr">invariant</span>=<span class="string">"MySql.Data.MySqlClient"</span> <span class="attr">description</span>=<span class="string">".Net Framework Data Provider for MySQL"</span> <span class="attr">type</span>=<span class="string">"MySql.Data.MySqlClient.MySqlClientFactory, MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">DbProviderFactories</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">system.data</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>connectionStrings中添加MySQL的连接字段</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connectionStrings</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"MySQLConnectContext"</span> </span></div><div class="line">         <span class="attr">connectionString</span>=<span class="string">"server=localhost; port=3306; database=TESTDB; uid=root; password=123"</span></div><div class="line">         <span class="attr">providerName</span>=<span class="string">"MySql.Data.MySqlClient"</span>/&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">connectionStrings</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>打开Models/DbConnectPracContext.cs完成两处修改</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// 在Context指定mySql的配置文件</div><div class="line">[DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]</div><div class="line">public class DbConnectPracContext : DbContext</div><div class="line">&#123;</div><div class="line">  // 修改指定使用的数据库连接</div><div class="line">  //public DbConnectPracContext() : base(&quot;name=DbConnectPracContext&quot;)&#123;&#125; // LocalDB</div><div class="line">  public DbConnectPracContext() : base(&quot;name=MySQLConnectContext&quot;)&#123;&#125; // MySQL</div><div class="line">  // .....省略......</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>程序包管理器控制台输入</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Enable-Migrations -EnableAutomaticMigrations</div></pre></td></tr></table></figure>
+<ul>
+<li>运行项目进入对应的Controller你可以方便的实现增删改查(CRUD)操作。</li>
+</ul>
+<p>  <em>连接MySQL查看生成的testdb表</em></p>
+<p><img src="/2017/06/7.png" alt="7"></p>
+<h3 id="Oracle"><a href="#Oracle" class="headerlink" title="Oracle"></a>Oracle</h3><p><em>版本 12.2.0.1.0</em></p>
+<ul>
+<li>建议先创建一个新用户，否则使用默认用户可能有意想不到的问题</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 用SQLPLUS登录后，连接管理员 (system_password 是你的管理员密码)</span></div><div class="line">CONNECT system/system_password@ORCL</div><div class="line"><span class="comment">-- 该版本Oracle上创建新用户名必须C##或c##开头，否则不合法</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> C##TESTUSER <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="number">123</span>;</div><div class="line"><span class="comment">-- 创建测试用户并授权，要给DBA权限</span></div><div class="line"><span class="keyword">GRANT</span> <span class="keyword">CONNECT</span>, <span class="keyword">RESOURCE</span>, DBA, <span class="keyword">CREATE</span> <span class="keyword">VIEW</span> <span class="keyword">TO</span>  C##TESTUSER ;</div></pre></td></tr></table></figure>
+<ul>
+<li>程序包管理器控制台安装EF框架</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Install-Package Oracle.ManagedDataAccess.EntityFramework</div></pre></td></tr></table></figure>
+<ul>
+<li><p>查看根目录的Web.config</p>
+<p><em>更新了以下有关Oracle的内容</em></p>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">configSections</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">section</span> <span class="attr">name</span>=<span class="string">"oracle.manageddataaccess.client"</span> <span class="attr">type</span>=<span class="string">"OracleInternal.Common.ODPMSectionHandler, Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">configSections</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">connectionStrings</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"OracleDbContext"</span> <span class="attr">providerName</span>=<span class="string">"Oracle.ManagedDataAccess.Client"</span> <span class="attr">connectionString</span>=<span class="string">"User Id=oracle_user;Password=oracle_user_password;Data Source=oracle"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">connectionStrings</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">entityFramework</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">providers</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">provider</span> <span class="attr">invariantName</span>=<span class="string">"Oracle.ManagedDataAccess.Client"</span> <span class="attr">type</span>=<span class="string">"Oracle.ManagedDataAccess.EntityFramework.EFOracleProviderServices, Oracle.ManagedDataAccess.EntityFramework, Version=6.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">providers</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">entityFramework</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">system.data</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">DbProviderFactories</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">remove</span> <span class="attr">invariant</span>=<span class="string">"Oracle.ManagedDataAccess.Client"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"ODP.NET, Managed Driver"</span> <span class="attr">invariant</span>=<span class="string">"Oracle.ManagedDataAccess.Client"</span> <span class="attr">description</span>=<span class="string">"Oracle Data Provider for .NET, Managed Driver"</span> <span class="attr">type</span>=<span class="string">"Oracle.ManagedDataAccess.Client.OracleClientFactory, Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">DbProviderFactories</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">system.data</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">oracle.manageddataaccess.client</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">version</span> <span class="attr">number</span>=<span class="string">"*"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dataSources</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">dataSource</span> <span class="attr">alias</span>=<span class="string">"SampleDataSource"</span> <span class="attr">descriptor</span>=<span class="string">"(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=ORCL))) "</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">dataSources</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">oracle.manageddataaccess.client</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>connectionStrings中修改Oracle的连接字段的参数</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connectionStrings</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 因为生成的&lt;dataSources&gt;中服务名是ORCL，与我的设置相同，所以这里直接用别名SampleDataSource--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"OracleDbContext"</span> </span></div><div class="line">         <span class="attr">providerName</span>=<span class="string">"Oracle.ManagedDataAccess.Client"</span> </div><div class="line">         <span class="attr">connectionString</span>=<span class="string">"User Id=C##TESTUSER;Password=123;Data Source=SampleDataSource"</span> /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">connectionStrings</span>&gt;</span></div></pre></td></tr></table></figure>
+<ul>
+<li>修改Models/DbConnectPracContext.cs</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">namespace DbConnectPrac.Models</div><div class="line">&#123;</div><div class="line">    public class DbConnectPracContext : DbContext</div><div class="line">    &#123;</div><div class="line">        // 修改指定使用的数据库连接</div><div class="line">        //public DbConnectPracContext() : base(&quot;name=DbConnectPracContext&quot;) &#123; &#125; // LocalDB</div><div class="line">        public DbConnectPracContext() : base(&quot;name=OracleDbContext&quot;) &#123; &#125; // Oracle</div><div class="line">        // 默认的模式名是dbo，但Oracle中不存在模式名为dbo，需要指定默认模式名</div><div class="line">      	protected override void OnModelCreating(DbModelBuilder modelBuilder)</div><div class="line">        &#123;</div><div class="line">            modelBuilder.HasDefaultSchema(&quot;C##TESTUSER&quot;); // 默认模式名就是把你用户名大写</div><div class="line">        &#125;</div><div class="line">        // .....省略......</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Oracle中不存在模式名为dbo，dbo是SQL Server数据库的，如图例。</p>
+<p><img src="/2017/06/9.png" alt="9"></p>
+<ul>
+<li>程序包管理器控制台输入</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Enable-Migrations -EnableAutomaticMigrations</div></pre></td></tr></table></figure>
+<ul>
+<li>运行项目进入对应的Controller你可以方便的实现增删改查(CRUD)操作。</li>
+</ul>
+<p><em>连接Oracle查看生成的表</em></p>
+<p><img src="/2017/06/10.png" alt="10"></p>
+<p><strong>最后一次测试时，发现一个BUG，如果把刚生成的表全删除，试图通过重新运行项目重新建表，会失败。这个情况只在Oracle上发生，大概官方还没注意到这个BUG。“一次性”用户真是尴尬……</strong></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/折腾rEFInd安装/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.973Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/07/15/EF框架下优雅地使用各种数据库/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/一点数据库笔记/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.966Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/闲来无事，做个课表UWP练练手/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.959Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+<nav id="article-nav">
+  
+    <a href="/2017/07/15/iPod touch 上搭建开发环境/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/07/15/【C++】时间片轮转算法模拟/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/太久不更新，我都快忘了这个站点了/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.949Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/使用 Terminator  & ZSH的配置/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.941Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+        
+        
+    </div>
+</aside>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/将UWP应用部署到其他win10设备/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.934Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/画一个微软标志/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.924Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/第一篇就谈谈这个吧/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.916Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/从放弃Windows到使用IRC/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.910Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/07/15/迟来的情书/" class="archive-article-date">
-  	<time datetime="2017-07-15T12:18:43.903Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-15</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
+  
+
   
 
 
@@ -401,8 +446,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
