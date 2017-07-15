@@ -52,81 +52,585 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2016-10-01T13:11:38.000Z"><a href="/2016/10/01/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/">2016-10-01</a></time>
+        <time datetime="2017-01-03T13:02:31.000Z"><a href="/2017/01/03/一点数据库笔记/">2017-01-03</a></time>
       
       
   
-    <h1 class="title"><a href="/2016/10/01/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/">Thinkpad X250 安装ubuntu16.04.1LTS 的记录</a></h1>
+    <h1 class="title"><a href="/2017/01/03/一点数据库笔记/">一点数据库笔记</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。<br>因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。<br>U盘制作ubuntu安装盘，开机启动到U盘。</p>
-<p>安装时，对空闲20G手动分区 ：</p>
+        <p><em>Markdown是个好东西，用了一段时间，这次把自己一点数据库课的笔记放上来，修一修。</em></p>
+<h1 id="函数介绍"><a href="#函数介绍" class="headerlink" title="函数介绍"></a>函数介绍</h1><h2 id="数据语句"><a href="#数据语句" class="headerlink" title="数据语句"></a>数据语句</h2><ul>
+<li>DECLARE <em>声明若干局部变量</em></li>
+<li>SET <em>一个变量赋值</em></li>
+<li>SELECT <em>多个变量赋值</em> </li>
+<li>PRINT <em>返回用户自定义信息</em> </li>
+</ul>
+<h2 id="循环控制语句"><a href="#循环控制语句" class="headerlink" title="循环控制语句"></a>循环控制语句</h2><ul>
+<li><p>BEGIN END <em>语句块</em> </p>
+</li>
+<li><p>GOTO <em>跳转到标签</em></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">BEGIN</span></div><div class="line"><span class="keyword">GOTO</span> <span class="keyword">skip</span></div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> student</div><div class="line"><span class="keyword">skip</span>:</div><div class="line">PRINT <span class="string">'hello'</span></div><div class="line"><span class="keyword">END</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>IF ELSE <em>条件判断</em></p>
+</li>
+<li><p>CASE <em>多分支选择</em></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> score,</div><div class="line">(<span class="keyword">case</span> </div><div class="line"><span class="keyword">when</span> score &gt; <span class="number">90</span> <span class="keyword">then</span> <span class="string">'excellent'</span></div><div class="line"><span class="keyword">when</span> score &gt; <span class="number">80</span> <span class="keyword">then</span> <span class="string">'good'</span></div><div class="line"><span class="keyword">when</span> score &gt; <span class="number">60</span> <span class="keyword">then</span> <span class="string">'ok'</span></div><div class="line"><span class="keyword">else</span> <span class="string">'not well'</span></div><div class="line"><span class="keyword">end</span>) <span class="keyword">as</span> rate</div><div class="line"><span class="keyword">from</span> student</div></pre></td></tr></table></figure>
+</li>
+<li><p>WHILE <em>循环</em></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">while </div><div class="line"><span class="keyword">begin</span> </div><div class="line"><span class="comment">--code here</span></div><div class="line"><span class="keyword">end</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>WAITFOR <em>暂停</em> </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">WAITFOR DELAY '11:00'</div><div class="line">WAITFOR TIME '01:00'</div></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ul>
+<h2 id="聚合函数"><a href="#聚合函数" class="headerlink" title="聚合函数"></a>聚合函数</h2><ul>
+<li>AVG</li>
+<li>COUNT</li>
+<li>MAX</li>
+<li>MIN</li>
+<li>SUM</li>
+<li>DISTINCT</li>
+</ul>
+<h2 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h2><ul>
+<li>ABS <em>绝对值</em></li>
+<li>ceiling <em>大于或等于</em></li>
+<li>floor <em>小于或等于</em></li>
+<li>rand <em>返回0-1的随机数</em></li>
+<li>round <em>四舍五入到指定精度</em></li>
+</ul>
+<h2 id="字符串函数"><a href="#字符串函数" class="headerlink" title="字符串函数"></a>字符串函数</h2><ul>
+<li>ascii <em>第一字符的ascii值</em></li>
+<li>char <em>返回ascii对应字符</em></li>
+<li>charindex <em>返回匹配位置</em></li>
+<li>itrim <em>去除左空格</em></li>
+<li>rtrim <em>去除右空格</em></li>
+<li>left <em>截断左侧指定长度字符</em></li>
+<li>right <em>截断右侧指定长度字符</em></li>
+<li>len <em>返回长度</em></li>
+<li>lower <em>小写</em></li>
+<li>upper <em>大写</em></li>
+<li>reverse <em>转置</em></li>
+<li>replace <em>指定字符替换</em></li>
+<li>space <em>指定空格数</em></li>
+<li>stuff <em>替换字符串的指定范围</em></li>
+<li>substring <em>返回指定范围字符串</em></li>
+</ul>
+<h2 id="日期和时间函数"><a href="#日期和时间函数" class="headerlink" title="日期和时间函数"></a>日期和时间函数</h2><ul>
+<li>dateadd <em>给指定日期添加一段时间</em></li>
+<li>datediff <em>两日期相减</em></li>
+<li>datename <em>返回指定日期的部分</em></li>
+<li>day <em>指定日期的天数</em></li>
+<li>dayofyear <em>年内天数</em></li>
+<li>month <em>返回日期的月份</em></li>
+<li>year <em>返回日期的年份</em></li>
+<li>getdate <em>返回系统时间</em></li>
+<li>datepart <em>返回指定部分整数</em></li>
+<li>isDate <em>检测日期有效性</em></li>
+</ul>
+<h1 id="语句提升"><a href="#语句提升" class="headerlink" title="语句提升"></a>语句提升</h1><h2 id="约束与规则"><a href="#约束与规则" class="headerlink" title="约束与规则"></a>约束与规则</h2><h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><ol>
+<li>规则只允许在当前数据库创建</li>
+<li>规则不能绑定到数据类型 char、 int、 image、 text 中</li>
+</ol>
+<ul>
+<li>创建规则</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> rule 规则名</div><div class="line"><span class="keyword">as</span> 规则</div><div class="line"><span class="comment">/* 规则可以是where语句任何有效的表达式 */</span></div></pre></td></tr></table></figure>
+<ul>
+<li>绑定规则</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">use</span> 数据库名</div><div class="line">exec sp_bindrule <span class="string">'规则名'</span>,<span class="string">'数据库表字段'</span></div></pre></td></tr></table></figure>
+<ul>
+<li>解绑规则</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">use</span> 数据库名</div><div class="line">exec sp_unbindrule <span class="string">'数据库表字段'</span></div></pre></td></tr></table></figure>
+<ul>
+<li>删除规则</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">drop</span> rule <span class="string">'规则名'</span></div></pre></td></tr></table></figure>
+<h3 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h3><ul>
+<li>添加check约束</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名</div><div class="line"><span class="keyword">add</span> [<span class="keyword">constraint</span> 约束名] <span class="keyword">check</span>(约束)</div></pre></td></tr></table></figure>
+<ul>
+<li>删除check约束</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名</div><div class="line"><span class="keyword">drop</span> <span class="keyword">constraint</span> 约束名</div></pre></td></tr></table></figure>
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><ol>
+<li>约束和表的定义联系，删除表的同时约束也删除。规则是单独存储的数据库对象，独立于表外，删除表时并不能删除规则。</li>
+<li>一个字段可有多个约束，但只能有一个规则。</li>
+</ol>
+<h2 id="SELECT高级查询"><a href="#SELECT高级查询" class="headerlink" title="SELECT高级查询"></a>SELECT高级查询</h2><h3 id="IN-NULL"><a href="#IN-NULL" class="headerlink" title="IN, NULL"></a>IN, NULL</h3><ul>
+<li>IN <em>查询符合列表中任何一个值的记录</em></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table1 <span class="keyword">where</span> score <span class="keyword">in</span> (<span class="number">70</span>,<span class="number">80</span>,<span class="number">90</span>);</div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table2 <span class="keyword">where</span> score <span class="keyword">in</span> (<span class="keyword">select</span> score <span class="keyword">from</span> table1);</div></pre></td></tr></table></figure>
+<ul>
+<li>NULL | NOT NULL <em>字段是否为空</em></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table1 <span class="keyword">where</span> items <span class="keyword">in</span> <span class="literal">null</span>;</div></pre></td></tr></table></figure>
+<h3 id="SELECT"><a href="#SELECT" class="headerlink" title="SELECT"></a>SELECT</h3><p><em>用于将查询结果存储到另一个表</em></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> top <span class="number">5</span> * </div><div class="line"><span class="keyword">into</span> table3</div><div class="line"><span class="keyword">from</span> table2;</div></pre></td></tr></table></figure>
+<h3 id="GROUP-BY"><a href="#GROUP-BY" class="headerlink" title="GROUP BY"></a>GROUP BY</h3><p><em>用于数据汇总</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">select name,avg(age) as avg_age </div><div class="line">from student </div><div class="line">group by name;</div></pre></td></tr></table></figure>
+<h2 id="嵌套查询"><a href="#嵌套查询" class="headerlink" title="嵌套查询"></a>嵌套查询</h2><ul>
+<li>子查询作为新增列 <em>作为外层select语句的列值</em></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> avg_score = (</div><div class="line"><span class="keyword">select</span> <span class="keyword">avg</span>(score) </div><div class="line">  <span class="keyword">from</span> score</div><div class="line">)<span class="keyword">from</span> score</div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> score.id;</div></pre></td></tr></table></figure>
+<ul>
+<li>使用IN关键字 <em>主要用于where子句后面的子查询。</em></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> a.name</div><div class="line"><span class="keyword">from</span> student <span class="keyword">as</span> a</div><div class="line"><span class="keyword">where</span> a.id <span class="keyword">in</span>(</div><div class="line"><span class="keyword">select</span> b.id </div><div class="line">  <span class="keyword">from</span> score <span class="keyword">as</span> b</div><div class="line"><span class="keyword">where</span> b.score = <span class="number">80</span></div><div class="line">)<span class="keyword">order</span> <span class="keyword">by</span> a.id;</div></pre></td></tr></table></figure>
+<ul>
+<li>比较运算符</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> a.name</div><div class="line"><span class="keyword">from</span> student <span class="keyword">as</span> a</div><div class="line"><span class="keyword">where</span> a.id <span class="keyword">in</span>(</div><div class="line"><span class="keyword">select</span> b.id</div><div class="line"><span class="keyword">from</span> score <span class="keyword">as</span> b</div><div class="line"><span class="keyword">where</span> b.score &lt;= <span class="number">80</span></div><div class="line">) <span class="keyword">order</span> <span class="keyword">by</span> a.id;</div></pre></td></tr></table></figure>
+<ul>
+<li>BETWEEN</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> a.name</div><div class="line"><span class="keyword">from</span> student <span class="keyword">as</span> a</div><div class="line"><span class="keyword">where</span> a.id <span class="keyword">in</span>(</div><div class="line"><span class="keyword">select</span> b.id </div><div class="line"><span class="keyword">from</span> score <span class="keyword">as</span> b</div><div class="line"><span class="keyword">where</span> b.score</div><div class="line"><span class="keyword">between</span> <span class="number">80</span> <span class="keyword">and</span> <span class="number">90</span></div><div class="line">) <span class="keyword">order</span> <span class="keyword">by</span> a.id;</div></pre></td></tr></table></figure>
+<ul>
+<li>EXISTS</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * </div><div class="line"><span class="keyword">from</span> table1</div><div class="line"><span class="keyword">where</span> <span class="keyword">exists</span>(</div><div class="line"><span class="keyword">select</span> score </div><div class="line"><span class="keyword">from</span> table1</div><div class="line"><span class="keyword">where</span> score = <span class="number">80</span>)</div><div class="line"><span class="comment">/* IN和EXISTS都代表的是子查询存在某个值，但是IN用的时候，子查询只能是一个字段，但是EXISTS可以用多个字段。 */</span></div></pre></td></tr></table></figure>
+<h2 id="多表连接"><a href="#多表连接" class="headerlink" title="多表连接"></a>多表连接</h2><h3 id="JOIN…ON"><a href="#JOIN…ON" class="headerlink" title="JOIN…ON"></a>JOIN…ON</h3><h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><ul>
+<li>表A</li>
+</ul>
 <table>
 <thead>
 <tr>
-<th style="text-align:left">分区类型</th>
-<th style="text-align:left">挂载点</th>
-<th style="text-align:left">大小</th>
-<th style="text-align:left">位置</th>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">name</th>
+<th style="text-align:center">age</th>
+<th style="text-align:center">sex</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left">主分区</td>
-<td style="text-align:left">/boot</td>
-<td style="text-align:left">400M</td>
-<td style="text-align:left">起始</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">AA</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">M</td>
 </tr>
 <tr>
-<td style="text-align:left">逻辑区</td>
-<td style="text-align:left">/</td>
-<td style="text-align:left">15000M</td>
-<td style="text-align:left">起始</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">BB</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">F</td>
 </tr>
 <tr>
-<td style="text-align:left">逻辑区</td>
-<td style="text-align:left">swap</td>
-<td style="text-align:left">512M</td>
-<td style="text-align:left">末尾</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">CC</td>
+<td style="text-align:center">24</td>
+<td style="text-align:center">M</td>
 </tr>
 <tr>
-<td style="text-align:left">逻辑区</td>
-<td style="text-align:left">/home</td>
-<td style="text-align:left">剩余所有</td>
-<td style="text-align:left">起始</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">DD</td>
+<td style="text-align:center">21</td>
+<td style="text-align:center">F</td>
 </tr>
 </tbody>
 </table>
-<p>因为我不希望ubuntu覆盖我的windows引导，所以启动选择器 sdb<br>（因为内存有8G，交换空间就不分那么多了。启动选择在第二快盘，就不会覆盖win的引导，倒时开机bios改下硬盘启动顺序就行了。<br>我可能随时会把ubuntu的分区格掉，毕竟ssd空间有限，到时候不至于用easybcd或者PE重做引导）<br>安装完成后，重启。</p>
-<p><strong>安装burg，美化开机选择界面：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:n-muench/burg &amp;&amp; sudo apt-get update</div><div class="line">sudo apt-get install burg burg-themes burg-emu</div></pre></td></tr></table></figure>
-<p>安装过程可以一路回车，注意在Configuring burg-pc时选择sdb。<br>更换burg themes ，下载Lightness BURG Theme by SWOriginal<br>解压后cp到/boot/burg/themes里。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo update-burg</div><div class="line">gedit /boot/burg/burg.cfg</div></pre></td></tr></table></figure>
-<p>删除一个recoverymode引导，提前win引导项<br>sudo burg-emu -&gt; F2 -&gt; 选择Lightness<br>(每次grub更新后都要重置burg sudo burg-install /dev/sdx )</p>
-<p><strong>安装指纹识别fingerprint：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:fingerprint/fprint &amp;&amp; sudo apt-get update</div><div class="line">sudo apt-get install libfprint0 fprint-demo libpam-fprintd gksu</div></pre></td></tr></table></figure>
-<p>在 “系统设置” -&gt; “用户账户” 里会多一个 “指纹登录”，照着提示进行设置就可以了。</p>
-<p><strong>关闭鼠标加速：</strong><br>在Dashboard里搜索:<br>gnome-session-properties<br>点击添加：<br>名称：setmouse<br>命令：xset m 0 或者 xset m default<br>重启。</p>
-<p><strong>安装TLP电源管理：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install tlp tlp-rdw</div><div class="line">sudo apt-get install tp-smapi-dkms acpi-call-dkms</div><div class="line">sudo apt-get install thermald</div><div class="line">sudo apt-get install powertop</div></pre></td></tr></table></figure>
-<p>配置 TLP</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/default/tlp</div><div class="line">sudo tlp start</div></pre></td></tr></table></figure>
-<p><strong>使用 terminator <a href="http://www.findshank.website/index.php/2016/10/01/terminator/" target="_blank" rel="external">替换默认终端以及使用zsh</a></strong> (另外写一篇介绍这个)</p>
-<p><strong>安装Arc GTK主题：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_16.04/ /' &gt;&gt; /etc/apt/sources.list.d/arc-theme.list"</div><div class="line">wget http://download.opensuse.org/repositories/home:Horst3180/xUbuntu_16.04/Release.key</div><div class="line">sudo apt-key add - &lt; Release.key</div><div class="line">sudo apt update</div><div class="line">sudo apt install arc-theme</div></pre></td></tr></table></figure>
-<p>安装Unity Tweak Tool管理主题：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt install unity-tweak-tool</div></pre></td></tr></table></figure>
-<p>个人觉得Arc-darker 好看，更换之。</p>
-<p><strong>安装Deadbeef，播放更多音频：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:starws-box/deadbeef-player</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install deadbeef</div></pre></td></tr></table></figure>
-<p><strong>安装MPV播放器：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install mpv</div></pre></td></tr></table></figure>
-<p><strong>安装cherrytree笔记本：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install cherrytree</div></pre></td></tr></table></figure>
-<p><strong>安装lantern翻墙：</strong><br><a href="https://github.com/getlantern/forum/issues/833" target="_blank" rel="external">传送门</a></p>
+<ul>
+<li>表B</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">20</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">40</td>
+</tr>
+</tbody>
+</table>
+<h4 id="inner-join"><a href="#inner-join" class="headerlink" title="inner join"></a>inner join</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">name</th>
+<th style="text-align:center">age</th>
+<th style="text-align:center">sex</th>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">AA</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">BB</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">F</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">20</td>
+</tr>
+</tbody>
+</table>
+<h4 id="left-join"><a href="#left-join" class="headerlink" title="left join"></a>left join</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">name</th>
+<th style="text-align:center">age</th>
+<th style="text-align:center">sex</th>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">AA</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">BB</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">F</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">20</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">CC</td>
+<td style="text-align:center">24</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">DD</td>
+<td style="text-align:center">21</td>
+<td style="text-align:center">F</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+</tr>
+</tbody>
+</table>
+<h4 id="right-join"><a href="#right-join" class="headerlink" title="right join"></a>right join</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">score</th>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">name</th>
+<th style="text-align:center">age</th>
+<th style="text-align:center">sex</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">AA</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">M</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">20</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">BB</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">F</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">40</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+</tr>
+</tbody>
+</table>
+<h4 id="full-join"><a href="#full-join" class="headerlink" title="full join"></a>full join</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">name</th>
+<th style="text-align:center">age</th>
+<th style="text-align:center">sex</th>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">AA</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">BB</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">F</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">20</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">CC</td>
+<td style="text-align:center">24</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">DD</td>
+<td style="text-align:center">21</td>
+<td style="text-align:center">F</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+</tr>
+<tr>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">40</td>
+</tr>
+</tbody>
+</table>
+<h3 id="UNION"><a href="#UNION" class="headerlink" title="UNION"></a>UNION</h3><p><em>拼接字段相同的表</em></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> student <span class="keyword">as</span> a </div><div class="line"><span class="keyword">union</span></div><div class="line"><span class="keyword">select</span> * <span class="keyword">from</span> student <span class="keyword">as</span> b</div></pre></td></tr></table></figure>
+<h3 id="数据操纵进阶"><a href="#数据操纵进阶" class="headerlink" title="数据操纵进阶"></a>数据操纵进阶</h3><h2 id="insert"><a href="#insert" class="headerlink" title="insert"></a>insert</h2><h3 id="插入多行"><a href="#插入多行" class="headerlink" title="插入多行"></a>插入多行</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> table2</div><div class="line"><span class="keyword">select</span> <span class="keyword">name</span>,sex,phone,email </div><div class="line"><span class="keyword">from</span> table2</div></pre></td></tr></table></figure>
+<h3 id="select-…-into"><a href="#select-…-into" class="headerlink" title="select … into"></a>select … into</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">select</span> * <span class="keyword">into</span> table1 <span class="keyword">from</span> table2</div></pre></td></tr></table></figure>
+<h2 id="update"><a href="#update" class="headerlink" title="update"></a>update</h2><h3 id="基于级联"><a href="#基于级联" class="headerlink" title="基于级联"></a>基于级联</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">update</span> table1 <span class="keyword">set</span> table1.c = table2.c</div><div class="line"><span class="keyword">from</span> table1 <span class="keyword">inner</span> <span class="keyword">join</span> table2</div><div class="line"><span class="keyword">on</span> table1.a = table2.a </div><div class="line"><span class="keyword">where</span> table1.c <span class="keyword">is</span> <span class="literal">null</span></div></pre></td></tr></table></figure>
+<h3 id="带有output"><a href="#带有output" class="headerlink" title="带有output"></a>带有output</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 查询新行的属性</span></div><div class="line"><span class="keyword">insert</span> <span class="keyword">into</span> table1(a) <span class="keyword">output</span> inserted.a <span class="keyword">values</span>(<span class="string">'123'</span>)</div><div class="line"><span class="comment">-- 查询旧行的属性</span></div><div class="line"><span class="keyword">delete</span> <span class="keyword">into</span> table1 <span class="keyword">output</span> deleted.a <span class="keyword">where</span> a = <span class="string">'123'</span></div><div class="line"><span class="comment">-- 返回修改后的值</span></div><div class="line"><span class="keyword">update</span> table1 <span class="keyword">set</span> a = <span class="string">'b'</span> <span class="keyword">output</span> inserted.a <span class="keyword">where</span> a = <span class="string">'123'</span></div><div class="line"><span class="comment">-- 返回修改前的值</span></div><div class="line"><span class="keyword">update</span> table1 <span class="keyword">set</span> a = <span class="string">'b'</span> <span class="keyword">output</span> deleted.a wherer a = <span class="string">'123'</span></div></pre></td></tr></table></figure>
+<h1 id="视图、索引、触发器"><a href="#视图、索引、触发器" class="headerlink" title="视图、索引、触发器"></a>视图、索引、触发器</h1><h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><ul>
+<li>创建视图</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">view</span> 视图名</div><div class="line"><span class="keyword">as</span> </div><div class="line"><span class="keyword">select</span>语句</div></pre></td></tr></table></figure>
+<ul>
+<li>视图结果集排序</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">view</span> stu1</div><div class="line"><span class="keyword">as</span> </div><div class="line"><span class="keyword">select</span> top <span class="number">3</span> * <span class="keyword">from</span> table2 </div><div class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">id</span></div></pre></td></tr></table></figure>
+<ul>
+<li>多张表进行视图查询</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">create</span> <span class="keyword">view</span> stu2</div><div class="line"><span class="keyword">as</span> </div><div class="line"><span class="keyword">select</span> b.score,b.name,a.name,sex,age</div><div class="line"><span class="keyword">from</span> student <span class="keyword">as</span> a</div><div class="line"><span class="keyword">inner</span> <span class="keyword">join</span></div><div class="line">score <span class="keyword">as</span> b</div><div class="line"><span class="keyword">on</span> a.id = b.id</div></pre></td></tr></table></figure>
+<ul>
+<li>修改视图</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">alter</span> <span class="keyword">view</span> 视图名</div><div class="line"><span class="keyword">as</span> </div><div class="line"><span class="keyword">select</span>语句</div></pre></td></tr></table></figure>
+<ul>
+<li>删除视图</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">drop</span> <span class="keyword">view</span> 视图名</div></pre></td></tr></table></figure>
+<h3 id="增删改"><a href="#增删改" class="headerlink" title="增删改"></a>增删改</h3><ol>
+<li>视图可以对基本表的数据进行查询，还可以向基本表增删改</li>
+<li>select 子句不可用聚合函数</li>
+<li>不能包含算式表达式结果的列</li>
+<li>视图引用多表，无法使用delete</li>
+</ol>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
+<li>通过创建唯一索引，可以保证数据记录的唯一性。</li>
+<li>可以大大加快数据检索速度。</li>
+<li>可以加速表与表之间的连接，这一点在实现数据的参照完整性方面有特别的意义。</li>
+<li>在使用order by和group by子句中进行检索数据时，可以显著减少查询中分组和排序的时间。</li>
+<li>使用索引可以在检索数据的过程中使用优化隐藏，提高系统性能。</li>
+</ol>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>创建索引要花费时间和占用存储空间。</li>
+<li>建立索引加快了数据检索速度，但是减慢了数据修改速度。</li>
+</ol>
+<h3 id="不应创建索引列的情况"><a href="#不应创建索引列的情况" class="headerlink" title="不应创建索引列的情况"></a>不应创建索引列的情况</h3><ol>
+<li>很少或从来不在查询中引用的列，因为系统很少或从来不根据这个列的值去查找数据行。</li>
+<li>只有两个或很少几个值的列，例如性别。</li>
+<li>以bit、text、image数据类型定义的列。</li>
+<li>数据行输很少的表一般也没有必要创建索引。</li>
+</ol>
+<h2 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h2><h3 id="DML触发器"><a href="#DML触发器" class="headerlink" title="DML触发器"></a>DML触发器</h3><ul>
+<li>after触发器 <em>记录改变后才激活触发器</em></li>
+</ul>
+<p><em>after触发器包括 insert、delete、update触发器</em></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">after <span class="keyword">insert</span> </div><div class="line"><span class="keyword">as</span> </div><div class="line"><span class="keyword">begin</span> </div><div class="line"><span class="keyword">SET</span> NOCOUNT <span class="keyword">ON</span>;</div><div class="line"><span class="comment">/* process */</span></div><div class="line"><span class="keyword">end</span></div><div class="line"><span class="keyword">go</span></div></pre></td></tr></table></figure>
+<ul>
+<li>instead of 触发器 <em>直接执行触发器，不执行sql语句</em></li>
+</ul>
+<p><em>instead of 触发器包括insert、delete、update触发器</em></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">instead of insert</div><div class="line">as </div><div class="line">begin</div><div class="line">SET NOCOUNT ON;</div><div class="line">/* process */</div><div class="line">if @age &gt; 25</div><div class="line">print 'Too old!'</div><div class="line">else </div><div class="line">insert into score(name,age) values(@name,@age)</div><div class="line">end</div><div class="line">go</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2017-01-01T05:50:37.000Z"><a href="/2017/01/01/iPod touch 上搭建开发环境/">2017-01-01</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2017/01/01/iPod touch 上搭建开发环境/">iPod touch 上搭建开发环境</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h3 id="老touch在抽屉里躺了好几年，偶然把它翻出来，这么一个PDA，现在顶多用来听歌，怪可惜的，好像用它搞事情啊。"><a href="#老touch在抽屉里躺了好几年，偶然把它翻出来，这么一个PDA，现在顶多用来听歌，怪可惜的，好像用它搞事情啊。" class="headerlink" title="老touch在抽屉里躺了好几年，偶然把它翻出来，这么一个PDA，现在顶多用来听歌，怪可惜的，好像用它搞事情啊。"></a>老touch在抽屉里躺了好几年，偶然把它翻出来，这么一个PDA，现在顶多用来听歌，怪可惜的，好像用它搞事情啊。</h3><h2 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h2><h3 id="闲来无事google了一下”iTouch-c-”，发现一个大神的博客"><a href="#闲来无事google了一下”iTouch-c-”，发现一个大神的博客" class="headerlink" title="闲来无事google了一下”iTouch c++”，发现一个大神的博客"></a><em>闲来无事google了一下”iTouch c++”，发现一个大神的博客</em></h3><p><a href="http://blog.csdn.net/jackjones86/article/details/41802515" target="_blank">博客传送门</a></p>
+<p>这么详细的教程，妥妥的要动手试一试啊。</p>
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p>抄别人的没意思，自己又不愿写，毕竟大神写得太完整了！</p>
+<p>虽然有些小问题，我就说说我碰到的问题:</p>
+<ul>
+<li><p>测试 nic 时，输入nic提示没有找到perl</p>
+<p><em>解决：估计是版本升级后安装位置改了，为了不影响老的配置文件，直接建个软链接解决问题</em></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ln -s /usr/<span class="built_in">local</span>/bin/perl /usr/bin/</div></pre></td></tr></table></figure>
+</li>
+<li><p>测试mysql时，我在设置里找半天没看到mysql</p>
+<p><em>解决：原来博客未提到要装mysql，直接在cydia里搜索安装就好</em></p>
+</li>
+</ul>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p><a href="http://www.findshank.website/wp-content/uploads/2017/01/IMG_0001.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2017/01/IMG_0001.png" alt="" width="640" height="960" class="aligncenter size-full wp-image-212"></a></p>
+<p><a href="http://www.findshank.website/wp-content/uploads/2017/01/IMG_0002.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2017/01/IMG_0002.png" alt="" width="640" height="960" class="aligncenter size-full wp-image-213"></a></p>
+<p><a href="http://www.findshank.website/wp-content/uploads/2017/01/IMG_0003.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2017/01/IMG_0003.png" alt="" width="640" height="960" class="aligncenter size-full wp-image-214"></a></p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ul>
+<li>轻量级webserver</li>
+</ul>
+<p>话说在cydia里搜索”mysql”时，看到还有个搜索结果 “touch-lighttpd-php-mysql”，这个玩意有趣了，轻量级的webserver整合，有了它，可以在touch里搭个wordpress了，哈哈。<br>安装好插件，浏览器访问touch的ip，精简的”is works”页面……<br><a href="http://www.findshank.website/wp-content/uploads/2017/01/20170101133551.jpg" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2017/01/20170101133551-1024x535.jpg" alt="" width="756" height="395" class="aligncenter size-large wp-image-215"></a></p>
+<p>然后装wordpress我就不在这谈了，直接上结果<br><a href="http://www.findshank.website/wp-content/uploads/2017/01/20170101133908.jpg" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2017/01/20170101133908-768x524.jpg" alt="" width="756" height="516" class="aligncenter size-medium_large wp-image-216"></a></p>
+<p>但是装好的wordpress遇到点小问题，进入”仪表盘”会出现 服务器500 错误，这个貌似是内存不足，唉~touch的硬伤，写文章是没有问题的，所以不管了。</p>
+<ul>
+<li>apt 工具</li>
+</ul>
+<p>按照博客装了 apt 的插件后，装其他插件完全可以向用 linux 一样爽啊<br>但是同样遇到一个小问题，我使用 “sudo apt-get install XXX” 安装软件时，出现了 “segmentation fault 11…”<br>google了一番，解决方案是：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo rm -rf /var/cache/apt/*.bin</div></pre></td></tr></table></figure>
+<p>再推荐大家装些常用插件，内容见另一篇的博客<br><a href="http://m.blog.csdn.net/article/details?id=50855627" target="_blank">博客传送门</a></p>
+<h2 id="最后感谢-iOS-Jailbreak"><a href="#最后感谢-iOS-Jailbreak" class="headerlink" title="最后感谢 iOS Jailbreak"></a>最后感谢 iOS Jailbreak</h2><p><a href="https://www.reddit.com/r/jailbreak/" target="_blank">iOS Jailbreak</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-12-20T04:38:51.000Z"><a href="/2016/12/20/将UWP应用部署到其他win10设备/">2016-12-20</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/12/20/将UWP应用部署到其他win10设备/">将UWP应用部署到其他win10设备</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h2 id="老夫有台VenuePro8，系统是win10，所以想把它作为UWP测试机，一直不知道怎么把应用部署到平板上。"><a href="#老夫有台VenuePro8，系统是win10，所以想把它作为UWP测试机，一直不知道怎么把应用部署到平板上。" class="headerlink" title="老夫有台VenuePro8，系统是win10，所以想把它作为UWP测试机，一直不知道怎么把应用部署到平板上。"></a>老夫有台VenuePro8，系统是win10，所以想把它作为UWP测试机，一直不知道怎么把应用部署到平板上。</h2><h2 id="最近才发现，原来vs2015早就有这个功能了，下面来讲一讲具体的操作。"><a href="#最近才发现，原来vs2015早就有这个功能了，下面来讲一讲具体的操作。" class="headerlink" title="最近才发现，原来vs2015早就有这个功能了，下面来讲一讲具体的操作。"></a>最近才发现，原来vs2015早就有这个功能了，下面来讲一讲具体的操作。</h2><ul>
+<li>首先在开发机上打开vs2015，打开项目</li>
+<li>视线先切换到win10平板，cmd -&gt; ipconfig 默默记下它的ip，打开设置 -&gt; 更新和安全 -&gt; 针对开发者 -&gt; 打开“设备发现”<br><a href="http://www.findshank.website/wp-content/uploads/2016/12/屏幕截图4.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2016/12/屏幕截图4-1024x640.png" alt="" width="756" height="473" class="aligncenter size-large wp-image-169"></a></li>
+<li>接着出现一个配对按钮，点击。默默记下PIN码。<br><a href="http://www.findshank.website/wp-content/uploads/2016/12/屏幕截图5.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2016/12/屏幕截图5-1024x640.png" alt="" width="756" height="473" class="aligncenter size-large wp-image-170"></a></li>
+<li>视线切回开发机，右键vs菜单栏底部，勾上“标准”（默认那个是勾上的……）<br><a href="http://www.findshank.website/wp-content/uploads/2016/12/QQ截图20161220121241.jpg" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2016/12/QQ截图20161220121241.jpg" alt="" width="358" height="262" class="aligncenter size-full wp-image-172"></a></li>
+<li>选择你需要的解决方案平台，然后部署设备切换到远程计算机<br><a href="http://www.findshank.website/wp-content/uploads/2016/12/snipaste20161220_115218.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2016/12/snipaste20161220_115218.png" alt="" width="492" height="223" class="aligncenter size-full wp-image-165"></a></li>
+<li>输入平板的ip，再点击“选择”。<br><a href="http://www.findshank.website/wp-content/uploads/2016/12/snipaste20161220_115923.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2016/12/snipaste20161220_115923.png" alt="" width="484" height="617" class="aligncenter size-full wp-image-166"></a></li>
+<li>Ctrl+F5，开始执行项目。</li>
+<li>编译过程中会弹出对话框，要求输入另一台主机的PIN，输入上面的找到的PIN即可。<br><a href="http://www.findshank.website/wp-content/uploads/2016/12/snipaste20161220_120059.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2016/12/snipaste20161220_120059.png" alt="" width="562" height="321" class="aligncenter size-full wp-image-167"></a></li>
+<li>然后你的UWP项目就会在你的平板上安装了。(-_-||) 请无视我的low逼课程表UWP……<br><a href="http://www.findshank.website/wp-content/uploads/2016/12/snipaste20161220_123214.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2016/12/snipaste20161220_123214-1250x778.png" alt="" width="756" height="471" class="aligncenter size-escutcheon-large wp-image-173"></a></li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2016-11-20T12:03:13.000Z"><a href="/2016/11/20/【C++】时间片轮转算法模拟/">2016-11-20</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2016/11/20/【C++】时间片轮转算法模拟/">【C++】时间片轮转算法模拟</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <h3 id="就一个链式队列实现进程控制块的扔来扔去，不说了直接贴代码"><a href="#就一个链式队列实现进程控制块的扔来扔去，不说了直接贴代码" class="headerlink" title="就一个链式队列实现进程控制块的扔来扔去，不说了直接贴代码"></a>就一个链式队列实现进程控制块的扔来扔去，不说了直接贴代码</h3><ul>
+<li><em>主要代码</em></li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;bits/stdc++.h&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">pcb</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">char</span> Name[<span class="number">256</span>]; <span class="comment">//进程名</span></div><div class="line">    <span class="keyword">int</span> ArriveTime; <span class="comment">//到达时间</span></div><div class="line">    <span class="keyword">int</span> ServeTime; <span class="comment">//服务时间</span></div><div class="line">    <span class="keyword">int</span> cpuTime; <span class="comment">//cpu执行时间</span></div><div class="line">    <span class="keyword">char</span> status; <span class="comment">//进程状态 C-Coming, W-Wait, R-Run, F-Finish</span></div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">pcb</span> *<span class="title">next</span>;</span> <span class="comment">//向下一个pcb</span></div><div class="line"></div><div class="line">    <span class="keyword">int</span> finishTime; <span class="comment">//完成时间</span></div><div class="line">    <span class="keyword">int</span> RoundTime; <span class="comment">//周转时间</span></div><div class="line">    <span class="keyword">double</span> WRoundTime; <span class="comment">//带权周转时间</span></div><div class="line">&#125;*PCB;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">LinkPCB</span></span></div><div class="line">&#123;</div><div class="line">    PCB Front;</div><div class="line">    PCB Rear;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">int</span> pTime; <span class="comment">//时间片大小</span></div><div class="line"><span class="keyword">int</span> now; <span class="comment">//时间线</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintPCB</span><span class="params">(pcb* k)</span></span>; <span class="comment">//打印pcb</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintTitle</span><span class="params">()</span></span>; <span class="comment">//打印表头</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintLinkPCB</span><span class="params">(LinkPCB* k)</span></span>; <span class="comment">//打印pcb队列</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">InitQueue</span><span class="params">(LinkPCB* p)</span></span>; <span class="comment">//初始化队列</span></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isEmpty</span><span class="params">(LinkPCB* p)</span></span>; <span class="comment">//判断队列是否为空</span></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">EnQueue</span><span class="params">(LinkPCB* p, pcb* e)</span></span>; <span class="comment">//入队，将e入队</span></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">DeQueue</span><span class="params">(LinkPCB* p, pcb* e)</span></span>; <span class="comment">//出队，出队到e</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">FromA2B</span><span class="params">(LinkPCB* a, LinkPCB* b, <span class="keyword">char</span> st)</span></span>; <span class="comment">//出队列a，进队列b，改变状态为st</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">create</span><span class="params">(LinkPCB* head)</span></span>; <span class="comment">//创建pcb列表</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Test</span><span class="params">(LinkPCB* head)</span></span>; <span class="comment">//队列测试函数</span></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">RoundRobin</span><span class="params">(LinkPCB *head)</span></span>; <span class="comment">//时间片轮转调度模拟</span></div><div class="line"></div><div class="line">LinkPCB HEAD;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    create(&amp;HEAD);</div><div class="line">    RoundRobin(&amp;HEAD);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><em>函数实现</em></li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintPCB</span><span class="params">(pcb* k)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"%s\t%c\t%d\t%d\n"</span>, k-&gt;Name, k-&gt;status, k-&gt;ServeTime, k-&gt;cpuTime);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintTitle</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"name\tstatus\tserve\tcpu\n"</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">PrintLinkPCB</span><span class="params">(LinkPCB* k)</span></span></div><div class="line">&#123;</div><div class="line">    pcb* p = k-&gt;Front-&gt;next;</div><div class="line">    <span class="keyword">while</span> (p)</div><div class="line">    &#123;</div><div class="line">        PrintPCB(p);</div><div class="line">        p = p-&gt;next;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">InitQueue</span><span class="params">(LinkPCB* p)</span></span></div><div class="line">&#123;</div><div class="line">    p-&gt;Front = p-&gt;Rear = <span class="keyword">new</span> pcb;</div><div class="line">    p-&gt;Front-&gt;next = <span class="literal">NULL</span>;</div><div class="line">    p-&gt;Rear-&gt;next = <span class="literal">NULL</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isEmpty</span><span class="params">(LinkPCB* p)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> p-&gt;Front == p-&gt;Rear;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">EnQueue</span><span class="params">(LinkPCB* p, pcb* e)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (e)</div><div class="line">    &#123;</div><div class="line">        e-&gt;next = <span class="literal">NULL</span>;</div><div class="line">        p-&gt;Rear-&gt;next = e;</div><div class="line">        p-&gt;Rear = e;</div><div class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">DeQueue</span><span class="params">(LinkPCB* p, pcb* e)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (p-&gt;Rear == p-&gt;Front)</div><div class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">    pcb* top = p-&gt;Front-&gt;next;</div><div class="line">    *e = *top; <span class="comment">// important</span></div><div class="line">    p-&gt;Front-&gt;next = top-&gt;next;</div><div class="line">    <span class="keyword">if</span> (p-&gt;Rear == top)</div><div class="line">    &#123;</div><div class="line">        p-&gt;Rear = p-&gt;Front;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">FromA2B</span><span class="params">(LinkPCB* a, LinkPCB* b, <span class="keyword">char</span> st)</span></span></div><div class="line">&#123;</div><div class="line">    pcb* p = <span class="keyword">new</span> pcb;</div><div class="line">    DeQueue(a, p);</div><div class="line">    p-&gt;status = st;</div><div class="line">    EnQueue(b, p);</div><div class="line">    <span class="keyword">switch</span> (st)</div><div class="line">    &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">'W'</span>: <span class="built_in">cout</span> &lt;&lt; p-&gt;Name &lt;&lt; <span class="string">" is waiting\ttime: "</span> &lt;&lt; now &lt;&lt; <span class="string">"\n"</span>; <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">case</span> <span class="string">'R'</span>: <span class="built_in">cout</span> &lt;&lt; p-&gt;Name &lt;&lt; <span class="string">" is running\ttime: "</span> &lt;&lt; now &lt;&lt; <span class="string">"\n"</span>; <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">case</span> <span class="string">'F'</span>:</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; p-&gt;Name &lt;&lt; <span class="string">" is finish\ttime: "</span> &lt;&lt; now &lt;&lt; <span class="string">"\n"</span>;</div><div class="line">        p-&gt;finishTime = now;</div><div class="line">        p-&gt;RoundTime = p-&gt;finishTime-p-&gt;ArriveTime;</div><div class="line">        p-&gt;WRoundTime = <span class="number">1.0</span>*p-&gt;RoundTime/p-&gt;ServeTime;</div><div class="line">        <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">case</span> <span class="string">'C'</span>:</div><div class="line">    <span class="keyword">default</span>: <span class="built_in">cout</span> &lt;&lt; <span class="string">"......"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">create</span><span class="params">(LinkPCB* head)</span></span></div><div class="line">&#123;</div><div class="line">    InitQueue(head);</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入时间片大小："</span>;</div><div class="line">    <span class="built_in">cin</span> &gt;&gt; pTime;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入要创建的进程数："</span>;</div><div class="line">    <span class="keyword">int</span> n;</div><div class="line">    <span class="built_in">cin</span> &gt;&gt; n;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++)</div><div class="line">    &#123;</div><div class="line">        pcb* ft = head-&gt;Front-&gt;next;</div><div class="line">        pcb* p = <span class="keyword">new</span> pcb; <span class="comment">// important</span></div><div class="line">        <span class="built_in">printf</span>(<span class="string">"输入第%d个进程的“ 进程名 到达时间 服务时间” （以空格隔开）"</span>, i);</div><div class="line">        <span class="keyword">char</span> Name[<span class="number">256</span>];</div><div class="line">        <span class="keyword">int</span> Atime, Stime;</div><div class="line">        <span class="built_in">cin</span> &gt;&gt; Name &gt;&gt; Atime &gt;&gt; Stime;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (Atime &gt;= <span class="number">0</span> &amp;&amp; Stime &gt;= <span class="number">0</span>)</div><div class="line">        &#123;</div><div class="line">            <span class="built_in">strcpy</span>(p-&gt;Name, Name);</div><div class="line">            p-&gt;ArriveTime = Atime;</div><div class="line">            p-&gt;ServeTime = Stime;</div><div class="line">            p-&gt;cpuTime = <span class="number">0</span>;</div><div class="line">            p-&gt;status = <span class="string">'C'</span>;</div><div class="line">            p-&gt;next = <span class="literal">NULL</span>;</div><div class="line"></div><div class="line">            <span class="comment">// sort</span></div><div class="line">            <span class="keyword">if</span> (ft == <span class="literal">NULL</span>)</div><div class="line">            &#123;</div><div class="line">                EnQueue(head, p);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (p-&gt;ArriveTime &lt; ft-&gt;ArriveTime)</div><div class="line">            &#123;</div><div class="line">                p-&gt;next = ft;</div><div class="line">                head-&gt;Front-&gt;next = p;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span></div><div class="line">            &#123;</div><div class="line">                pcb* a = ft;</div><div class="line">                pcb* b = a-&gt;next;</div><div class="line">                <span class="keyword">bool</span> flag = <span class="literal">true</span>;</div><div class="line">                <span class="keyword">while</span> (b)</div><div class="line">                &#123;</div><div class="line">                    <span class="keyword">if</span> (p-&gt;ArriveTime &lt; b-&gt;ArriveTime)</div><div class="line">                    &#123;</div><div class="line">                        p-&gt;next = b;</div><div class="line">                        a-&gt;next = p;</div><div class="line">                        b = <span class="literal">NULL</span>;</div><div class="line">                        flag = <span class="literal">false</span>;</div><div class="line">                        <span class="keyword">break</span>;</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">else</span></div><div class="line">                    &#123;</div><div class="line">                        a = a-&gt;next;</div><div class="line">                        b = b-&gt;next;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">if</span> (flag)</div><div class="line">                &#123;</div><div class="line">                    EnQueue(head, p);</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">"输入错误,请重输!"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">            i--;</div><div class="line">            <span class="keyword">continue</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="comment">// PrintLinkPCB(head);</span></div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">Test</span><span class="params">(LinkPCB* head)</span></span></div><div class="line">&#123;</div><div class="line">    InitQueue(head);</div><div class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"1.EnQueue 2.DeQueue 3.Print"</span>;</div><div class="line">        <span class="keyword">int</span> ch;</div><div class="line">        <span class="built_in">cin</span> &gt;&gt; ch;</div><div class="line">        pcb* p = <span class="keyword">new</span> pcb;</div><div class="line">        <span class="keyword">switch</span> (ch)</div><div class="line">        &#123;</div><div class="line">        <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">"input: name atime stime"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">            <span class="keyword">char</span> Name[<span class="number">256</span>];</div><div class="line">            <span class="keyword">int</span> Atime, Stime;</div><div class="line">            <span class="built_in">cin</span> &gt;&gt; Name &gt;&gt; Atime &gt;&gt; Stime;</div><div class="line">            <span class="built_in">strcpy</span>(p-&gt;Name, Name);</div><div class="line">            p-&gt;ArriveTime = Atime;</div><div class="line">            p-&gt;ServeTime = Stime;</div><div class="line">            p-&gt;cpuTime = <span class="number">0</span>;</div><div class="line">            p-&gt;status = <span class="string">'W'</span>;</div><div class="line">            p-&gt;next = <span class="literal">NULL</span>;</div><div class="line">            EnQueue(head, p);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">2</span>:</div><div class="line">            <span class="keyword">if</span> (DeQueue(head, p))</div><div class="line">                PrintPCB(p);</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">case</span> <span class="number">3</span>:</div><div class="line">        <span class="keyword">default</span>:</div><div class="line">            PrintLinkPCB(head);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">RoundRobin</span><span class="params">(LinkPCB *head)</span></span></div><div class="line">&#123;</div><div class="line">    LinkPCB *ready = <span class="keyword">new</span> LinkPCB;</div><div class="line">    LinkPCB *run = <span class="keyword">new</span> LinkPCB;</div><div class="line">    LinkPCB *finish = <span class="keyword">new</span> LinkPCB;</div><div class="line">    InitQueue(ready);</div><div class="line">    InitQueue(run);</div><div class="line">    InitQueue(finish);</div><div class="line"></div><div class="line">    now = head-&gt;Front-&gt;next-&gt;ArriveTime; <span class="comment">//开始时刻</span></div><div class="line">    FromA2B(head, ready, <span class="string">'W'</span>);</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (!(isEmpty(head) &amp;&amp; isEmpty(ready)))</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">int</span> Tnow = now; <span class="comment">//备份开始时刻</span></div><div class="line"></div><div class="line">        <span class="keyword">while</span> (!isEmpty(head))</div><div class="line">        &#123;</div><div class="line">            pcb* t = head-&gt;Front-&gt;next;</div><div class="line">            <span class="keyword">if</span> (now &gt;= t-&gt;ArriveTime)</div><div class="line">            &#123;</div><div class="line">                FromA2B(head, ready, <span class="string">'W'</span>);</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (!isEmpty(ready))</div><div class="line">        &#123;</div><div class="line">            FromA2B(ready, run, <span class="string">'R'</span>);</div><div class="line">            pcb* p = run-&gt;Front-&gt;next;</div><div class="line">            <span class="keyword">if</span> (p-&gt;ServeTime - p-&gt;cpuTime &lt;= pTime) <span class="comment">//时间片内完成</span></div><div class="line">            &#123;</div><div class="line">                now += p-&gt;ServeTime - p-&gt;cpuTime;</div><div class="line">                p-&gt;cpuTime = p-&gt;ServeTime;</div><div class="line">                FromA2B(run, finish, <span class="string">'F'</span>);</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span></div><div class="line">            &#123;</div><div class="line">                now += pTime;</div><div class="line">                p-&gt;cpuTime += pTime;</div><div class="line">                FromA2B(run, ready, <span class="string">'W'</span>);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (Tnow == now) <span class="comment">//若没发生轮转，时间继续推移</span></div><div class="line">        &#123;</div><div class="line">            now++;</div><div class="line">            <span class="keyword">continue</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        PrintTitle();</div><div class="line">        PrintLinkPCB(head);</div><div class="line">        PrintLinkPCB(run);</div><div class="line">        PrintLinkPCB(ready);</div><div class="line">        PrintLinkPCB(finish);</div><div class="line">        <span class="built_in">cout</span> &lt;&lt; <span class="string">"time: "</span> &lt;&lt; now &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">// result</span></div><div class="line">    pcb* p = finish-&gt;Front-&gt;next;</div><div class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"Result:\n"</span>;</div><div class="line">    <span class="keyword">while</span> (p)</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"Name: %s\tFinishtime: %d\tRoundtime: %d\twRoundtime: %.2f\n"</span>, p-&gt;Name, p-&gt;finishTime, p-&gt;RoundTime, p-&gt;WRoundTime);</div><div class="line">        p = p-&gt;next;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -254,142 +758,81 @@ sudo vim 当前主题名称</pre>
     <header>
       
         <div class="icon"></div>
-        <time datetime="2016-08-30T09:49:51.000Z"><a href="/2016/08/30/闲来无事，做个课表UWP练练手/">2016-08-30</a></time>
+        <time datetime="2016-10-01T13:11:38.000Z"><a href="/2016/10/01/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/">2016-10-01</a></time>
       
       
   
-    <h1 class="title"><a href="/2016/08/30/闲来无事，做个课表UWP练练手/">闲来无事，做个课表UWP练练手</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h3 id="→-→-为什么我总是这么闲……"><a href="#→-→-为什么我总是这么闲……" class="headerlink" title="→_→ 为什么我总是这么闲……"></a>→_→ 为什么我总是这么闲……</h3><p>正好学了一段时间UWP，我觉得我可以做一个自己用啊。<br>目前是自用版本，等我写好爬虫和教务登录，试试放到微软商店怎样？</p>
-<p><a href="http://www.findshank.website/wp-content/uploads/2016/08/QQ截图20160830173641.jpg" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2016/08/QQ截图20160830173641.jpg" alt="" width="816" height="586" class="aligncenter size-full wp-image-72"></a></p>
-<p>尽管很low，但还是放自己网站上秀一下吧。<br><a href="git@github.com:lwy0007123/ClassSchedule.git">git@github.com:lwy0007123/ClassSchedule.git</a></p>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2016-04-17T12:33:19.000Z"><a href="/2016/04/17/太久不更新，我都快忘了这个站点了/">2016-04-17</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2016/04/17/太久不更新，我都快忘了这个站点了/">太久不更新，我都快忘了这个站点了</a></h1>
+    <h1 class="title"><a href="/2016/10/01/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/">Thinkpad X250 安装ubuntu16.04.1LTS 的记录</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <p>做了一段视频来恶搞我的室友凯子同学，插进来看看效果</p>
-<embed src="http://player.youku.com/player.php/sid/XMTUzODQyMjM1Mg==/v.swf" type="application/x-shockwave-flash" width="480" height="400" align="middle">
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-12-14T16:29:50.000Z"><a href="/2015/12/15/画一个微软标志/">2015-12-15</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/12/15/画一个微软标志/">画一个微软标志</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p><a href="http://www.findshank.website/wp-content/uploads/2015/12/QQ截图20151209232926.png" target="_blank" rel="external"><img src="http://www.findshank.website/wp-content/uploads/2015/12/QQ截图20151209232926-947x1024.png" alt="" width="756" height="817" class="aligncenter size-large wp-image-48"></a></p>
-<h3 id="闲来无事，玩了会CSS，所以画一个微软标志展示我的信仰"><a href="#闲来无事，玩了会CSS，所以画一个微软标志展示我的信仰" class="headerlink" title="闲来无事，玩了会CSS，所以画一个微软标志展示我的信仰"></a>闲来无事，玩了会CSS，所以画一个微软标志展示我的信仰</h3><ul>
-<li><p>index.html</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"use.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>画一个微软标志<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"icon"</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"text"</span>&gt;</span>Microsoft<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"zz"</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"s1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"s2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"s3"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"s4"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>use.css</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">@<span class="keyword">CHARSET</span> <span class="string">"UTF-8"</span>;</div><div class="line"><span class="selector-id">#icon</span>&#123;</div><div class="line"> <span class="attribute">height</span>: <span class="number">420px</span>;</div><div class="line"> <span class="attribute">width</span>:<span class="number">1500px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.text</span>&#123;</div><div class="line"> <span class="attribute">width</span>: <span class="number">1000px</span>;</div><div class="line"> <span class="attribute">height</span>: <span class="number">420px</span>;</div><div class="line"> <span class="attribute">line-height</span>:<span class="number">420px</span>;</div><div class="line"> <span class="attribute">font-size</span>: <span class="number">340px</span>;</div><div class="line"> <span class="attribute">float</span>: right;</div><div class="line"> <span class="attribute">font-family</span>: <span class="string">"Microsoft YaHei"</span>! important; </div><div class="line"> <span class="attribute">font-weight</span>:bold;</div><div class="line"> <span class="attribute">letter-spacing</span>: -<span class="number">10px</span>;</div><div class="line"> <span class="attribute">color</span>: <span class="built_in">rgb</span>(119,119,119);</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.zz</span> &#123;</div><div class="line"> <span class="attribute">width</span>: <span class="number">420px</span>;</div><div class="line"> <span class="attribute">height</span>: <span class="number">420px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.s1</span> &#123;</div><div class="line"> <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">background</span>: <span class="built_in">rgb</span>(243,100,34);</div><div class="line"> <span class="attribute">float</span>: left;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.s2</span> &#123;</div><div class="line"> <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">background</span>: <span class="built_in">rgb</span>(141,197,62);</div><div class="line"> <span class="attribute">float</span>: right;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.s3</span> &#123;</div><div class="line"> <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">background</span>: <span class="built_in">rgb</span>(0,173,239);</div><div class="line"> <span class="attribute">float</span>: left;</div><div class="line"> <span class="attribute">margin-top</span>: <span class="number">20px</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.s4</span> &#123;</div><div class="line"> <span class="attribute">width</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">height</span>: <span class="number">200px</span>;</div><div class="line"> <span class="attribute">background</span>: <span class="built_in">rgb</span>(255,195,13);</div><div class="line"> <span class="attribute">float</span>: right;</div><div class="line"> <span class="attribute">margin-top</span>: <span class="number">20px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>​</p>
-</li>
-</ul>
-
-      
-    </div>
-    <footer>
-      
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-
-  <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2015-12-01T15:21:16.000Z"><a href="/2015/12/01/第一篇就谈谈这个吧/">2015-12-01</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2015/12/01/第一篇就谈谈这个吧/">第一篇就谈谈这个吧</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="这网站怎么建的"><a href="#这网站怎么建的" class="headerlink" title="这网站怎么建的"></a>这网站怎么建的</h2><p><em>准备好云空间和域名云解析，Xshell 和 Xftp</em><br><em>本站运行于CentOS 7，使用阿里云ecs</em><br><em>用ssh客户端(xshell,putty等)连接你的服务器，root下执行以下命令行操作：</em></p>
-<h3 id="安装mqsql-（mariadb）、apache、php"><a href="#安装mqsql-（mariadb）、apache、php" class="headerlink" title="安装mqsql （mariadb）、apache、php"></a>安装mqsql （mariadb）、apache、php</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">yum install mariadb-server mariadb-client</div><div class="line">yum install httpd httpd-devel</div><div class="line">yum install php php-devel php-mysql /</div><div class="line">php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc</div></pre></td></tr></table></figure>
-<h3 id="重设mysql-root用户密码"><a href="#重设mysql-root用户密码" class="headerlink" title="重设mysql root用户密码"></a>重设mysql root用户密码</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysqladmin -u root password 'PASSWORD'</div></pre></td></tr></table></figure>
-<h3 id="登陆mysql"><a href="#登陆mysql" class="headerlink" title="登陆mysql"></a>登陆mysql</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mysql -u root -p # 新建一个wordpress的数据库</div></pre></td></tr></table></figure>
-<h3 id="配置-wordpress"><a href="#配置-wordpress" class="headerlink" title="配置 wordpress"></a>配置 wordpress</h3><p><em>使用ftp上传wordpress到 /var/www/html/ 并解压</em><br><em>根据readme.html 中的说明配置 wordpress</em></p>
-<h3 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h3><p><em>在wordpress管理页面直接搜索插件安装即可</em></p>
-<ul>
-<li><p>Useso take over Google<br><em>替换所有的Google字体、谷歌JS公用库、Gravatar头像的源(解决页面访问慢的问题，必装！)</em></p>
-</li>
-<li><p>JP Markdown<br><em>使页面支持Markdown，Markdown是个好东西，Geek嘛，谁愿意拿着鼠标改格式，但要注意编辑文章不要用可视化视图</em></p>
-</li>
-<li><p>Crayon Syntax Highlighter<br><em>代码格式化插件，安装后文章编辑器多了个crayon标签，把代码选择然后点标签，你就会用了</em></p>
-</li>
-</ul>
-<h3 id="解决插件或主题更新-安装失败的问题"><a href="#解决插件或主题更新-安装失败的问题" class="headerlink" title="解决插件或主题更新/安装失败的问题"></a>解决插件或主题更新/安装失败的问题</h3><p><em>方法1</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> www目录及文件所有者设置为你apache的用户和组</span></div><div class="line">sudo chown -R apache:apache /var/www/</div><div class="line"><span class="meta">#</span><span class="bash"> 如果你改过wordpress里文件的权限，最好改回来</span></div><div class="line">find $path -type f -exec chmod 644 &#123;&#125; \;  #设置文件权限为644</div><div class="line">find $path -type d -exec chmod 755 &#123;&#125; \;  #设置目录权限为755</div><div class="line"><span class="meta">#</span><span class="bash">PS: <span class="variable">$path</span> 处填你的wordpress路径</span></div></pre></td></tr></table></figure></p>
-<p><em>方法2 (PS:不安全,不推荐)</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> 直接简单粗暴改权限</span></div><div class="line">sudo chmod -R 777 /var/www/html/wp-content/</div><div class="line"><span class="meta">#</span><span class="bash"> 更新完成后再改回来</span></div><div class="line">sudo chmod -R 751 /var/www/html/wp-content/</div></pre></td></tr></table></figure></p>
+        <p>X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。<br>因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。<br>U盘制作ubuntu安装盘，开机启动到U盘。</p>
+<p>安装时，对空闲20G手动分区 ：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">分区类型</th>
+<th style="text-align:left">挂载点</th>
+<th style="text-align:left">大小</th>
+<th style="text-align:left">位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">主分区</td>
+<td style="text-align:left">/boot</td>
+<td style="text-align:left">400M</td>
+<td style="text-align:left">起始</td>
+</tr>
+<tr>
+<td style="text-align:left">逻辑区</td>
+<td style="text-align:left">/</td>
+<td style="text-align:left">15000M</td>
+<td style="text-align:left">起始</td>
+</tr>
+<tr>
+<td style="text-align:left">逻辑区</td>
+<td style="text-align:left">swap</td>
+<td style="text-align:left">512M</td>
+<td style="text-align:left">末尾</td>
+</tr>
+<tr>
+<td style="text-align:left">逻辑区</td>
+<td style="text-align:left">/home</td>
+<td style="text-align:left">剩余所有</td>
+<td style="text-align:left">起始</td>
+</tr>
+</tbody>
+</table>
+<p>因为我不希望ubuntu覆盖我的windows引导，所以启动选择器 sdb<br>（因为内存有8G，交换空间就不分那么多了。启动选择在第二快盘，就不会覆盖win的引导，倒时开机bios改下硬盘启动顺序就行了。<br>我可能随时会把ubuntu的分区格掉，毕竟ssd空间有限，到时候不至于用easybcd或者PE重做引导）<br>安装完成后，重启。</p>
+<p><strong>安装burg，美化开机选择界面：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:n-muench/burg &amp;&amp; sudo apt-get update</div><div class="line">sudo apt-get install burg burg-themes burg-emu</div></pre></td></tr></table></figure>
+<p>安装过程可以一路回车，注意在Configuring burg-pc时选择sdb。<br>更换burg themes ，下载Lightness BURG Theme by SWOriginal<br>解压后cp到/boot/burg/themes里。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo update-burg</div><div class="line">gedit /boot/burg/burg.cfg</div></pre></td></tr></table></figure>
+<p>删除一个recoverymode引导，提前win引导项<br>sudo burg-emu -&gt; F2 -&gt; 选择Lightness<br>(每次grub更新后都要重置burg sudo burg-install /dev/sdx )</p>
+<p><strong>安装指纹识别fingerprint：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:fingerprint/fprint &amp;&amp; sudo apt-get update</div><div class="line">sudo apt-get install libfprint0 fprint-demo libpam-fprintd gksu</div></pre></td></tr></table></figure>
+<p>在 “系统设置” -&gt; “用户账户” 里会多一个 “指纹登录”，照着提示进行设置就可以了。</p>
+<p><strong>关闭鼠标加速：</strong><br>在Dashboard里搜索:<br>gnome-session-properties<br>点击添加：<br>名称：setmouse<br>命令：xset m 0 或者 xset m default<br>重启。</p>
+<p><strong>安装TLP电源管理：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install tlp tlp-rdw</div><div class="line">sudo apt-get install tp-smapi-dkms acpi-call-dkms</div><div class="line">sudo apt-get install thermald</div><div class="line">sudo apt-get install powertop</div></pre></td></tr></table></figure>
+<p>配置 TLP</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/default/tlp</div><div class="line">sudo tlp start</div></pre></td></tr></table></figure>
+<p><strong>使用 terminator <a href="http://www.findshank.website/index.php/2016/10/01/terminator/" target="_blank" rel="external">替换默认终端以及使用zsh</a></strong> (另外写一篇介绍这个)</p>
+<p><strong>安装Arc GTK主题：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_16.04/ /' &gt;&gt; /etc/apt/sources.list.d/arc-theme.list"</div><div class="line">wget http://download.opensuse.org/repositories/home:Horst3180/xUbuntu_16.04/Release.key</div><div class="line">sudo apt-key add - &lt; Release.key</div><div class="line">sudo apt update</div><div class="line">sudo apt install arc-theme</div></pre></td></tr></table></figure>
+<p>安装Unity Tweak Tool管理主题：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt install unity-tweak-tool</div></pre></td></tr></table></figure>
+<p>个人觉得Arc-darker 好看，更换之。</p>
+<p><strong>安装Deadbeef，播放更多音频：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:starws-box/deadbeef-player</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install deadbeef</div></pre></td></tr></table></figure>
+<p><strong>安装MPV播放器：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install mpv</div></pre></td></tr></table></figure>
+<p><strong>安装cherrytree笔记本：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install cherrytree</div></pre></td></tr></table></figure>
+<p><strong>安装lantern翻墙：</strong><br><a href="https://github.com/getlantern/forum/issues/833" target="_blank" rel="external">传送门</a></p>
 
       
     </div>
@@ -411,6 +854,8 @@ sudo vim 当前主题名称</pre>
   
     <a href="/" class="alignleft prev">Vorherige Seite</a>
   
+  
+    <a href="/page/3/" class="alignright next">Nächste Seite</a>
   
   <div class="clearfix"></div>
 </nav></div></div>
