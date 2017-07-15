@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://findshank.com/2016/10/01/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/index.html">
 <meta property="og:site_name" content="Shank &amp; Tech">
 <meta property="og:description" content="X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。U盘制作ubuntu安装盘，开机启动到U盘。 安装时，对空闲20G手动分区 ：    分区类型 挂载点 大小 位置     主分区 /boot 400M 起始   逻辑区 / 15000M 起始   逻辑区">
-<meta property="og:updated_time" content="2017-07-15T14:43:18.837Z">
+<meta property="og:updated_time" content="2017-07-15T15:19:30.336Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Thinkpad X250 安装ubuntu16.04.1LTS 的记录">
 <meta name="twitter:description" content="X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。U盘制作ubuntu安装盘，开机启动到U盘。 安装时，对空闲20G手动分区 ：    分区类型 挂载点 大小 位置     主分区 /boot 400M 起始   逻辑区 / 15000M 起始   逻辑区">
@@ -372,7 +372,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install tlp tlp-rdw</div><div class="line">sudo apt-get install tp-smapi-dkms acpi-call-dkms</div><div class="line">sudo apt-get install thermald</div><div class="line">sudo apt-get install powertop</div></pre></td></tr></table></figure>
 <p>配置 TLP</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/default/tlp</div><div class="line">sudo tlp start</div></pre></td></tr></table></figure>
-<p><strong>使用 terminator <a href="http://www.findshank.website/index.php/2016/10/01/terminator/" target="_blank" rel="external">替换默认终端以及使用zsh</a></strong> (另外写一篇介绍这个)</p>
+<p><strong>使用 terminator <a href="/2016/10/01/使用%20Terminator%20%20&amp;%20ZSH的配置/">替换默认终端以及使用zsh</a></strong> (另外写一篇介绍这个)</p>
 <p><strong>安装Arc GTK主题：</strong></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_16.04/ /' &gt;&gt; /etc/apt/sources.list.d/arc-theme.list"</div><div class="line">wget http://download.opensuse.org/repositories/home:Horst3180/xUbuntu_16.04/Release.key</div><div class="line">sudo apt-key add - &lt; Release.key</div><div class="line">sudo apt update</div><div class="line">sudo apt install arc-theme</div></pre></td></tr></table></figure>
 <p>安装Unity Tweak Tool管理主题：</p>
@@ -431,8 +431,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/10/01/使用 Terminator  & ZSH的配置/" rel="next" title="使用 Terminator & ZSH的配置">
-                <i class="fa fa-chevron-left"></i> 使用 Terminator & ZSH的配置
+              <a href="/2016/08/30/闲来无事，做个课表UWP练练手/" rel="next" title="闲来无事，做个课表UWP练练手">
+                <i class="fa fa-chevron-left"></i> 闲来无事，做个课表UWP练练手
               </a>
             
           </div>
@@ -441,8 +441,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/11/20/【C++】时间片轮转算法模拟/" rel="prev" title="【C++】时间片轮转算法模拟">
-                【C++】时间片轮转算法模拟 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/10/01/使用 Terminator  & ZSH的配置/" rel="prev" title="使用 Terminator & ZSH的配置">
+                使用 Terminator & ZSH的配置 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
