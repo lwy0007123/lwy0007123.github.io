@@ -8,16 +8,16 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。U盘制作ubuntu安装盘，开机启动到U盘。 安装时，对空闲20G手动分区 ：    分区类型 挂载点 大小 位置     主分区 /boot 400M 起始   逻辑区 / 15000M 起始   逻辑区">
+  <meta name="description" content="据说万网的域名很坑，当年图方便，偶然发现website域名不用备案，就买了。一直用着都挺好的，今年11月才到期。 本来还打算一直用下去的。可就在前天，想看看自己的博客，不能访问，一个TestPage挡在前面要求我去备案。那没办法，就去呗。可是尼玛，不支持 .website 域名是什么鬼。 这是逼着我把域名往外转啊…… 在GoDaddy上注册一个账号，然后阿里云控制台申请域名转出万网。在GoDadd">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/2017/07/15/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/07/15/网站需要备案/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。U盘制作ubuntu安装盘，开机启动到U盘。 安装时，对空闲20G手动分区 ：    分区类型 挂载点 大小 位置     主分区 /boot 400M 起始   逻辑区 / 15000M 起始   逻辑区">
-<meta property="og:updated_time" content="2017-01-18T06:11:48.000Z">
+<meta property="og:description" content="据说万网的域名很坑，当年图方便，偶然发现website域名不用备案，就买了。一直用着都挺好的，今年11月才到期。 本来还打算一直用下去的。可就在前天，想看看自己的博客，不能访问，一个TestPage挡在前面要求我去备案。那没办法，就去呗。可是尼玛，不支持 .website 域名是什么鬼。 这是逼着我把域名往外转啊…… 在GoDaddy上注册一个账号，然后阿里云控制台申请域名转出万网。在GoDadd">
+<meta property="og:updated_time" content="2017-07-15T09:58:59.009Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。U盘制作ubuntu安装盘，开机启动到U盘。 安装时，对空闲20G手动分区 ：    分区类型 挂载点 大小 位置     主分区 /boot 400M 起始   逻辑区 / 15000M 起始   逻辑区">
+<meta name="twitter:description" content="据说万网的域名很坑，当年图方便，偶然发现website域名不用备案，就买了。一直用着都挺好的，今年11月才到期。 本来还打算一直用下去的。可就在前天，想看看自己的博客，不能访问，一个TestPage挡在前面要求我去备案。那没办法，就去呗。可是尼玛，不支持 .website 域名是什么鬼。 这是逼着我把域名往外转啊…… 在GoDaddy上注册一个账号，然后阿里云控制台申请域名转出万网。在GoDadd">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -153,76 +153,19 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Thinkpad X250 安装ubuntu16.04.1LTS 的记录" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-网站需要备案" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。<br>因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。<br>U盘制作ubuntu安装盘，开机启动到U盘。</p>
-<p>安装时，对空闲20G手动分区 ：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">分区类型</th>
-<th style="text-align:left">挂载点</th>
-<th style="text-align:left">大小</th>
-<th style="text-align:left">位置</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">主分区</td>
-<td style="text-align:left">/boot</td>
-<td style="text-align:left">400M</td>
-<td style="text-align:left">起始</td>
-</tr>
-<tr>
-<td style="text-align:left">逻辑区</td>
-<td style="text-align:left">/</td>
-<td style="text-align:left">15000M</td>
-<td style="text-align:left">起始</td>
-</tr>
-<tr>
-<td style="text-align:left">逻辑区</td>
-<td style="text-align:left">swap</td>
-<td style="text-align:left">512M</td>
-<td style="text-align:left">末尾</td>
-</tr>
-<tr>
-<td style="text-align:left">逻辑区</td>
-<td style="text-align:left">/home</td>
-<td style="text-align:left">剩余所有</td>
-<td style="text-align:left">起始</td>
-</tr>
-</tbody>
-</table>
-<p>因为我不希望ubuntu覆盖我的windows引导，所以启动选择器 sdb<br>（因为内存有8G，交换空间就不分那么多了。启动选择在第二快盘，就不会覆盖win的引导，倒时开机bios改下硬盘启动顺序就行了。<br>我可能随时会把ubuntu的分区格掉，毕竟ssd空间有限，到时候不至于用easybcd或者PE重做引导）<br>安装完成后，重启。</p>
-<p><strong>安装burg，美化开机选择界面：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:n-muench/burg &amp;&amp; sudo apt-get update</div><div class="line">sudo apt-get install burg burg-themes burg-emu</div></pre></td></tr></table></figure>
-<p>安装过程可以一路回车，注意在Configuring burg-pc时选择sdb。<br>更换burg themes ，下载Lightness BURG Theme by SWOriginal<br>解压后cp到/boot/burg/themes里。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo update-burg</div><div class="line">gedit /boot/burg/burg.cfg</div></pre></td></tr></table></figure>
-<p>删除一个recoverymode引导，提前win引导项<br>sudo burg-emu -&gt; F2 -&gt; 选择Lightness<br>(每次grub更新后都要重置burg sudo burg-install /dev/sdx )</p>
-<p><strong>安装指纹识别fingerprint：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:fingerprint/fprint &amp;&amp; sudo apt-get update</div><div class="line">sudo apt-get install libfprint0 fprint-demo libpam-fprintd gksu</div></pre></td></tr></table></figure>
-<p>在 “系统设置” -&gt; “用户账户” 里会多一个 “指纹登录”，照着提示进行设置就可以了。</p>
-<p><strong>关闭鼠标加速：</strong><br>在Dashboard里搜索:<br>gnome-session-properties<br>点击添加：<br>名称：setmouse<br>命令：xset m 0 或者 xset m default<br>重启。</p>
-<p><strong>安装TLP电源管理：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install tlp tlp-rdw</div><div class="line">sudo apt-get install tp-smapi-dkms acpi-call-dkms</div><div class="line">sudo apt-get install thermald</div><div class="line">sudo apt-get install powertop</div></pre></td></tr></table></figure>
-<p>配置 TLP</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/default/tlp</div><div class="line">sudo tlp start</div></pre></td></tr></table></figure>
-<p><strong>使用 terminator <a href="http://www.findshank.website/index.php/2016/10/01/terminator/" target="_blank" rel="external">替换默认终端以及使用zsh</a></strong> (另外写一篇介绍这个)</p>
-<p><strong>安装Arc GTK主题：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_16.04/ /' &gt;&gt; /etc/apt/sources.list.d/arc-theme.list"</div><div class="line">wget http://download.opensuse.org/repositories/home:Horst3180/xUbuntu_16.04/Release.key</div><div class="line">sudo apt-key add - &lt; Release.key</div><div class="line">sudo apt update</div><div class="line">sudo apt install arc-theme</div></pre></td></tr></table></figure>
-<p>安装Unity Tweak Tool管理主题：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt install unity-tweak-tool</div></pre></td></tr></table></figure>
-<p>个人觉得Arc-darker 好看，更换之。</p>
-<p><strong>安装Deadbeef，播放更多音频：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:starws-box/deadbeef-player</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install deadbeef</div></pre></td></tr></table></figure>
-<p><strong>安装MPV播放器：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install mpv</div></pre></td></tr></table></figure>
-<p><strong>安装cherrytree笔记本：</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install cherrytree</div></pre></td></tr></table></figure>
-<p><strong>安装lantern翻墙：</strong><br><a href="https://github.com/getlantern/forum/issues/833" target="_blank" rel="external">传送门</a></p>
+        <p>据说万网的域名很坑，当年图方便，偶然发现website域名不用备案，就买了。一直用着都挺好的，今年11月才到期。</p>
+<p>本来还打算一直用下去的。可就在前天，想看看自己的博客，不能访问，一个TestPage挡在前面要求我去备案。那没办法，就去呗。可是尼玛，不支持 .website 域名是什么鬼。</p>
+<p>这是逼着我把域名往外转啊……</p>
+<p>在GoDaddy上注册一个账号，然后阿里云控制台申请域名转出万网。在GoDaddy上找到域名转入输入域名和邮箱收到转移密码。我去，价格199还强行要续一年，我有点不能接受啊（学生党资金不充裕）。</p>
+<p>重新申请吧…… 换个 findshank.com 好了，正巧可以注册，爽爽的。一年60，还能接受。还有个隐私保护又要收60，我就没选，毕竟我填的信息基本是假的啊……</p>
+<p>新域名到手，将域名解析指向云主机的IP。等几分钟试一下。打不开什么鬼？那么全局翻墙，嗯，可以进。</p>
+<p>为了方便国内访问，就要换国内的DNS服务器来解析这个域名。Google了一下，就用<a href="https://www.dnspod.cn/" target="_blank" rel="external">DNSPod</a>好了，域名解析是免费的，跟着官方提示做很简单，然后GoDaddy上更换自定义解析服务器为DNSPod的提供的地址就好了。</p>
+<p>欢迎新朋友访问我的新域名 www.findshank.com 😄</p>
 
       
 
@@ -302,7 +245,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/07/15/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/07/15/网站需要备案/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -316,7 +259,7 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/07/15/从放弃Windows到使用IRC/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/07/15/闲来无事，做个课表UWP练练手/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
@@ -326,7 +269,7 @@
     </a>
   
   
-    <a href="/2017/07/15/OSMC使用/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/07/15/太久不更新，我都快忘了这个站点了/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title"></div>
       <i class="icon-circle-right"></i>
     </a>
