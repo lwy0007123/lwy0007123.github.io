@@ -324,17 +324,17 @@
       
         
           
-            <p>据说万网的域名很坑，当年图方便，偶然发现website域名不用备案，就买了。一直用着都挺好的，今年11月才到期。</p>
-<p>本来还打算一直用下去的。可就在前天，想看看自己的博客，不能访问，一个TestPage挡在前面要求我去备案。那没办法，就去呗。可是尼玛，不支持 .website 域名是什么鬼。</p>
-<p>这是逼着我把域名往外转啊……</p>
-<p>在GoDaddy上注册一个账号，然后阿里云控制台申请域名转出万网。在GoDaddy上找到域名转入输入域名和邮箱收到转移密码。我去，价格199还强行要续一年，我有点不能接受啊（学生党资金不充裕）。</p>
-<p>重新申请吧…… 换个 findshank.com 好了，正巧可以注册，爽爽的。一年60，还能接受。还有个隐私保护又要收60，我就没选，毕竟我填的信息基本是假的啊……</p>
-<p>新域名到手，将域名解析指向云主机的IP。等几分钟试一下。打不开什么鬼？那么全局翻墙，嗯，可以进。</p>
-<p>为了方便国内访问，就要换国内的DNS服务器来解析这个域名。Google了一下，就用<a href="https://www.dnspod.cn/" target="_blank" rel="external">DNSPod</a>好了，域名解析是免费的，跟着官方提示做很简单，然后GoDaddy上更换自定义解析服务器为DNSPod的提供的地址就好了。</p>
-<p>欢迎新朋友访问我的新域名 www.findshank.com 😄</p>
-<p><em>然而，被封的是云主机，云主机需要备案，这个就没那么容易换了。</em></p>
-<h1 id="既然买了域名就折腾-Github-Pages-吧！"><a href="#既然买了域名就折腾-Github-Pages-吧！" class="headerlink" title="既然买了域名就折腾 Github Pages 吧！"></a>既然买了域名就折腾 Github Pages 吧！</h1>
-          
+          据说万网的域名很坑，当年图方便，偶然发现website域名不用备案，就买了。一直用着都挺好的，今年11月才到期。
+本来还打算一直用下去的。可就在前天，想看看自己的博客，不能访问，一个TestPage挡在前面要求我去备案。那没办法，就去呗。可是尼玛，不支持 .website 域名是什么鬼。
+这是逼着我
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/07/15/网站需要备案/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -444,66 +444,19 @@
       
         
           
-            <p><a href="#NewVersion">直接跳到2.0版本</a></p>
-<h1 id="版本0-1-简单的异步刷新尝试"><a href="#版本0-1-简单的异步刷新尝试" class="headerlink" title="版本0.1 - 简单的异步刷新尝试"></a>版本0.1 - 简单的异步刷新尝试</h1><ul>
-<li>ProcessController中加入</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">[<span class="meta">AllowAnonymous</span>] <span class="comment">// 这是允许匿名访问的声明，没有用ASP.NET IDENTITY可以删掉</span></div><div class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">PartialTest</span>(<span class="params"></span>)</span></div><div class="line">&#123;</div><div class="line">  <span class="keyword">return</span> View();</div><div class="line">&#125;</div><div class="line">[<span class="meta">AllowAnonymous</span>]</div><div class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">Fetch</span>(<span class="params"><span class="keyword">int</span> num</span>)</span></div><div class="line">&#123;</div><div class="line">  <span class="comment">// 取前num条数据</span></div><div class="line">  <span class="keyword">var</span> model = db.Movies.Take(num).ToList();</div><div class="line">  <span class="comment">// MovieList是你的Partial页面的名字,model是与该Partial页头部接受的类型一致的model</span></div><div class="line">  <span class="keyword">return</span> PartialView(<span class="string">"MovieList"</span>, model);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>/View/Process/PartialTest.cshtml</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"btn"</span> <span class="attr">class</span>=<span class="string">"btn"</span>&gt;</span>加一条<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"notificationsTable"</span>&gt;</span></div><div class="line">    @&#123;Html.RenderAction("Fetch", new &#123; num = 1 &#125;);&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">@* 添加JS到布局页，否则找不到jQuery的$标记 *@</div><div class="line">@section scripts&#123;</div><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">    var n = 2;</div><div class="line">    $(document).ready(function () &#123;</div><div class="line">        $("#btn").click(function () &#123;</div><div class="line">            $("#notificationsTable").load('/Process/Fetch?num=' + n);</div><div class="line">            n++;</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>地址栏运行/Process/PartialTest 即可</li>
-</ul>
-<h1 id="更新-1-0-使用-Ajax-ActionLink"><a href="#更新-1-0-使用-Ajax-ActionLink" class="headerlink" title="更新 1.0 - 使用@Ajax.ActionLink"></a>更新 1.0 - 使用@Ajax.ActionLink</h1><p>不希望在cshtml代码里用JS?  Razor Helper 还提供了 @Ajax.ActionLink</p>
-<p>感谢下面链接里的大佬 </p>
-<p><a href="http://www.c-sharpcorner.com/UploadFile/abhikumarvatsa/ajax-actionlink-and-html-actionlink-in-mvc/" target="_blank">传送门</a></p>
-<ul>
-<li>先在VS的程序包管理器控制台输入 (PS.如果有问题就在NuGet搜索安装) </li>
-</ul>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Install-Package Microsoft.jQuery.Unobtrusive.Ajax</div></pre></td></tr></table></figure>
-<ul>
-<li>修改/View/Process/PartialTest.cshtml为</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">@Ajax.ActionLink("一条变两条", "Fetch",new &#123; num = 2 &#125;,</div><div class="line">   new AjaxOptions</div><div class="line">   &#123;</div><div class="line">       UpdateTargetId = "notificationsTable",</div><div class="line">       InsertionMode = InsertionMode.Replace,</div><div class="line">       HttpMethod = "GET"</div><div class="line">   &#125;,</div><div class="line">   new</div><div class="line">   &#123;</div><div class="line">       @class = "btn btn-default",</div><div class="line">       @role = "button"</div><div class="line">   &#125;</div><div class="line">)</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"notificationsTable"</span>&gt;</span></div><div class="line">    @&#123;Html.RenderAction("Fetch", new &#123; num = 1 &#125;);&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">@section scripts&#123;</div><div class="line">    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>由于用@Ajax.ActionLink生成的按钮是固定的，所以没法像JS那样动态修改请求变量，但是页面的异步刷新效果还是有的</li>
-</ul>
-<h1 id="更新-1-1-解决上面的问题"><a href="#更新-1-1-解决上面的问题" class="headerlink" title="更新 1.1 - 解决上面的问题"></a>更新 1.1 - 解决上面的问题</h1><p>动态更改ActionLink的routeValues，StackOverflow的回答基本是用JQuery，下面是解决办法：</p>
-<ul>
-<li>修改/View/Process/PartialTest.cshtml为：</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">@Ajax.ActionLink(<span class="string">"加一条"</span>, <span class="string">"Fetch"</span>,<span class="keyword">new</span> &#123; num = <span class="string">"xxx"</span> &#125;,</div><div class="line">   <span class="keyword">new</span> AjaxOptions</div><div class="line">   &#123;</div><div class="line">       UpdateTargetId = <span class="string">"notificationsTable"</span>,</div><div class="line">       InsertionMode = InsertionMode.Replace,</div><div class="line">       HttpMethod = <span class="string">"GET"</span></div><div class="line">   &#125;,</div><div class="line">   <span class="keyword">new</span></div><div class="line">   &#123;</div><div class="line">       @id = <span class="string">"btn"</span>,</div><div class="line">       @<span class="keyword">class</span> = <span class="string">"btn btn-default"</span>,</div><div class="line">       @role = <span class="string">"button"</span></div><div class="line">   &#125;</div><div class="line">)</div><div class="line">@section scripts&#123;</div><div class="line">    &lt;script&gt;</div><div class="line">        <span class="keyword">var</span> n = <span class="number">2</span>;</div><div class="line">        <span class="keyword">var</span> href = $(<span class="string">'#btn'</span>).attr(<span class="string">'href'</span>);</div><div class="line">        $(document).ready(function () &#123;</div><div class="line">            $(<span class="string">"#btn"</span>).click(function () &#123;</div><div class="line">                <span class="keyword">this</span>.href = href.replace(<span class="string">"xxx"</span>, n++);</div><div class="line">            &#125;);</div><div class="line">        &#125;);</div><div class="line">    &lt;/script&gt;</div><div class="line">    @Scripts.Render(<span class="string">"~/Scripts/jquery.unobtrusive-ajax.min.js"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>这里实现了0.1版本一样的功能，是不是有种转了一圈回到原点的感觉？好讽刺啊……</li>
-</ul>
-<p id="NewVersion"></p>
+          直接跳到2.0版本
+版本0.1 - 简单的异步刷新尝试
+ProcessController中加入
 
-<h1 id="更新2-0-Form表单提交实现指定DIV的异步刷新"><a href="#更新2-0-Form表单提交实现指定DIV的异步刷新" class="headerlink" title="更新2.0 - Form表单提交实现指定DIV的异步刷新"></a>更新2.0 - Form表单提交实现指定DIV的异步刷新</h1><p>上面讨论了如何按下按钮时异步刷新页面，那么在表单提交我不想跳转，我也要异步刷新，怎么办呢？下面介绍解决办法。这部分实现一个展示不同分类下的电影列表。从 Model - View - Controller 一步步来实现：</p>
-<ul>
-<li>Model - /Models/Movie</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Movie</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> Id &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</div><div class="line"></div><div class="line">    [<span class="meta">Display(Name = <span class="meta-string">"电影名"</span>)</span>]</div><div class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">enum</span> Types</div><div class="line">    &#123;</div><div class="line">        动作, 喜剧, 科幻, 爱情, 纪录, 动画, 恐怖, 悬疑, 青春, 文艺, 励志, 战争, 犯罪</div><div class="line">    &#125;</div><div class="line">    [<span class="meta">Display(Name = <span class="meta-string">"类型"</span>)</span>]</div><div class="line">    <span class="keyword">public</span> Types? Type &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>View - /View/Process/PartialTest2.cshtml</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">@model ZeroMovie.Models.Movie</div><div class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">"tForm"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-horizontal"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></div><div class="line">            @Html.LabelFor(model =&gt; model.Type, htmlAttributes: new &#123; @class = "control-label col-md-2" &#125;)</div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-md-10"</span>&gt;</span></div><div class="line">                @Html.EnumDropDownListFor(model =&gt; model.Type, htmlAttributes: new &#123; @class = "form-control" &#125;)</div><div class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"form-group"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"col-md-offset-2 col-md-10"</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"提交"</span> <span class="attr">id</span>=<span class="string">"btn"</span> <span class="attr">class</span>=<span class="string">"btn btn-default"</span> /&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span>   </div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"PartialRefreshArea"</span>&gt;</span>刷新这里<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"></div><div class="line">@section scripts&#123;</div><div class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></div><div class="line">        $(document).ready(function () &#123;</div><div class="line">            $('#tform').on('submit', function (e) &#123;</div><div class="line">                e.preventDefault();</div><div class="line">                $.ajax(&#123;</div><div class="line">                    type: 'post', // Form的Method</div><div class="line">                    url: '@Url.Action("Fetch","Process")', // Form的Action</div><div class="line">                    data: $('#tform').serialize(), // 序列化提交数据</div><div class="line">                    success: function (res) &#123;</div><div class="line">                        $('#PartialRefreshArea').html(res);</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">            &#125;);</div><div class="line">        &#125;);</div><div class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    @Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.min.js")</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>View - /View/Process/MovieList.cshtml</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">@model IEnumerable<span class="tag">&lt;<span class="name">ZeroMovie.Models.Movie</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">class</span>=<span class="string">"table"</span> <span class="attr">style</span>=<span class="string">"table-layout:fixed"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span></div><div class="line">            @Html.DisplayNameFor(model =&gt; model.Name)</div><div class="line">        <span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">th</span>&gt;</span></div><div class="line">            @Html.DisplayNameFor(model =&gt; model.Type)</div><div class="line">        <span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">@foreach (var item in Model) &#123;</div><div class="line">    <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span></div><div class="line">            @Html.DisplayFor(modelItem =&gt; item.Name)</div><div class="line">        <span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">td</span>&gt;</span></div><div class="line">            @Html.DisplayFor(modelItem =&gt; item.Type)</div><div class="line">        <span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></div></pre></td></tr></table></figure>
-<ul>
-<li>Controller - /Controller/ProcessController.cs</li>
-</ul>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ProcessController</span> : <span class="title">Controller</span></div><div class="line">&#123;</div><div class="line">    <span class="comment">// 上下文类有 DbSet&lt;Movie&gt;</span></div><div class="line">    <span class="keyword">private</span> ApplicationDbContext db = <span class="keyword">new</span> ApplicationDbContext(); </div><div class="line">    <span class="function"><span class="keyword">public</span> ActionResult <span class="title">PartialTest2</span>(<span class="params"></span>)</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">return</span> View();</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> ActionResult <span class="title">Fetch2</span>(<span class="params">[Bind(Include = <span class="string">"Type"</span></span>)] Movie movie)</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">var</span> model = db.Movies.ToList();</div><div class="line">        <span class="keyword">if</span>(movie.Type != <span class="literal">null</span>)</div><div class="line">            model = db.Movies.Where(p =&gt; p.Type == movie.Type).ToList();</div><div class="line">        <span class="keyword">return</span> PartialView(<span class="string">"MovieList"</span>, model); <span class="comment">// model的类型要与MovieList接受的类型一致</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>运行后地址栏访问/Process/PartialTest2即可</li>
-</ul>
-<h2 id="总结：JS大法好"><a href="#总结：JS大法好" class="headerlink" title="总结：JS大法好"></a>总结：JS大法好</h2><p>弱弱问一句垃圾代码有人要看吗：</p>
-<p><a href="https://github.com/lwy0007123/ZeroMovie" target="_blank">传送门</a></p>
-
-          
+12345678910111213[AllowAnonymous] // 这是允许匿名访问的声明，没有用ASP.NET IDENTITY可以删掉public ActionResult PartialT
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/15/MVC 部分刷新的尝试/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -613,132 +566,28 @@
       
         
           
-            <h3 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h3><ul>
-<li><a href="#localdb">LocalDB</a></li>
-<li><a href="#sql-server">SQL Server</a></li>
-<li><a href="#mysql">MySQL</a></li>
-<li><a href="#oracle">Oralce</a></li>
-</ul>
-<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p><em>环境： Visual Studio Community 2017，Windows 10.0.15063 pro</em></p>
-<ul>
-<li>先新建一个ASP.NET MVC项目DbConnectPrac</li>
-</ul>
-<p><img src="/2017/06/04/EF框架下优雅地使用各种数据库/00.png" alt="00"></p>
-<p><img src="/2017/06/04/EF框架下优雅地使用各种数据库/0.png" alt="0"></p>
-<ul>
-<li>程序包管理器控制台安装EF框架</li>
-</ul>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Install-Package EntityFramework</div></pre></td></tr></table></figure>
-<p>  <em>PS. 如果解决方里有多个项目，默认项目注意选择DbConnectPrac</em></p>
-<ul>
-<li><p>Models中新建一个类</p>
-<p><img src="/2017/06/04/EF框架下优雅地使用各种数据库/1.png" alt="1"></p>
-<p><em>Program.cs</em></p>
-</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">using System.ComponentModel.DataAnnotations;</div><div class="line">namespace DbConnectPrac.Models</div><div class="line">&#123;</div><div class="line">    public class User</div><div class="line">    &#123;</div><div class="line">        [Key]</div><div class="line">        public int Uid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        [StringLength(16, MinimumLength = 3)]</div><div class="line">        public string NickName &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        [StringLength(16, MinimumLength = 6)]</div><div class="line">        public string Password &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        [RegularExpression(@&quot;^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$&quot;)]</div><div class="line">        public string Email &#123; get; set; &#125;</div><div class="line">        public int Privilege &#123; get; set; &#125;</div><div class="line">    &#125;</div><div class="line">    public class Video</div><div class="line">    &#123;</div><div class="line">        [Key]</div><div class="line">        public int Vid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        [StringLength(30)]</div><div class="line">        public string Vname &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public string Vurl &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public string Thumbnail &#123; get; set; &#125;</div><div class="line">        public int ViewedNum &#123; get; set; &#125;</div><div class="line">        [DataType(DataType.Date)]</div><div class="line">        [DisplayFormat(DataFormatString = &quot;&#123;0:yyyy-MM-dd&#125;&quot;, ApplyFormatInEditMode = true)]</div><div class="line">        [Required]</div><div class="line">        public string UploadTime &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public string Vtype &#123; get; set; &#125;</div><div class="line">        public int Uid &#123; get; set; &#125;</div><div class="line">        [StringLength(200)]</div><div class="line">        public string Vinfo &#123; get; set; &#125;</div><div class="line">    &#125;</div><div class="line">    public class Comment</div><div class="line">    &#123;</div><div class="line">        [Key]</div><div class="line">        public int Cid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public int Uid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public int Vid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public string Content &#123; get; set; &#125;</div><div class="line">        [DataType(DataType.Date)]</div><div class="line">        [DisplayFormat(DataFormatString = &quot;&#123;0:yyyy-MM-dd&#125;&quot;, ApplyFormatInEditMode = true)]</div><div class="line">        [Required]</div><div class="line">        public string CommentTime &#123; get; set; &#125;</div><div class="line">    &#125;</div><div class="line">    public class History</div><div class="line">    &#123;</div><div class="line">        [Key]</div><div class="line">        public int Hid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public int Uid &#123; get; set; &#125;</div><div class="line">        [Required]</div><div class="line">        public int Vid &#123; get; set; &#125;</div><div class="line">        [DataType(DataType.Date)]</div><div class="line">        [DisplayFormat(DataFormatString = &quot;&#123;0:yyyy-MM-dd&#125;&quot;, ApplyFormatInEditMode = true)]</div><div class="line">        [Required]</div><div class="line">        public string HistoryTime &#123; get; set; &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>生成解决方案</li>
-</ul>
-<p>快捷键 Ctrl+Shift+b</p>
-<ul>
-<li>Controllers中新建控制器</li>
-</ul>
-<p><img src="/2017/06/04/EF框架下优雅地使用各种数据库/2.png" alt="2"></p>
-<p><img src="/2017/06/04/EF框架下优雅地使用各种数据库/3.png" alt="3"></p>
-<p>点击添加，将生成以下文件</p>
-<p><img src="/2017/06/04/EF框架下优雅地使用各种数据库/5.png" alt="5"></p>
-<p><em>分别把另外几个类也创建好带视图的控制器</em></p>
-<h3 id="LocalDB"><a href="#LocalDB" class="headerlink" title="LocalDB"></a>LocalDB</h3><p><em>LocalDB是VS自带的简化版SQL Server</em></p>
-<ul>
-<li>查看项目根目录的Web.config，发现已添加了LocalDB的相关内容</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connectionStrings</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"DbConnectPracContext"</span> <span class="attr">connectionString</span>=<span class="string">"Data Source=(localdb)\MSSQLLocalDB; Initial Catalog=DbConnectPracContext-20170603111224; Integrated Security=True; MultipleActiveResultSets=True; AttachDbFilename=|DataDirectory|DbConnectPracContext-20170603111224.mdf"</span> <span class="attr">providerName</span>=<span class="string">"System.Data.SqlClient"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">connectionStrings</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">entityFramework</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">defaultConnectionFactory</span> <span class="attr">type</span>=<span class="string">"System.Data.Entity.Infrastructure.LocalDbConnectionFactory, EntityFramework"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">parameters</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">parameter</span> <span class="attr">value</span>=<span class="string">"mssqllocaldb"</span> /&gt;</span></div><div class="line">      <span class="tag">&lt;/<span class="name">parameters</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">defaultConnectionFactory</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">providers</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">provider</span> <span class="attr">invariantName</span>=<span class="string">"System.Data.SqlClient"</span> <span class="attr">type</span>=<span class="string">"System.Data.Entity.SqlServer.SqlProviderServices, EntityFramework.SqlServer"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">providers</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">entityFramework</span>&gt;</span></div></pre></td></tr></table></figure>
-<ul>
-<li>运行项目进入对应的Controller你可以方便的实现增删改查(CRUD)操作。</li>
-</ul>
-<p><img src="/2017/06/04/EF框架下优雅地使用各种数据库/6.png" alt="6"></p>
-<h3 id="SQL-Server"><a href="#SQL-Server" class="headerlink" title="SQL Server"></a>SQL Server</h3><p><em>版本 2016 Developer edition</em></p>
-<ul>
-<li>在根目录的Web.config中添加SQL Server的连接字段</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connectionStrings</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- 按实际情况更改 Data Source, User ID, Password --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"MSSQLConnectContext"</span> </span></div><div class="line">     <span class="attr">connectionString</span>=<span class="string">"Data Source=localhost; Initial Catalog=TESTDB; Persist Security Info=True; User ID=sa; Password=123"</span> </div><div class="line">     <span class="attr">providerName</span>=<span class="string">"System.Data.SqlClient"</span>/&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">connectionStrings</span>&gt;</span></div></pre></td></tr></table></figure>
-<ul>
-<li>打开Models/DbConnectPracContext.cs</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">public class DbConnectPracContext : DbContext</div><div class="line">&#123;</div><div class="line">  // 修改指定使用的数据库连接</div><div class="line">  //public DbConnectPracContext() : base(&quot;name=DbConnectPracContext&quot;)&#123;&#125; // LocalDB</div><div class="line">  public DbConnectPracContext() : base(&quot;name=MSSQLConnectContext&quot;) &#123;&#125; // SQL Server</div><div class="line">  // .....省略......</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>程序包管理器控制台输入</li>
-</ul>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Enable-Migrations -EnableAutomaticMigrations</div></pre></td></tr></table></figure>
-<ul>
-<li>运行项目进入对应的Controller你可以方便的实现增删改查(CRUD)操作。</li>
-</ul>
-<h3 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h3><p><em>版本 5.7.18</em></p>
-<ul>
-<li>程序包管理器控制台安装EF框架</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Install-Package MySql.Data.Entity</div></pre></td></tr></table></figure>
-<ul>
-<li><p>查看项目根目录的Web.config</p>
-<p><em>更新了以下有关MySQL的内容</em></p>
-</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">entityFramework</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">providers</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">provider</span> <span class="attr">invariantName</span>=<span class="string">"MySql.Data.MySqlClient"</span> <span class="attr">type</span>=<span class="string">"MySql.Data.MySqlClient.MySqlProviderServices, MySql.Data.Entity.EF6, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d"</span>&gt;</span><span class="tag">&lt;/<span class="name">provider</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">providers</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">entityFramework</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">system.data</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">DbProviderFactories</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">remove</span> <span class="attr">invariant</span>=<span class="string">"MySql.Data.MySqlClient"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"MySQL Data Provider"</span> <span class="attr">invariant</span>=<span class="string">"MySql.Data.MySqlClient"</span> <span class="attr">description</span>=<span class="string">".Net Framework Data Provider for MySQL"</span> <span class="attr">type</span>=<span class="string">"MySql.Data.MySqlClient.MySqlClientFactory, MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">DbProviderFactories</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">system.data</span>&gt;</span></div></pre></td></tr></table></figure>
-<ul>
-<li>connectionStrings中添加MySQL的连接字段</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connectionStrings</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"MySQLConnectContext"</span> </span></div><div class="line">         <span class="attr">connectionString</span>=<span class="string">"server=localhost; port=3306; database=TESTDB; uid=root; password=123"</span></div><div class="line">         <span class="attr">providerName</span>=<span class="string">"MySql.Data.MySqlClient"</span>/&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">connectionStrings</span>&gt;</span></div></pre></td></tr></table></figure>
-<ul>
-<li>打开Models/DbConnectPracContext.cs完成两处修改</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// 在Context指定mySql的配置文件</div><div class="line">[DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]</div><div class="line">public class DbConnectPracContext : DbContext</div><div class="line">&#123;</div><div class="line">  // 修改指定使用的数据库连接</div><div class="line">  //public DbConnectPracContext() : base(&quot;name=DbConnectPracContext&quot;)&#123;&#125; // LocalDB</div><div class="line">  public DbConnectPracContext() : base(&quot;name=MySQLConnectContext&quot;)&#123;&#125; // MySQL</div><div class="line">  // .....省略......</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>程序包管理器控制台输入</li>
-</ul>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Enable-Migrations -EnableAutomaticMigrations</div></pre></td></tr></table></figure>
-<ul>
-<li>运行项目进入对应的Controller你可以方便的实现增删改查(CRUD)操作。</li>
-</ul>
-<p>  <em>连接MySQL查看生成的testdb表</em></p>
-<p><img src="/2017/06/04/EF框架下优雅地使用各种数据库/7.png" alt="7"></p>
-<h3 id="Oracle"><a href="#Oracle" class="headerlink" title="Oracle"></a>Oracle</h3><p><em>版本 12.2.0.1.0</em></p>
-<ul>
-<li>建议先创建一个新用户，否则使用默认用户可能有意想不到的问题</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">-- 用SQLPLUS登录后，连接管理员 (system_password 是你的管理员密码)</span></div><div class="line">CONNECT system/system_password@ORCL</div><div class="line"><span class="comment">-- 该版本Oracle上创建新用户名必须C##或c##开头，否则不合法</span></div><div class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> C##TESTUSER <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="number">123</span>;</div><div class="line"><span class="comment">-- 创建测试用户并授权，要给DBA权限</span></div><div class="line"><span class="keyword">GRANT</span> <span class="keyword">CONNECT</span>, <span class="keyword">RESOURCE</span>, DBA, <span class="keyword">CREATE</span> <span class="keyword">VIEW</span> <span class="keyword">TO</span>  C##TESTUSER ;</div></pre></td></tr></table></figure>
-<ul>
-<li>程序包管理器控制台安装EF框架</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Install-Package Oracle.ManagedDataAccess.EntityFramework</div></pre></td></tr></table></figure>
-<ul>
-<li><p>查看根目录的Web.config</p>
-<p><em>更新了以下有关Oracle的内容</em></p>
-</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">configSections</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">section</span> <span class="attr">name</span>=<span class="string">"oracle.manageddataaccess.client"</span> <span class="attr">type</span>=<span class="string">"OracleInternal.Common.ODPMSectionHandler, Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">configSections</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">connectionStrings</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"OracleDbContext"</span> <span class="attr">providerName</span>=<span class="string">"Oracle.ManagedDataAccess.Client"</span> <span class="attr">connectionString</span>=<span class="string">"User Id=oracle_user;Password=oracle_user_password;Data Source=oracle"</span> /&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">connectionStrings</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">entityFramework</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">providers</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">provider</span> <span class="attr">invariantName</span>=<span class="string">"Oracle.ManagedDataAccess.Client"</span> <span class="attr">type</span>=<span class="string">"Oracle.ManagedDataAccess.EntityFramework.EFOracleProviderServices, Oracle.ManagedDataAccess.EntityFramework, Version=6.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">providers</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">entityFramework</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">system.data</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">DbProviderFactories</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">remove</span> <span class="attr">invariant</span>=<span class="string">"Oracle.ManagedDataAccess.Client"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"ODP.NET, Managed Driver"</span> <span class="attr">invariant</span>=<span class="string">"Oracle.ManagedDataAccess.Client"</span> <span class="attr">description</span>=<span class="string">"Oracle Data Provider for .NET, Managed Driver"</span> <span class="attr">type</span>=<span class="string">"Oracle.ManagedDataAccess.Client.OracleClientFactory, Oracle.ManagedDataAccess, Version=4.122.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">DbProviderFactories</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">system.data</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">oracle.manageddataaccess.client</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">version</span> <span class="attr">number</span>=<span class="string">"*"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dataSources</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">dataSource</span> <span class="attr">alias</span>=<span class="string">"SampleDataSource"</span> <span class="attr">descriptor</span>=<span class="string">"(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=localhost)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=ORCL))) "</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">dataSources</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">oracle.manageddataaccess.client</span>&gt;</span></div></pre></td></tr></table></figure>
-<ul>
-<li>connectionStrings中修改Oracle的连接字段的参数</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">connectionStrings</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 因为生成的&lt;dataSources&gt;中服务名是ORCL，与我的设置相同，所以这里直接用别名SampleDataSource--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"OracleDbContext"</span> </span></div><div class="line">         <span class="attr">providerName</span>=<span class="string">"Oracle.ManagedDataAccess.Client"</span> </div><div class="line">         <span class="attr">connectionString</span>=<span class="string">"User Id=C##TESTUSER;Password=123;Data Source=SampleDataSource"</span> /&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">connectionStrings</span>&gt;</span></div></pre></td></tr></table></figure>
-<ul>
-<li>修改Models/DbConnectPracContext.cs</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">namespace DbConnectPrac.Models</div><div class="line">&#123;</div><div class="line">    public class DbConnectPracContext : DbContext</div><div class="line">    &#123;</div><div class="line">        // 修改指定使用的数据库连接</div><div class="line">        //public DbConnectPracContext() : base(&quot;name=DbConnectPracContext&quot;) &#123; &#125; // LocalDB</div><div class="line">        public DbConnectPracContext() : base(&quot;name=OracleDbContext&quot;) &#123; &#125; // Oracle</div><div class="line">        // 默认的模式名是dbo，但Oracle中不存在模式名为dbo，需要指定默认模式名</div><div class="line">      	protected override void OnModelCreating(DbModelBuilder modelBuilder)</div><div class="line">        &#123;</div><div class="line">            modelBuilder.HasDefaultSchema(&quot;C##TESTUSER&quot;); // 默认模式名就是把你用户名大写</div><div class="line">        &#125;</div><div class="line">        // .....省略......</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>Oracle中不存在模式名为dbo，dbo是SQL Server数据库的，如图例。</p>
-<p><img src="/2017/06/04/EF框架下优雅地使用各种数据库/9.png" alt="9"></p>
-<ul>
-<li>程序包管理器控制台输入</li>
-</ul>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Enable-Migrations -EnableAutomaticMigrations</div></pre></td></tr></table></figure>
-<ul>
-<li>运行项目进入对应的Controller你可以方便的实现增删改查(CRUD)操作。</li>
-</ul>
-<p><em>连接Oracle查看生成的表</em></p>
-<p><img src="/2017/06/04/EF框架下优雅地使用各种数据库/10.png" alt="10"></p>
-<p><strong>最后一次测试时，发现一个BUG，如果把刚生成的表全删除，试图通过重新运行项目重新建表，会失败。这个情况只在Oracle上发生，大概官方还没注意到这个BUG。“一次性”用户真是尴尬……</strong></p>
+          Content
+LocalDB
+SQL Server
+MySQL
+Oralce
 
-          
+准备工作环境： Visual Studio Community 2017，Windows 10.0.15063 pro
+
+先新建一个ASP.NET MVC项目DbConnectPrac
+
+
+
+
+程序包管理器控制台安装E
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/06/04/EF框架下优雅地使用各种数据库/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -848,93 +697,21 @@
       
         
           
-            <p>去年某宝上买了 Raspberry Pi 2B，期间玩过一段时间的Raspbian，没有买其他配件，全当练习使用linux了。最近盯上了 OSMC，所以，要搞事情！</p>
-<h3 id="设备"><a href="#设备" class="headerlink" title="设备"></a>设备</h3><ul>
-<li><p>Raspberry Pi 2B  </p>
-<p>​    <em>官方说支持全系列的Pi板子</em></p>
-</li>
-<li><p>32G SAMSUNG micro SDHC  </p>
-<p>​    <em>支持的SD卡可以去官方看支持列表，容量不低于8G</em></p>
-</li>
-<li><p>HDMI to HDMI 线</p>
-<p>​    <em>看需求吧，能把Pi连上电视就行</em></p>
-</li>
-<li><p>EDUP EP-N8508GS USB网卡</p>
-<p>​    <em>即插即用，支持802.11N。如果你的网线够长可以不用</em></p>
-</li>
-</ul>
-<h3 id="刷系统"><a href="#刷系统" class="headerlink" title="刷系统"></a>刷系统</h3><p>传送门 <a href="https://osmc.tv/download/" target="_blank" rel="external">OSMC</a></p>
-<p>你可以使用官方的安装器(支持Windows/Linux/OSX)，也可以下载镜像自己刷。</p>
-<p>我选择下载镜像在win下刷入：</p>
-<ul>
-<li>准备<ul>
-<li>SD卡 插入电脑</li>
-<li>安装 <a href="https://www.sdcard.org/downloads/formatter_4/" target="_blank" rel="external">SD Card Formatter</a></li>
-<li>安装 <a href="https://sourceforge.net/projects/win32diskimager/" target="_blank" rel="external">Win32 Disk Imager</a></li>
-<li>解压下载的系统zip包</li>
-</ul>
-</li>
-<li>操作<ul>
-<li>使用 SDFormatter V4.0 格式化SD卡<ul>
-<li>Drive 选中你的SD卡盘符</li>
-<li>选项设置 -&gt; 逻辑大小调整 -&gt; 开启（ON）-&gt; OK -&gt; 格式化</li>
-</ul>
-</li>
-<li>使用 Win32 Disk Imager V0.9.5 刷入系统<ul>
-<li>Device 选中你的SD卡盘符</li>
-<li>Image File 选中OSMC的img文件</li>
-<li>选择 Write</li>
-</ul>
-</li>
-<li>刷好SD卡插入Pi<ul>
-<li>Pi 用视频线接电视，开电视，切换信号源到 HDMI</li>
-<li>Pi 用microUSB接电源适配器</li>
-<li>Pi 上接键盘</li>
-</ul>
-</li>
-<li>开机配置系统……语言暂时用English(US)，联网</li>
-</ul>
-</li>
-</ul>
-<h3 id="软件配置"><a href="#软件配置" class="headerlink" title="软件配置"></a>软件配置</h3><ul>
-<li><p>语言设置</p>
-<p>Settings -&gt; Apperance -&gt; Skin -&gt; Fonts -&gt; Arial</p>
-<p>Settings -&gt; Apperance -&gt; International -&gt; Language -&gt; Chinese(Simple)</p>
-<p>现在就是显示中文了，下面还有些鸡肋的设置</p>
-<p>设置 -&gt; 用户界面 -&gt; 字符集 -&gt; Chinese Simplified (GBK)</p>
-<p>设置 -&gt; 用户界面 -&gt; 键盘布局 -&gt; 添加 Chinese BaiduPY</p>
-</li>
-<li><p>安装插件库</p>
-<p><a href="http://dkmc.tv/2013/04/07/xbmc%E6%8F%92%E4%BB%B6%E5%BA%93%E6%B1%87%E6%80%BB/" target="_blank" rel="external">传送门</a></p>
-<p>使用zip包的安装方式，先在同局域网的电脑上下载</p>
-<p> <a href="https://github.com/taxigps/xbmc-addons-chinese/raw/master/repo/repository.xbmc-addons-chinese/repository.xbmc-addons-chinese-1.2.0.zip" target="_blank" rel="external">chinese addon</a> 、<a href="http://xbmc.hdpfans.com/repository.hdpfans.xbmc-addons.zip" target="_blank" rel="external">hdpfans</a></p>
-<p>选择插件，选择安装，按Backspace到最外层，选择zip包安装插件，选择安装刚下的两个插件。</p>
-</li>
-<li><p>寻找你需要的插件，安装即可。</p>
-</li>
-</ul>
-<h3 id="使用手机的控制"><a href="#使用手机的控制" class="headerlink" title="使用手机的控制"></a>使用手机的控制</h3><p><a href="http://kodi.wiki/view/Remote_controls" target="_blank" rel="external">Remote Control</a></p>
-<ul>
-<li>Android<ul>
-<li><a href="http://mirrors.kodi.tv/tools/kore/releases/" target="_blank" rel="external">Kore</a> <em>官方软件</em></li>
-<li><a href="http://yatse.tv/redmine/projects/yatse/wiki/XbmcStarter#Download-and-install-2" target="_blank" rel="external">Yatse</a> <em>功能一样，<a href="https://play.google.com/store/apps/details?id=tv.yatse.android.remotestarter" target="_blank" rel="external">Google Play</a>上售价0.99$</em></li>
-</ul>
-</li>
-<li>iOS<ul>
-<li><a href="https://itunes.apple.com/cn/app/official-kodi-remote/id520480364?mt=8" target="_blank" rel="external">Official Kodi Remote</a> <em>官方软件</em></li>
-</ul>
-</li>
-<li>WP  <em>下面摘抄自kodi.wiki</em><ul>
-<li><a href="https://www.microsoft.com/store/apps/9nblggh4qvkx" target="_blank" rel="external">mrRemote for Kodi</a> by Domenico Rescigno (free)</li>
-<li><a href="http://www.windowsphone.com/s?appid=3897b459-b11b-41eb-9cea-dd9e53c55b78" target="_blank" rel="external">Kodi Assist</a> by akshay2000 (free)</li>
-<li><a href="http://www.windowsphone.com/s?appid=3a35a8c6-bf35-49a1-b67b-f8104be2b05c" target="_blank" rel="external">xbmc remote free</a> by CRW Solutions (free)</li>
-<li><a href="http://kodi.wiki/view/XBMC_Maestro" target="_blank" rel="external">XBMC Maestro</a> by 3Webers ($0.99 USD)</li>
-<li><a href="http://www.windowsphone.com/s?appid=7cdb0b87-1e00-4328-b839-43a6bf9c8556" target="_blank" rel="external">Kodi Remote</a> by Fabien Lavocat (free)</li>
-</ul>
-</li>
-</ul>
+          去年某宝上买了 Raspberry Pi 2B，期间玩过一段时间的Raspbian，没有买其他配件，全当练习使用linux了。最近盯上了 OSMC，所以，要搞事情！
+设备
+Raspberry Pi 2B  
+​    官方说支持全系列的Pi板子
 
-          
+32G SAMSUNG micro SDHC  
+​
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/01/18/OSMC使用/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1044,130 +821,16 @@
       
         
           
-            <p>为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到<a href="#refind">rEFInd的配置</a>。</p>
-<h3 id="先安装win10"><a href="#先安装win10" class="headerlink" title="先安装win10"></a>先安装win10</h3><p>用<a href="https://www.microsoft.com/zh-cn/software-download/windows10" target="_blank" rel="external">官方工具</a>做一个安装盘，bios选择中启动方式<strong>EFI Only</strong>，并开启<strong>Secure Boot</strong> 。（<em>对，网上那些辣鸡教程都TM教你关掉，但是不告诉你原因，听我的，不用关，装ubuntu也不用关，因为ubuntu申请了EFI安全证书的！</em>）</p>
-<p>接着开机插入U盘，按提示安装就好，记得把分区方式改成<strong>GPT</strong>。（<em>若你之前是MBR，要么把原来分区全删掉，要么按网上教程做个EFI+MBR，反正我是强迫症，我就要格盘！</em>）</p>
-<p>如何辨别是不是EFI启动呢？</p>
-<p>win + R ，输入 msinfo32 ，回车，引导方式那行是 EFI 就对了。</p>
-<h3 id="再安装ubuntu16-04"><a href="#再安装ubuntu16-04" class="headerlink" title="再安装ubuntu16.04"></a>再安装ubuntu16.04</h3><p>这个更简单，把官方iso镜像文件，直接解压到<strong>FAT32</strong>格式U盘的根目录，开机，进U盘，安装。到那个然要现在win下切好未分配空间，这次我切了40G。小本子有8G内存，swap分区完全不用分的。在之前我试过所有未分配空间都挂到根目录，一样用着好好的，只有一点问题，只能挂起，不能休眠。</p>
-<p>那么这次的分区方案是8G的swap，剩下全挂 / 根目录。 启动器挂在ubuntu所在硬盘，我是在第二快硬盘 /dev/sdb 上。</p>
-<h3 id="ubuntu配置记录"><a href="#ubuntu配置记录" class="headerlink" title="ubuntu配置记录"></a>ubuntu配置记录</h3><p><strong>先要感谢<a href="https://plumz.me/" target="_blank" rel="external">plum的博客</a>，看他的博客让我解决的不少问题</strong></p>
-<p>既然用了一段时间的ubuntu，解决了不少问题，这里的配置与上一篇有点不同，重新记录如下：</p>
-<ul>
-<li>修改本地文件夹名称为英文</li>
-</ul>
-<p><em>如果你安装系统时选择了中文，那么用户目录就默认是中文，带你cd目录的时候就知道多蛋疼！</em></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">export LANG=en_US</div><div class="line">xdg-user-dirs-gtk-update</div><div class="line">export LANG=zh_CN</div><div class="line">reboot</div></pre></td></tr></table></figure>
-<ul>
-<li>关闭鼠标加速</li>
-</ul>
-<p><em>Ubuntu16.04默认开启了鼠标加速，用触控板到感觉不到，用鼠标这么飘就不能忍了！</em><br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">在Dashboard里搜索:</div><div class="line">gnome-session-properties</div><div class="line">点击添加：</div><div class="line">名称：setmouse</div><div class="line">命令：xset m 0 或者 xset m default</div><div class="line">重启。</div></pre></td></tr></table></figure></p>
-<ul>
-<li>安装 lantern </li>
-</ul>
-<p><em>接下来要安装软件了，我希望网络要没有阻碍，梯子是必须先装的！</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cd ~/Downloads/</div><div class="line">wget https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-beta-64-bit.deb</div><div class="line">sudo dpkg -i lantern-installer-beta-64-bit.deb</div></pre></td></tr></table></figure></p>
-<p>打开lantern，进入设置，查看两个端口号，我的是：<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">HTTP(S) proxy: 127.0.0.1:44045</div><div class="line">SOCKS proxy: 127.0.0.1:43355</div></pre></td></tr></table></figure></p>
-<p>然后终端输入下面两句来全局代理<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">export all_proxy=socks://127.0.0.1:43355</div><div class="line">export ALL_PROXY=socks://127.0.0.1:43355</div></pre></td></tr></table></figure></p>
-<p>如果想取消掉的话：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">unset all_proxy</div><div class="line">unset ALL_PROXY</div></pre></td></tr></table></figure></p>
-<p>接着配置 lantern 的开机无界面启动<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">在Dashboard里搜索:</div><div class="line">gnome-session-properties</div><div class="line">点击添加：</div><div class="line">名称：lantern</div><div class="line">命令：/usr/bin/lantern -headless</div></pre></td></tr></table></figure></p>
-<ul>
-<li>安装 git</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo apt install git -y</div><div class="line"><span class="meta">#</span><span class="bash"> 设置 git 代理（http &amp; https 代理）</span></div><div class="line">git config --global http.proxy socks5://127.0.0.1:43355</div><div class="line">git config --global https.proxy socks5://127.0.0.1:43355</div></pre></td></tr></table></figure>
-<ul>
-<li>安装功耗控制 TLP</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install tlp tlp-rdw -y</div><div class="line">sudo apt-get install tp-smapi-dkms acpi-call-dkms -y</div><div class="line">sudo apt-get install thermald -y</div><div class="line">sudo apt-get install powertop -y</div><div class="line"><span class="meta">#</span><span class="bash"> 配置 TLP</span></div><div class="line">sudo vim /etc/default/tlp</div><div class="line"><span class="meta">#</span><span class="bash"> 启动 TLP</span></div><div class="line">sudo tlp start</div></pre></td></tr></table></figure>
-<ul>
-<li>消除 Ubuntu LightDM 登陆界面背景白点</li>
-</ul>
-<p><em>不能忍，影响我看锁屏壁纸！</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">gsettings set com.canonical.unity-greeter draw-grid false</div><div class="line">sudo xhost +SI:localuser:lightdm</div><div class="line">sudo su lightdm -s /bin/bash</div><div class="line">gsettings set com.canonical.unity-greeter draw-grid false</div><div class="line">exit</div></pre></td></tr></table></figure></p>
-<ul>
-<li>安装 arc-flatabulous 主题</li>
-</ul>
-<p><em><a href="https://github.com/andreisergiu98/arc-flatabulous-theme" target="_blank" rel="external">Arc-Flatabulous Theme</a></em></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> 安装依赖</span></div><div class="line">sudo apt install autoconf automake libgtk-3-dev -y</div><div class="line"><span class="meta">#</span><span class="bash"> 安装 unity-tweek-tool</span></div><div class="line">sudo apt install unity-tweak-tool -y</div><div class="line"><span class="meta">#</span><span class="bash"> 官方安装方式</span></div><div class="line">sudo rm -rf /usr/share/themes/&#123;Arc-Flatabulous,Arc-Flatabulous-Darker,Arc-Flatabulous-Dark&#125;</div><div class="line">rm -rf ~/.local/share/themes/&#123;Arc-Flatabulous,Arc-Flatabulous-Darker,Arc-Flatabulous-Dark&#125;</div><div class="line">rm -rf ~/.themes/&#123;Arc-Flatabulous,Arc-Flatabulous-Darker,Arc-Flatabulous-Dark&#125;</div><div class="line">git clone https://github.com/andreisergiu98/arc-flatabulous-theme &amp;&amp; cd arc-flatabulous-theme</div><div class="line"><span class="meta">#</span><span class="bash"> 编译安装，不想见透明效果，编译时加参数 --<span class="built_in">disable</span>-transparency</span></div><div class="line">./autogen.sh --prefix=/usr &amp;&amp; sudo make install</div></pre></td></tr></table></figure>
-<ul>
-<li>安装 papirus 图标主题</li>
-</ul>
-<p><em><a href="https://github.com/PapirusDevelopmentTeam/papirus-icon-theme" target="_blank" rel="external">papirus-icon-theme</a></em></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt install wget git libqt4-svg -y </div><div class="line">wget -qO- https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/install-papirus-root.sh | sh</div></pre></td></tr></table></figure>
-<ul>
-<li>安装 Hardcode-Tray 图标修复</li>
-</ul>
-<p><em>对右上角那些图标风格不统一，可以试试，但是只支持部分图标修复，这个软件蛮鸡肋的……</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:andreas-angerer89/sni-qt-patched</div><div class="line">sudo apt update</div><div class="line">sudo apt install sni-qt sni-qt:i386 hardcode-tray -y</div><div class="line"><span class="meta">#</span><span class="bash"> 使用 Hardcode-Tray</span></div><div class="line">hardcode-tray --apply</div><div class="line"><span class="meta">#</span><span class="bash"> 如果出现 FileNotFoundError: [Errno 2] ，建一个软链接</span></div><div class="line">ln -s  /usr/share/icons/ ~/.local/share/icons</div><div class="line">hardcode-tray --apply</div></pre></td></tr></table></figure></p>
-<ul>
-<li>更改鼠标指针样式</li>
-</ul>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">下载 Breeze-Hacked 并解压</div><div class="line">cp -a Breeze-Hacked/ /usr/share/icons/</div><div class="line">在 unity-tweek-tool 里更换</div></pre></td></tr></table></figure>
-<ul>
-<li>使用terminator及ZSH</li>
-</ul>
-<p><em>普通用户</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install terminator zsh -y</div><div class="line">chsh -s /bin/zsh</div><div class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</div><div class="line">vim ~/.zshrc # 添加以下内容</div><div class="line"><span class="meta">#</span><span class="bash"> ZSH_THEME=<span class="string">"agnoster"</span></span></div><div class="line"><span class="meta">#</span><span class="bash"> DEFAULT_USER=<span class="string">"shank"</span></span></div><div class="line"><span class="meta">#</span><span class="bash"> COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span></div></pre></td></tr></table></figure></p>
-<p><em>root用户</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo su</div><div class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</div><div class="line">vim ~/.zshrc # 添加以下内容</div><div class="line"><span class="meta">#</span><span class="bash"> ZSH_THEME=<span class="string">"agnoster"</span></span></div><div class="line"><span class="meta">#</span><span class="bash"> DEFAULT_USER=<span class="string">"root"</span></span></div><div class="line"><span class="meta">#</span><span class="bash"> COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span></div><div class="line">exit</div></pre></td></tr></table></figure></p>
-<p><em>安装PowerLine字体</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd ~/Downloads</div><div class="line">git clone https://github.com/powerline/fonts</div><div class="line">cd fonts</div><div class="line">./install.sh</div></pre></td></tr></table></figure></p>
-<ul>
-<li>常规更新</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt update</div><div class="line">sudo apt upgrade</div></pre></td></tr></table></figure>
-<ul>
-<li>安装 Deluge </li>
-</ul>
-<p><em>下载工具，带有BT和磁链下载</em></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt install deluge -y</div></pre></td></tr></table></figure>
-<ul>
-<li>安装 caffeine</li>
-</ul>
-<p><em>用于暂时取消屏保和睡眠模式，用linux看视频时记得把它设为Active</em></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo apt install caffeine -y</div><div class="line"><span class="meta">#</span><span class="bash"> 在 gnome-session-properties 开机启动中添加或修改Caffeine的命令为下面这句</span></div><div class="line"><span class="meta">#</span><span class="bash"> /usr/bin/caffeine-indicator</span></div></pre></td></tr></table></figure>
-<ul>
-<li>安装 mpv</li>
-</ul>
-<p><em>简介而强大的播放器，不用VLC因为它对字幕支持不好！</em></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install mpv -y</div></pre></td></tr></table></figure>
-<ul>
-<li>安装 flash 支持</li>
-</ul>
-<p><em>B站的Html5播放器总是没速度，所以flash还是必需的！</em></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash">先在设置中允许 Canonical Partners 打包的应用</span></div><div class="line">sudo apt install adobe-flashplugin -y</div></pre></td></tr></table></figure>
-<ul>
-<li>解决待机后重启会自动断线的 Bug</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo systemctl enable NetworkManager.service</div></pre></td></tr></table></figure>
-<ul>
-<li>使用 Canonical Livepatch Service</li>
-</ul>
-<p><em><a href="https://www.ubuntu.com/server/livepatch" target="_blank" rel="external">Canonical Livepatch Service</a> 免重新开机做核心</em></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo snap install canonical-livepatch</div><div class="line">sudo canonical-livepatch enable XXX #XXX从官方获取</div></pre></td></tr></table></figure>
-<ul>
-<li>安装指纹识别支持</li>
-</ul>
-<p><em>这个可以用，但是会觉得的有点烦，因为这个软件有个bug，刷指纹一定要刷两下，验证成功，还要再刷一下指纹灯才会灭，所以我已经不用了……</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:fingerprint/fprint -y &amp;&amp; sudo apt-get update</div><div class="line">sudo apt-get install libfprint0 fprint-demo libpam-fprintd gksu -y</div></pre></td></tr></table></figure></p>
-<ul>
-<li>Fcitx 输入法换回原生 indicator，不用那个 qim</li>
-</ul>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt remove fcitx-ui-qimpanel -y</div></pre></td></tr></table></figure>
-<ul>
-<li>安装 android studio</li>
-</ul>
-<p><em><a href="https://developer.android.com/studio/index.html" target="_blank" rel="external">官方链接</a>下载zip安装包</em><br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> 安装 jdk</span></div><div class="line">sudo apt install openjdk-8-jdk -y</div><div class="line"><span class="meta">#</span><span class="bash"> 安装依赖</span></div><div class="line">sudo apt-get install lib32z1 lib32ncurses5 lib32stdc++6 -y</div><div class="line"><span class="meta">#</span><span class="bash"> 解决无 pixmap 问题</span></div><div class="line">sudo apt-get install gtk2-engines-pixbuf -y</div><div class="line"><span class="meta">#</span><span class="bash"> 解决无 adwaita 问题</span></div><div class="line">sudo apt-get install gnome-themes-standard gnome-themes-standard-data -y</div><div class="line"><span class="meta">#</span><span class="bash"> 安装a.s.，我习惯把a.s.装到 /opt 目录</span></div><div class="line">sudo unzip -q ~/Downloads/android-studio……… -d /opt # 省略号部分自己按TAB替换</div><div class="line">cd /opt/android-studio/bin/</div><div class="line">./studio.sh</div></pre></td></tr></table></figure></p>
-<ul>
-<li>Firefox 字体问题 （不用改了，新版本好像解决了这个问题）</li>
-</ul>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">地址栏输入 about:config</div><div class="line">找到 gfx.font_rendering.fontconfig.fontlist.enabled</div><div class="line">设置为 false</div></pre></td></tr></table></figure>
-<ul>
-<li>安装 typola ,本人最喜欢的 markdown 编辑器</li>
-</ul>
-<p><em><a href="https://typora.io/" target="_blank" rel="external">typola官方链接</a></em></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span><span class="bash"> optional, but recommended</span></div><div class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BA300B7755AFCFAE</div><div class="line"><span class="meta">#</span><span class="bash"> add Typora<span class="string">'s repository</span></span></div><div class="line">sudo add-apt-repository 'deb https://typora.io ./linux/' -y</div><div class="line">sudo apt-get update</div><div class="line"><span class="meta">#</span><span class="bash"><span class="string"> install typora</span></span></div><div class="line">sudo apt-get install typora -y</div></pre></td></tr></table></figure>
-<h3 id="rEFInd"><a href="#rEFInd" class="headerlink" title="rEFInd"></a>rEFInd</h3><p><em><a href="http://www.rodsbooks.com/refind/configfile.html" target="_blank" rel="external">rEFInd官方链接</a></em></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">sudo apt-add-repository ppa:rodsmith/refind -y </div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install refind -y</div><div class="line">sudo cd /boot/eft/EFI/refind</div><div class="line">sudo su</div><div class="line">mkdir themes</div><div class="line">cd themes</div><div class="line"><span class="meta">#</span><span class="bash"> 下载新主题</span></div><div class="line">git clone https://github.com/EvanPurkhiser/rEFInd-minimal.git</div><div class="line">cd ..</div><div class="line">cp refind.conf refind.conf.bak</div><div class="line">gedit refind.conf</div></pre></td></tr></table></figure>
-<p>添加设置到文件结尾，具体看配置文件或者Google<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">resolution 1920 1080</div><div class="line">scan_all_linux_kernels false</div><div class="line">default_selection Microsoft</div><div class="line"><span class="meta">#</span><span class="bash"> 导入主题配置：</span></div><div class="line">include themes/rEFInd-minimal/theme.conf</div></pre></td></tr></table></figure></p>
-<p>这个时候重启是使用不了rEFInd的，因为开了Secure Boot的缘故。那么要解决允许Secure Boot的问题，就要给他授权。官方提供的方案有 Shim 和 PreLoader，外文博客基本介绍的也是Shim。都比较麻烦，不愿看也不愿做（—。—），偶然发现了 boot-repair 。这个软件是傻瓜化修复启动引导用的，它解决安全引导的同时也会装 Shim，正好省得我动手。<br>先装 boot-repair<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:yannubuntu/boot-repair</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install -y boot-repair &amp;&amp; boot-repair</div></pre></td></tr></table></figure></p>
-<p>选择推荐方案(Recommended repair)，接着都是“yes”<br>引导修复后，可以apt重装下refind，应该同时会申请 <em>.cer 文件<br>然后重启，和官方 Slim授权的方式一样，Select key选第一个，<br>给EFI/refind/key目录下的<strong>refind.cer</strong>和<em>*refind_local.cer</em></em>文件授权，然后选择重启。</p>
-<p>授权后的一些调整</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">sudo su</div><div class="line"><span class="meta">#</span><span class="bash"> 删除一个多余启动文件</span></div><div class="line">rm -f /boot/efi/EFI/Boot/bkpbootx64.efi</div><div class="line"><span class="meta">#</span><span class="bash"> 想要refind选择ubuntu就直接进系统，不用再显示grub2菜单</span></div><div class="line">vim /etc/default/grub # 修改 GRUB_TIMEOUT=0</div><div class="line">rm -f /etc/grub.d/30_os-prober # grub不记录win10引导</div><div class="line"><span class="meta">#</span><span class="bash"> 更新gurb</span></div><div class="line">update-grub</div></pre></td></tr></table></figure>
-          
+          为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到rEFInd的配置。
+先安装win10用官方工具做一个安装盘，bios选择中启动方式EF
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/01/17/折腾rEFInd安装/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1277,33 +940,19 @@
       
         
           
-            <h3 id="不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。"><a href="#不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。" class="headerlink" title="不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。"></a>不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。</h3><p><em>IRC（Internet Relay Chat的缩写，“因特网中继聊天”）是一种通过网络的即时聊天方式。</em></p>
-<p><a href="https://zh.wikipedia.org/wiki/IRC" target="_blank" rel="external">见Wiki</a></p>
-<h4 id="讲故事"><a href="#讲故事" class="headerlink" title="讲故事"></a>讲故事</h4><ul>
-<li><p>背景</p>
-<p>准备好好适应使用linux来编程，趁着假期，打算完全不去碰windows，重新安装了双系统，这次仗着内存8G够用，swap分区就不要了，全部40G都挂到 / 目录上。</p>
-</li>
-<li><p>问题</p>
-<p>觉得跟外界联系还是挺重要的，虽然QQ可以挂在手机上，但是用着linux要分享个链接什么的麻烦的要死，没法好好聊天啊。</p>
-</li>
-<li><p>Telegram</p>
-<p>看别人用着Telegram好好的，可是到我想用时，GFW就把让失联了。而且为了找人聊天让别人在装个软件也麻烦。</p>
-</li>
-<li><p>IRC</p>
-<p>第一次见IRC还是上次整越狱的老iTouch时，搜资料偶然发现了Kiwi IRC。正好是开源的，这次拿来练手。</p>
-</li>
-</ul>
-<h4 id="说正事"><a href="#说正事" class="headerlink" title="说正事"></a>说正事</h4><p>其实安装过程官方给的太详细了，没什么好说的 (-_-|||</p>
-<p>Kiwi的安装过程参考官方教程：</p>
-<p><a href="https://kiwiirc.com/docs/installing" target="_blank" rel="external">传送门</a></p>
-<p>务必先装好 openssl 和 openssl-dev | openssl-devel</p>
-<p>参考另一款老牌IRC （UnrealIRCd）的安装，就可以理解配置文件的设置，下面推荐连个博客</p>
-<p><a href="https://www.dadclab.com/archives/6007.jiecao" target="_blank" rel="external">博客1</a> <a href="http://soft.dog/2016/03/25/unrealircd-basic/" target="_blank" rel="external">博客2</a></p>
-<h4 id="讲废话"><a href="#讲废话" class="headerlink" title="讲废话"></a>讲废话</h4><p>为什么我不用 UnrealIRCd 呢？因为只有一个服务端，客户端还要自己另外找。</p>
-<p>Kiwi IRC 的易用在于，它把服务端和客户端整合了，在云主机上装好后，直接从端口进入客户端，直接连接另一端口的服务端。</p>
-<p>去看看本站的聊天室吧： <a href="http://121.42.161.173:7778/" target="_blank" rel="external">Chatting Room</a></p>
-
-          
+          不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。IRC（Internet Relay Chat的缩写，“因特网中继聊天”）是一种通过网络的即时聊天方式。
+见Wiki
+讲故事
+背景
+准备好好适应使用linux来编程，趁着假期，打算完全不去碰windows，重新安装了双系统，这次仗着内
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/01/09/从放弃Windows到使用IRC/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
