@@ -93,13 +93,13 @@
 
 
 
-<meta name="description" content="[TOC] 准备工作环境： Visual Studio Community 2017，Windows 10.0.15063 pro  先新建一个ASP.NET MVC项目DbConnectPrac     程序包管理器控制台安装EF框架  1Install-Package EntityFramework   PS. 如果解决方里有多个项目，默认项目注意选择DbConnectPrac  Models">
+<meta name="description" content="EF框架下优雅地使用各种数据库Content LocalDB SQL Server MySQL Oralce  准备工作环境： Visual Studio Community 2017，Windows 10.0.15063 pro  先新建一个ASP.NET MVC项目DbConnectPrac     程序包管理器控制台安装EF框架  1Install-Package EntityFramewo">
 <meta name="keywords" content="Databases,EntityFramework,MySQL,Oracle,SQL Server,Visual Studio">
 <meta property="og:type" content="article">
 <meta property="og:title" content="EF框架下优雅地使用各种数据库">
 <meta property="og:url" content="http://www.findshank.com/2017/06/04/EF框架下优雅地使用各种数据库/index.html">
 <meta property="og:site_name" content="Shank &amp; Tech">
-<meta property="og:description" content="[TOC] 准备工作环境： Visual Studio Community 2017，Windows 10.0.15063 pro  先新建一个ASP.NET MVC项目DbConnectPrac     程序包管理器控制台安装EF框架  1Install-Package EntityFramework   PS. 如果解决方里有多个项目，默认项目注意选择DbConnectPrac  Models">
+<meta property="og:description" content="EF框架下优雅地使用各种数据库Content LocalDB SQL Server MySQL Oralce  准备工作环境： Visual Studio Community 2017，Windows 10.0.15063 pro  先新建一个ASP.NET MVC项目DbConnectPrac     程序包管理器控制台安装EF框架  1Install-Package EntityFramewo">
 <meta property="og:image" content="http://www.findshank.com/2017/06/04/EF框架下优雅地使用各种数据库/00.png">
 <meta property="og:image" content="http://www.findshank.com/2017/06/04/EF框架下优雅地使用各种数据库/0.png">
 <meta property="og:image" content="http://www.findshank.com/2017/06/04/EF框架下优雅地使用各种数据库/1.png">
@@ -110,10 +110,10 @@
 <meta property="og:image" content="http://www.findshank.com/2017/06/04/EF框架下优雅地使用各种数据库/7.png">
 <meta property="og:image" content="http://www.findshank.com/2017/06/04/EF框架下优雅地使用各种数据库/9.png">
 <meta property="og:image" content="http://www.findshank.com/2017/06/04/EF框架下优雅地使用各种数据库/10.png">
-<meta property="og:updated_time" content="2017-07-15T14:43:18.811Z">
+<meta property="og:updated_time" content="2017-08-03T00:05:01.196Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="EF框架下优雅地使用各种数据库">
-<meta name="twitter:description" content="[TOC] 准备工作环境： Visual Studio Community 2017，Windows 10.0.15063 pro  先新建一个ASP.NET MVC项目DbConnectPrac     程序包管理器控制台安装EF框架  1Install-Package EntityFramework   PS. 如果解决方里有多个项目，默认项目注意选择DbConnectPrac  Models">
+<meta name="twitter:description" content="EF框架下优雅地使用各种数据库Content LocalDB SQL Server MySQL Oralce  准备工作环境： Visual Studio Community 2017，Windows 10.0.15063 pro  先新建一个ASP.NET MVC项目DbConnectPrac     程序包管理器控制台安装EF框架  1Install-Package EntityFramewo">
 <meta name="twitter:image" content="http://www.findshank.com/2017/06/04/EF框架下优雅地使用各种数据库/00.png">
 
 
@@ -331,7 +331,12 @@
       
 
       
-        <p>[TOC]</p>
+        <h1 id="EF框架下优雅地使用各种数据库"><a href="#EF框架下优雅地使用各种数据库" class="headerlink" title="EF框架下优雅地使用各种数据库"></a>EF框架下优雅地使用各种数据库</h1><h2 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h2><ul>
+<li><a href="#localdb">LocalDB</a></li>
+<li><a href="#sql-server">SQL Server</a></li>
+<li><a href="#mysql">MySQL</a></li>
+<li><a href="#oracle">Oralce</a></li>
+</ul>
 <h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p><em>环境： Visual Studio Community 2017，Windows 10.0.15063 pro</em></p>
 <ul>
 <li>先新建一个ASP.NET MVC项目DbConnectPrac</li>
@@ -655,7 +660,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LocalDB"><span class="nav-number">2.</span> <span class="nav-text">LocalDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL-Server"><span class="nav-number">3.</span> <span class="nav-text">SQL Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL"><span class="nav-number">4.</span> <span class="nav-text">MySQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Oracle"><span class="nav-number">5.</span> <span class="nav-text">Oracle</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#EF框架下优雅地使用各种数据库"><span class="nav-number">1.</span> <span class="nav-text">EF框架下优雅地使用各种数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Content"><span class="nav-number">1.1.</span> <span class="nav-text">Content</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-number">1.1.1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LocalDB"><span class="nav-number">1.1.2.</span> <span class="nav-text">LocalDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL-Server"><span class="nav-number">1.1.3.</span> <span class="nav-text">SQL Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL"><span class="nav-number">1.1.4.</span> <span class="nav-text">MySQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Oracle"><span class="nav-number">1.1.5.</span> <span class="nav-text">Oracle</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
