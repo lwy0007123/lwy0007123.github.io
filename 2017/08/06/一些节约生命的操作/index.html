@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://www.findshank.com/2017/08/06/一些节约生命的操作/index.html">
 <meta property="og:site_name" content="Shank &amp; Tech">
 <meta property="og:description" content="前言你是否感觉 git， pip， npm 之类的工具下载安装奇慢？因为它们的默认服务器都在国外，那么需要必要的设置才能发挥咱百兆光纤的作用。下面介绍方法: pip 的配置解决方式：使用国内的pypi镜像加速，以阿里源为例。 临时使用以安装numpy为例。 1pip install numpy -i http://mirrors.aliyun.com/pypi/simple/ 修改配置 Windo">
-<meta property="og:updated_time" content="2017-08-06T04:57:59.777Z">
+<meta property="og:updated_time" content="2017-08-06T15:49:06.585Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一些节约生命的操作">
 <meta name="twitter:description" content="前言你是否感觉 git， pip， npm 之类的工具下载安装奇慢？因为它们的默认服务器都在国外，那么需要必要的设置才能发挥咱百兆光纤的作用。下面介绍方法: pip 的配置解决方式：使用国内的pypi镜像加速，以阿里源为例。 临时使用以安装numpy为例。 1pip install numpy -i http://mirrors.aliyun.com/pypi/simple/ 修改配置 Windo">
@@ -340,8 +340,8 @@
 <li>Windows</li>
 </ul>
 <p>懒一点就打开powershell(不是cmd!)，粘贴下面命令。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mkdir ~/pip/</div><div class="line"><span class="string">"[global]</span></div><div class="line"> trusted-host =  mirrors.aliyun.com</div><div class="line"> index-url = http://mirrors.aliyun.com/pypi/simple</div><div class="line">" &gt; ~/pip/pip.ini</div></pre></td></tr></table></figure>
-<p>解释：在用户目录(C:\Users\Username)下新建名为pip的目录，目录下新建文件pip.ini，写入阿里的镜像源配置。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mkdir ~/pip/</div><div class="line"><span class="built_in">echo</span> <span class="string">"[global]</span></div><div class="line">trusted-host =  mirrors.aliyun.com</div><div class="line">index-url = http://mirrors.aliyun.com/pypi/simple</div><div class="line">" | out-file -encoding ascii ~/pip/pip.ini</div></pre></td></tr></table></figure>
+<p>解释：在用户目录(C:\Users\Username)下新建名为pip的目录，目录下新建文件pip.ini，写入阿里的镜像源配置。P.S 默认输出编码为utf16会导致pip出错，必须指定编码。</p>
 <ul>
 <li>Linux</li>
 </ul>
