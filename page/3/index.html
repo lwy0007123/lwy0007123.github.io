@@ -256,7 +256,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.findshank.com/2016/10/01/使用 Terminator  & ZSH的配置/">
+    <link itemprop="mainEntityOfPage" href="http://www.findshank.com/2016/10/01/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="SHANK">
@@ -275,7 +275,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/10/01/使用 Terminator  & ZSH的配置/" itemprop="url">使用 Terminator & ZSH的配置</a></h1>
+                <a class="post-title-link" href="/2016/10/01/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/" itemprop="url">Thinkpad X250 安装ubuntu16.04.1LTS 的记录</a></h1>
         
 
         <div class="post-meta">
@@ -324,16 +324,18 @@
       
         
           
-          在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧安装 Terminatorsudo apt-get install terminator 
+          X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。U盘制作ubuntu安装盘，开机启动到U盘。
+安装时，对空闲20G手动分区 ：
 
 
-利用 Debian 的重新配置命令选择默认终端：
 
-sudo update-alternatives --c
+分区类型
+挂载点
+大小
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2016/10/01/使用 Terminator  & ZSH的配置/#more" rel="contents">
+            <a class="btn" href="/2016/10/01/Thinkpad X250 安装ubuntu16.04.1LTS 的记录/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1134,12 +1136,10 @@ var OriginTitile = document.title;
  var titleTime;
  document.addEventListener('visibilitychange', function () {
      if (document.hidden) {
-         $('[rel="icon"]').attr('href', "/img/TEP.ico");
          document.title = '╭(°A°`)╮ 页面崩溃啦 ~ ';
          clearTimeout(titleTime);
      }
      else {
-         $('[rel="icon"]').attr('href', "/favicon.ico");
          document.title = '(ฅ>ω<*ฅ) 噫又好了~' + OriginTitile;
          titleTime = setTimeout(function () {
              document.title = OriginTitile;
