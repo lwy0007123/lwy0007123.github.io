@@ -1,0 +1,96 @@
+---
+title: OSMC的使用
+date: 2017-01-18 13:26:13
+tags:  
+- OSMC
+---
+
+去年某宝上买了 Raspberry Pi 2B，期间玩过一段时间的Raspbian，没有买其他配件，全当练习使用linux了。最近盯上了 OSMC，所以，要搞事情！
+
+### 设备
+
+* Raspberry Pi 2B  
+
+  ​	_官方说支持全系列的Pi板子_
+
+* 32G SAMSUNG micro SDHC  
+
+  ​	_支持的SD卡可以去官方看支持列表，容量不低于8G_
+
+* HDMI to HDMI 线
+
+  ​	_看需求吧，能把Pi连上电视就行_
+
+* EDUP EP-N8508GS USB网卡
+
+  ​	_即插即用，支持802.11N。如果你的网线够长可以不用_
+
+### 刷系统
+
+传送门 [OSMC](https://osmc.tv/download/)
+
+你可以使用官方的安装器(支持Windows/Linux/OSX)，也可以下载镜像自己刷。
+
+我选择下载镜像在win下刷入：
+
+* 准备
+  * SD卡 插入电脑
+  * 安装 [SD Card Formatter](https://www.sdcard.org/downloads/formatter_4/)
+  * 安装 [Win32 Disk Imager](https://sourceforge.net/projects/win32diskimager/)
+  * 解压下载的系统zip包
+* 操作
+  * 使用 SDFormatter V4.0 格式化SD卡
+    * Drive 选中你的SD卡盘符
+    * 选项设置 -> 逻辑大小调整 -> 开启（ON）-> OK -> 格式化
+  * 使用 Win32 Disk Imager V0.9.5 刷入系统
+    * Device 选中你的SD卡盘符
+    * Image File 选中OSMC的img文件
+    * 选择 Write
+  * 刷好SD卡插入Pi
+    * Pi 用视频线接电视，开电视，切换信号源到 HDMI
+    * Pi 用microUSB接电源适配器
+    * Pi 上接键盘
+  * 开机配置系统……语言暂时用English(US)，联网
+
+### 软件配置
+
+* 语言设置
+
+  Settings -> Apperance -> Skin -> Fonts -> Arial
+
+  Settings -> Apperance -> International -> Language -> Chinese(Simple)
+
+  现在就是显示中文了，下面还有些鸡肋的设置
+
+  设置 -> 用户界面 -> 字符集 -> Chinese Simplified (GBK)
+
+  设置 -> 用户界面 -> 键盘布局 -> 添加 Chinese BaiduPY
+
+* 安装插件库
+
+  [传送门](http://dkmc.tv/2013/04/07/xbmc%E6%8F%92%E4%BB%B6%E5%BA%93%E6%B1%87%E6%80%BB/)
+
+  使用zip包的安装方式，先在同局域网的电脑上下载
+
+   [chinese addon](https://github.com/taxigps/xbmc-addons-chinese/raw/master/repo/repository.xbmc-addons-chinese/repository.xbmc-addons-chinese-1.2.0.zip) 、[hdpfans](http://xbmc.hdpfans.com/repository.hdpfans.xbmc-addons.zip)
+
+  选择插件，选择安装，按Backspace到最外层，选择zip包安装插件，选择安装刚下的两个插件。
+
+* 寻找你需要的插件，安装即可。
+
+### 使用手机的控制
+
+[Remote Control](http://kodi.wiki/view/Remote_controls)
+
+* Android
+  * [Kore](http://mirrors.kodi.tv/tools/kore/releases/) _官方软件_
+  * [Yatse](http://yatse.tv/redmine/projects/yatse/wiki/XbmcStarter#Download-and-install-2) _功能一样，[Google Play](https://play.google.com/store/apps/details?id=tv.yatse.android.remotestarter)上售价0.99$_
+* iOS
+  * [Official Kodi Remote](https://itunes.apple.com/cn/app/official-kodi-remote/id520480364?mt=8) _官方软件_
+* WP  _下面摘抄自kodi.wiki_
+  * [mrRemote for Kodi](https://www.microsoft.com/store/apps/9nblggh4qvkx) by Domenico Rescigno (free)
+  * [Kodi Assist](http://www.windowsphone.com/s?appid=3897b459-b11b-41eb-9cea-dd9e53c55b78) by akshay2000 (free)
+  * [xbmc remote free](http://www.windowsphone.com/s?appid=3a35a8c6-bf35-49a1-b67b-f8104be2b05c) by CRW Solutions (free)
+  * [XBMC Maestro](http://kodi.wiki/view/XBMC_Maestro) by 3Webers ($0.99 USD)
+  * [Kodi Remote](http://www.windowsphone.com/s?appid=7cdb0b87-1e00-4328-b839-43a6bf9c8556) by Fabien Lavocat (free)
+
