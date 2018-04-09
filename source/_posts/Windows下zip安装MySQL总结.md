@@ -44,6 +44,8 @@ character-set-server=utf8
 basedir=D:\mysql-5.7.18-win32
 # 设置mysql数据库的数据的存放目录
 datadir=D:\mysql-5.7.18-win32\data
+# 默认存储引擎
+default-storage-engine=InnoDB
 ```
 
 # 安装
@@ -57,6 +59,8 @@ datadir=D:\mysql-5.7.18-win32\data
     ```
 
     稍等一会，没有输出就成功了。
+
+    > 若遇到缺少MSVCP120.dll的问题，前往[这里](https://www.microsoft.com/en-us/download/details.aspx?id=40784)下载安装VC++支持
 
 1. 运行安装命令
 
