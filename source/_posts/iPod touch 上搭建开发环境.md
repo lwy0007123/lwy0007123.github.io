@@ -37,11 +37,11 @@ typora-root-url: iPod touch 上搭建开发环境
   _解决：原来博客未提到要装mysql，直接在cydia里搜索安装就好_
 
 ## 结果
-![IMG_0001](/IMG_0001.png)
+![IMG_0001](IMG_0001.png)
 
-![IMG_0002](/IMG_0002.png)
+![IMG_0002](IMG_0002.png)
 
-![IMG_0003](/IMG_0003.png)
+![IMG_0003](IMG_0003.png)
 
 ## 后记
 
@@ -49,10 +49,10 @@ typora-root-url: iPod touch 上搭建开发环境
 
 话说在cydia里搜索"mysql"时，看到还有个搜索结果 "touch-lighttpd-php-mysql"，这个玩意有趣了，轻量级的webserver整合，有了它，可以在touch里搭个wordpress了，哈哈。
 安装好插件，浏览器访问touch的ip，精简的"is works"页面……
-![20170101133551](/20170101133551.jpg)
+![20170101133551](20170101133551.jpg)
 
 然后装wordpress我就不在这谈了，直接上结果
-![20170101133908](/20170101133908.jpg)
+![20170101133908](20170101133908.jpg)
 
 但是装好的wordpress遇到点小问题，进入"仪表盘"会出现 服务器500 错误，这个貌似是内存不足，唉~touch的硬伤，写文章是没有问题的，所以不管了。
 

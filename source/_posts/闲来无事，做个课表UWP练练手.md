@@ -13,7 +13,7 @@ typora-root-url: 闲来无事，做个课表UWP练练手
 正好学了一段时间UWP，我觉得我可以做一个自己用啊。
 目前是自用版本，等我写好爬虫和教务登录，试试放到微软商店怎样？
 
-![20160830173641](/20160830173641.jpg)
+![20160830173641](20160830173641.jpg)
 
 尽管很low，但还是放自己网站上秀一下吧。
 [git@github.com:sko00o/ClassSchedule.git](git@github.com:sko00o/ClassSchedule.git)

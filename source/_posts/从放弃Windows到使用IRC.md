@@ -24,7 +24,7 @@ _IRC（Internet Relay Chat的缩写，“因特网中继聊天”）是一种通
 
 * Telegram
 
-  看别人用着Telegram好好的，可是到我想用时，GFW就把让失联了。而且为了找人聊天让别人在装个软件也麻烦。
+  看别人用着Telegram好好的，可是到我想用时，GFW就让它失联了。而且为了找人聊天让别人在装个软件也麻烦。
 
 * IRC
 
@@ -40,7 +40,7 @@ Kiwi的安装过程参考官方教程：
 
 务必先装好 openssl 和 openssl-dev | openssl-devel
 
-参考另一款老牌IRC （UnrealIRCd）的安装，就可以理解配置文件的设置，下面推荐连个博客
+参考另一款老牌IRC （UnrealIRCd）的安装，就可以理解配置文件的设置，下面推荐两个博客
 
 [博客1](https://www.dadclab.com/archives/6007.jiecao) [博客2](http://soft.dog/2016/03/25/unrealircd-basic/)
 

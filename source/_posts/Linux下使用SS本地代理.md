@@ -68,6 +68,16 @@ curl -skL www.google.com
 curl -4skL http://ip.chinaz.com/getip.aspx
 ```
 
+## 可以将环境变量加入 `.profile` 或 `.bashrc` 或其他配置文件中
+
+```sh
+# 设置临时变量，privoxy 默认监听端口为 8118
+proxy=http://127.0.0.1:8118
+export http_proxy=$proxy
+export https_proxy=$proxy
+export no_proxy="localhost, 127.0.0.1, ::1"
+```
+
 ## 参考
 
 [ss-local + privoxy 代理](https://www.zfl9.com/ss-local.html)

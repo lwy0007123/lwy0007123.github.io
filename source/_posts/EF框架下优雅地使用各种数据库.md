@@ -24,9 +24,9 @@ _环境： Visual Studio Community 2017，Windows 10.0.15063 pro_
 
 * 先新建一个ASP.NET MVC项目DbConnectPrac
 
-![00](/00.png)
+![00](00.png)
 
-![0](/0.png)
+![0](0.png)
 
 * 程序包管理器控制台安装EF框架
 

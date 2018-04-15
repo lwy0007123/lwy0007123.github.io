@@ -11,9 +11,7 @@ tags:
 最近在看计算机图形学
 书里的代码要用到OpenGL，然而在Windows上少了GLUT，需要自己手动配置。
 
-
 <!--more-->
-
 
 ## 准备
 
@@ -26,9 +24,9 @@ tags:
 1. `glut.dll`,`glut32.dll` 解压到 Windows目录。
     > 我放到了`C:\Windows`目录下，当然你也可以把它们分别放到`C:\Windows\SysWOW64`和`C:\Windows\System32`下。
 1. 找到MSVC的目录。
-    > 我的在`C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.??.??????`。(根据版本文件夹的名称的`?`会有不同)
+    > 例如 `C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.??.??????`。 (根据版本文件夹的名称的`?`会有不同)
 1. 在`include`目录下新建`GL`文件夹，将`glut.h`复制进去。
-    > 我的目录是`C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\include\GL`。
+    > 例如 `C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\include\GL`。
 1. 在`lib`目录下，将`glut.lib`,`glut32.lib`复制进去。
 
 ## 编写一个简单的opengl程序
@@ -38,9 +36,9 @@ tags:
 1. 右键点击解决方案管理器中的项目名称(ConsoleApplication?) - 属性 - 链接器
     > 注意：配置平台是Win32。
     * 常规 - 附加库目录 - <编辑…> - 粘贴你lib的路径
-        > 我写入了`C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\lib`。
+        > 例如 `C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\lib`。
     * 输入 - 附加依赖项 - <编辑…> - 粘贴glut的lib
-        > 我写入了`glut32.lib`。
+        > 例如 `glut32.lib`。
 
 1. `ConsoleApplication1?.cpp`中写入以下代码：
 
