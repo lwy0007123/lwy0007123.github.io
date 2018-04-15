@@ -15,5 +15,5 @@ typora-root-url: 闲来无事，做个课表UWP练练手
 
 ![20160830173641](20160830173641.jpg)
 
-尽管很low，但还是放自己网站上秀一下吧。
-[git@github.com:sko00o/ClassSchedule.git](git@github.com:sko00o/ClassSchedule.git)
+~~尽管很low，但还是放自己网站上秀一下吧。
+[git@github.com:sko00o/ClassSchedule.git](https://github.com/sko00o/ClassSchedule)~~ 辣鸡代码别秀了
