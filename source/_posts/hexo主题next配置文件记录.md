@@ -1,3 +1,15 @@
+---
+title: hexo主题next配置文件记录
+date: 2015-04-01 12:34:56
+tags:
+- hexo
+- next
+- theme
+---
+
+## 要升级主题了，备份一下配置文件
+
+```yml
 # ---------------------------------------------------------------
 # Site Information Settings
 # ---------------------------------------------------------------
@@ -21,7 +33,6 @@ authoricon: heart
 
 # Footer `powered-by` and `theme-info` copyright
 copyright: false
-
 
 # ---------------------------------------------------------------
 # SEO Settings
@@ -52,7 +63,7 @@ menu:
   archives: /archives/
   tags: /tags/
   #sitemap: /sitemap.xml
-  #commonweal: /404/
+  #commonweal: /404.html
 
 # Enable/Disable menu icons.
 # Icon Mapping:
@@ -77,11 +88,9 @@ menu_icons:
 # ---------------------------------------------------------------
 
 # Schemes
-# scheme: Muse
-# scheme: Mist
-# scheme: Pisces
-scheme: Gemini
-
+#scheme: Muse
+#scheme: Mist
+scheme: Pisces
 
 # ---------------------------------------------------------------
 # Sidebar Settings
@@ -93,7 +102,7 @@ scheme: Gemini
 social:
   GitHub: https://github.com/sko00o
   Douban: https://www.douban.com/people/45604946/
-  Weibo: http://weibo.com/u/1764669495
+  # Weibo: http://weibo.com/u/1764669495
   #LinkLabel: Link
 
 # Social Links Icons
@@ -103,22 +112,12 @@ social:
 #   When an globe mask icon presenting up means that the item has no mapping icon.
 social_icons:
   enable: true
-  icons_only: false
-  transition: false
   # Icon Mappings.
   # KeyMapsToSocialItemKey: NameOfTheIconFromFontAwesome
+  #Twitter: twitter
   GitHub: github
-  E-Mail: envelope
-  Google: google
-  Twitter: twitter
-  FB Page: facebook
-  VK Group: vk
-  Skype: skype
-  YouTube: youtube
-  Instagram: instagram
-  StackOverflow: stack-overflow
-  Weibo: weibo
   Douban: douban
+  # Weibo: weibo
 
 # Blog rolls
 #links_title: Links
@@ -217,12 +216,6 @@ post_wordcount:
   #qcode: /path/to/your/wechatqcode ex. /uploads/wechat-qcode.jpg
   #description: ex. subscribe to my blog by scanning my public wechat account
 
-# Reward
-#reward_comment: Donate comment here
-#wechatpay: /images/wechatpay.jpg
-#alipay: /images/alipay.jpg
-#bitcoin: /images/bitcoin.png
-
 # Declare license on posts
 post_copyright:
   enable: false
@@ -233,12 +226,6 @@ post_copyright:
 # ---------------------------------------------------------------
 # Misc Theme Settings
 # ---------------------------------------------------------------
-
-# Reduce padding / margin indents on devices with narrow width.
-mobile_layout_economy: false
-
-# Android Chrome header panel color ($black-deep).
-android_chrome_color: "#222"
 
 # Custom Logo.
 # !!Only available for Default Scheme currently.
@@ -489,8 +476,8 @@ algolia_search:
     hits_empty: "We didn't find any results for the search: ${query}"
     hits_stats: "${hits} results found in ${time} ms"
 
+
 # Local search
-# Dependencies: https://github.com/flashlab/hexo-generator-search
 local_search:
   enable: false
   # if auto, trigger search by changing input
@@ -503,36 +490,10 @@ local_search:
 # ---------------------------------------------------------------
 # Tags Settings
 # ---------------------------------------------------------------
-
-# External URL with BASE64 encrypt & decrypt.
+# External URL with BASE64 encrypt & decrypt
 # Usage: {% exturl text url "title" %}
 # Alias: {% extlink text url "title" %}
 exturl: false
-
-# Note tag (bs-callout).
-note:
-  # Note tag style values:
-  #  - simple    bs-callout old alert style. Default.
-  #  - modern    bs-callout new (v2-v3) alert style.
-  #  - flat      flat callout style with background, like on Mozilla or StackOverflow.
-  #  - disabled  disable all CSS styles import of note tag.
-  style: simple
-  icons: false
-  border_radius: 3
-  # Offset lighter of background in % for modern and flat styles (modern: -12 | 12; flat: -18 | 6).
-  # Offset also applied to label tag variables. This option can work with disabled note tag.
-  light_bg_offset: 0
-
-# Label tag.
-label: true
-
-# Tabs tag.
-tabs:
-  enable: true
-  transition:
-    tabs: false
-    labels: true
-  border_radius: 0
 
 
 #! ---------------------------------------------------------------
@@ -671,4 +632,6 @@ js: js
 images: images
 
 # Theme version
-version: 5.1.2
+version: 5.1.1
+
+```

@@ -80,28 +80,5 @@
   {% include '_third-party/mathjax.swig' %}
   {% include '_third-party/scroll-cookie.swig' %}
   {% include '_third-party/exturl.swig' %}
-
-  <!--title崩溃欺骗-->
-<script>
-var OriginTitile = document.title;
- var titleTime;
- document.addEventListener('visibilitychange', function () {
-     if (document.hidden) {
-         document.title = '╭(°A°`)╮ 页面崩溃啦 ~ ';
-         clearTimeout(titleTime);
-     }
-     else {
-         document.title = '(ฅ>ω<*ฅ) 噫又好了~' + OriginTitile;
-         titleTime = setTimeout(function () {
-             document.title = OriginTitile;
-         }, 2000);
-     }
- });
-</script>
-
 </body>
 </html>
-
-
-
-
