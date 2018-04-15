@@ -68,7 +68,9 @@ curl -skL www.google.com
 curl -4skL http://ip.chinaz.com/getip.aspx
 ```
 
-## 可以将环境变量加入 `.profile` 或 `.bashrc` 或其他配置文件中
+## 设置环境变量
+
+可以将环境变量加入 `.profile` 或 `.bashrc` 或其他配置文件中
 
 ```sh
 # 设置临时变量，privoxy 默认监听端口为 8118

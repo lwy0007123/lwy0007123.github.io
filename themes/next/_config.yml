@@ -92,8 +92,9 @@ scheme: Gemini
 # Value is the target link (E.g. GitHub: https://github.com/iissnan)
 social:
   GitHub: https://github.com/sko00o
-  Douban: https://www.douban.com/people/45604946/
+  E-Mail: mailto:lwylwy@outlook.com
   Weibo: http://weibo.com/u/1764669495
+  Douban: https://www.douban.com/people/45604946/
   #LinkLabel: Link
 
 # Social Links Icons
@@ -165,7 +166,7 @@ sidebar:
 
   # Sidebar offset from top menubar in pixels.
   offset: 12
-  offset_float: 0
+  offset_float: 12
 
   # Back to top in sidebar
   b2t: false
@@ -299,7 +300,7 @@ font:
   # Font settings for <code> and code blocks.
   codes:
     external: true
-    family:
+    family: Inconsolata
     size:
 
 
@@ -460,7 +461,7 @@ busuanzi_count:
 
 
 # Enable baidu push so that the blog will push the url to baidu automatically which is very helpful for SEO
-baidu_push: false
+baidu_push: true
 
 # Google Calendar
 # Share your recent schedule to others via calendar page
