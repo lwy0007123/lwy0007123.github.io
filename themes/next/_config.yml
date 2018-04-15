@@ -89,8 +89,8 @@ scheme: Pisces
 # Value is the target link (E.g. GitHub: https://github.com/iissnan)
 social:
   GitHub: https://github.com/sko00o
-  Weibo: http://weibo.com/u/1764669495
-  #Douban: https://www.douban.com/people/45604946/
+  Douban: https://www.douban.com/people/45604946/
+  # Weibo: http://weibo.com/u/1764669495
   #LinkLabel: Link
 
 # Social Links Icons
@@ -103,9 +103,9 @@ social_icons:
   # Icon Mappings.
   # KeyMapsToSocialItemKey: NameOfTheIconFromFontAwesome
   #Twitter: twitter
-  #Douban: douban
   GitHub: github
-  Weibo: weibo
+  Douban: douban
+  # Weibo: weibo
 
 # Blog rolls
 #links_title: Links
@@ -117,7 +117,7 @@ social_icons:
 # Sidebar Avatar
 # in theme directory(source/images): /images/avatar.jpg
 # in site  directory(source/uploads): /uploads/avatar.jpg
-avatar: /uploads/avatar.png
+avatar: /uploads/avatar.jpg
 
 # Table Of Contents in the Sidebar
 toc:
