@@ -29,7 +29,7 @@ sudo apt install shadowsocks-qt5
 
 ```sh
 # 设置临时全局代理
-proxy=http://127.0.0.1:1080; export http_proxy=$proxy https_proxy=$proxy no_proxy="localhost, 127.0.0.1, ::1"
+export proxy=http://127.0.0.1:1080; export http_proxy=$proxy https_proxy=$proxy no_proxy="localhost, 127.0.0.1, ::1"
 # 然后访问下Google，有返回html就成了。
 curl -skL www.google.com
 ```
@@ -61,7 +61,7 @@ sudo systemctl start privoxy.service
 
 ```sh
 # 设置临时变量，privoxy 默认监听端口为 8118
-proxy=http://127.0.0.1:8118; export http_proxy=$proxy https_proxy=$proxy no_proxy="localhost, 127.0.0.1, ::1"
+export proxy=http://127.0.0.1:8118; export http_proxy=$proxy https_proxy=$proxy no_proxy="localhost, 127.0.0.1, ::1"
 # 可以看到返回值，说明代理成功
 curl -skL www.google.com
 # 查看当前IP，若未墙内IP说明gfwlist配置成功
@@ -73,6 +73,7 @@ curl -4skL http://ip.chinaz.com/getip.aspx
 可以将环境变量加入 `.profile` 或 `.bashrc` 或其他配置文件中
 
 ```sh
+# vim ~/.profile 或者 sudo vim /etc/profile
 # 设置临时变量，privoxy 默认监听端口为 8118
 proxy=http://127.0.0.1:8118
 export http_proxy=$proxy
