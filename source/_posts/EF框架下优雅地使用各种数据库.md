@@ -24,9 +24,9 @@ _环境： Visual Studio Community 2017，Windows 10.0.15063 pro_
 
 * 先新建一个ASP.NET MVC项目DbConnectPrac
 
-![00](00.png)
+![pic00](00.png)
 
-![0](0.png)
+![pic0](0.png)
 
 * 程序包管理器控制台安装EF框架
 
@@ -38,7 +38,7 @@ Install-Package EntityFramework
 
 * Models中新建一个类
 
-  ![1](1.png)
+![pic1](1.png)
 
   _Program.cs_
 
@@ -121,13 +121,13 @@ namespace DbConnectPrac.Models
 
 * Controllers中新建控制器
 
-![2](2.png)
+![pic2](2.png)
 
-![3](3.png)
+![pic3](3.png)
 
 点击添加，将生成以下文件
 
-![5](5.png)
+![pic5](5.png)
 
 _分别把另外几个类也创建好带视图的控制器_
 
@@ -155,7 +155,7 @@ _LocalDB是VS自带的简化版SQL Server_
 
 * 运行项目进入对应的Controller你可以方便的实现增删改查(CRUD)操作。
 
-![6](6.png)
+![pic6](6.png)
 
 ### SQL Server
 
@@ -254,7 +254,7 @@ Enable-Migrations -EnableAutomaticMigrations
 
   _连接MySQL查看生成的testdb表_
 
-![7](7.png)
+![pic7](7.png)
 
 ### Oracle
 
@@ -338,7 +338,7 @@ namespace DbConnectPrac.Models
 ```
 Oracle中不存在模式名为dbo，dbo是SQL Server数据库的，如图例。
 
-![9](9.png)
+![pic9](9.png)
 
 * 程序包管理器控制台输入
 
@@ -351,7 +351,7 @@ Enable-Migrations -EnableAutomaticMigrations
 
 _连接Oracle查看生成的表_
 
-![10](10.png)
+![pic10](10.png)
 
 **最后一次测试时，发现一个BUG，如果把刚生成的表全删除，试图通过重新运行项目重新建表，会失败。这个情况只在Oracle上发生，大概官方还没注意到这个BUG。“一次性”用户真是尴尬……**
 
