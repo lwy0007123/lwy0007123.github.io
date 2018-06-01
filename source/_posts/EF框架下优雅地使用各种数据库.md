@@ -38,7 +38,7 @@ Install-Package EntityFramework
 
 * Models中新建一个类
 
-![pic1](1.png)
+![pic1](pic1.png)
 
   _Program.cs_
 
@@ -121,7 +121,7 @@ namespace DbConnectPrac.Models
 
 * Controllers中新建控制器
 
-![pic2](2.png)
+![pic2](pic2.png)
 
 ![pic3](3.png)
 
