@@ -38,7 +38,7 @@ Install-Package EntityFramework
 
 * Models中新建一个类
 
-![pic1](pic1.png)
+  ![pic1](pic1.png)
 
   _Program.cs_
 
