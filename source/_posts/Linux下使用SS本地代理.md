@@ -64,7 +64,7 @@ sudo systemctl start privoxy.service
 export proxy=http://127.0.0.1:8118; export http_proxy=$proxy https_proxy=$proxy no_proxy="localhost, 127.0.0.1, ::1"
 # 可以看到返回值，说明代理成功
 curl -skL www.google.com
-# 查看当前IP，若未墙内IP说明gfwlist配置成功
+# 查看当前IP，若是墙内IP说明gfwlist配置成功
 curl -4skL http://ip.chinaz.com/getip.aspx
 ```
 
