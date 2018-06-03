@@ -5,7 +5,6 @@ tags:
 - Linux
 - Arch
 ---
-# Arch Linux 安装记录
 
 > 本教程在EFI启动的Windows10台式机上完成。
 
