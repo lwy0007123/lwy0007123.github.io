@@ -121,8 +121,8 @@ pacman -S iw wpa_supplicant dialog
 pacman -S ttf-dejavu wqy-microhei wqy-zenhei
 # 音频
 pacman -S alsa-utils
-# Vim
-pacman -S vim
+# vim & ssh
+pacman -S vim openssh
 # 引导工具
 pacman -S dosfstools grub efibootmgr os-prober
 grub-install --efi-directory=/boot/efi --bootloader-id=ArchLinux --recheck
