@@ -114,6 +114,7 @@ arch-chroot /mnt
 ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 # 时钟设置 使用UTC会导致双系统时间不同 此处用可以用localtime
 hwclock --systohc -l
+
 # 网络
 pacman -S iw wpa_supplicant dialog
 # 字体
@@ -166,6 +167,7 @@ echo '127.0.1.1   HOSTNAME.localdomain    HOSTNAME'  >>/etc/hosts
 
 ```sh
 exit
+umount -R /mnt
 reboot
 ```
 
