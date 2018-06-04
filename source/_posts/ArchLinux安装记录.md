@@ -112,8 +112,8 @@ genfstab -U /mnt >> /mnt/etc/fstab
 arch-chroot /mnt
 # 设置时区
 ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-# UTC时间
-hwclock --systohc --utc
+# 时钟设置 使用UTC会导致双系统时间不同 此处用可以用localtime
+hwclock --systohc -l
 # 网络
 pacman -S iw wpa_supplicant dialog
 # 字体
@@ -469,6 +469,7 @@ sudo pacman -U visual-studio-code-bin-XXXXXX.pkg.tar.xz
 
 ## 参考资料
 
+* [Installation guide](https://wiki.archlinux.org/index.php/Installation_guide)
 * [笔记本双显卡 EFI 启动安装 ArchLinux](https://blog.csdn.net/maxsky/article/details/56839855)
 * [ss-local + privoxy 代理](https://www.zfl9.com/ss-local.html)
 * [IBus](https://wiki.archlinux.org/index.php/IBus)
