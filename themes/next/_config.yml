@@ -430,7 +430,7 @@ rating:
 # Show number of visitors to each article.
 # You can visit https://leancloud.cn get AppID and AppKey.
 leancloud_visitors:
-  enable: false
+  enable: true
   app_id: Xms77fPtgRQDoOFh7gxDB6BU-gzGzoHsz
   app_key: 1jK0c8KSqLajBWxD53aGfXQ3
 
@@ -448,13 +448,13 @@ busuanzi_count:
   site_pv_header: <i class="fa fa-eye"></i>
   site_pv_footer:
   # custom pv span for one page only
-  page_pv: true
+  page_pv: false
   page_pv_header: <i class="fa fa-file-o"></i>
   page_pv_footer:
 
 
 # Tencent analytics ID
-tencent_analytics: 65885704
+# tencent_analytics: 65885704
 
 # Tencent MTA ID
 # tencent_mta:
