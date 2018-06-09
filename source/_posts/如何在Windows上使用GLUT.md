@@ -1,6 +1,7 @@
 ---
 title: 如何在Windows上使用GLUT
 date: 2018-03-09 17:05:59
+categories: 图形学
 tags: 
 - Windows
 - GLUT

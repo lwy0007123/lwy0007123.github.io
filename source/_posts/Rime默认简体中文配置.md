@@ -1,6 +1,7 @@
 ---
 title: Rime默认简体中文配置
 date: 2018-06-09 15:09:28
+categories: Linux
 tags:
 - Rime
 - linux

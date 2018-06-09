@@ -1,6 +1,7 @@
 ---
 title: MVC 部分刷新的尝试
 date: 2017-06-15 23:14:35
+categories: .NET
 tags: 
 - JS
 - MVC

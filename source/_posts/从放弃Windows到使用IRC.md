@@ -1,6 +1,7 @@
 ---
 title: 从放弃Windows到使用IRC
 date: 2017-01-09 0:36:28
+categories: Linux
 tags:  
 - IRC
 - Linux

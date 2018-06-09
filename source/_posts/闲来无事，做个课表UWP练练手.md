@@ -1,6 +1,7 @@
 ---
 title: 闲来无事，做个课表UWP练练手
 date: 2016-08-30 17:49:51
+categories: 闲扯
 tags: 
 - UWP
 - 好闲啊

@@ -1,6 +1,7 @@
 ---
 title: 使用 Terminator & ZSH的配置
 date: 2016-10-01 21:11:38
+categories: Linux
 tags: 
 - Linux
 - terminator

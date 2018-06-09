@@ -1,6 +1,7 @@
 ---
 title: Linux下使用SS本地代理
 date: 2018-04-15 12:19:55
+categories: Linux
 tags:
 - Linux
 - Shadowsocks

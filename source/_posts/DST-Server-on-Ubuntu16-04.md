@@ -1,6 +1,7 @@
 ---
 title: DST Server on Ubuntu16.04
 date: 2018-05-29 22:37:32
+categories: Linux
 tags:
 - DST
 - Linux

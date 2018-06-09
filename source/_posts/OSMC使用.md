@@ -1,6 +1,7 @@
 ---
 title: OSMC的使用
 date: 2017-01-18 13:26:13
+categories: 闲扯
 tags:  
 - OSMC
 ---

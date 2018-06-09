@@ -1,6 +1,7 @@
 ---
 title: 记录一下在WordPress上用过的插件
 date: 2017-08-27 23:09:01
+categories: 闲扯
 tags: 
 - WordPress
 - Plugins
