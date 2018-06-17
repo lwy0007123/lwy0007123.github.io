@@ -26,4 +26,11 @@ netease-cloud-music \
 anaconda
 ```
 
+> add anaconda to PATH
+
+```sh
+echo "export PATH=/opt/anaconda/bin:\$PATH" >> ~/.zshrc
+```
+
+
 ## To be contine ...
