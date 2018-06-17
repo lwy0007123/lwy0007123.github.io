@@ -32,5 +32,4 @@ anaconda
 echo "export PATH=/opt/anaconda/bin:\$PATH" >> ~/.zshrc
 ```
 
-
 ## To be contine ...
