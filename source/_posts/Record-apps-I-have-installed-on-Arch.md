@@ -8,13 +8,14 @@ tags:
 
 ```shell
 sudo pacman -S \
-ttf-inconsolata noto-fonts-cjk powerline-fonts \
+ttf-inconsolata noto-fonts-cjk powerline-fonts ttf-font-awesome \
 ibus ibus-qt ibus-rime \
 net-tools dnsutils inetutils iproute2 \
-zsh terminator \
-vlc alsa-utils \
-git openssh unzip unrar \
-gnome gnome-tweaks numix-gtk-theme numix-circle-icon-theme-git
+zsh terminator thunar\
+vlc alsa-utils deadbeef cmus mupdf telegram-desktop \
+go git openssh unzip unrar \
+gnome gnome-tweaks numix-gtk-theme numix-circle-icon-theme-git \
+wget ntfs-3g shadowsocks-qt5
 ```
 
 ## yaourt
