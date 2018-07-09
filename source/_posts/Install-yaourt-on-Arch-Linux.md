@@ -15,8 +15,13 @@ Then, add following lines to the end.
 
 ```sh
 [archlinuxcn]
-SigLevel = Optional TrustAll
 Server = http://repo.archlinuxcn.org/$arch
+```
+
+Install the GPG key.
+
+```sh
+sudo pacman -S archlinuxcn-keyring
 ```
 
 Finally, update and install yaourt.
@@ -26,3 +31,5 @@ sudo pacman -Sy yaourt
 ```
 
 Done!
+
+[reference](https://www.archlinuxcn.org/archlinux-cn-repo-and-mirror/)
