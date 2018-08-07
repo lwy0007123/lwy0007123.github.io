@@ -26,7 +26,7 @@ This tool has been deprecated, use 'gio trash' instead.
 See 'gio help trash' for more info.
 ```
 
-## Fixd
+## Solve
 
 add this to you environment:
 
@@ -34,7 +34,7 @@ add this to you environment:
 export ELECTRON_TRASH=gio
 ```
 
-## Reference
+## Refs
 
 [Linux: Unable to move file to trash upon delete (#13189)](https://github.com/Microsoft/vscode/issues/13189)
 
@@ -55,7 +55,7 @@ When I want to delete file from explorer in vscode, following Error occurs:
 
 `Failed to delete using the Trash. Do you want to permanently delete instead?`
 
-## Fixd
+## Solve
 
 Maybe `gvfs-trash` not work properly. It has been deprecated in this gnome version.
 So open shell, install another tool for help.
@@ -65,7 +65,7 @@ So open shell, install another tool for help.
 sudo easy_install trash-cli
 ```
 
-## Reference
+## Refs
 
 [Failed to delete using Trash in Ubuntu 18.04 (#49675)](https://github.com/Microsoft/vscode/issues/49675)
 [Moving files to trash always fails in Kubuntu 16.04 (#22820)](https://github.com/Microsoft/vscode/issues/22820#issuecomment-288239512)
