@@ -5,8 +5,12 @@ git config --global credential.helper cache
 git config --global credential.helper 'cache --timeout=30'
 
 hexo g -d
-read -sp 'username:' passvar
-read -sp 'Hey $passvar, password please:' passvar
+read -p 'push src to hexo? (Y/n)' ch
+
+if ch [ $ch -eq 'n' || $ch -eq 'N' ]
+then
+    exit 1
+fi
 
 git add . 
 git commit -m "Changed on Linux"
