@@ -5,13 +5,18 @@ git config --global credential.helper cache
 git config --global credential.helper 'cache --timeout=30'
 
 hexo g -d
-read -p 'push src to hexo? (Y/n)' ch
+read -p 'push src to hexo? (Y/n): ' ch
 
-if [ $ch = 'n' || $ch = 'N' ]
-then
-    exit 1
+if [ -n $ch ]
+then 
+    if [ $ch = 'n' ] || [ $ch = 'N' ]
+    then
+        echo "out"
+        exit 1
+    fi
 fi
 
 git add . 
 git commit -m "Changed on Linux"
 git push origin hexo
+echo "done"
