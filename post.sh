@@ -7,13 +7,10 @@ git config --global credential.helper 'cache --timeout=30'
 hexo g -d
 read -p 'push src to hexo? (Y/n): ' ch
 
-if [[ -n $ch ]]
-then 
-    if [ $ch = 'n' ] || [ $ch = 'N' ]
-    then
-        echo "out"
-        exit 1
-    fi
+if [ _'$ch' = _'n' ] || [ _'$ch' = _'N' ]
+then
+    echo "out"
+    exit 1
 fi
 
 git add . 
