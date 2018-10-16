@@ -1,11 +1,31 @@
 ---
-title: Install yaourt on Arch Linux
+title: Install yay (or yaourt) on Arch Linux
 date: 2018-06-18 00:48:48
 categories: Linux
 tags:
 - Linux
 - Arch
 ---
+# How to install [yay](https://github.com/Jguer/yay) (another great AUR helper)
+
+> Update on 2018/10/16
+## **[Recommended]** Use `yay` to replace `yaourt`
+
+If you already got `yaourt` just type:
+
+```sh
+yaourt -S yay
+```
+
+Otherwise, you can also install by `makepkg`
+
+```sh
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+```
+
+## **[Deprecated]**~~Install `yaourt`~~
 
 ```sh
 sudo vim /etc/pacman.conf
