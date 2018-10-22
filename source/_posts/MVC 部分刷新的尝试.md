@@ -3,7 +3,7 @@ title: MVC 部分刷新的尝试
 date: 2017-06-15 23:14:35
 categories: .NET
 tags: 
-- JS
+- JavaScript
 - MVC
 - Razor
 ---
@@ -13,6 +13,8 @@ tags:
 # 版本0.1 - 简单的异步刷新尝试
 
 * ProcessController中加入
+
+<!--more-->
 
 ```csharp
 [AllowAnonymous] // 这是允许匿名访问的声明，没有用ASP.NET IDENTITY可以删掉

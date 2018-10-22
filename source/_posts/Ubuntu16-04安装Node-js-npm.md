@@ -4,16 +4,18 @@ date: 2018-04-15 11:28:53
 categories: Linux
 tags:
 - Linux
-- Node.js
+- Nodejs
 - npm
 - Ubuntu
 ---
 
-## 下载
+# 下载
 
 Ubuntu16.04 官方仓库提供的Node.js版本是4.x，不推荐使用apt安装。
 
 我们需要从[官网](https://nodejs.org/zh-cn/)获得更新的版本。
+
+<!--more-->
 
 这里直接wget获得
 
@@ -21,7 +23,7 @@ Ubuntu16.04 官方仓库提供的Node.js版本是4.x，不推荐使用apt安装�
 wget http://nodejs.org/dist/v8.1.1/node-v8.1.1-linux-x64.tar.gz
 ```
 
-## 安装
+# 安装
 
 找到下载的压缩文件，解压系统应用目录
 
@@ -29,7 +31,7 @@ wget http://nodejs.org/dist/v8.1.1/node-v8.1.1-linux-x64.tar.gz
 sudo tar -C /usr/local --strip-components 1 -xzf node-v8.1.1-linux-x64.tar.gz
 ```
 
-## 验证
+# 验证
 
 查看是否安装到了正确的目录
 
@@ -40,7 +42,7 @@ node -v
 npm -v
 ```
 
-## 参考资料
+# 参考资料
 
 [Installing a tar.gz on linux](https://stackoverflow.com/questions/33033538/installing-a-tar-gz-on-linux?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
 

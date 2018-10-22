@@ -3,13 +3,15 @@ title: Downgrade vscode to 1.25.1-3
 date: 2018-08-15 22:07:06
 categories: Linux
 tags:
-- vscode
+- VS Code
 - Linux
 ---
 
 # Sunny day
 
 Happy to update vscode to 1.26.0-2 this morning.
+
+<!--more-->
 
 > How to update?
 

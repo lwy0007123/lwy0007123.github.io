@@ -3,7 +3,7 @@ title: Failed to delete using Trash in vscode
 date: 2018-06-18 09:31:23
 categories: Linux
 tags:
-- vscode
+- VS Code
 - Linux
 ---
 
@@ -14,6 +14,8 @@ tags:
 OS: Arch linux
 Desktop: i3 4.15.0.1
 VScode version: 1.25.1
+
+<!--more-->
 
 ## Problem
 

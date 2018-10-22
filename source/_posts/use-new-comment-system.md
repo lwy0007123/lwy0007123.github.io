@@ -6,6 +6,7 @@ tags:
 - hexo
 - next
 - comment
+- blog
 ---
 
 > Hypercomments will never provide FREE service...

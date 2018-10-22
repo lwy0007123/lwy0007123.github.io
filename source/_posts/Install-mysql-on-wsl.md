@@ -3,9 +3,8 @@ title: Install mysql on wsl
 date: 2018-09-15 13:30:28
 categories: WSL
 tags:
-- wsl
-- mysql
-- mysql
+- WSL
+- MySQL
 ---
 
 # How
@@ -17,6 +16,8 @@ tags:
 1. Change sources.list
 
     backup first.
+
+<!--more-->
 
     ```sh
     sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak

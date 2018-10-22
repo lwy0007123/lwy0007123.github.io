@@ -3,18 +3,20 @@ title: Install vscode on Arch Linux
 date: 2018-06-18 00:52:49
 categories: Linux
 tags:
-- vscode
+- VS Code
 - Linux
 - Arch
 ---
 
-## Method 1: official binary version (recommend)
+# Method 1: official binary version (recommend)
 
 ```sh
 yaourt -S visual-studio-code-bin
 ```
 
-## Method 2: open source build
+<!--more-->
+
+# Method 2: open source build
 
 first should modify open file limit on your device.
 
@@ -52,6 +54,6 @@ Then Type `4` to choose this one
     Microsoft Code -- The Open Source build of Visual Studio Code (vscode)
 ```
 
-## reference
+# reference
 
 * [Increase “Open Files Limit”](https://easyengine.io/tutorials/linux/increase-open-files-limit/)

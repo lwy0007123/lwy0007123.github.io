@@ -8,7 +8,7 @@ tags:
 - Privoxy
 ---
 
-## 前言
+# 前言
 
 凡是要Coding，免不了上Google，不得不说SS的Windows版体验更好。
 
@@ -16,7 +16,9 @@ Linux版我总是挂全局代理，国外IP不能看B站正版番就很难受。
 
 因为懒一直没折腾，这次为了更好的体验，我决定花点时间。
 
-## 安装ss客户端
+<!--more-->
+
+# 安装ss客户端
 
 本来python版的shadowsocks带有sslocal可以做本地代理的，但是我用图形界面，觉得qt版体验要好些。
 
@@ -26,7 +28,7 @@ sudo apt install shadowsocks-qt5
 
 安装完成后，打开配置好你的ss服务，本地地址：`127.0.0.1`，端口：`1080`，本地服务器类型：`HTTP(S)`。
 
-### 验证本地代理
+## 验证本地代理
 
 ```sh
 # 设置临时全局代理
@@ -35,13 +37,13 @@ export proxy=http://127.0.0.1:1080; export http_proxy=$proxy https_proxy=$proxy 
 curl -skL www.google.com
 ```
 
-## 安装privoxy
+# 安装privoxy
 
 ```sh
 sudo apt install privoxy
 ```
 
-### 配置gfwlist
+## 配置gfwlist
 
 全局代理体验不佳，这里要利用gfwlist，配置privoxy
 
@@ -58,7 +60,7 @@ sudo echo 'actionsfile gfwlist.action' >> /etc/privoxy/config
 sudo systemctl start privoxy.service
 ```
 
-### 验证代理切换
+## 验证代理切换
 
 ```sh
 # 设置临时变量，privoxy 默认监听端口为 8118
@@ -69,7 +71,7 @@ curl -skL www.google.com
 curl -4skL http://ip.chinaz.com/getip.aspx
 ```
 
-## 设置环境变量
+# 设置环境变量
 
 可以将环境变量加入 `.profile` 或 `.bashrc` 或其他配置文件中
 
@@ -82,7 +84,7 @@ export https_proxy=$proxy
 export no_proxy="localhost, 127.0.0.1, ::1"
 ```
 
-## 参考
+# 参考
 
 [ss-local + privoxy 代理](https://www.zfl9.com/ss-local.html)
 [原脚本地址](https://github.com/zfl9/gfwlist2privoxy/)

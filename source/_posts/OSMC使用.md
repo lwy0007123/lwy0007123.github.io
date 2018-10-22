@@ -6,27 +6,29 @@ tags:
 - OSMC
 ---
 
+# 前言
+
 去年某宝上买了 Raspberry Pi 2B，期间玩过一段时间的Raspbian，没有买其他配件，全当练习使用linux了。最近盯上了 OSMC，所以，要搞事情！
 
-### 设备
+# 设备
 
 * Raspberry Pi 2B  
 
-  ​	_官方说支持全系列的Pi板子_
+  ​_官方说支持全系列的Pi板子_
 
 * 32G SAMSUNG micro SDHC  
 
-  ​	_支持的SD卡可以去官方看支持列表，容量不低于8G_
+  _支持的SD卡可以去官方看支持列表，容量不低于8G_
 
 * HDMI to HDMI 线
 
-  ​	_看需求吧，能把Pi连上电视就行_
+  ​_看需求吧，能把Pi连上电视就行_
 
 * EDUP EP-N8508GS USB网卡
 
-  ​	_即插即用，支持802.11N。如果你的网线够长可以不用_
+  ​_即插即用，支持802.11N。如果你的网线够长可以不用_
 
-### 刷系统
+# 刷系统
 
 传送门 [OSMC](https://osmc.tv/download/)
 
@@ -53,7 +55,7 @@ tags:
     * Pi 上接键盘
   * 开机配置系统……语言暂时用English(US)，联网
 
-### 软件配置
+# 软件配置
 
 * 语言设置
 
@@ -79,7 +81,7 @@ tags:
 
 * 寻找你需要的插件，安装即可。
 
-### 使用手机的控制
+# 使用 app 控制
 
 [Remote Control](http://kodi.wiki/view/Remote_controls)
 
@@ -94,4 +96,3 @@ tags:
   * [xbmc remote free](http://www.windowsphone.com/s?appid=3a35a8c6-bf35-49a1-b67b-f8104be2b05c) by CRW Solutions (free)
   * [XBMC Maestro](http://kodi.wiki/view/XBMC_Maestro) by 3Webers ($0.99 USD)
   * [Kodi Remote](http://www.windowsphone.com/s?appid=7cdb0b87-1e00-4328-b839-43a6bf9c8556) by Fabien Lavocat (free)
-

@@ -4,14 +4,16 @@ date: 2018-04-15 17:23:29
 categories: Linux
 tags:
 - Ubuntu
-- Docker
+- docker
 ---
 
-## 前言
+# 前言
 
 在Ubuntu16.04上安装Docker-ce后，发现`docker run`不需要在`sudo`下运行，这就导致了一个问题VScode和PyCharm都连不上Docker，都是因为去访问权限的问题，因为不建议用root权限，所以就要找解决办法。
 
-## 解决
+<!--more-->
+
+# 解决
 
 1. 修改服务文件
 
@@ -52,6 +54,6 @@ tags:
     sudo reboot
     ```
 
-## 参考
+# 参考
 
 [cannot-connect-to-the-docker-daemon-is-the-docker-daemon-running-on-this-host](https://forums.docker.com/t/cannot-connect-to-the-docker-daemon-is-the-docker-daemon-running-on-this-host/8925/15)

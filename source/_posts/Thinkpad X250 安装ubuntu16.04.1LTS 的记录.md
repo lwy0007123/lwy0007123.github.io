@@ -4,13 +4,15 @@ date: 2016-10-01 21:11:38
 categories: Linux
 tags: 
 - Linux
-- terminator
-- zsh
+- Terminator
+- ZSH
 ---
 
 X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。
 因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。
 U盘制作ubuntu安装盘，开机启动到U盘。
+
+<!--more-->
 
 安装时，对空闲20G手动分区 ：
 

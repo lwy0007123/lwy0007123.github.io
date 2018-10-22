@@ -27,7 +27,7 @@ function FilesDelete()
 {
     echo -e "\033[32m[info] Choose File To Delete [1-5]\033[0m"
     read input_filedelete
- 
+
     if [ -d ".klei" ]; then
         cd ".klei"
         if [ -d "DoNotStarveServer_$input_filedelete" ]; then
@@ -46,7 +46,7 @@ function FilesBackup()
 {
     echo -e "\033[32m[info] Choose File To Backup [1-5]\033[0m"
     read input_filebackup
- 
+
     if [ -d ".klei" ]; then
         cd ".klei"
         if [ -d "DoNotStarveServer_$input_filebackup" ]; then
@@ -65,7 +65,7 @@ function FilesRecovery()
 {
     echo -e "\033[32m[info] Choose File To Recovery [1-5]\033[0m"
     read input_filerecovery
- 
+
     if [ -d ".klei" ]; then
         cd ".klei"
         if [ -f "DoNotStarveServer_$input_filerecovery.tar.gz" ]; then
@@ -77,7 +77,7 @@ function FilesRecovery()
         else
             echo -e "\033[31m[warn] Backup File For DoNotStarveServer_$input_filerecovery Not Found\033[0m"
         fi
-         
+
         if [ -f "DoNotStarveCaves_$input_filerecovery.tar.gz" ]; then
             if [ -d "DoNotStarveCaves_$input_filerecovery" ]; then
                 sudo rm -r DoNotStarveCaves_$input_filerecovery

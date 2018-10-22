@@ -9,6 +9,7 @@ tags:
 # How to install [yay](https://github.com/Jguer/yay) (another great AUR helper)
 
 > Update on 2018/10/16
+
 ## **[Recommended]** Use `yay` to replace `yaourt`
 
 If you already got `yaourt` just type:
@@ -16,6 +17,8 @@ If you already got `yaourt` just type:
 ```sh
 yaourt -S yay
 ```
+
+<!--more-->
 
 Otherwise, you can also install by `makepkg`
 

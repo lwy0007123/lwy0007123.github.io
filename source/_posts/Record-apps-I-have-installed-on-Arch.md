@@ -2,6 +2,8 @@
 title: Record apps I have installed on Arch
 date: 2018-06-18 00:55:14
 tags:
+- Linux
+- Arch
 ---
 
 # pacman
@@ -20,6 +22,8 @@ ntfs-3g deluge shadowsocks-qt5 \
 gnome gnome-tweaks \
 numix-gtk-theme numix-circle-icon-theme-git
 ```
+
+<!--more-->
 
 # yaourt
 

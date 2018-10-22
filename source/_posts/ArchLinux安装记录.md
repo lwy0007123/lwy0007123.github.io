@@ -15,6 +15,8 @@ tags:
 1. USB Driver > 1G
 1. Etcher [官网下载](https://etcher.io/)
 
+<!--more-->
+
 ## 系统安装
 
 ### 预留空间

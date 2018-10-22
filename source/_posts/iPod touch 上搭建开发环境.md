@@ -7,19 +7,19 @@ tags:
 typora-root-url: iPod touch 上搭建开发环境
 ---
 
-## 前言
+# 前言
 
-### 老touch在抽屉里躺了好几年，偶然把它翻出来，这么一个PDA，现在顶多用来听歌，怪可惜的，好像用它搞事情啊。
+老touch在抽屉里躺了好几年，偶然把它翻出来，这么一个PDA，现在顶多用来听歌，怪可惜的，好像用它搞事情啊。
 
-## 正题
+# 正题
 
-### _闲来无事google了一下"iTouch c++"，发现一个大神的博客_
+闲来无事google了一下"iTouch c++"，发现一个大神的博客
 
 <a href="http://blog.csdn.net/jackjones86/article/details/41802515" target="_blank">博客传送门</a>
 
 这么详细的教程，妥妥的要动手试一试啊。
 
-## 过程
+# 过程
 
 抄别人的没意思，自己又不愿写，毕竟大神写得太完整了！
 
@@ -37,14 +37,15 @@ typora-root-url: iPod touch 上搭建开发环境
 
   _解决：原来博客未提到要装mysql，直接在cydia里搜索安装就好_
 
-## 结果
+# 结果
+
 ![IMG_0001](IMG_0001.png)
 
 ![IMG_0002](IMG_0002.png)
 
 ![IMG_0003](IMG_0003.png)
 
-## 后记
+# 后记
 
 * 轻量级webserver
 
@@ -68,9 +69,11 @@ sudo rm -rf /var/cache/apt/*.bin
 ```
 
 再推荐大家装些常用插件，内容见另一篇的博客
+
 <a href="http://m.blog.csdn.net/article/details?id=50855627" target="_blank">博客传送门</a>
 
-## 最后感谢 iOS Jailbreak
+# 最后感谢 iOS Jailbreak
+
 <a href="https://www.reddit.com/r/jailbreak/" target="_blank">iOS Jailbreak</a>
 
 

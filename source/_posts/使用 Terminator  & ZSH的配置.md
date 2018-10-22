@@ -4,89 +4,113 @@ date: 2016-10-01 21:11:38
 categories: Linux
 tags: 
 - Linux
-- terminator
-- zsh
+- Terminator
+- ZSH
 ---
 
-## 在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧
+# 前言
 
-### 安装 Terminator 
+ 在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。
 
-<pre class="lang:sh decode:true " >sudo apt-get install terminator</pre> 
+<!--more-->
+
+# 安装 Terminator
+
+```sh
+sudo apt-get install terminator
+```
 
 * _利用 Debian 的重新配置命令选择默认终端：_
 
-<pre class="lang:sh decode:true " >sudo update-alternatives --config x-terminal-emulator</pre> 
-
+```sh
+sudo update-alternatives --config x-terminal-emulator
+```
 
 * _非ubuntu系统设置terminator快捷键_
 
-<pre class="lang:default decode:true " >Setting -> Keyboard -> Shortcuts -> Custom Shortcuts -> add(+)
+Setting -> Keyboard -> Shortcuts -> Custom Shortcuts -> add(+)
 Name : Terminal
 Command : /usr/bin/terminator
 Apply
 Click "Disable"
-press Ctrl + Alt + T</pre> 
+press Ctrl + Alt + T
 
+# 更换主题
 
-### 更换主题 
-<pre class="lang:default decode:true " >
+```sh
 /* 打开Terminator ，进行如下操作 */
 Preferenvces -> General
 Disable ‘Show titlebar’
 Preferenvces -> Profiles -> Colors -> Foreground and Background -> Build-in schemes
 Choose ‘Solarized dark’
-</pre>
+```
 
+# 安装zsh
 
-### 安装zsh 
-
-<pre class="lang:sh decode:true " >sudo apt-get install zsh</pre> 
+```sh
+sudo apt-get install zsh
+```
 
 * _设置当前用户使用zsh_
 
-<pre class="lang:sh decode:true " >chsh -s /bin/zsh</pre> 
+```sh
+chsh -s /bin/zsh
+```
 
-### 安装on my zsh 
+# 安装 on my zsh
+
 * _自动安装：(推荐)_
 
-<pre class="lang:sh decode:true " >wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</pre> 
+```sh
+wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
+```
 
 * _手动安装：_
 
-<pre class="lang:sh decode:true " >git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
-cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</pre> 
+```sh
+git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+```
 
+# 安装powerline字体
 
-### 安装powerline字体 
-
-<pre class="lang:sh decode:true " >git clone https://github.com/powerline/fonts
+```sh
+git clone https://github.com/powerline/fonts
 cd fonts
-./install.sh</pre> 
+./install.sh
+```
 
-_然后在终端中使用powerline字体_
+然后在终端中使用powerline字体
 
+# 编辑： ~/.zshrc
 
-### 编辑： ~/.zshrc 
 * _增加自己的用户名：_
 
-<pre class="lang:sh decode:true " >DEFAULT_USER="Shank"</pre> 
+```sh
+DEFAULT_USER="Shank"
+```
 
-_PS：上面 Shank 替换成你当前的用户名，用whoami查看你的用户名_
-
+> PS：上面 Shank 替换成你当前的用户名，用whoami查看你的用户名
 
 * _修改主题：_
 
-<pre class="lang:sh decode:true " >ZSH_THEME="agnoster"</pre> 
+```sh
+ZSH_THEME="agnoster"
+```
 
 * _启用几个功能：_
 
-<pre class="lang:sh decode:true " >COMPLETION_WAITING_DOTS="true"</pre> 
+```sh
+COMPLETION_WAITING_DOTS="true"
+```
 
+## 或者用以下简单粗暴的方式屏蔽zsh中的用户名：
 
-### 或者用以下简单粗暴的方式屏蔽zsh中的用户名：
+```sh
+cd ~/.oh-my-zsh/themes
+sudo vim 当前主题名称
+```
 
-<pre class="lang:sh decode:true " >cd ~/.oh-my-zsh/themes
-sudo vim 当前主题名称</pre> 
+找到最下面对`build_prompt`的定义，把`prompt_context`用`#`注释掉即可
 
-_看到最下面对build_prompt的定义，把prompt_context用#注释掉即可_
+> 来自2018/10/29：“以前的自己 Markdown 写得这么烂还敢贴出来。”

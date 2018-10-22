@@ -3,11 +3,13 @@ title: How to revert Singly Linked List
 date: 2018-08-17 22:27:45
 categories: algorithm
 tags:
-- cpp
+- C++
 - LinkdList
 ---
 
 Here is the struct of Singly Linked List and Print method:
+
+<!--more-->
 
 ```cpp
 struct Link {

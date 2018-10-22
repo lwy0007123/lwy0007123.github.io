@@ -7,13 +7,19 @@ tags:
 - Linux
 ---
 
-### 不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。
+# 前情提要
 
-_IRC（Internet Relay Chat的缩写，“因特网中继聊天”）是一种通过网络的即时聊天方式。_
+Windows 已经删了，最近都在 Ubuntu 上，不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。
+
+<!--more-->
+
+ 博客迁移后，聊天室已不存在。
+
+> IRC（Internet Relay Chat的缩写，“因特网中继聊天”）是一种通过网络的即时聊天方式。
 
 [见Wiki](https://zh.wikipedia.org/wiki/IRC)
 
-#### 讲故事
+# 讲故事
 
 * 背景
 
@@ -31,7 +37,7 @@ _IRC（Internet Relay Chat的缩写，“因特网中继聊天”）是一种通
 
   第一次见IRC还是上次整越狱的老iTouch时，搜资料偶然发现了Kiwi IRC。正好是开源的，这次拿来练手。
 
-#### 说正事
+# 说正事
 
 其实安装过程官方给的太详细了，没什么好说的 (-_-|||
 
@@ -45,7 +51,7 @@ Kiwi的安装过程参考官方教程：
 
 [博客1](https://www.dadclab.com/archives/6007.jiecao) [博客2](http://soft.dog/2016/03/25/unrealircd-basic/)
 
-#### 讲废话
+# 讲废话
 
 为什么我不用 UnrealIRCd 呢？因为只有一个服务端，客户端还要自己另外找。
 
@@ -53,6 +59,4 @@ Kiwi IRC 的易用在于，它把服务端和客户端整合了，在云主机�
 
 ~~去看看本站的聊天室吧： [Chatting Room](#missing)~~
 
-
-
-
+> 来自2018/10/29：“ 放弃 Windows... Steam on linux... 真香~ ”

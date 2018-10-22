@@ -13,9 +13,7 @@ tags:
 
 Protocol buffers are a language-neutral, platform-neutral extensible mechanism for serializing structured data.
 
-
 <!--more-->
-
 
 ## 下载二进制文件
 
@@ -27,8 +25,8 @@ Protocol buffers are a language-neutral, platform-neutral extensible mechanism f
 
 命令行输入:
 
-```
-go dev 
+```sh
+go dev
 ```
 
 或者在系统环境变量里添加一条GOPATH指向你的自定义目录。
@@ -43,13 +41,15 @@ go dev
 
 命令行执行以下命令：
 
-```
+```sh
 go get -u github.com/golang/protobuf/protoc-gen-go
 ```
+
 ## 代码生成
 
 先编写一个`addressbook.proto`文件
-```
+
+```sh
 syntax = "proto3";
 package tutorial;
 message Person {
@@ -78,7 +78,8 @@ message AddressBook {
 ```
 
 命令行输入以下生成命令：
-```
+
+```sh
 protoc --go_out=./ ./addressbook.proto
 # 命令格式 protoc -I=$SRC_DIR --go_out=$DST_DIR $SRC_DIR/addressbook.proto
 ```
