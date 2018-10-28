@@ -7,7 +7,7 @@ title: Shank's Notes
 subtitle: Code & Tech & Life
 description: Nothing or Anything
 author: SKo00o
-language: zh-Hans
+language: en
 timezone: Asia/Shanghai
 
 # URL
@@ -49,7 +49,7 @@ highlight:
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
   path: ''
-  per_page: 6
+  per_page: 7
   order_by: -date
   
 # Category & Tag
