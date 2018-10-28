@@ -19,7 +19,7 @@ tags:
 dividing="================================================================================"
 commandPath="steamcmd"
 commandFile="./steamcmd.sh"
- 
+
 gamesPath="Steam/steamapps/common/Don't Starve Together Dedicated Server/bin"
 gamesFile="./dontstarve_dedicated_server_nullrenderer"
 #-------------------------------------------------------------------------------------------

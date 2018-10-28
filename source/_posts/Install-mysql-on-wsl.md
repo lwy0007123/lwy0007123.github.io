@@ -17,7 +17,7 @@ tags:
 
     backup first.
 
-<!--more-->
+    <!--more-->
 
     ```sh
     sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak

@@ -9,7 +9,7 @@ tags:
 
 > 本教程在EFI启动的Windows10台式机上完成。
 
-## 准备工作
+# 准备工作
 
 1. Arch Linux 2018.06.01 iso，[官网下载](https://www.archlinux.org/download/)
 1. USB Driver > 1G
@@ -17,19 +17,19 @@ tags:
 
 <!--more-->
 
-## 系统安装
+# 系统安装
 
-### 预留空间
+## 预留空间
 
 使用 Windows 的磁盘管理工具压缩分区卷，不要格式化。(我预留的空间为60G。)
 
-### U盘启动
+## U盘启动
 
 1. 使用Etcher将Arch安装盘写入U盘
 1. 重启电脑启动到U盘系统
 1. 你将看到 `root@archiso ~ #`
 
-### 分区
+## 分区
 
 查看分区表。
 
@@ -66,9 +66,9 @@ mkfs.ext4 /dev/sdb4
 mkswap /dev/sdb2
 ```
 
-## 安装系统
+# 安装系统
 
-### 挂载分区
+## 挂载分区
 
 ```sh
 # Linux filesystem
@@ -80,7 +80,7 @@ mount /dev/sda1 /mnt/boot/efi
 swapon /dev/sdb2
 ```
 
-### 配置镜像源
+## 配置镜像源
 
 ```sh
 cd /etc/pacman.d
@@ -89,7 +89,7 @@ touch mirrorlist
 echo 'Server = http://mirrors.163.com/archlinux/$repo/os/$arch' > ./mirrorlist
 ```
 
-### 联网
+## 联网
 
 有线连接可跳过这步，无线连接使用以下命令找到Ｗi-Fi，找到并输入密码即可。
 
@@ -97,7 +97,7 @@ echo 'Server = http://mirrors.163.com/archlinux/$repo/os/$arch' > ./mirrorlist
 wifi-menu
 ```
 
-### 开始安装配置
+## 开始安装配置
 
 ```sh
 # 设置系统时间
@@ -133,7 +133,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # P.S忽略执行 grub-mkconfig 下方的错误，前几行包含 Found XXX.img 就行
 ```
 
-### 本地化
+## 本地化
 
 ```sh
 vim /etc/locale.gen
@@ -155,7 +155,7 @@ locale-gen
 echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 ```
 
-### 设置主机名
+## 设置主机名
 
 > 自行替换下面的 `HOSTNAME`
 
@@ -166,7 +166,7 @@ echo '::1         localhost.localdomain   localhost' >> /etc/hosts
 echo '127.0.1.1   HOSTNAME.localdomain    HOSTNAME'  >>/etc/hosts
 ```
 
-### 重启
+## 重启
 
 ```sh
 exit
@@ -174,7 +174,7 @@ umount -R /mnt
 reboot
 ```
 
-### 用户设置
+## 用户设置
 
 重启进入ArchLinux，输入`root`，回车即可登录。
 
@@ -191,9 +191,9 @@ vim /etc/sudoers
 # 去掉 #%wheel ALL=(ALL) ALL 前面的‘#’号
 ```
 
-## 桌面环境
+# 桌面环境
 
-### 安装显卡驱动
+## 安装显卡驱动
 
 运行下面的命令，先确定显卡型号，记下 `BusID`，类似 `00:02.0 VGA ...`
 
@@ -218,7 +218,7 @@ pacman -S xorg-xrandr
 nvidia-xconfig
 ```
 
-### 双显卡的配置
+## 双显卡的配置
 
 先配置xorg.conf
 
@@ -257,7 +257,7 @@ Section "Device"
 EndSection
 ```
 
-### 安装KDE桌面环境
+## 安装KDE桌面环境
 
 ```sh
 pacman -S plasma kdebase kde-l10n-zh_cn
@@ -277,7 +277,7 @@ echo 'xrandr --auto' >> /usr/share/sddm/scripts/Xsetup
 systemctl start sddm
 ```
 
-### 桌面正常启动后
+## 桌面正常启动后
 
 ```sh
 # 设置桌面自启动
@@ -288,15 +288,15 @@ sudo systemctl enable NetworkManager
 sudo grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-## 配置梯子
+# 配置梯子
 
-### 安装工具
+## 安装工具
 
 ```sh
 sudo pacman -S shadowsocks privoxy
 ```
 
-### ss配置文件
+## ss配置文件
 
 编辑配置文件。
 
@@ -325,7 +325,7 @@ vim ~/ss-local.json
 sudo mv ~/ss-local.json /etc/ss-local.json
 ```
 
-### 测试ss连接
+## 测试ss连接
 
 ```sh
 # 启动sslocal
@@ -337,7 +337,7 @@ export http_proxy="socks5://127.0.0.1:1080";export https_proxy=$http_proxy
 curl -skL www.google.com
 ```
 
-### 使用gfwlist选择代理
+## 使用gfwlist选择代理
 
 ```sh
 # 获取 gfwlist2privoxy 脚本
@@ -353,7 +353,7 @@ echo 'actionsfile gfwlist.action' >> /etc/privoxy/config
 systemctl start privoxy.service
 ```
 
-### 验证代理切换
+## 验证代理切换
 
 ```sh
 unset http_proxy https_proxy no_proxy
@@ -365,7 +365,7 @@ curl -skL www.google.com
 curl -4skL http://ip.chinaz.com/getip.aspx
 ```
 
-### shell脚本的方式
+## shell脚本的方式
 
 ```sh
 # 新建文件
@@ -434,9 +434,9 @@ alias ss.unset='. ss-privoxy unset'
 * ss.set：设置 shell_proxy 环境变量
 * ss.unset：删除 shell_proxy 环境变量
 
-## 软件安装
+# 软件安装
 
-### 分发仓库里可以找到的
+## 分发仓库里可以找到的
 
 安装前先查找软件包是否存在，以`ibus`为例：
 
@@ -453,7 +453,7 @@ pacman -Ss '^ibus-*'
 sudo pacman -S ibus-rime
 ```
 
-### [AUR](https://aur.archlinux.org/)中可以找到的
+## [AUR](https://aur.archlinux.org/)中可以找到的
 
 以安装VScode为例，该package描述页在[这里](https://aur.archlinux.org/packages/visual-studio-code-bin/)
 
@@ -472,7 +472,7 @@ makepkg -si
 sudo pacman -U visual-studio-code-bin-XXXXXX.pkg.tar.xz
 ```
 
-## 参考资料
+# 参考资料
 
 * [Installation guide](https://wiki.archlinux.org/index.php/Installation_guide)
 * [笔记本双显卡 EFI 启动安装 ArchLinux](https://blog.csdn.net/maxsky/article/details/56839855)
