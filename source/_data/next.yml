@@ -384,17 +384,3 @@ reading_progress:
   enable: true
   color: "#37c6c0"
   height: 2px
-
-#! ---------------------------------------------------------------
-#! DO NOT EDIT THE FOLLOWING SETTINGS
-#! UNLESS YOU KNOW WHAT YOU ARE DOING
-#! ---------------------------------------------------------------
-
-# JavaScript 3D library.
-# Dependencies: https://github.com/theme-next/theme-next-three
-# three_waves
-three_waves: false
-# canvas_lines
-canvas_lines: true
-# canvas_sphere
-canvas_sphere: false
