@@ -138,7 +138,7 @@ post_copyright:
 # Dependencies: https://github.com/hexojs/hexo-deployer-git
 post_edit:
   enable: true
-  url: https://github.com/sko00o/sko00o.github.io/tree/master/ # Link for view source.
+  url: https://github.com/sko00o/sko00o.github.io/blob/hexo/source/_posts/ # Link for view source.
 # url: https://github.com/theme-next/theme-next.org/_posts/edit/master/ # Link for fork & edit.
 
 
