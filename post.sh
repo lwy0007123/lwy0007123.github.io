@@ -4,6 +4,10 @@ git config --global user.name 'sko00o'
 git config --global credential.helper cache
 git config --global credential.helper 'cache --timeout=30'
 
+git clone https://github.com/theme-next/theme-next-reading-progress themes/next/source/lib/reading_progress
+git clone https://github.com/theme-next/theme-next-pangu.git themes/next/source/lib/pangu
+git clone https://github.com/theme-next/theme-next-bookmark.git themes/next/source/lib/bookmark
+
 hexo g -d
 read -p 'push src to hexo? (Y/n): ' ch
 
