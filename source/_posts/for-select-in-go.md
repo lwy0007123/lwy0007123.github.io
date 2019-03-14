@@ -4,13 +4,11 @@ date: 2019-03-14 09:36:50
 tags: Go
 ---
 
-# For-Select loop in Go
-
 Simple `break` in for-select loop, will not break out of `for` loop. You should use `break label`.
 
 <!--more-->
 
-## demo
+# demo
 
 ```go
 package main
@@ -53,6 +51,6 @@ out:
 
 [Playground](https://play.golang.org/p/vz_uQb4nhPz)
 
-## more
+# more
 
 [Break statement](https://golang.org/ref/spec#Break_statements)

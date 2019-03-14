@@ -8,9 +8,7 @@ tags:
 - 
 ---
 
-# Install PostgreSQL on CentOS7
-
-## Installation
+# Installation
 
 > if you want install latest version check [official site](https://www.postgresql.org/download/)
 
@@ -28,7 +26,7 @@ sudo yum install postgresql96-server postgresql96-contrib
 sudo postgresql96-setup initdb
 ```
 
-## Config for remote access
+# Config for remote access
 
 Set listen port to wildcard
 
@@ -44,7 +42,7 @@ Change HBA (host-based authentication) configuration
 host    all             all             0.0.0.0/0            md5
 ```
 
-## Start server
+# Start server
 
 ```sh
 sudo systemctl enable postgresql-9.6
@@ -54,7 +52,7 @@ sudo systemctl start postgresql-9.6
 ss -ant | grep 5432
 ```
 
-## Login default role
+# Login default role
 
 ```sh
 sudo -i -u postgres
@@ -64,7 +62,7 @@ psql
 \q  
 ```
 
-## Create a new role
+# Create a new role
 
 ```sh
 createuser --interactive
@@ -72,13 +70,13 @@ createuser --interactive
 
 > My new role is `rwuser`
 
-## Create a new database
+# Create a new database
 
 ```sh
 createdb test1
 ```
 
-## Login new role
+# Login new role
 
 ```sh
 # access PostgreSQL prompt with new role
@@ -90,7 +88,7 @@ sudo su -c "psql -d test1" - rwuser
 
 You can use navicat to connect pgsql later.
 
-## Reference
+# Reference
 
 * [How To Install and Use PostgreSQL on CentOS 7](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-centos-7#create-a-new-role)
 * [Change a Password for PostgreSQL on Linux via Command Line](https://www.liquidweb.com/kb/change-a-password-for-postgresql-on-linux-via-command-line/)
