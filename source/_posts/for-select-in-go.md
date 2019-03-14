@@ -8,6 +8,8 @@ tags: Go
 
 Simple `break` in for-select loop, will not break out of `for` loop. You should use `break label`.
 
+<!--more-->
+
 ## demo
 
 ```go

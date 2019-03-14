@@ -18,6 +18,8 @@ I will install postgres9.6 for CentOS7.
 
 > default version of postgres in CentOS7 rpm is not recommanded, I need some new features in postgres9.5+.
 
+<!--more-->
+
 ```sh
 sudo yum install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat96-9.6-3.noarch.rpm
 sudo yum install postgresql96-server postgresql96-contrib
