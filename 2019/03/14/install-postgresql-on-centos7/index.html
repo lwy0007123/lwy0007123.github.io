@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="Install PostgreSQL on CentOS7Installation if you want install latest version check official site  I will install postgres9.6 for CentOS7.  default version of postgres in CentOS7 rpm is not recommanded">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-03-14T02:05:11.426Z">
+<meta property="og:updated_time" content="2019-03-14T02:11:42.974Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Install PostgreSQL on CentOS7">
 <meta name="twitter:description" content="Install PostgreSQL on CentOS7Installation if you want install latest version check official site  I will install postgres9.6 for CentOS7.  default version of postgres in CentOS7 rpm is not recommanded">
@@ -390,7 +390,7 @@
                 
               
 
-              <time title="Created: 2019-03-14 09:46:13 / Modified: 10:05:11" itemprop="dateCreated datePublished" datetime="2019-03-14T09:46:13+08:00">2019-03-14</time>
+              <time title="Created: 2019-03-14 09:46:13 / Modified: 10:11:42" itemprop="dateCreated datePublished" datetime="2019-03-14T09:46:13+08:00">2019-03-14</time>
             
 
             
@@ -446,6 +446,7 @@
 <blockquote>
 <p>default version of postgres in CentOS7 rpm is not recommanded, I need some new features in postgres9.5+.</p>
 </blockquote>
+<a id="more"></a>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat96-9.6-3.noarch.rpm</span><br><span class="line">sudo yum install postgresql96-server postgresql96-contrib</span><br><span class="line"></span><br><span class="line"><span class="comment"># initialize the database</span></span><br><span class="line">sudo postgresql96-setup initdb</span><br></pre></td></tr></table></figure>
 <h2 id="Config-for-remote-access"><a href="#Config-for-remote-access" class="headerlink" title="Config for remote access"></a>Config for remote access</h2><p>Set listen port to wildcard</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># sudo vim /var/lib/pgsql/9.6/data/postgresql.conf</span><br><span class="line">listen_addresses = &apos;*&apos;</span><br></pre></td></tr></table></figure>
