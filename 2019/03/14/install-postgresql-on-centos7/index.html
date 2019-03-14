@@ -112,18 +112,18 @@
 
 
 
-  <meta name="description" content="Install PostgreSQL on CentOS7Installation if you want install latest version check official site  I will install postgres9.6 for CentOS7.  default version of postgres in CentOS7 rpm is not recommanded">
+  <meta name="description" content="Installation if you want install latest version check official site  I will install postgres9.6 for CentOS7.  default version of postgres in CentOS7 rpm is not recommanded, I need some new features in">
 <meta name="keywords" content="Linux,CentOS7,PostgreSQL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Install PostgreSQL on CentOS7">
 <meta property="og:url" content="http://www.findshank.com/2019/03/14/install-postgresql-on-centos7/index.html">
 <meta property="og:site_name" content="Shank&#39;s Notes">
-<meta property="og:description" content="Install PostgreSQL on CentOS7Installation if you want install latest version check official site  I will install postgres9.6 for CentOS7.  default version of postgres in CentOS7 rpm is not recommanded">
+<meta property="og:description" content="Installation if you want install latest version check official site  I will install postgres9.6 for CentOS7.  default version of postgres in CentOS7 rpm is not recommanded, I need some new features in">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-03-14T02:11:42.974Z">
+<meta property="og:updated_time" content="2019-03-14T02:15:34.375Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Install PostgreSQL on CentOS7">
-<meta name="twitter:description" content="Install PostgreSQL on CentOS7Installation if you want install latest version check official site  I will install postgres9.6 for CentOS7.  default version of postgres in CentOS7 rpm is not recommanded">
+<meta name="twitter:description" content="Installation if you want install latest version check official site  I will install postgres9.6 for CentOS7.  default version of postgres in CentOS7 rpm is not recommanded, I need some new features in">
 
 
 
@@ -390,7 +390,7 @@
                 
               
 
-              <time title="Created: 2019-03-14 09:46:13 / Modified: 10:11:42" itemprop="dateCreated datePublished" datetime="2019-03-14T09:46:13+08:00">2019-03-14</time>
+              <time title="Created: 2019-03-14 09:46:13 / Modified: 10:15:34" itemprop="dateCreated datePublished" datetime="2019-03-14T09:46:13+08:00">2019-03-14</time>
             
 
             
@@ -439,7 +439,7 @@
       
 
       
-        <h1 id="Install-PostgreSQL-on-CentOS7"><a href="#Install-PostgreSQL-on-CentOS7" class="headerlink" title="Install PostgreSQL on CentOS7"></a>Install PostgreSQL on CentOS7</h1><h2 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h2><blockquote>
+        <h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><blockquote>
 <p>if you want install latest version check <a href="https://www.postgresql.org/download/" target="_blank" rel="noopener">official site</a></p>
 </blockquote>
 <p>I will install postgres9.6 for CentOS7.</p>
@@ -448,20 +448,20 @@
 </blockquote>
 <a id="more"></a>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-redhat96-9.6-3.noarch.rpm</span><br><span class="line">sudo yum install postgresql96-server postgresql96-contrib</span><br><span class="line"></span><br><span class="line"><span class="comment"># initialize the database</span></span><br><span class="line">sudo postgresql96-setup initdb</span><br></pre></td></tr></table></figure>
-<h2 id="Config-for-remote-access"><a href="#Config-for-remote-access" class="headerlink" title="Config for remote access"></a>Config for remote access</h2><p>Set listen port to wildcard</p>
+<h1 id="Config-for-remote-access"><a href="#Config-for-remote-access" class="headerlink" title="Config for remote access"></a>Config for remote access</h1><p>Set listen port to wildcard</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># sudo vim /var/lib/pgsql/9.6/data/postgresql.conf</span><br><span class="line">listen_addresses = &apos;*&apos;</span><br></pre></td></tr></table></figure>
 <p>Change HBA (host-based authentication) configuration</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># sudo vim /var/lib/pgsql/9.6/data/pg_hba.conf</span><br><span class="line">host    all             all             0.0.0.0/0            md5</span><br></pre></td></tr></table></figure>
-<h2 id="Start-server"><a href="#Start-server" class="headerlink" title="Start server"></a>Start server</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> postgresql-9.6</span><br><span class="line">sudo systemctl start postgresql-9.6</span><br><span class="line"></span><br><span class="line"><span class="comment"># check listen port</span></span><br><span class="line">ss -ant | grep 5432</span><br></pre></td></tr></table></figure>
-<h2 id="Login-default-role"><a href="#Login-default-role" class="headerlink" title="Login default role"></a>Login default role</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo -i -u postgres</span><br><span class="line"><span class="comment"># to access PostgreSQL prompt</span></span><br><span class="line">psql</span><br><span class="line"><span class="comment"># for quit PostgreSQL prompt</span></span><br><span class="line">\q</span><br></pre></td></tr></table></figure>
-<h2 id="Create-a-new-role"><a href="#Create-a-new-role" class="headerlink" title="Create a new role"></a>Create a new role</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">createuser --interactive</span><br></pre></td></tr></table></figure>
+<h1 id="Start-server"><a href="#Start-server" class="headerlink" title="Start server"></a>Start server</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> postgresql-9.6</span><br><span class="line">sudo systemctl start postgresql-9.6</span><br><span class="line"></span><br><span class="line"><span class="comment"># check listen port</span></span><br><span class="line">ss -ant | grep 5432</span><br></pre></td></tr></table></figure>
+<h1 id="Login-default-role"><a href="#Login-default-role" class="headerlink" title="Login default role"></a>Login default role</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo -i -u postgres</span><br><span class="line"><span class="comment"># to access PostgreSQL prompt</span></span><br><span class="line">psql</span><br><span class="line"><span class="comment"># for quit PostgreSQL prompt</span></span><br><span class="line">\q</span><br></pre></td></tr></table></figure>
+<h1 id="Create-a-new-role"><a href="#Create-a-new-role" class="headerlink" title="Create a new role"></a>Create a new role</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">createuser --interactive</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>My new role is <code>rwuser</code></p>
 </blockquote>
-<h2 id="Create-a-new-database"><a href="#Create-a-new-database" class="headerlink" title="Create a new database"></a>Create a new database</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">createdb test1</span><br></pre></td></tr></table></figure>
-<h2 id="Login-new-role"><a href="#Login-new-role" class="headerlink" title="Login new role"></a>Login new role</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># access PostgreSQL prompt with new role</span></span><br><span class="line">sudo su -c <span class="string">"psql -d test1"</span> - rwuser</span><br><span class="line"><span class="comment"># type following command in  PostgreSQL prompt</span></span><br><span class="line">\password</span><br><span class="line"><span class="comment"># then set your new password</span></span><br></pre></td></tr></table></figure>
+<h1 id="Create-a-new-database"><a href="#Create-a-new-database" class="headerlink" title="Create a new database"></a>Create a new database</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">createdb test1</span><br></pre></td></tr></table></figure>
+<h1 id="Login-new-role"><a href="#Login-new-role" class="headerlink" title="Login new role"></a>Login new role</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># access PostgreSQL prompt with new role</span></span><br><span class="line">sudo su -c <span class="string">"psql -d test1"</span> - rwuser</span><br><span class="line"><span class="comment"># type following command in  PostgreSQL prompt</span></span><br><span class="line">\password</span><br><span class="line"><span class="comment"># then set your new password</span></span><br></pre></td></tr></table></figure>
 <p>You can use navicat to connect pgsql later.</p>
-<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
 <li><a href="https://www.digitalocean.com/community/tutorials/how-to-install-and-use-postgresql-on-centos-7#create-a-new-role" target="_blank" rel="noopener">How To Install and Use PostgreSQL on CentOS 7</a></li>
 <li><a href="https://www.liquidweb.com/kb/change-a-password-for-postgresql-on-linux-via-command-line/" target="_blank" rel="noopener">Change a Password for PostgreSQL on Linux via Command Line</a></li>
 <li><a href="https://www.postgresql.org/download/linux/redhat/" target="_blank" rel="noopener">Official install guide</a></li>
@@ -814,7 +814,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Install-PostgreSQL-on-CentOS7"><span class="nav-number">1.</span> <span class="nav-text">Install PostgreSQL on CentOS7</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Installation"><span class="nav-number">1.1.</span> <span class="nav-text">Installation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Config-for-remote-access"><span class="nav-number">1.2.</span> <span class="nav-text">Config for remote access</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Start-server"><span class="nav-number">1.3.</span> <span class="nav-text">Start server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Login-default-role"><span class="nav-number">1.4.</span> <span class="nav-text">Login default role</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-a-new-role"><span class="nav-number">1.5.</span> <span class="nav-text">Create a new role</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-a-new-database"><span class="nav-number">1.6.</span> <span class="nav-text">Create a new database</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Login-new-role"><span class="nav-number">1.7.</span> <span class="nav-text">Login new role</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">1.8.</span> <span class="nav-text">Reference</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Installation"><span class="nav-number">1.</span> <span class="nav-text">Installation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Config-for-remote-access"><span class="nav-number">2.</span> <span class="nav-text">Config for remote access</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Start-server"><span class="nav-number">3.</span> <span class="nav-text">Start server</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Login-default-role"><span class="nav-number">4.</span> <span class="nav-text">Login default role</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Create-a-new-role"><span class="nav-number">5.</span> <span class="nav-text">Create a new role</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Create-a-new-database"><span class="nav-number">6.</span> <span class="nav-text">Create a new database</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Login-new-role"><span class="nav-number">7.</span> <span class="nav-text">Login new role</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">8.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
 
           </div>
