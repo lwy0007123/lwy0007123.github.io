@@ -20,19 +20,19 @@ Linux版我总是挂全局代理，国外IP不能看B站正版番就很难受。
 
 # 安装ss客户端
 
-本来python版的shadowsocks带有sslocal可以做本地代理的，但是我用图形界面，觉得qt版体验要好些。
+本来 python 版的 shadowsocks 带有 sslocal 可以做本地代理的，但是我用图形界面，觉得 qt 版体验要好些。
 
 ```sh
 sudo apt install shadowsocks-qt5
 ```
 
-安装完成后，打开配置好你的ss服务，本地地址：`127.0.0.1`，端口：`1080`，本地服务器类型：`HTTP(S)`。
+安装完成后，打开配置好你的 ss 服务，本地地址：`127.0.0.1`，端口：`1080`，本地服务器类型：`HTTP(S)`。
 
 ## 验证本地代理
 
 ```sh
 # 设置临时全局代理
-export proxy=http://127.0.0.1:1080; export http_proxy=$proxy https_proxy=$proxy no_proxy="localhost, 127.0.0.1, ::1"
+export proxy=http://127.0.0.1:1080; export http_proxy=$proxy https_proxy=$proxy no_proxy="localhost, 127.0.0.0/8, ::1"
 # 然后访问下Google，有返回html就成了。
 curl -skL www.google.com
 ```
@@ -45,7 +45,7 @@ sudo apt install privoxy
 
 ## 配置gfwlist
 
-全局代理体验不佳，这里要利用gfwlist，配置privoxy
+全局代理体验不佳，这里要利用 gfwlist ，配置 privoxy
 
 ```sh
 # 先获取一段格式转换脚本
@@ -64,7 +64,7 @@ sudo systemctl start privoxy.service
 
 ```sh
 # 设置临时变量，privoxy 默认监听端口为 8118
-export proxy=http://127.0.0.1:8118; export http_proxy=$proxy https_proxy=$proxy no_proxy="localhost, 127.0.0.1, ::1"
+export proxy=http://127.0.0.1:8118; export http_proxy=$proxy https_proxy=$proxy no_proxy="localhost, 127.0.0.0/8, ::1"
 # 可以看到返回值，说明代理成功
 curl -skL www.google.com
 # 查看当前IP，若是墙内IP说明gfwlist配置成功
@@ -81,7 +81,7 @@ curl -4skL http://ip.chinaz.com/getip.aspx
 proxy=http://127.0.0.1:8118
 export http_proxy=$proxy
 export https_proxy=$proxy
-export no_proxy="localhost, 127.0.0.1, ::1"
+export no_proxy="localhost, 127.0.0.0/8, ::1"
 ```
 
 # 参考
