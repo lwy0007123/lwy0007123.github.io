@@ -25,14 +25,14 @@ Write ISO file in your usb driver.
 
 Plug in you usb drive and reboot into it.
 
-# Partion
+# partition
 
 ```sh
-# list all disks and partions
+# list all disks and partitions
 fdisk -l
 
 # my new ssd is `nvme0n1`
-# make partion table with `cfdisk`
+# make partition table with `cfdisk`
 cfisk /dev/nvme0n1
 
 # 512M EFI file system --> nvme0n1p1
@@ -41,7 +41,7 @@ cfisk /dev/nvme0n1
 
 # write then quit
 
-# format new partions
+# format new partitions
 mkfs.fat -F32 /dev/nvme0n1p1
 mkfs.ext4 /dev/nvme0n1p2
 mkswap /dev/nvme0n1p3
@@ -120,7 +120,7 @@ pacman -S intel-ucode
 pacman -S grub efibootmgr os-prober
 grub-install --efi-directory=/boot --bootloader-id=ArchLinux --recheck
 
-# If your windows boot loader in other EFI partion, you can mount the partion,
+# If your windows boot loader in other EFI partition, you can mount the partition,
 # and copy `Boot` and `Microsoft` to your /boot/EFI/, otherwise, grub can not
 # find your windows boot loader.
 
