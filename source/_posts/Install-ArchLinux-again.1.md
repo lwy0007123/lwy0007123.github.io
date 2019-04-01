@@ -55,7 +55,7 @@ mount /dev/nvme0n1p1 /mnt/boot
 
 # Install
 
-If your network special as China, I recomended you change pacman mirror first.
+If your network special as China, I recommended you change pacman mirror first.
 
 ```sh
 cd /etc/pacman.d
