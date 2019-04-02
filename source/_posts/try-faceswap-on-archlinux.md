@@ -80,6 +80,10 @@ python setup.py
 You may got `dlib` problem when you run faceswap.
 
 ```sh
+# replace blas with openblas
+sudo pacman -S openblas
+
+# get dlib source code
 git clone https://github.com/davisking/dlib.git
 cd dlib
 
@@ -90,6 +94,15 @@ python setup.py install
 ```
 
 </details>
+
+## play with faceswap
+
+```sh
+# try gui
+python faceswap.py gui
+```
+
+![screenshot](Screenshot.png)
 
 # Ref
 

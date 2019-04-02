@@ -100,9 +100,9 @@ echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 
 # Network
 echo HOSTNAME > /etc/hostname
-echo '127.0.0.1	localhost' >> /etc/hosts
-echo '::1		localhost' >> /etc/hosts
-echo '127.0.1.1	HOSTNAME.localdomain	HOSTNAME'  >>/etc/hosts
+echo '127.0.0.1 localhost' >> /etc/hosts
+echo '::1       localhost' >> /etc/hosts
+echo '127.0.1.1 HOSTNAME.localdomain    HOSTNAME'  >>/etc/hosts
 
 # dhcpcd enable
 systemctl enable dhcpcd
@@ -174,7 +174,8 @@ echo 'shank ALL=(ALL) ALL' > /etc/sudoers.d/shank
 lspci | grep VGA
 # found my NVIDIA GTX 1060 here
 # install driver for video card
-pacman -S xf86-video-intel
+pacman -S mesa vulkan-intel
+# pacman -S xf86-video-intel # often not recommended
 pacman -S nvidia
 pacman -S nvidia-libgl
 pacman -S xorg-xrandr
@@ -224,7 +225,7 @@ zsh terminator thunar \
 vlc alsa-utils deadbeef cmus telegram-desktop \
 goldendict mplayer \
 go git wget openssh unzip unrar \
-ntfs-3g deluge shadowsocks-qt5 \
+ntfs-3g deluge shadowsocks shadowsocks-qt5 \
 gnome gnome-tweaks \
 numix-gtk-theme
 
@@ -234,6 +235,25 @@ google-chrome \
 visual-studio-code-bin \
 foxitreader \
 anaconda
+```
+
+## more operations
+
+### set on-my-zsh
+
+```sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+```
+
+### set anaconda
+
+Don't set anaconda in your path, will occur many problems!
+So we just set `alias` to make it easy for activate conda environment.
+
+```sh
+# vim ~/.zshrc
+alias activate="source /opt/anaconda/bin/activate"
+alias deactivate="source /opt/anaconda/bin/deactivate"
 ```
 
 # Ref
