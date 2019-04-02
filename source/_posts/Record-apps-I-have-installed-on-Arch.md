@@ -8,7 +8,7 @@ tags:
 
 # pacman
 
-```shell
+```sh
 sudo pacman -S \
 ibus ibus-qt ibus-rime \
 ttf-inconsolata noto-fonts-cjk \
@@ -16,29 +16,29 @@ powerline-fonts ttf-font-awesome \
 net-tools dnsutils inetutils iproute2 \
 zsh terminator thunar \
 vlc alsa-utils deadbeef cmus telegram-desktop \
-goldendict mplayer foxitreader \
+goldendict mplayer \
 go git wget openssh unzip unrar \
-ntfs-3g deluge shadowsocks-qt5 \
+ntfs-3g deluge shadowsocks shadowsocks-qt5 \
 gnome gnome-tweaks \
-numix-gtk-theme numix-circle-icon-theme-git
+numix-gtk-theme
 ```
 
 <!--more-->
 
-# yaourt
+# yay
 
 ```sh
-yaourt -S google-chrome \
+sudo pacman -S git
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+
+yay -S numix-circle-icon-theme-git \
+capitaine-cursors \
+google-chrome \
 visual-studio-code-bin \
-netease-cloud-music \
+foxitreader \
 anaconda
-```
-
-> ~~add anaconda to PATH~~
-
-```sh
-# DO NOT RUN THIS! Sorry for trouble.
-# echo "export PATH=/opt/anaconda/bin:\$PATH" >> ~/.zshrc
 ```
 
 **To be contine ...**
