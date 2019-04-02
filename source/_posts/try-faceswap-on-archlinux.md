@@ -15,6 +15,8 @@ Seems a little bit difficult to use it.
 
 But worth to give it a try.
 
+<!--more-->
+
 # Make it work
 
 ## Install anaconda
