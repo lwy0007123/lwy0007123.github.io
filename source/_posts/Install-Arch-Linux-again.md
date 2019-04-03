@@ -252,8 +252,8 @@ So we just set `alias` to make it easy for activate conda environment.
 
 ```sh
 # vim ~/.zshrc
-alias activate="/opt/anaconda/bin/activate"
-alias deactivate="/opt/anaconda/bin/deactivate"
+alias activate-env="source /opt/anaconda/bin/activate"
+alias deactivate-env="source /opt/anaconda/bin/deactivate"
 
 # ease access to conda
 sudo ln /opt/anaconda/bin/conda /usr/bin/conda
