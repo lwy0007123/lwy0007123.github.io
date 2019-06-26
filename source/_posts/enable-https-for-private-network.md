@@ -1,5 +1,5 @@
 ---
-title: enable https for private network
+title: Enable https for private network
 date: 2019-06-26 13:24:00
 tags:
 - Linux
@@ -26,7 +26,7 @@ go 项目使用 go mod 作依赖包管理，遇到一些问题。
 
 ## 环境准备
 
-为了达到实验目的 先修改本地机器的 host 文件。
+为了达到实验目的，先修改本地机器的 host 文件。
 
 web 服务运行在 192.168.20.44 的局域网 IP 的主机上
 添加一条虚拟的域名映射到这个 IP 。
@@ -196,9 +196,11 @@ More details here: http://curl.haxx.se/docs/sslcerts.html
 签署好的 `selfsigned.crt` 文件复制到 `/etc/pki/ca-trust/source/anchors` 目录下
 运行 `sudo update-ca-trust extract`， 没有任何输出即更新成功。
 
-* Windows10
+* ~~Windows10~~
 
-失败了……
+~~失败了……~~
+
+客户端信任了证书之后，再次 curl 请求就能成功了。
 
 ## 参考
 
