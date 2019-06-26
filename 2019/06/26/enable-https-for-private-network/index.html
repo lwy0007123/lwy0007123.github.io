@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="私网环境启用 https本文是搭建私网环境下的 go 自动集成环境的一部分。 go 项目使用 go mod 作依赖包管理，遇到一些问题。对于依赖库是保存在内网仓库的情况，拉取代码会失败，原因是 go mod 获取依赖包版本需要使用 https 请求，而自建的 git 服务没有启用 https 。 如果是传统的 gopath 依赖项目， 只需要 go get -insecure 即可绕过 https">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-06-26T07:21:50.698Z">
+<meta property="og:updated_time" content="2019-06-26T07:37:47.512Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Enable https for private network">
 <meta name="twitter:description" content="私网环境启用 https本文是搭建私网环境下的 go 自动集成环境的一部分。 go 项目使用 go mod 作依赖包管理，遇到一些问题。对于依赖库是保存在内网仓库的情况，拉取代码会失败，原因是 go mod 获取依赖包版本需要使用 https 请求，而自建的 git 服务没有启用 https 。 如果是传统的 gopath 依赖项目， 只需要 go get -insecure 即可绕过 https">
@@ -390,7 +390,7 @@
                 
               
 
-              <time title="Created: 2019-06-26 13:24:00 / Modified: 15:21:50" itemprop="dateCreated datePublished" datetime="2019-06-26T13:24:00+08:00">2019-06-26</time>
+              <time title="Created: 2019-06-26 13:24:00 / Modified: 15:37:47" itemprop="dateCreated datePublished" datetime="2019-06-26T13:24:00+08:00">2019-06-26</time>
             
 
             
@@ -495,9 +495,9 @@
 </ul>
 <p>签署好的 <code>selfsigned.crt</code> 文件复制到 <code>/etc/pki/ca-trust/source/anchors</code> 目录下<br>运行 <code>sudo update-ca-trust extract</code>， 没有任何输出即更新成功。</p>
 <ul>
-<li><del>Windows10</del></li>
+<li>Windows10</li>
 </ul>
-<p><del>失败了……</del></p>
+<p>添加比较麻烦参考<a href="https://reactpaths.com/how-to-get-https-working-in-localhost-development-environment-f17de34af046" target="_blank" rel="noopener">这篇文章</a>。<br>虽然添加完成后 chrome 依旧是不接受这个证书的（应该是浏览器策略的问题），但是<br>cmd 里 curl 验证可以通过。</p>
 <p>客户端信任了证书之后，再次 curl 请求就能成功了。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><p><a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-on-centos-7" target="_blank" rel="noopener">How To Create a Self-Signed SSL Certificate for Nginx on CentOS 7</a></p>
@@ -507,6 +507,8 @@
 <li><p><a href="https://jlk.fjfi.cvut.cz/arch/manpages/man/update-ca-trust.8" target="_blank" rel="noopener">update-ca-trust</a></p>
 </li>
 <li><p><a href="https://manuals.gfi.com/en/kerio/connect/content/server-configuration/ssl-certificates/adding-trusted-root-certificates-to-the-server-1605.html" target="_blank" rel="noopener">Adding trusted root certificates to the server</a></p>
+</li>
+<li><p><a href="https://reactpaths.com/how-to-get-https-working-in-localhost-development-environment-f17de34af046" target="_blank" rel="noopener">How to get HTTPS working in localhost development environment</a></p>
 </li>
 </ul>
 
