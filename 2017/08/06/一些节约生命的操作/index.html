@@ -112,18 +112,18 @@
 
 
 
-  <meta name="description" content="前言你是否感觉  pip， npm, git， docker 之类的工具下载安装奇慢？因为它们的默认服务器都在国外，那么需要必要的设置才能发挥咱百兆光纤的作用。下面介绍方法:  新增docker的加速方法  pip 的配置解决方式：使用国内的pypi镜像加速，以阿里源为例。 方法1 修改配置 Windows  懒一点就打开powershell(不是cmd!)，粘贴下面命令。 12345mkdir">
-<meta name="keywords" content="docker,npm,git,pip">
+  <meta name="description" content="前言你是否感觉  pip， npm, git， docker 之类的工具下载安装奇慢？因为它们的默认服务器都在国外，那么需要必要的设置才能发挥咱百兆光纤的作用。下面介绍方法:">
+<meta name="keywords" content="docker,npm,git,pip,conda">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一些节约生命的操作 (墙内加速 git pip npm docker)">
+<meta property="og:title" content="一些节约生命的操作 (墙内加速 git pip conda npm docker)">
 <meta property="og:url" content="http://www.findshank.com/2017/08/06/一些节约生命的操作/index.html">
 <meta property="og:site_name" content="Shank&#39;s Notes">
-<meta property="og:description" content="前言你是否感觉  pip， npm, git， docker 之类的工具下载安装奇慢？因为它们的默认服务器都在国外，那么需要必要的设置才能发挥咱百兆光纤的作用。下面介绍方法:  新增docker的加速方法  pip 的配置解决方式：使用国内的pypi镜像加速，以阿里源为例。 方法1 修改配置 Windows  懒一点就打开powershell(不是cmd!)，粘贴下面命令。 12345mkdir">
+<meta property="og:description" content="前言你是否感觉  pip， npm, git， docker 之类的工具下载安装奇慢？因为它们的默认服务器都在国外，那么需要必要的设置才能发挥咱百兆光纤的作用。下面介绍方法:">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-02-28T01:24:51.655Z">
+<meta property="og:updated_time" content="2019-06-26T05:21:42.989Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一些节约生命的操作 (墙内加速 git pip npm docker)">
-<meta name="twitter:description" content="前言你是否感觉  pip， npm, git， docker 之类的工具下载安装奇慢？因为它们的默认服务器都在国外，那么需要必要的设置才能发挥咱百兆光纤的作用。下面介绍方法:  新增docker的加速方法  pip 的配置解决方式：使用国内的pypi镜像加速，以阿里源为例。 方法1 修改配置 Windows  懒一点就打开powershell(不是cmd!)，粘贴下面命令。 12345mkdir">
+<meta name="twitter:title" content="一些节约生命的操作 (墙内加速 git pip conda npm docker)">
+<meta name="twitter:description" content="前言你是否感觉  pip， npm, git， docker 之类的工具下载安装奇慢？因为它们的默认服务器都在国外，那么需要必要的设置才能发挥咱百兆光纤的作用。下面介绍方法:">
 
 
 
@@ -140,7 +140,7 @@
   };
 </script>
 
-  <title>一些节约生命的操作 (墙内加速 git pip npm docker) | Shank's Notes</title>
+  <title>一些节约生命的操作 (墙内加速 git pip conda npm docker) | Shank's Notes</title>
   
 
 
@@ -362,7 +362,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">一些节约生命的操作 (墙内加速 git pip npm docker)<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/一些节约生命的操作.md" class="post-edit-link" title="Edit this post" target="_blank">
+          <h1 class="post-title" itemprop="name headline">一些节约生命的操作 (墙内加速 git pip conda npm docker)<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/一些节约生命的操作.md" class="post-edit-link" title="Edit this post" target="_blank">
                     <i class="fa fa-pencil"></i>
                   </a>
                 
@@ -407,7 +407,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-02-28 09:24:51" itemprop="dateModified" datetime="2019-02-28T09:24:51+08:00">2019-02-28</time>
+                <time title="Modified: 2019-06-26 13:21:42" itemprop="dateModified" datetime="2019-06-26T13:21:42+08:00">2019-06-26</time>
               
             
           </span>
@@ -438,7 +438,7 @@
 
           
           
-             <span id="/2017/08/06/一些节约生命的操作/" class="leancloud_visitors" data-flag-title="一些节约生命的操作 (墙内加速 git pip npm docker)">
+             <span id="/2017/08/06/一些节约生命的操作/" class="leancloud_visitors" data-flag-title="一些节约生命的操作 (墙内加速 git pip conda npm docker)">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -470,45 +470,47 @@
 
       
         <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>你是否感觉  pip， npm, git， docker 之类的工具下载安装奇慢？<br>因为它们的默认服务器都在国外，那么需要必要的设置才能发挥咱百兆光纤的作用。下面介绍方法:</p>
-<blockquote>
-<p>新增docker的加速方法</p>
-</blockquote>
+<a id="more"></a>
+<details><br><br><summary>如果你用的是 linux，别折腾了挂代理解决一切问题</summary><br><br>简单配置下全局代理，也可以将下面这句加入 profile 中<br><br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 假如你的代理地址是 http://127.0.0.1:1080</span></span><br><span class="line"><span class="built_in">export</span> proxy=http://127.0.0.1:1080; <span class="built_in">export</span> http_proxy=<span class="variable">$proxy</span> https_proxy=<span class="variable">$proxy</span> no_proxy=<span class="string">"localhost, 127.0.0.0/8, ::1"</span></span><br></pre></td></tr></table></figure><br><br>用 <code>privoxy</code> 稍微折腾下见<a href="http://www.findshank.com/2018/04/15/Linux%E4%B8%8B%E4%BD%BF%E7%94%A8SS%E6%9C%AC%E5%9C%B0%E4%BB%A3%E7%90%86/">这篇文章</a><br><br></details>
+
 <h1 id="pip-的配置"><a href="#pip-的配置" class="headerlink" title="pip 的配置"></a>pip 的配置</h1><p>解决方式：使用国内的pypi镜像加速，以阿里源为例。</p>
 <h2 id="方法1-修改配置"><a href="#方法1-修改配置" class="headerlink" title="方法1 修改配置"></a>方法1 修改配置</h2><ul>
-<li>Windows</li>
-</ul>
-<p>懒一点就打开powershell(不是cmd!)，粘贴下面命令。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/pip/</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"[global]</span></span><br><span class="line"><span class="string">trusted-host =  mirrors.aliyun.com</span></span><br><span class="line"><span class="string">index-url = http://mirrors.aliyun.com/pypi/simple</span></span><br><span class="line"><span class="string">"</span> | out-file -encoding ascii ~/pip/pip.ini</span><br></pre></td></tr></table></figure>
-<p>解释：在用户目录(C:\Users\Username)下新建名为pip的目录，目录下新建文件pip.ini，写入阿里的镜像源配置。</p>
-<blockquote>
-<p>P.S 因为默认输出编码为utf16会导致pip出错，必须指定编码。</p>
-</blockquote>
-<ul>
 <li>Linux</li>
 </ul>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/.pip &amp;&amp; <span class="built_in">echo</span> <span class="string">"[global]</span></span><br><span class="line"><span class="string">trusted-host =  mirrors.aliyun.com</span></span><br><span class="line"><span class="string">index-url = http://mirrors.aliyun.com/pypi/simple"</span> &gt; ~/.pip/pip.conf</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>欲使用其他源，自行搜索替换。更多配置参数见<a href="http://www.pip-installer.org/en/latest/configuration.html" target="_blank" rel="noopener">官方文档</a>。</p>
 </blockquote>
+<ul>
+<li>Windows</li>
+</ul>
+<p>打开powershell(不是cmd!)，粘贴下面命令。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/pip/</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"[global]</span></span><br><span class="line"><span class="string">trusted-host =  mirrors.aliyun.com</span></span><br><span class="line"><span class="string">index-url = http://mirrors.aliyun.com/pypi/simple</span></span><br><span class="line"><span class="string">"</span> | out-file -encoding ascii ~/pip/pip.ini</span><br></pre></td></tr></table></figure>
+<p>解释：在用户目录(C:\Users\Username)下新建名为pip的目录，目录下新建文件pip.ini，写入阿里的镜像源配置。</p>
+<blockquote>
+<p>P.S 因为默认输出编码为utf16会导致pip出错，必须指定编码。</p>
+</blockquote>
 <h2 id="方法2-临时使用"><a href="#方法2-临时使用" class="headerlink" title="方法2 临时使用"></a>方法2 临时使用</h2><p>以安装numpy为例。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install numpy -i http://mirrors.aliyun.com/pypi/simple/</span><br></pre></td></tr></table></figure>
-<h1 id="npm-的配置"><a href="#npm-的配置" class="headerlink" title="npm 的配置"></a>npm 的配置</h1><p>解决方式：也是替换国内的源，以淘宝源为例。</p>
-<h2 id="方法1-修改默认库配置-推荐"><a href="#方法1-修改默认库配置-推荐" class="headerlink" title="方法1 修改默认库配置(推荐)"></a>方法1 修改默认库配置(推荐)</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> registry https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
-<h2 id="方法2-使用cnpm"><a href="#方法2-使用cnpm" class="headerlink" title="方法2 使用cnpm"></a>方法2 使用cnpm</h2><p>使用cnpm命令替代npm命令。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
-<h2 id="方法3-临时替换下载源"><a href="#方法3-临时替换下载源" class="headerlink" title="方法3 临时替换下载源"></a>方法3 临时替换下载源</h2><p>以安装Express为例。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm --registry=https://registry.npm.taobao.org install express</span><br></pre></td></tr></table></figure>
+<h1 id="conda-的配置"><a href="#conda-的配置" class="headerlink" title="conda 的配置"></a>conda 的配置</h1><h2 id="方法1-配置代理"><a href="#方法1-配置代理" class="headerlink" title="方法1 配置代理"></a>方法1 配置代理</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda config --<span class="built_in">set</span> proxy_servers.http http://id:pw@address:port</span><br><span class="line">conda config --<span class="built_in">set</span> proxy_servers.https https://id:pw@address:port</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>ref: <a href="https://stackoverflow.com/a/48416007" target="_blank" rel="noopener">Running conda with proxy</a></p>
+</blockquote>
+<h2 id="方法2-配置国内镜像"><a href="#方法2-配置国内镜像" class="headerlink" title="方法2 配置国内镜像"></a>方法2 配置国内镜像</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加 Anaconda 的清华镜像</span></span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</span><br><span class="line"><span class="comment"># 搜索时显示通道地址</span></span><br><span class="line">conda config --<span class="built_in">set</span> show_channel_urls yes</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>ref: <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-channels.html" target="_blank" rel="noopener">Managing channels</a></p>
+</blockquote>
 <h1 id="git-的配置"><a href="#git-的配置" class="headerlink" title="git 的配置"></a>git 的配置</h1><p>这个就要代理了。</p>
-<h2 id="方法1-设置git全局变量"><a href="#方法1-设置git全局变量" class="headerlink" title="方法1 设置git全局变量"></a>方法1 设置git全局变量</h2><p>我使用的lantern，提供两种代理方式： Http(s) 和 Socks5。使用下面命令配置git代理：</p>
+<h2 id="方法1-设置git全局变量"><a href="#方法1-设置git全局变量" class="headerlink" title="方法1 设置git全局变量"></a>方法1 设置git全局变量</h2><p><del>我曾经使用的lantern</del>，它提供两种代理端口： Http(s) 和 Socks5。使用下面命令配置git代理：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy http://127.0.0.1:50219</span><br><span class="line">git config --global https.proxy https://127.0.0.1:50219</span><br></pre></td></tr></table></figure>
 <p>或者</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy socks5://127.0.0.1:50221</span><br><span class="line">git config --global https.proxy socks5://127.0.0.1:50221</span><br></pre></td></tr></table></figure>
 <p>根据你的代理配置，修改对应部分即可。</p>
 <h2 id="方法2-设置临时变量"><a href="#方法2-设置临时变量" class="headerlink" title="方法2 设置临时变量"></a>方法2 设置临时变量</h2><p><code>git clone</code> 时可以这么写:</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALL_PROXY=http://127.0.0.1:50219 git <span class="built_in">clone</span> https://github.com/some/one.git</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALL_PROXY=http://127.0.0.1:1080 git <span class="built_in">clone</span> https://github.com/some/one.git</span><br></pre></td></tr></table></figure>
 <h1 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h1><p>解决方法：使用国内的加速地址。获取途径很多。我使用的是阿里云的容器镜像服务里的专属加速地址。</p>
 <blockquote>
-<p>PCODE 是阿里云帐户的加速前缀，后文中请自行替换。可以在<a href="https://cr.console.aliyun.com/#/accelerator" target="_blank" rel="noopener">这里</a>获取</p>
+<p><code>PCODE</code> 是阿里云帐户的加速前缀，后文中请自行替换。可以在<a href="https://cr.console.aliyun.com/#/accelerator" target="_blank" rel="noopener">这里</a>获取</p>
 </blockquote>
 <ul>
 <li>Linux</li>
@@ -522,7 +524,7 @@
 <li>Windows</li>
 </ul>
 <blockquote>
-<p>我的系统是Window10，官方推荐使用<code>Docker for Windows</code>，此处不介绍<code>Docker Toolbox</code></p>
+<p>我的系统是Window10，官方推荐使用 <code>Docker for Windows</code> ，此处不介绍 <code>Docker Toolbox</code></p>
 </blockquote>
 <p>在系统右下角托盘图标内右键菜单选择 Settings，打开配置窗口后左侧导航菜单选择 Docker Daemon。编辑窗口内的JSON串，填写加速器地址，如下所示：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">"registry-mirrors"</span>: [<span class="string">"https://PCODE.mirror.aliyuncs.com"</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -530,6 +532,9 @@
 <blockquote>
 <p><code>Docker for Windows</code> 和 <code>Docker Toolbox</code>是不兼容的。</p>
 </blockquote>
+<h1 id="npm-的配置"><a href="#npm-的配置" class="headerlink" title="npm 的配置"></a>npm 的配置</h1><h2 id="挂代理是最好的解决办法"><a href="#挂代理是最好的解决办法" class="headerlink" title="挂代理是最好的解决办法"></a>挂代理是最好的解决办法</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> proxy http://proxy.company.com:8080</span><br><span class="line">npm config <span class="built_in">set</span> https-proxy http://proxy.company.com:8080</span><br></pre></td></tr></table></figure>
+<details><br><br><summary> update: 之前的方式均不推荐！ </summary><br><br><del>解决方式：也是替换国内的源，以淘宝源为例。</del><br><br>## <del>方法1 修改默认库配置(不推荐！会有莫名其妙的问题)</del><br><br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> registry https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure><br><br>## <del>方法2 使用cnpm</del><br><br>使用cnpm命令替代npm命令。<br><br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure><br><br>## <del>方法3 临时替换下载源</del><br><br>以安装Express为例。<br><br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm --registry=https://registry.npm.taobao.org install express</span><br></pre></td></tr></table></figure><br><br></details>
+
 <h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p><del>能省一秒是一秒对吧，毕竟不是所有人都有+1s的能力</del></p>
 
       
@@ -552,7 +557,7 @@
     <strong>Post author:  </strong>SKo00o</li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="http://www.findshank.com/2017/08/06/一些节约生命的操作/" title="一些节约生命的操作 (墙内加速 git pip npm docker)">http://www.findshank.com/2017/08/06/一些节约生命的操作/</a>
+    <a href="http://www.findshank.com/2017/08/06/一些节约生命的操作/" title="一些节约生命的操作 (墙内加速 git pip conda npm docker)">http://www.findshank.com/2017/08/06/一些节约生命的操作/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> unless stating additionally.</li>
@@ -572,6 +577,8 @@
             <a href="/tags/git/" rel="tag"># git</a>
           
             <a href="/tags/pip/" rel="tag"># pip</a>
+          
+            <a href="/tags/conda/" rel="tag"># conda</a>
           
         </div>
       
@@ -673,7 +680,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">41</span>
+                    <span class="site-state-item-count">44</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -835,7 +842,17 @@
                     
                       
                     
-                    <span class="site-state-item-count">55</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">60</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
@@ -885,7 +902,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#pip-的配置"><span class="nav-number">2.</span> <span class="nav-text">pip 的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#方法1-修改配置"><span class="nav-number">2.1.</span> <span class="nav-text">方法1 修改配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法2-临时使用"><span class="nav-number">2.2.</span> <span class="nav-text">方法2 临时使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#npm-的配置"><span class="nav-number">3.</span> <span class="nav-text">npm 的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#方法1-修改默认库配置-推荐"><span class="nav-number">3.1.</span> <span class="nav-text">方法1 修改默认库配置(推荐)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法2-使用cnpm"><span class="nav-number">3.2.</span> <span class="nav-text">方法2 使用cnpm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法3-临时替换下载源"><span class="nav-number">3.3.</span> <span class="nav-text">方法3 临时替换下载源</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#git-的配置"><span class="nav-number">4.</span> <span class="nav-text">git 的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#方法1-设置git全局变量"><span class="nav-number">4.1.</span> <span class="nav-text">方法1 设置git全局变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法2-设置临时变量"><span class="nav-number">4.2.</span> <span class="nav-text">方法2 设置临时变量</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#docker"><span class="nav-number">5.</span> <span class="nav-text">docker</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">6.</span> <span class="nav-text">后记</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#pip-的配置"><span class="nav-number">2.</span> <span class="nav-text">pip 的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#方法1-修改配置"><span class="nav-number">2.1.</span> <span class="nav-text">方法1 修改配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法2-临时使用"><span class="nav-number">2.2.</span> <span class="nav-text">方法2 临时使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#conda-的配置"><span class="nav-number">3.</span> <span class="nav-text">conda 的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#方法1-配置代理"><span class="nav-number">3.1.</span> <span class="nav-text">方法1 配置代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法2-配置国内镜像"><span class="nav-number">3.2.</span> <span class="nav-text">方法2 配置国内镜像</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#git-的配置"><span class="nav-number">4.</span> <span class="nav-text">git 的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#方法1-设置git全局变量"><span class="nav-number">4.1.</span> <span class="nav-text">方法1 设置git全局变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法2-设置临时变量"><span class="nav-number">4.2.</span> <span class="nav-text">方法2 设置临时变量</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#docker"><span class="nav-number">5.</span> <span class="nav-text">docker</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#npm-的配置"><span class="nav-number">6.</span> <span class="nav-text">npm 的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#挂代理是最好的解决办法"><span class="nav-number">6.1.</span> <span class="nav-text">挂代理是最好的解决办法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#后记"><span class="nav-number">7.</span> <span class="nav-text">后记</span></a></li></ol></div>
             
 
           </div>
