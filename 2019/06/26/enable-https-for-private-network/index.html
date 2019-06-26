@@ -115,14 +115,14 @@
   <meta name="description" content="私网环境启用 https本文是搭建私网环境下的 go 自动集成环境的一部分。 go 项目使用 go mod 作依赖包管理，遇到一些问题。对于依赖库是保存在内网仓库的情况，拉取代码会失败，原因是 go mod 获取依赖包版本需要使用 https 请求，而自建的 git 服务没有启用 https 。 如果是传统的 gopath 依赖项目， 只需要 go get -insecure 即可绕过 https">
 <meta name="keywords" content="Linux,https,TLS,CA">
 <meta property="og:type" content="article">
-<meta property="og:title" content="enable https for private network">
+<meta property="og:title" content="Enable https for private network">
 <meta property="og:url" content="http://www.findshank.com/2019/06/26/enable-https-for-private-network/index.html">
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="私网环境启用 https本文是搭建私网环境下的 go 自动集成环境的一部分。 go 项目使用 go mod 作依赖包管理，遇到一些问题。对于依赖库是保存在内网仓库的情况，拉取代码会失败，原因是 go mod 获取依赖包版本需要使用 https 请求，而自建的 git 服务没有启用 https 。 如果是传统的 gopath 依赖项目， 只需要 go get -insecure 即可绕过 https">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-06-26T07:12:41.404Z">
+<meta property="og:updated_time" content="2019-06-26T07:21:50.698Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="enable https for private network">
+<meta name="twitter:title" content="Enable https for private network">
 <meta name="twitter:description" content="私网环境启用 https本文是搭建私网环境下的 go 自动集成环境的一部分。 go 项目使用 go mod 作依赖包管理，遇到一些问题。对于依赖库是保存在内网仓库的情况，拉取代码会失败，原因是 go mod 获取依赖包版本需要使用 https 请求，而自建的 git 服务没有启用 https 。 如果是传统的 gopath 依赖项目， 只需要 go get -insecure 即可绕过 https">
 
 
@@ -140,7 +140,7 @@
   };
 </script>
 
-  <title>enable https for private network | Shank's Notes</title>
+  <title>Enable https for private network | Shank's Notes</title>
   
 
 
@@ -362,7 +362,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">enable https for private network<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/enable-https-for-private-network.md" class="post-edit-link" title="Edit this post" target="_blank">
+          <h1 class="post-title" itemprop="name headline">Enable https for private network<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/enable-https-for-private-network.md" class="post-edit-link" title="Edit this post" target="_blank">
                     <i class="fa fa-pencil"></i>
                   </a>
                 
@@ -390,7 +390,7 @@
                 
               
 
-              <time title="Created: 2019-06-26 13:24:00 / Modified: 15:12:41" itemprop="dateCreated datePublished" datetime="2019-06-26T13:24:00+08:00">2019-06-26</time>
+              <time title="Created: 2019-06-26 13:24:00 / Modified: 15:21:50" itemprop="dateCreated datePublished" datetime="2019-06-26T13:24:00+08:00">2019-06-26</time>
             
 
             
@@ -408,7 +408,7 @@
 
           
           
-             <span id="/2019/06/26/enable-https-for-private-network/" class="leancloud_visitors" data-flag-title="enable https for private network">
+             <span id="/2019/06/26/enable-https-for-private-network/" class="leancloud_visitors" data-flag-title="Enable https for private network">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -444,7 +444,7 @@
 <p>如果是传统的 gopath 依赖项目， 只需要 go get -insecure 即可绕过 https 限制，<br>但是这里我们选择用 go mod ，一方面这是 go 官方推荐的方式，也是未来的发展趋势，<br>另一方面是不希望依赖包放在 vendor 目录下一起提交到版本库造成源码目录过于庞大。</p>
 <p>接下来讲一讲如何在私网中启用 https， 服务端系统以 CentOS7 为例。</p>
 <a id="more"></a>
-<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>为了达到实验目的 先修改本地机器的 host 文件。</p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>为了达到实验目的，先修改本地机器的 host 文件。</p>
 <p>web 服务运行在 192.168.20.44 的局域网 IP 的主机上<br>添加一条虚拟的域名映射到这个 IP 。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.20.44 vcs.private.org</span><br></pre></td></tr></table></figure>
 <h2 id="创建-SSL-证书"><a href="#创建-SSL-证书" class="headerlink" title="创建 SSL 证书"></a>创建 SSL 证书</h2><h3 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建目录用于保存公共证书</span></span><br><span class="line">sudo mkdir /etc/ssl/certs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建目录用于保存私钥文件</span></span><br><span class="line">sudo mkdir /etc/ssl/private</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关键目录，设置访问权限</span></span><br><span class="line">sudo chmod 700 /etc/ssl/private</span><br></pre></td></tr></table></figure>
@@ -495,9 +495,10 @@
 </ul>
 <p>签署好的 <code>selfsigned.crt</code> 文件复制到 <code>/etc/pki/ca-trust/source/anchors</code> 目录下<br>运行 <code>sudo update-ca-trust extract</code>， 没有任何输出即更新成功。</p>
 <ul>
-<li>Windows10</li>
+<li><del>Windows10</del></li>
 </ul>
-<p>失败了……</p>
+<p><del>失败了……</del></p>
+<p>客户端信任了证书之后，再次 curl 请求就能成功了。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><p><a href="https://www.digitalocean.com/community/tutorials/how-to-create-a-self-signed-ssl-certificate-for-nginx-on-centos-7" target="_blank" rel="noopener">How To Create a Self-Signed SSL Certificate for Nginx on CentOS 7</a></p>
 </li>
@@ -529,7 +530,7 @@
     <strong>Post author:  </strong>SKo00o</li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="http://www.findshank.com/2019/06/26/enable-https-for-private-network/" title="enable https for private network">http://www.findshank.com/2019/06/26/enable-https-for-private-network/</a>
+    <a href="http://www.findshank.com/2019/06/26/enable-https-for-private-network/" title="Enable https for private network">http://www.findshank.com/2019/06/26/enable-https-for-private-network/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> unless stating additionally.</li>
