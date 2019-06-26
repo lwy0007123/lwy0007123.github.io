@@ -196,9 +196,11 @@ More details here: http://curl.haxx.se/docs/sslcerts.html
 签署好的 `selfsigned.crt` 文件复制到 `/etc/pki/ca-trust/source/anchors` 目录下
 运行 `sudo update-ca-trust extract`， 没有任何输出即更新成功。
 
-* ~~Windows10~~
+* Windows10
 
-~~失败了……~~
+添加比较麻烦参考[这篇文章](https://reactpaths.com/how-to-get-https-working-in-localhost-development-environment-f17de34af046)。
+虽然添加完成后 chrome 依旧是不接受这个证书的（应该是浏览器策略的问题），但是
+cmd 里 curl 验证可以通过。
 
 客户端信任了证书之后，再次 curl 请求就能成功了。
 
@@ -211,3 +213,5 @@ More details here: http://curl.haxx.se/docs/sslcerts.html
 * [update-ca-trust](https://jlk.fjfi.cvut.cz/arch/manpages/man/update-ca-trust.8)
 
 * [Adding trusted root certificates to the server](https://manuals.gfi.com/en/kerio/connect/content/server-configuration/ssl-certificates/adding-trusted-root-certificates-to-the-server-1605.html)
+
+* [How to get HTTPS working in localhost development environment](https://reactpaths.com/how-to-get-https-working-in-localhost-development-environment-f17de34af046)
