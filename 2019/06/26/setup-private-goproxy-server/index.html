@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="上一篇已经实践了在私网环境中配置自签名的证书，并开启 https。 这一切都是为了能在私网中搭建一个方便可用的 Go 集成环境。 Go 在 1.11 版本添加了 Go Module 特性，成为官方推荐的包管理方式。详情见官方 wiki 与 go mod 同时到来的还有 goproxy ，允许使用代理的方式拉取依赖包。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-07-10T08:46:56.908Z">
+<meta property="og:updated_time" content="2019-07-10T08:53:33.793Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="setup private goproxy server">
 <meta name="twitter:description" content="上一篇已经实践了在私网环境中配置自签名的证书，并开启 https。 这一切都是为了能在私网中搭建一个方便可用的 Go 集成环境。 Go 在 1.11 版本添加了 Go Module 特性，成为官方推荐的包管理方式。详情见官方 wiki 与 go mod 同时到来的还有 goproxy ，允许使用代理的方式拉取依赖包。">
@@ -407,7 +407,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-07-10 16:46:56" itemprop="dateModified" datetime="2019-07-10T16:46:56+08:00">2019-07-10</time>
+                <time title="Modified: 2019-07-10 16:53:33" itemprop="dateModified" datetime="2019-07-10T16:53:33+08:00">2019-07-10</time>
               
             
           </span>
@@ -498,7 +498,7 @@
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=private goproxy server</span><br><span class="line"><span class="attr">After</span>=network.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Type</span>=simple</span><br><span class="line"><span class="attr">PIDFile</span>=/run/goproxy.pid</span><br><span class="line"><span class="attr">ExecStart</span>=/root/goproxy/goproxy -cacheDir=/root/go</span><br><span class="line"><span class="attr">ExecStartPre</span>=/usr/bin/rm -f /run/goproxy.pid</span><br><span class="line"><span class="attr">Restart</span>=always</span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
 <p>关于如何编写 service 文件，我推荐一篇不错地<a href="https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units" target="_blank" rel="noopener">教程</a></p>
 <p>最后启动服务</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service start goproxy</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动服务</span></span><br><span class="line">sudo systemctl start goproxy</span><br><span class="line"></span><br><span class="line"><span class="comment"># （可选）开启自启</span></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> goproxy</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看状态</span></span><br><span class="line">sudo systemctl status goproxy</span><br></pre></td></tr></table></figure>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><p><a href="https://github.com/goproxyio/goproxy" target="_blank" rel="noopener">goproxy.io</a></p>
 </li>
