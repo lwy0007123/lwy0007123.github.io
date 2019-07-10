@@ -521,7 +521,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 <a class="post-title-link" href="/2019/06/26/setup-private-goproxy-server/" itemprop="url">
-                  setup private goproxy server
+                  部署 goproxy 服务
                 </a>
               
             
@@ -564,7 +564,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-07-10 16:53:33" itemprop="dateModified" datetime="2019-07-10T16:53:33+08:00">2019-07-10</time>
+                <time title="Modified: 2019-07-10 16:59:47" itemprop="dateModified" datetime="2019-07-10T16:59:47+08:00">2019-07-10</time>
               
             
           </span>
@@ -577,7 +577,7 @@
 
           
           
-             <span id="/2019/06/26/setup-private-goproxy-server/" class="leancloud_visitors" data-flag-title="setup private goproxy server">
+             <span id="/2019/06/26/setup-private-goproxy-server/" class="leancloud_visitors" data-flag-title="部署 goproxy 服务">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -693,7 +693,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 <a class="post-title-link" href="/2019/06/26/enable-https-for-private-network/" itemprop="url">
-                  Enable https for private network
+                  私网环境启用 https
                 </a>
               
             
@@ -719,12 +719,24 @@
                 
               
 
-              <time title="Created: 2019-06-26 13:24:00 / Modified: 15:37:47" itemprop="dateCreated datePublished" datetime="2019-06-26T13:24:00+08:00">2019-06-26</time>
+              <time title="Created: 2019-06-26 13:24:00" itemprop="dateCreated datePublished" datetime="2019-06-26T13:24:00+08:00">2019-06-26</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-10 17:07:17" itemprop="dateModified" datetime="2019-07-10T17:07:17+08:00">2019-07-10</time>
               
             
           </span>
@@ -737,7 +749,7 @@
 
           
           
-             <span id="/2019/06/26/enable-https-for-private-network/" class="leancloud_visitors" data-flag-title="Enable https for private network">
+             <span id="/2019/06/26/enable-https-for-private-network/" class="leancloud_visitors" data-flag-title="私网环境启用 https">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -769,7 +781,7 @@
 
       
         
-          <h1 id="私网环境启用-https"><a href="#私网环境启用-https" class="headerlink" title="私网环境启用 https"></a>私网环境启用 https</h1><p>本文是搭建私网环境下的 go 自动集成环境的一部分。</p>
+          <p>本文是搭建私网环境下的 go 自动集成环境的一部分。</p>
 <p>go 项目使用 go mod 作依赖包管理，遇到一些问题。<br>对于依赖库是保存在内网仓库的情况，拉取代码会失败，原因是 go mod 获取<br>依赖包版本需要使用 https 请求，而自建的 git 服务没有启用 https 。</p>
 <p>如果是传统的 gopath 依赖项目， 只需要 go get -insecure 即可绕过 https 限制，<br>但是这里我们选择用 go mod ，一方面这是 go 官方推荐的方式，也是未来的发展趋势，<br>另一方面是不希望依赖包放在 vendor 目录下一起提交到版本库造成源码目录过于庞大。</p>
 <p>接下来讲一讲如何在私网中启用 https， 服务端系统以 CentOS7 为例。</p>
@@ -896,7 +908,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-06-26 13:21:42" itemprop="dateModified" datetime="2019-06-26T13:21:42+08:00">2019-06-26</time>
+                <time title="Modified: 2019-07-10 17:07:54" itemprop="dateModified" datetime="2019-07-10T17:07:54+08:00">2019-07-10</time>
               
             
           </span>
@@ -941,7 +953,7 @@
 
       
         
-          <h1 id="What-is-faceswap"><a href="#What-is-faceswap" class="headerlink" title="What is faceswap"></a>What is faceswap</h1><p>See <a href="https://github.com/deepfakes/faceswap" target="_blank" rel="noopener">deepfakes/faceswap</a></p>
+          <h2 id="What-is-faceswap"><a href="#What-is-faceswap" class="headerlink" title="What is faceswap"></a>What is faceswap</h2><p>See <a href="https://github.com/deepfakes/faceswap" target="_blank" rel="noopener">deepfakes/faceswap</a></p>
 <p>Seems a little bit difficult to use it.</p>
 <p>But worth to give it a try.</p>
           <!--noindex-->

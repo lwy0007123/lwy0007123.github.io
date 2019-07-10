@@ -121,7 +121,7 @@
 <meta property="og:description" content="What is faceswapSee deepfakes/faceswap Seems a little bit difficult to use it. But worth to give it a try.">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://www.findshank.com/2019/04/01/try-faceswap-on-archlinux/Screenshot.png">
-<meta property="og:updated_time" content="2019-06-26T05:21:42.980Z">
+<meta property="og:updated_time" content="2019-07-10T09:07:54.811Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Try faceswap with Arch Linux">
 <meta name="twitter:description" content="What is faceswapSee deepfakes/faceswap Seems a little bit difficult to use it. But worth to give it a try.">
@@ -409,7 +409,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-06-26 13:21:42" itemprop="dateModified" datetime="2019-06-26T13:21:42+08:00">2019-06-26</time>
+                <time title="Modified: 2019-07-10 17:07:54" itemprop="dateModified" datetime="2019-07-10T17:07:54+08:00">2019-07-10</time>
               
             
           </span>
@@ -453,35 +453,35 @@
       
 
       
-        <h1 id="What-is-faceswap"><a href="#What-is-faceswap" class="headerlink" title="What is faceswap"></a>What is faceswap</h1><p>See <a href="https://github.com/deepfakes/faceswap" target="_blank" rel="noopener">deepfakes/faceswap</a></p>
+        <h2 id="What-is-faceswap"><a href="#What-is-faceswap" class="headerlink" title="What is faceswap"></a>What is faceswap</h2><p>See <a href="https://github.com/deepfakes/faceswap" target="_blank" rel="noopener">deepfakes/faceswap</a></p>
 <p>Seems a little bit difficult to use it.</p>
 <p>But worth to give it a try.</p>
 <a id="more"></a>
-<h1 id="Make-it-work"><a href="#Make-it-work" class="headerlink" title="Make it work"></a>Make it work</h1><h2 id="Install-anaconda"><a href="#Install-anaconda" class="headerlink" title="Install anaconda"></a>Install anaconda</h2><blockquote>
+<h2 id="Make-it-work"><a href="#Make-it-work" class="headerlink" title="Make it work"></a>Make it work</h2><h3 id="Install-anaconda"><a href="#Install-anaconda" class="headerlink" title="Install anaconda"></a>Install anaconda</h3><blockquote>
 <p>If you don’t have <code>yay</code>, check <a href="http://www.findshank.com/2018/06/18/Install-yaourt-on-Arch-Linux/">this</a> post.</p>
 </blockquote>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S anaconda</span><br></pre></td></tr></table></figure>
-<h2 id="Create-a-conda-virtual-environment"><a href="#Create-a-conda-virtual-environment" class="headerlink" title="Create a conda virtual environment"></a>Create a conda virtual environment</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n faceswap python=3.6</span><br></pre></td></tr></table></figure>
+<h3 id="Create-a-conda-virtual-environment"><a href="#Create-a-conda-virtual-environment" class="headerlink" title="Create a conda virtual environment"></a>Create a conda virtual environment</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n faceswap python=3.6</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>python3.6 is recommended here.</p>
 </blockquote>
-<h2 id="Install-Nvidia-driver-and-cuda-support"><a href="#Install-Nvidia-driver-and-cuda-support" class="headerlink" title="Install Nvidia driver and cuda support"></a>Install Nvidia driver and cuda support</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S nvidia nvidia-utils cuda</span><br></pre></td></tr></table></figure>
+<h3 id="Install-Nvidia-driver-and-cuda-support"><a href="#Install-Nvidia-driver-and-cuda-support" class="headerlink" title="Install Nvidia driver and cuda support"></a>Install Nvidia driver and cuda support</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yay -S nvidia nvidia-utils cuda</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>We need cuda-10.0 here! If not match this version. try <code>downgrade</code></p>
 </blockquote>
 <details><br><br><summary>How to downgrade?</summary><br><br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yay -S downgrade</span><br><span class="line">downgrade cudnn</span><br></pre></td></tr></table></figure><br><br></details>
 
-<h2 id="Add-cudnn-to-cuda"><a href="#Add-cudnn-to-cuda" class="headerlink" title="Add cudnn to cuda"></a>Add cudnn to cuda</h2><p>Download cuDNN-7.5 for cuda-10.0 on <a href="https://developer.nvidia.com/cudnn" target="_blank" rel="noopener">official site</a>.</p>
+<h3 id="Add-cudnn-to-cuda"><a href="#Add-cudnn-to-cuda" class="headerlink" title="Add cudnn to cuda"></a>Add cudnn to cuda</h3><p>Download cuDNN-7.5 for cuda-10.0 on <a href="https://developer.nvidia.com/cudnn" target="_blank" rel="noopener">official site</a>.</p>
 <blockquote>
 <p>You neet to register and login first.</p>
 </blockquote>
 <p>Then unzip the <code>cudnn-10.0-linux-x64-v7.5.0.56.tgz</code> file to <code>/opt/cuda</code>.</p>
-<h2 id="Get-faceswap-source-code-and-install-it"><a href="#Get-faceswap-source-code-and-install-it" class="headerlink" title="Get faceswap source code and install it"></a>Get faceswap source code and install it</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/deepfakes/faceswap.git</span><br><span class="line"><span class="built_in">cd</span> faceswap</span><br><span class="line"></span><br><span class="line"><span class="comment"># active conda virtual environment</span></span><br><span class="line"><span class="built_in">source</span> activate faceswap</span><br><span class="line"></span><br><span class="line"><span class="comment"># install</span></span><br><span class="line">python setup.py</span><br></pre></td></tr></table></figure>
+<h3 id="Get-faceswap-source-code-and-install-it"><a href="#Get-faceswap-source-code-and-install-it" class="headerlink" title="Get faceswap source code and install it"></a>Get faceswap source code and install it</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/deepfakes/faceswap.git</span><br><span class="line"><span class="built_in">cd</span> faceswap</span><br><span class="line"></span><br><span class="line"><span class="comment"># active conda virtual environment</span></span><br><span class="line"><span class="built_in">source</span> activate faceswap</span><br><span class="line"></span><br><span class="line"><span class="comment"># install</span></span><br><span class="line">python setup.py</span><br></pre></td></tr></table></figure>
 <details><br><br><summary>dlib problem?</summary><br><br>You may got <code>dlib</code> problem when you run faceswap.<br><br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># replace blas with openblas</span></span><br><span class="line">sudo pacman -S openblas</span><br><span class="line"></span><br><span class="line"><span class="comment"># get dlib source code</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/davisking/dlib.git</span><br><span class="line"><span class="built_in">cd</span> dlib</span><br><span class="line"></span><br><span class="line"><span class="comment"># active conda virtual environment</span></span><br><span class="line"><span class="built_in">source</span> activate faceswap</span><br><span class="line"></span><br><span class="line">python setup.py install</span><br></pre></td></tr></table></figure><br><br></details>
 
-<h2 id="play-with-faceswap"><a href="#play-with-faceswap" class="headerlink" title="play with faceswap"></a>play with faceswap</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># try gui</span></span><br><span class="line">python faceswap.py gui</span><br></pre></td></tr></table></figure>
+<h3 id="play-with-faceswap"><a href="#play-with-faceswap" class="headerlink" title="play with faceswap"></a>play with faceswap</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># try gui</span></span><br><span class="line">python faceswap.py gui</span><br></pre></td></tr></table></figure>
 <p><img src="Screenshot.png" alt="screenshot"></p>
-<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
+<h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><ul>
 <li><a href="https://github.com/deepfakes/faceswap/blob/master/INSTALL.md" target="_blank" rel="noopener">INSTALL.md</a></li>
 <li><a href="https://uoa-eresearch.github.io/eresearch-cookbook/recipe/2014/11/20/conda/" target="_blank" rel="noopener">Create virtual environments for python with conda</a></li>
 <li><a href="https://medium.com/@mimoralea/getting-started-with-nvidia-gpu-anaconda-tensorflow-and-keras-on-arch-linux-8f5f2868a455" target="_blank" rel="noopener">Getting Started With NVIDIA GPU, Anaconda, TensorFlow and Keras on Arch Linux</a></li>
@@ -548,8 +548,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/06/26/enable-https-for-private-network/" rel="prev" title="Enable https for private network">
-                Enable https for private network <i class="fa fa-chevron-right"></i>
+              <a href="/2019/06/26/enable-https-for-private-network/" rel="prev" title="私网环境启用 https">
+                私网环境启用 https <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -853,7 +853,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#What-is-faceswap"><span class="nav-number">1.</span> <span class="nav-text">What is faceswap</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Make-it-work"><span class="nav-number">2.</span> <span class="nav-text">Make it work</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Install-anaconda"><span class="nav-number">2.1.</span> <span class="nav-text">Install anaconda</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-a-conda-virtual-environment"><span class="nav-number">2.2.</span> <span class="nav-text">Create a conda virtual environment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Install-Nvidia-driver-and-cuda-support"><span class="nav-number">2.3.</span> <span class="nav-text">Install Nvidia driver and cuda support</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Add-cudnn-to-cuda"><span class="nav-number">2.4.</span> <span class="nav-text">Add cudnn to cuda</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Get-faceswap-source-code-and-install-it"><span class="nav-number">2.5.</span> <span class="nav-text">Get faceswap source code and install it</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#play-with-faceswap"><span class="nav-number">2.6.</span> <span class="nav-text">play with faceswap</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ref"><span class="nav-number">3.</span> <span class="nav-text">Ref</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#What-is-faceswap"><span class="nav-number">1.</span> <span class="nav-text">What is faceswap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Make-it-work"><span class="nav-number">2.</span> <span class="nav-text">Make it work</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-anaconda"><span class="nav-number">2.1.</span> <span class="nav-text">Install anaconda</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-conda-virtual-environment"><span class="nav-number">2.2.</span> <span class="nav-text">Create a conda virtual environment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-Nvidia-driver-and-cuda-support"><span class="nav-number">2.3.</span> <span class="nav-text">Install Nvidia driver and cuda support</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Add-cudnn-to-cuda"><span class="nav-number">2.4.</span> <span class="nav-text">Add cudnn to cuda</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Get-faceswap-source-code-and-install-it"><span class="nav-number">2.5.</span> <span class="nav-text">Get faceswap source code and install it</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#play-with-faceswap"><span class="nav-number">2.6.</span> <span class="nav-text">play with faceswap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ref"><span class="nav-number">3.</span> <span class="nav-text">Ref</span></a></li></ol></div>
             
 
           </div>

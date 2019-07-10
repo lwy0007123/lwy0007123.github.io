@@ -112,18 +112,18 @@
 
 
 
-  <meta name="description" content="前情提要为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到rEFInd的配置。">
+  <meta name="description" content="为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到rEFInd的配置。">
 <meta name="keywords" content="Linux,Ubuntu,EFI,rEFInd">
 <meta property="og:type" content="article">
 <meta property="og:title" content="重装Ubuntu的配置及折腾rEFInd">
 <meta property="og:url" content="http://www.findshank.com/2017/01/17/重装Ubuntu的配置及折腾rEFInd/index.html">
 <meta property="og:site_name" content="Shank&#39;s Notes">
-<meta property="og:description" content="前情提要为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到rEFInd的配置。">
+<meta property="og:description" content="为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到rEFInd的配置。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-02-28T01:24:51.722Z">
+<meta property="og:updated_time" content="2019-07-10T09:13:33.071Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="重装Ubuntu的配置及折腾rEFInd">
-<meta name="twitter:description" content="前情提要为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到rEFInd的配置。">
+<meta name="twitter:description" content="为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到rEFInd的配置。">
 
 
 
@@ -407,7 +407,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-02-28 09:24:51" itemprop="dateModified" datetime="2019-02-28T09:24:51+08:00">2019-02-28</time>
+                <time title="Modified: 2019-07-10 17:13:33" itemprop="dateModified" datetime="2019-07-10T17:13:33+08:00">2019-07-10</time>
               
             
           </span>
@@ -469,15 +469,15 @@
       
 
       
-        <h1 id="前情提要"><a href="#前情提要" class="headerlink" title="前情提要"></a>前情提要</h1><p>为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到<a href="#refind">rEFInd的配置</a>。</p>
+        <p>为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到<a href="#refind">rEFInd的配置</a>。</p>
 <a id="more"></a>
-<h1 id="先安装win10"><a href="#先安装win10" class="headerlink" title="先安装win10"></a>先安装win10</h1><p>用<a href="https://www.microsoft.com/zh-cn/software-download/windows10" target="_blank" rel="noopener">官方工具</a>做一个安装盘，bios选择中启动方式<strong>EFI Only</strong>，并开启<strong>Secure Boot</strong> 。（<em>对，网上那些辣鸡教程都TM教你关掉，但是不告诉你原因，听我的，不用关，装ubuntu也不用关，因为ubuntu申请了EFI安全证书的！</em>）</p>
+<h2 id="先安装win10"><a href="#先安装win10" class="headerlink" title="先安装win10"></a>先安装win10</h2><p>用<a href="https://www.microsoft.com/zh-cn/software-download/windows10" target="_blank" rel="noopener">官方工具</a>做一个安装盘，bios选择中启动方式<strong>EFI Only</strong>，并开启<strong>Secure Boot</strong> 。（<em>对，网上那些辣鸡教程都TM教你关掉，但是不告诉你原因，听我的，不用关，装ubuntu也不用关，因为ubuntu申请了EFI安全证书的！</em>）</p>
 <p>接着开机插入U盘，按提示安装就好，记得把分区方式改成<strong>GPT</strong>。（<em>若你之前是MBR，要么把原来分区全删掉，要么按网上教程做个EFI+MBR，反正我是强迫症，我就要格盘！</em>）</p>
 <p>如何辨别是不是EFI启动呢？</p>
 <p>win + R ，输入 msinfo32 ，回车，引导方式那行是 EFI 就对了。</p>
-<h1 id="再安装ubuntu16-04"><a href="#再安装ubuntu16-04" class="headerlink" title="再安装ubuntu16.04"></a>再安装ubuntu16.04</h1><p>这个更简单，把官方iso镜像文件，直接解压到<strong>FAT32</strong>格式U盘的根目录，开机，进U盘，安装。到那个然要现在win下切好未分配空间，这次我切了40G。小本子有8G内存，swap分区完全不用分的。在之前我试过所有未分配空间都挂到根目录，一样用着好好的，只有一点问题，只能挂起，不能休眠。</p>
+<h2 id="再安装ubuntu16-04"><a href="#再安装ubuntu16-04" class="headerlink" title="再安装ubuntu16.04"></a>再安装ubuntu16.04</h2><p>这个更简单，把官方iso镜像文件，直接解压到<strong>FAT32</strong>格式U盘的根目录，开机，进U盘，安装。到那个然要现在win下切好未分配空间，这次我切了40G。小本子有8G内存，swap分区完全不用分的。在之前我试过所有未分配空间都挂到根目录，一样用着好好的，只有一点问题，只能挂起，不能休眠。</p>
 <p>那么这次的分区方案是8G的swap，剩下全挂 / 根目录。 启动器挂在ubuntu所在硬盘，我是在第二快硬盘 /dev/sdb 上。</p>
-<h1 id="ubuntu配置记录"><a href="#ubuntu配置记录" class="headerlink" title="ubuntu配置记录"></a>ubuntu配置记录</h1><p><strong>先要感谢<a href="https://plumz.me/" target="_blank" rel="noopener">plum的博客</a>，看他的博客让我解决的不少问题</strong></p>
+<h2 id="ubuntu配置记录"><a href="#ubuntu配置记录" class="headerlink" title="ubuntu配置记录"></a>ubuntu配置记录</h2><p><strong>先要感谢<a href="https://plumz.me/" target="_blank" rel="noopener">plum的博客</a>，看他的博客让我解决的不少问题</strong></p>
 <p>既然用了一段时间的ubuntu，解决了不少问题，这里的配置与上一篇有点不同，重新记录如下：</p>
 <ul>
 <li>修改本地文件夹名称为英文</li>
@@ -549,7 +549,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install terminator zsh -y</span><br><span class="line">chsh -s /bin/zsh</span><br><span class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</span><br><span class="line">vim ~/.zshrc # 添加以下内容</span><br><span class="line"><span class="meta">#</span><span class="bash"> ZSH_THEME=<span class="string">"agnoster"</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> DEFAULT_USER=<span class="string">"shank"</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span></span><br></pre></td></tr></table></figure>
 <p>root用户</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo su</span><br><span class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</span><br><span class="line">vim ~/.zshrc # 添加以下内容</span><br><span class="line"><span class="meta">#</span><span class="bash"> ZSH_THEME=<span class="string">"agnoster"</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> DEFAULT_USER=<span class="string">"root"</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span></span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
-<p><em>安装PowerLine字体</em></p>
+<p>安装PowerLine字体</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/Downloads</span><br><span class="line">git clone https://github.com/powerline/fonts</span><br><span class="line">cd fonts</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
 <ul>
 <li>常规更新</li>
@@ -558,12 +558,12 @@
 <ul>
 <li>安装 Deluge</li>
 </ul>
-<p><em>下载工具，带有BT和磁链下载</em></p>
+<p>下载工具，带有BT和磁链下载</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install deluge -y</span><br></pre></td></tr></table></figure>
 <ul>
 <li>安装 caffeine</li>
 </ul>
-<p><em>用于暂时取消屏保和睡眠模式，用linux看视频时记得把它设为Active</em></p>
+<p>用于暂时取消屏保和睡眠模式，用linux看视频时记得把它设为Active</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install caffeine -y</span><br><span class="line"><span class="meta">#</span><span class="bash"> 在 gnome-session-properties 开机启动中添加或修改Caffeine的命令为下面这句</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> /usr/bin/caffeine-indicator</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>安装 mpv</li>
@@ -613,7 +613,7 @@
 </ul>
 <p><em><a href="https://typora.io/" target="_blank" rel="noopener">typola官方链接</a></em></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> optional, but recommended</span></span><br><span class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BA300B7755AFCFAE</span><br><span class="line"><span class="meta">#</span><span class="bash"> add Typora<span class="string">'s repository</span></span></span><br><span class="line">sudo add-apt-repository 'deb https://typora.io ./linux/' -y</span><br><span class="line">sudo apt-get update</span><br><span class="line"><span class="meta">#</span><span class="bash"> install typora</span></span><br><span class="line">sudo apt-get install typora -y</span><br></pre></td></tr></table></figure>
-<h1 id="rEFInd"><a href="#rEFInd" class="headerlink" title="rEFInd"></a>rEFInd</h1><p><em><a href="http://www.rodsbooks.com/refind/configfile.html" target="_blank" rel="noopener">rEFInd官方链接</a></em></p>
+<h2 id="rEFInd"><a href="#rEFInd" class="headerlink" title="rEFInd"></a>rEFInd</h2><p><em><a href="http://www.rodsbooks.com/refind/configfile.html" target="_blank" rel="noopener">rEFInd官方链接</a></em></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-add-repository ppa:rodsmith/refind -y </span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install refind -y</span><br><span class="line">sudo cd /boot/eft/EFI/refind</span><br><span class="line">sudo su</span><br><span class="line">mkdir themes</span><br><span class="line">cd themes</span><br><span class="line"><span class="meta">#</span><span class="bash"> 下载新主题</span></span><br><span class="line">git clone https://github.com/EvanPurkhiser/rEFInd-minimal.git</span><br><span class="line">cd ..</span><br><span class="line">cp refind.conf refind.conf.bak</span><br><span class="line">gedit refind.conf</span><br></pre></td></tr></table></figure>
 <p>添加设置到文件结尾，具体看配置文件或者Google</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">resolution 1920 1080</span><br><span class="line">scan_all_linux_kernels false</span><br><span class="line">default_selection Microsoft</span><br><span class="line"><span class="meta">#</span><span class="bash"> 导入主题配置：</span></span><br><span class="line">include themes/rEFInd-minimal/theme.conf</span><br></pre></td></tr></table></figure>
@@ -622,6 +622,7 @@
 <p>选择推荐方案(Recommended repair)，接着都是“yes”<br>引导修复后，可以apt重装下refind，应该同时会申请 *.cer 文件<br>然后重启，和官方 Slim授权的方式一样，Select key选第一个，<br>给EFI/refind/key目录下的<strong>refind.cer</strong>和<strong>refind_local.cer</strong>文件授权，然后选择重启。</p>
 <p>授权后的一些调整</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo su</span><br><span class="line"><span class="meta">#</span><span class="bash"> 删除一个多余启动文件</span></span><br><span class="line">rm -f /boot/efi/EFI/Boot/bkpbootx64.efi</span><br><span class="line"><span class="meta">#</span><span class="bash"> 想要refind选择ubuntu就直接进系统，不用再显示grub2菜单</span></span><br><span class="line">vim /etc/default/grub # 修改 GRUB_TIMEOUT=0</span><br><span class="line">rm -f /etc/grub.d/30_os-prober # grub不记录win10引导</span><br><span class="line"><span class="meta">#</span><span class="bash"> 更新gurb</span></span><br><span class="line">update-grub</span><br></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -989,7 +990,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前情提要"><span class="nav-number">1.</span> <span class="nav-text">前情提要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#先安装win10"><span class="nav-number">2.</span> <span class="nav-text">先安装win10</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#再安装ubuntu16-04"><span class="nav-number">3.</span> <span class="nav-text">再安装ubuntu16.04</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ubuntu配置记录"><span class="nav-number">4.</span> <span class="nav-text">ubuntu配置记录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#rEFInd"><span class="nav-number">5.</span> <span class="nav-text">rEFInd</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#先安装win10"><span class="nav-number">1.</span> <span class="nav-text">先安装win10</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#再安装ubuntu16-04"><span class="nav-number">2.</span> <span class="nav-text">再安装ubuntu16.04</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu配置记录"><span class="nav-number">3.</span> <span class="nav-text">ubuntu配置记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rEFInd"><span class="nav-number">4.</span> <span class="nav-text">rEFInd</span></a></li></ol></div>
             
 
           </div>

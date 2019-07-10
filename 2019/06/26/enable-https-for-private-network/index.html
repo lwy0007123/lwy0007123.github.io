@@ -112,18 +112,18 @@
 
 
 
-  <meta name="description" content="私网环境启用 https本文是搭建私网环境下的 go 自动集成环境的一部分。 go 项目使用 go mod 作依赖包管理，遇到一些问题。对于依赖库是保存在内网仓库的情况，拉取代码会失败，原因是 go mod 获取依赖包版本需要使用 https 请求，而自建的 git 服务没有启用 https 。 如果是传统的 gopath 依赖项目， 只需要 go get -insecure 即可绕过 https">
+  <meta name="description" content="本文是搭建私网环境下的 go 自动集成环境的一部分。 go 项目使用 go mod 作依赖包管理，遇到一些问题。对于依赖库是保存在内网仓库的情况，拉取代码会失败，原因是 go mod 获取依赖包版本需要使用 https 请求，而自建的 git 服务没有启用 https 。 如果是传统的 gopath 依赖项目， 只需要 go get -insecure 即可绕过 https 限制，但是这里我们选择">
 <meta name="keywords" content="Linux,https,TLS,CA">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Enable https for private network">
+<meta property="og:title" content="私网环境启用 https">
 <meta property="og:url" content="http://www.findshank.com/2019/06/26/enable-https-for-private-network/index.html">
 <meta property="og:site_name" content="Shank&#39;s Notes">
-<meta property="og:description" content="私网环境启用 https本文是搭建私网环境下的 go 自动集成环境的一部分。 go 项目使用 go mod 作依赖包管理，遇到一些问题。对于依赖库是保存在内网仓库的情况，拉取代码会失败，原因是 go mod 获取依赖包版本需要使用 https 请求，而自建的 git 服务没有启用 https 。 如果是传统的 gopath 依赖项目， 只需要 go get -insecure 即可绕过 https">
+<meta property="og:description" content="本文是搭建私网环境下的 go 自动集成环境的一部分。 go 项目使用 go mod 作依赖包管理，遇到一些问题。对于依赖库是保存在内网仓库的情况，拉取代码会失败，原因是 go mod 获取依赖包版本需要使用 https 请求，而自建的 git 服务没有启用 https 。 如果是传统的 gopath 依赖项目， 只需要 go get -insecure 即可绕过 https 限制，但是这里我们选择">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-06-26T07:37:47.512Z">
+<meta property="og:updated_time" content="2019-07-10T09:07:17.821Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Enable https for private network">
-<meta name="twitter:description" content="私网环境启用 https本文是搭建私网环境下的 go 自动集成环境的一部分。 go 项目使用 go mod 作依赖包管理，遇到一些问题。对于依赖库是保存在内网仓库的情况，拉取代码会失败，原因是 go mod 获取依赖包版本需要使用 https 请求，而自建的 git 服务没有启用 https 。 如果是传统的 gopath 依赖项目， 只需要 go get -insecure 即可绕过 https">
+<meta name="twitter:title" content="私网环境启用 https">
+<meta name="twitter:description" content="本文是搭建私网环境下的 go 自动集成环境的一部分。 go 项目使用 go mod 作依赖包管理，遇到一些问题。对于依赖库是保存在内网仓库的情况，拉取代码会失败，原因是 go mod 获取依赖包版本需要使用 https 请求，而自建的 git 服务没有启用 https 。 如果是传统的 gopath 依赖项目， 只需要 go get -insecure 即可绕过 https 限制，但是这里我们选择">
 
 
 
@@ -140,7 +140,7 @@
   };
 </script>
 
-  <title>Enable https for private network | Shank's Notes</title>
+  <title>私网环境启用 https | Shank's Notes</title>
   
 
 
@@ -362,7 +362,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Enable https for private network<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/enable-https-for-private-network.md" class="post-edit-link" title="Edit this post" target="_blank">
+          <h1 class="post-title" itemprop="name headline">私网环境启用 https<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/enable-https-for-private-network.md" class="post-edit-link" title="Edit this post" target="_blank">
                     <i class="fa fa-pencil"></i>
                   </a>
                 
@@ -390,12 +390,24 @@
                 
               
 
-              <time title="Created: 2019-06-26 13:24:00 / Modified: 15:37:47" itemprop="dateCreated datePublished" datetime="2019-06-26T13:24:00+08:00">2019-06-26</time>
+              <time title="Created: 2019-06-26 13:24:00" itemprop="dateCreated datePublished" datetime="2019-06-26T13:24:00+08:00">2019-06-26</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-10 17:07:17" itemprop="dateModified" datetime="2019-07-10T17:07:17+08:00">2019-07-10</time>
               
             
           </span>
@@ -408,7 +420,7 @@
 
           
           
-             <span id="/2019/06/26/enable-https-for-private-network/" class="leancloud_visitors" data-flag-title="Enable https for private network">
+             <span id="/2019/06/26/enable-https-for-private-network/" class="leancloud_visitors" data-flag-title="私网环境启用 https">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -439,7 +451,7 @@
       
 
       
-        <h1 id="私网环境启用-https"><a href="#私网环境启用-https" class="headerlink" title="私网环境启用 https"></a>私网环境启用 https</h1><p>本文是搭建私网环境下的 go 自动集成环境的一部分。</p>
+        <p>本文是搭建私网环境下的 go 自动集成环境的一部分。</p>
 <p>go 项目使用 go mod 作依赖包管理，遇到一些问题。<br>对于依赖库是保存在内网仓库的情况，拉取代码会失败，原因是 go mod 获取<br>依赖包版本需要使用 https 请求，而自建的 git 服务没有启用 https 。</p>
 <p>如果是传统的 gopath 依赖项目， 只需要 go get -insecure 即可绕过 https 限制，<br>但是这里我们选择用 go mod ，一方面这是 go 官方推荐的方式，也是未来的发展趋势，<br>另一方面是不希望依赖包放在 vendor 目录下一起提交到版本库造成源码目录过于庞大。</p>
 <p>接下来讲一讲如何在私网中启用 https， 服务端系统以 CentOS7 为例。</p>
@@ -448,7 +460,7 @@
 <p>web 服务运行在 192.168.20.44 的局域网 IP 的主机上<br>添加一条虚拟的域名映射到这个 IP 。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.20.44 vcs.private.org</span><br></pre></td></tr></table></figure>
 <h2 id="创建-SSL-证书"><a href="#创建-SSL-证书" class="headerlink" title="创建 SSL 证书"></a>创建 SSL 证书</h2><h3 id="创建目录"><a href="#创建目录" class="headerlink" title="创建目录"></a>创建目录</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建目录用于保存公共证书</span></span><br><span class="line">sudo mkdir /etc/ssl/certs</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建目录用于保存私钥文件</span></span><br><span class="line">sudo mkdir /etc/ssl/private</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关键目录，设置访问权限</span></span><br><span class="line">sudo chmod 700 /etc/ssl/private</span><br></pre></td></tr></table></figure>
-<h3 id="创建自签名密钥证书对"><a href="#创建自签名密钥证书对" class="headerlink" title="创建自签名密钥证书对"></a>创建自签名密钥证书对</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/selfsigned.key -out /etc/ssl/certs/selfsigned.crt</span><br></pre></td></tr></table></figure>
+<h3 id="创建自签名密钥证书对"><a href="#创建自签名密钥证书对" class="headerlink" title="创建自签名密钥证书对"></a>创建自签名密钥证书对</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo openssl req -x509 -nodes -days 365 \</span><br><span class="line">    -newkey rsa:2048 -keyout /etc/ssl/private/selfsigned.key \</span><br><span class="line">    -out /etc/ssl/certs/selfsigned.crt</span><br></pre></td></tr></table></figure>
 <h3 id="命令参数解释"><a href="#命令参数解释" class="headerlink" title="命令参数解释"></a>命令参数解释</h3><p><code>openssl</code> 用于创建和管理OpenSSL证书，密钥和其他文件的基本命令行工具。</p>
 <p><code>req -x509</code> 表示我们想要使用 X.509 证书签名请求（CSR，certificate signing request）生成签名证书。</p>
 <p><code>-nodes</code> 跳过用密码保护证书的选项。</p>
@@ -457,6 +469,8 @@
 <p><code>-keyout</code> 密钥输出目录。</p>
 <p><code>-out</code> 证书输出目录。</p>
 <p>接下来会被要求填写一些证书的基本信息，需要注意的一点是<br><code>CommonName</code> 要填写服务相关的域名或者公共 IP 地址。<br>此处咱们填写 <code>vcs.private.org</code></p>
+<details><br><br><summary>还可以一条命令完成</summary><br><br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo openssl req -x509 -nodes -days 365 \</span><br><span class="line">    -subj <span class="string">"/C=CN/ST=ZJ/L=HZ/O=private.org/CN=vcs.private.org"</span> \</span><br><span class="line">    -newkey rsa:2048 -keyout /etc/ssl/private/selfsigned.key \</span><br><span class="line">    -out /etc/ssl/certs/selfsigned.crt</span><br></pre></td></tr></table></figure><br><br></details>
+
 <h3 id="创建-Diffie-Hellman-组"><a href="#创建-Diffie-Hellman-组" class="headerlink" title="创建 Diffie-Hellman 组"></a>创建 Diffie-Hellman 组</h3><p>据说用于与客户端协商 PFS (<a href="https://en.wikipedia.org/wiki/Forward_secrecy" target="_blank" rel="noopener">Perfect Forward Secrecy</a>)，能在私钥受损的情况下保证会话密钥不受损害。</p>
 <p>创建要几十秒，需要稍微等一下。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048</span><br></pre></td></tr></table></figure>
@@ -532,7 +546,7 @@
     <strong>Post author:  </strong>SKo00o</li>
   <li class="post-copyright-link">
     <strong>Post link: </strong>
-    <a href="http://www.findshank.com/2019/06/26/enable-https-for-private-network/" title="Enable https for private network">http://www.findshank.com/2019/06/26/enable-https-for-private-network/</a>
+    <a href="http://www.findshank.com/2019/06/26/enable-https-for-private-network/" title="私网环境启用 https">http://www.findshank.com/2019/06/26/enable-https-for-private-network/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> unless stating additionally.</li>
@@ -574,8 +588,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/06/26/setup-private-goproxy-server/" rel="prev" title="setup private goproxy server">
-                setup private goproxy server <i class="fa fa-chevron-right"></i>
+              <a href="/2019/06/26/setup-private-goproxy-server/" rel="prev" title="部署 goproxy 服务">
+                部署 goproxy 服务 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -879,7 +893,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#私网环境启用-https"><span class="nav-number">1.</span> <span class="nav-text">私网环境启用 https</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境准备"><span class="nav-number">1.1.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-SSL-证书"><span class="nav-number">1.2.</span> <span class="nav-text">创建 SSL 证书</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建目录"><span class="nav-number">1.2.1.</span> <span class="nav-text">创建目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建自签名密钥证书对"><span class="nav-number">1.2.2.</span> <span class="nav-text">创建自签名密钥证书对</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令参数解释"><span class="nav-number">1.2.3.</span> <span class="nav-text">命令参数解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建-Diffie-Hellman-组"><span class="nav-number">1.2.4.</span> <span class="nav-text">创建 Diffie-Hellman 组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置-Nginx-使用-SSL"><span class="nav-number">1.3.</span> <span class="nav-text">配置 Nginx 使用 SSL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Nginx"><span class="nav-number">1.3.1.</span> <span class="nav-text">安装 Nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防火墙配置（如果未开启了防火墙，可跳过）"><span class="nav-number">1.3.2.</span> <span class="nav-text">防火墙配置（如果未开启了防火墙，可跳过）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加-TLS-SSL-服务配置块"><span class="nav-number">1.3.3.</span> <span class="nav-text">添加 TLS/SSL 服务配置块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启用新配置"><span class="nav-number">1.4.</span> <span class="nav-text">启用新配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">1.5.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新客户端信任证书"><span class="nav-number">1.6.</span> <span class="nav-text">更新客户端信任证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">1.7.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境准备"><span class="nav-number">1.</span> <span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-SSL-证书"><span class="nav-number">2.</span> <span class="nav-text">创建 SSL 证书</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建目录"><span class="nav-number">2.1.</span> <span class="nav-text">创建目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建自签名密钥证书对"><span class="nav-number">2.2.</span> <span class="nav-text">创建自签名密钥证书对</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令参数解释"><span class="nav-number">2.3.</span> <span class="nav-text">命令参数解释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建-Diffie-Hellman-组"><span class="nav-number">2.4.</span> <span class="nav-text">创建 Diffie-Hellman 组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置-Nginx-使用-SSL"><span class="nav-number">3.</span> <span class="nav-text">配置 Nginx 使用 SSL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Nginx"><span class="nav-number">3.1.</span> <span class="nav-text">安装 Nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防火墙配置（如果未开启了防火墙，可跳过）"><span class="nav-number">3.2.</span> <span class="nav-text">防火墙配置（如果未开启了防火墙，可跳过）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加-TLS-SSL-服务配置块"><span class="nav-number">3.3.</span> <span class="nav-text">添加 TLS/SSL 服务配置块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启用新配置"><span class="nav-number">4.</span> <span class="nav-text">启用新配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">5.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新客户端信任证书"><span class="nav-number">6.</span> <span class="nav-text">更新客户端信任证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>

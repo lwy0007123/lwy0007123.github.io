@@ -112,18 +112,18 @@
 
 
 
-  <meta name="description" content="前言 在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。">
+  <meta name="description" content="在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。">
 <meta name="keywords" content="Linux,Terminator,ZSH">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 Terminator &amp; ZSH的配置">
 <meta property="og:url" content="http://www.findshank.com/2016/10/01/使用 Terminator  & ZSH的配置/index.html">
 <meta property="og:site_name" content="Shank&#39;s Notes">
-<meta property="og:description" content="前言 在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。">
+<meta property="og:description" content="在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-02-28T01:24:51.671Z">
+<meta property="og:updated_time" content="2019-07-10T09:10:33.408Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 Terminator &amp; ZSH的配置">
-<meta name="twitter:description" content="前言 在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。">
+<meta name="twitter:description" content="在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。">
 
 
 
@@ -407,7 +407,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-02-28 09:24:51" itemprop="dateModified" datetime="2019-02-28T09:24:51+08:00">2019-02-28</time>
+                <time title="Modified: 2019-07-10 17:10:33" itemprop="dateModified" datetime="2019-07-10T17:10:33+08:00">2019-07-10</time>
               
             
           </span>
@@ -469,9 +469,9 @@
       
 
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p> 在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。</p>
+        <p> 在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。</p>
 <a id="more"></a>
-<h1 id="安装-Terminator"><a href="#安装-Terminator" class="headerlink" title="安装 Terminator"></a>安装 Terminator</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install terminator</span><br></pre></td></tr></table></figure>
+<h2 id="安装-Terminator"><a href="#安装-Terminator" class="headerlink" title="安装 Terminator"></a>安装 Terminator</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install terminator</span><br></pre></td></tr></table></figure>
 <ul>
 <li><em>利用 Debian 的重新配置命令选择默认终端：</em></li>
 </ul>
@@ -480,13 +480,13 @@
 <li><em>非ubuntu系统设置terminator快捷键</em></li>
 </ul>
 <p>Setting -&gt; Keyboard -&gt; Shortcuts -&gt; Custom Shortcuts -&gt; add(+)<br>Name : Terminal<br>Command : /usr/bin/terminator<br>Apply<br>Click “Disable”<br>press Ctrl + Alt + T</p>
-<h1 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/* 打开Terminator ，进行如下操作 */</span><br><span class="line">Preferenvces -&gt; General</span><br><span class="line">Disable ‘Show titlebar’</span><br><span class="line">Preferenvces -&gt; Profiles -&gt; Colors -&gt; Foreground and Background -&gt; Build-in schemes</span><br><span class="line">Choose ‘Solarized dark’</span><br></pre></td></tr></table></figure>
-<h1 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install zsh</span><br></pre></td></tr></table></figure>
+<h2 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/* 打开Terminator ，进行如下操作 */</span><br><span class="line">Preferenvces -&gt; General</span><br><span class="line">Disable ‘Show titlebar’</span><br><span class="line">Preferenvces -&gt; Profiles -&gt; Colors -&gt; Foreground and Background -&gt; Build-in schemes</span><br><span class="line">Choose ‘Solarized dark’</span><br></pre></td></tr></table></figure>
+<h2 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install zsh</span><br></pre></td></tr></table></figure>
 <ul>
 <li><em>设置当前用户使用zsh</em></li>
 </ul>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
-<h1 id="安装-on-my-zsh"><a href="#安装-on-my-zsh" class="headerlink" title="安装 on my zsh"></a>安装 on my zsh</h1><ul>
+<h2 id="安装-on-my-zsh"><a href="#安装-on-my-zsh" class="headerlink" title="安装 on my zsh"></a>安装 on my zsh</h2><ul>
 <li><em>自动安装：(推荐)</em></li>
 </ul>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</span><br></pre></td></tr></table></figure>
@@ -494,9 +494,9 @@
 <li><em>手动安装：</em></li>
 </ul>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh</span><br><span class="line">cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</span><br></pre></td></tr></table></figure>
-<h1 id="安装powerline字体"><a href="#安装powerline字体" class="headerlink" title="安装powerline字体"></a>安装powerline字体</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/powerline/fonts</span><br><span class="line"><span class="built_in">cd</span> fonts</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
+<h2 id="安装powerline字体"><a href="#安装powerline字体" class="headerlink" title="安装powerline字体"></a>安装powerline字体</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/powerline/fonts</span><br><span class="line"><span class="built_in">cd</span> fonts</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
 <p>然后在终端中使用powerline字体</p>
-<h1 id="编辑：-zshrc"><a href="#编辑：-zshrc" class="headerlink" title="编辑： ~/.zshrc"></a>编辑： ~/.zshrc</h1><ul>
+<h2 id="编辑：-zshrc"><a href="#编辑：-zshrc" class="headerlink" title="编辑： ~/.zshrc"></a>编辑： ~/.zshrc</h2><ul>
 <li><em>增加自己的用户名：</em></li>
 </ul>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DEFAULT_USER=<span class="string">"Shank"</span></span><br></pre></td></tr></table></figure>
@@ -511,7 +511,7 @@
 <li><em>启用几个功能：</em></li>
 </ul>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span><br></pre></td></tr></table></figure>
-<h2 id="或者用以下简单粗暴的方式屏蔽zsh中的用户名："><a href="#或者用以下简单粗暴的方式屏蔽zsh中的用户名：" class="headerlink" title="或者用以下简单粗暴的方式屏蔽zsh中的用户名："></a>或者用以下简单粗暴的方式屏蔽zsh中的用户名：</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.oh-my-zsh/themes</span><br><span class="line">sudo vim 当前主题名称</span><br></pre></td></tr></table></figure>
+<h3 id="或者用以下简单粗暴的方式屏蔽zsh中的用户名"><a href="#或者用以下简单粗暴的方式屏蔽zsh中的用户名" class="headerlink" title="或者用以下简单粗暴的方式屏蔽zsh中的用户名"></a>或者用以下简单粗暴的方式屏蔽zsh中的用户名</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.oh-my-zsh/themes</span><br><span class="line">sudo vim 当前主题名称</span><br></pre></td></tr></table></figure>
 <p>找到最下面对<code>build_prompt</code>的定义，把<code>prompt_context</code>用<code>#</code>注释掉即可</p>
 <blockquote>
 <p>来自2018/10/29：“以前的自己 Markdown 写得这么烂还敢贴出来。”</p>
@@ -882,7 +882,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装-Terminator"><span class="nav-number">2.</span> <span class="nav-text">安装 Terminator</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更换主题"><span class="nav-number">3.</span> <span class="nav-text">更换主题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装zsh"><span class="nav-number">4.</span> <span class="nav-text">安装zsh</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装-on-my-zsh"><span class="nav-number">5.</span> <span class="nav-text">安装 on my zsh</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装powerline字体"><span class="nav-number">6.</span> <span class="nav-text">安装powerline字体</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编辑：-zshrc"><span class="nav-number">7.</span> <span class="nav-text">编辑： ~/.zshrc</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#或者用以下简单粗暴的方式屏蔽zsh中的用户名："><span class="nav-number">7.1.</span> <span class="nav-text">或者用以下简单粗暴的方式屏蔽zsh中的用户名：</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Terminator"><span class="nav-number">1.</span> <span class="nav-text">安装 Terminator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更换主题"><span class="nav-number">2.</span> <span class="nav-text">更换主题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装zsh"><span class="nav-number">3.</span> <span class="nav-text">安装zsh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-on-my-zsh"><span class="nav-number">4.</span> <span class="nav-text">安装 on my zsh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装powerline字体"><span class="nav-number">5.</span> <span class="nav-text">安装powerline字体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编辑：-zshrc"><span class="nav-number">6.</span> <span class="nav-text">编辑： ~/.zshrc</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#或者用以下简单粗暴的方式屏蔽zsh中的用户名"><span class="nav-number">6.1.</span> <span class="nav-text">或者用以下简单粗暴的方式屏蔽zsh中的用户名</span></a></li></ol></li></ol></div>
             
 
           </div>
