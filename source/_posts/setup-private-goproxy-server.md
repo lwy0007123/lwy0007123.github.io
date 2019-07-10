@@ -107,7 +107,14 @@ WantedBy=multi-user.target
 最后启动服务
 
 ```sh
-sudo service start goproxy
+# 启动服务
+sudo systemctl start goproxy
+
+# （可选）开启自启
+sudo systemctl enable goproxy
+
+# 查看状态
+sudo systemctl status goproxy
 ```
 
 ## 参考
