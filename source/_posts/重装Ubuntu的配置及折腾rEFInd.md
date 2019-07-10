@@ -9,13 +9,11 @@ tags:
 - rEFInd
 ---
 
-# 前情提要
-
 为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到[rEFInd的配置](#refind)。
 
 <!--more-->
 
-# 先安装win10
+## 先安装win10
 
 用[官方工具](https://www.microsoft.com/zh-cn/software-download/windows10)做一个安装盘，bios选择中启动方式**EFI Only**，并开启**Secure Boot** 。（_对，网上那些辣鸡教程都TM教你关掉，但是不告诉你原因，听我的，不用关，装ubuntu也不用关，因为ubuntu申请了EFI安全证书的！_）
 
@@ -25,13 +23,13 @@ tags:
 
 win + R ，输入 msinfo32 ，回车，引导方式那行是 EFI 就对了。
 
-# 再安装ubuntu16.04
+## 再安装ubuntu16.04
 
 这个更简单，把官方iso镜像文件，直接解压到**FAT32**格式U盘的根目录，开机，进U盘，安装。到那个然要现在win下切好未分配空间，这次我切了40G。小本子有8G内存，swap分区完全不用分的。在之前我试过所有未分配空间都挂到根目录，一样用着好好的，只有一点问题，只能挂起，不能休眠。
 
 那么这次的分区方案是8G的swap，剩下全挂 / 根目录。 启动器挂在ubuntu所在硬盘，我是在第二快硬盘 /dev/sdb 上。
 
-# ubuntu配置记录
+## ubuntu配置记录
 
 **先要感谢[plum的博客](https://plumz.me/)，看他的博客让我解决的不少问题**
 
@@ -212,7 +210,7 @@ vim ~/.zshrc # 添加以下内容
 exit
 ```
 
-_安装PowerLine字体_
+安装PowerLine字体
 
 ```shell
 cd ~/Downloads
@@ -230,7 +228,7 @@ sudo apt upgrade
 
 * 安装 Deluge
 
-_下载工具，带有BT和磁链下载_
+下载工具，带有BT和磁链下载
 
 ```shell
 sudo apt install deluge -y
@@ -238,7 +236,7 @@ sudo apt install deluge -y
 
 * 安装 caffeine
 
-_用于暂时取消屏保和睡眠模式，用linux看视频时记得把它设为Active_
+用于暂时取消屏保和睡眠模式，用linux看视频时记得把它设为Active
 
 ```shell
 sudo apt install caffeine -y
@@ -334,7 +332,7 @@ sudo apt-get update
 sudo apt-get install typora -y
 ```
 
-# rEFInd
+## rEFInd
 
 _[rEFInd官方链接](http://www.rodsbooks.com/refind/configfile.html)_
 

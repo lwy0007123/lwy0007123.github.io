@@ -8,13 +8,11 @@ tags:
 - ZSH
 ---
 
-# 前言
-
  在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。
 
 <!--more-->
 
-# 安装 Terminator
+## 安装 Terminator
 
 ```sh
 sudo apt-get install terminator
@@ -35,7 +33,7 @@ Apply
 Click "Disable"
 press Ctrl + Alt + T
 
-# 更换主题
+## 更换主题
 
 ```sh
 /* 打开Terminator ，进行如下操作 */
@@ -45,7 +43,7 @@ Preferenvces -> Profiles -> Colors -> Foreground and Background -> Build-in sche
 Choose ‘Solarized dark’
 ```
 
-# 安装zsh
+## 安装zsh
 
 ```sh
 sudo apt-get install zsh
@@ -57,7 +55,7 @@ sudo apt-get install zsh
 chsh -s /bin/zsh
 ```
 
-# 安装 on my zsh
+## 安装 on my zsh
 
 * _自动安装：(推荐)_
 
@@ -72,7 +70,7 @@ git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 ```
 
-# 安装powerline字体
+## 安装powerline字体
 
 ```sh
 git clone https://github.com/powerline/fonts
@@ -82,7 +80,7 @@ cd fonts
 
 然后在终端中使用powerline字体
 
-# 编辑： ~/.zshrc
+## 编辑： ~/.zshrc
 
 * _增加自己的用户名：_
 
@@ -104,7 +102,7 @@ ZSH_THEME="agnoster"
 COMPLETION_WAITING_DOTS="true"
 ```
 
-## 或者用以下简单粗暴的方式屏蔽zsh中的用户名：
+### 或者用以下简单粗暴的方式屏蔽zsh中的用户名
 
 ```sh
 cd ~/.oh-my-zsh/themes

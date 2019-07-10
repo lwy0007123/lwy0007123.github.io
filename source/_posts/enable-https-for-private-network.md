@@ -1,5 +1,5 @@
 ---
-title: Enable https for private network
+title: 私网环境启用 https
 date: 2019-06-26 13:24:00
 tags:
 - Linux
@@ -7,8 +7,6 @@ tags:
 - TLS
 - CA
 ---
-
-# 私网环境启用 https
 
 本文是搭建私网环境下的 go 自动集成环境的一部分。
 
@@ -53,7 +51,9 @@ sudo chmod 700 /etc/ssl/private
 ### 创建自签名密钥证书对
 
 ```sh
-sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/selfsigned.key -out /etc/ssl/certs/selfsigned.crt
+sudo openssl req -x509 -nodes -days 365 \
+    -newkey rsa:2048 -keyout /etc/ssl/private/selfsigned.key \
+    -out /etc/ssl/certs/selfsigned.crt
 ```
 
 ### 命令参数解释
@@ -75,6 +75,19 @@ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/privat
 接下来会被要求填写一些证书的基本信息，需要注意的一点是
 `CommonName` 要填写服务相关的域名或者公共 IP 地址。
 此处咱们填写 `vcs.private.org`
+
+<details>
+
+<summary>还可以一条命令完成</summary>
+
+```sh
+sudo openssl req -x509 -nodes -days 365 \
+    -subj "/C=CN/ST=ZJ/L=HZ/O=private.org/CN=vcs.private.org" \
+    -newkey rsa:2048 -keyout /etc/ssl/private/selfsigned.key \
+    -out /etc/ssl/certs/selfsigned.crt
+```
+
+</details>
 
 ### 创建 Diffie-Hellman 组
 

@@ -7,8 +7,6 @@ tags:
 - GLUT
 ---
 
-# 如何在Windows上使用GLUT
-
 最近在看计算机图形学
 书里的代码要用到OpenGL，然而在Windows上少了GLUT，需要自己手动配置。
 

@@ -1,12 +1,10 @@
 ---
-title: Protocal Buffer 学习
+title: Protocal Buffer 学习 (语言指南)
 date: 2018-02-23 17:45:00
 categories: Protocol
 tags: 
 - Protocol Buffer
 ---
-
-# 语言指南 (proto3)
 
 ## 官方指南
 

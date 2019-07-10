@@ -1,5 +1,5 @@
 ---
-title: setup private goproxy server
+title: 部署 goproxy 服务
 date: 2019-06-26 17:17:25
 tags:
 - Go

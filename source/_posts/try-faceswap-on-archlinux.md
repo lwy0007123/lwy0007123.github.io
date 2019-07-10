@@ -7,7 +7,7 @@ tags:
 - Linux
 ---
 
-# What is faceswap
+## What is faceswap
 
 See [deepfakes/faceswap](https://github.com/deepfakes/faceswap)
 
@@ -17,9 +17,9 @@ But worth to give it a try.
 
 <!--more-->
 
-# Make it work
+## Make it work
 
-## Install anaconda
+### Install anaconda
 
 > If you don't have `yay`, check [this](http://www.findshank.com/2018/06/18/Install-yaourt-on-Arch-Linux/) post.
 
@@ -27,7 +27,7 @@ But worth to give it a try.
 yay -S anaconda
 ```
 
-## Create a conda virtual environment
+### Create a conda virtual environment
 
 ```sh
 conda create -n faceswap python=3.6
@@ -35,7 +35,7 @@ conda create -n faceswap python=3.6
 
 > python3.6 is recommended here.
 
-## Install Nvidia driver and cuda support
+### Install Nvidia driver and cuda support
 
 ```sh
 yay -S nvidia nvidia-utils cuda
@@ -54,7 +54,7 @@ downgrade cudnn
 
 </details>
 
-## Add cudnn to cuda
+### Add cudnn to cuda
 
 Download cuDNN-7.5 for cuda-10.0 on [official site](https://developer.nvidia.com/cudnn).
 
@@ -62,7 +62,7 @@ Download cuDNN-7.5 for cuda-10.0 on [official site](https://developer.nvidia.com
 
 Then unzip the `cudnn-10.0-linux-x64-v7.5.0.56.tgz` file to `/opt/cuda`.
 
-## Get faceswap source code and install it
+### Get faceswap source code and install it
 
 ```sh
 git clone https://github.com/deepfakes/faceswap.git
@@ -97,7 +97,7 @@ python setup.py install
 
 </details>
 
-## play with faceswap
+### play with faceswap
 
 ```sh
 # try gui
@@ -106,7 +106,7 @@ python faceswap.py gui
 
 ![screenshot](Screenshot.png)
 
-# Ref
+## Ref
 
 * [INSTALL.md](https://github.com/deepfakes/faceswap/blob/master/INSTALL.md)
 * [Create virtual environments for python with conda](https://uoa-eresearch.github.io/eresearch-cookbook/recipe/2014/11/20/conda/)

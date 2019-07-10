@@ -7,8 +7,6 @@ tags:
 - Linux
 ---
 
-# 前情提要
-
 Windows 已经删了，最近都在 Ubuntu 上，不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。
 
 <!--more-->
@@ -19,7 +17,7 @@ Windows 已经删了，最近都在 Ubuntu 上，不小心接触了IRC这个古�
 
 [见Wiki](https://zh.wikipedia.org/wiki/IRC)
 
-# 讲故事
+## 讲故事
 
 * 背景
 
@@ -37,7 +35,7 @@ Windows 已经删了，最近都在 Ubuntu 上，不小心接触了IRC这个古�
 
   第一次见IRC还是上次整越狱的老iTouch时，搜资料偶然发现了Kiwi IRC。正好是开源的，这次拿来练手。
 
-# 说正事
+## 说正事
 
 其实安装过程官方给的太详细了，没什么好说的 (-_-|||
 
@@ -51,7 +49,7 @@ Kiwi的安装过程参考官方教程：
 
 [博客1](https://www.dadclab.com/archives/6007.jiecao) [博客2](http://soft.dog/2016/03/25/unrealircd-basic/)
 
-# 讲废话
+## 讲废话
 
 为什么我不用 UnrealIRCd 呢？因为只有一个服务端，客户端还要自己另外找。
 

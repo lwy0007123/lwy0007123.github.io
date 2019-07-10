@@ -6,11 +6,9 @@ tags:
 - OSMC
 ---
 
-# 前言
-
 去年某宝上买了 Raspberry Pi 2B，期间玩过一段时间的Raspbian，没有买其他配件，全当练习使用linux了。最近盯上了 OSMC，所以，要搞事情！
 
-# 设备
+## 设备
 
 * Raspberry Pi 2B  
 
@@ -28,7 +26,7 @@ tags:
 
   ​_即插即用，支持802.11N。如果你的网线够长可以不用_
 
-# 刷系统
+## 刷系统
 
 传送门 [OSMC](https://osmc.tv/download/)
 
@@ -55,7 +53,7 @@ tags:
     * Pi 上接键盘
   * 开机配置系统……语言暂时用English(US)，联网
 
-# 软件配置
+## 软件配置
 
 * 语言设置
 
@@ -81,7 +79,7 @@ tags:
 
 * 寻找你需要的插件，安装即可。
 
-# 使用 app 控制
+## 使用 app 控制
 
 [Remote Control](http://kodi.wiki/view/Remote_controls)
 
