@@ -9,6 +9,8 @@ tags:
 
 [原文档链接](https://lora-alliance.org/resource-hub/lorawantm-back-end-interfaces-v10)
 
+本部分主要介绍网络参考模型。
+
 <!--more-->
 
 ## 1. 介绍
@@ -28,15 +30,15 @@ Network Server 和 Application Server 之间的接口超出本文档范围。
 
 ## 3. 网络参考模型（Network Reference Model）
 
-LoRaWAN 架构网络参考模型如下两图
+LoRaWAN 架构网络参考模型如图 f0, f1 所示：
 
 ![Figure 1 LoRaWAN Network Reference Model (NRM), End-Device at home](f0.png)
 
-固定终端（End-Device at home）
+f0. 固定终端（End-Device at home）
 
 ![Figure 2 LoRaWAN Network Reference Model (NRM), roaming End-Device](f1.png)
 
-漫游终端（roaming End-Device）
+f1. 漫游终端（roaming End-Device）
 
 **终端（End-Device）：**
 
