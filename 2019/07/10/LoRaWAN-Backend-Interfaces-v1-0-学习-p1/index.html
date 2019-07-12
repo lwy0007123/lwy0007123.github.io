@@ -112,20 +112,20 @@
 
 
 
-  <meta name="description" content="本文为学习 LoRaWAN 后端接口 v1.0 文档时，顺便翻译所得。文档较长，预计分为多篇。 原文档链接">
+  <meta name="description" content="本文为学习 LoRaWAN 后端接口 v1.0 文档时，顺便翻译所得。文档较长，预计分为多篇。 原文档链接 本部分主要介绍网络参考模型。">
 <meta name="keywords" content="LoRaWAN">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LoRaWAN Backend Interfaces v1.0 学习 (p1)">
 <meta property="og:url" content="http://www.findshank.com/2019/07/10/LoRaWAN-Backend-Interfaces-v1-0-学习-p1/index.html">
 <meta property="og:site_name" content="Shank&#39;s Notes">
-<meta property="og:description" content="本文为学习 LoRaWAN 后端接口 v1.0 文档时，顺便翻译所得。文档较长，预计分为多篇。 原文档链接">
+<meta property="og:description" content="本文为学习 LoRaWAN 后端接口 v1.0 文档时，顺便翻译所得。文档较长，预计分为多篇。 原文档链接 本部分主要介绍网络参考模型。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://www.findshank.com/2019/07/10/LoRaWAN-Backend-Interfaces-v1-0-学习-p1/f0.png">
 <meta property="og:image" content="http://www.findshank.com/2019/07/10/LoRaWAN-Backend-Interfaces-v1-0-学习-p1/f1.png">
-<meta property="og:updated_time" content="2019-07-10T06:56:45.036Z">
+<meta property="og:updated_time" content="2019-07-12T05:39:11.506Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LoRaWAN Backend Interfaces v1.0 学习 (p1)">
-<meta name="twitter:description" content="本文为学习 LoRaWAN 后端接口 v1.0 文档时，顺便翻译所得。文档较长，预计分为多篇。 原文档链接">
+<meta name="twitter:description" content="本文为学习 LoRaWAN 后端接口 v1.0 文档时，顺便翻译所得。文档较长，预计分为多篇。 原文档链接 本部分主要介绍网络参考模型。">
 <meta name="twitter:image" content="http://www.findshank.com/2019/07/10/LoRaWAN-Backend-Interfaces-v1-0-学习-p1/f0.png">
 
 
@@ -393,12 +393,24 @@
                 
               
 
-              <time title="Created: 2019-07-10 14:27:10 / Modified: 14:56:45" itemprop="dateCreated datePublished" datetime="2019-07-10T14:27:10+08:00">2019-07-10</time>
+              <time title="Created: 2019-07-10 14:27:10" itemprop="dateCreated datePublished" datetime="2019-07-10T14:27:10+08:00">2019-07-10</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-07-12 13:39:11" itemprop="dateModified" datetime="2019-07-12T13:39:11+08:00">2019-07-12</time>
               
             
           </span>
@@ -444,6 +456,7 @@
       
         <p>本文为学习 LoRaWAN 后端接口 v1.0 文档时，顺便翻译所得。文档较长，预计分为多篇。</p>
 <p><a href="https://lora-alliance.org/resource-hub/lorawantm-back-end-interfaces-v10" target="_blank" rel="noopener">原文档链接</a></p>
+<p>本部分主要介绍网络参考模型。</p>
 <a id="more"></a>
 <h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1. 介绍"></a>1. 介绍</h2><p>这份文档描述了以下服务间的标准接口和数据流：</p>
 <ol>
@@ -453,11 +466,11 @@
 </ol>
 <p>Network Server 和 Application Server 之间的接口超出本文档范围。<br>重点关注本文档中描述的 OTAA（Over-the-Air Activation）及单终端漫游时，网络中多实体间信息流。</p>
 <h2 id="2-公约"><a href="#2-公约" class="headerlink" title="2. 公约"></a>2. 公约</h2><p>本文中的关键词（”MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, 以及 “OPTIONAL”）的解释如 <a href="https://tools.ietf.org/html/rfc2119" target="_blank" rel="noopener">RFC 2119</a> 协议描述。</p>
-<h2 id="3-网络参考模型（Network-Reference-Model）"><a href="#3-网络参考模型（Network-Reference-Model）" class="headerlink" title="3. 网络参考模型（Network Reference Model）"></a>3. 网络参考模型（Network Reference Model）</h2><p>LoRaWAN 架构网络参考模型如下两图</p>
+<h2 id="3-网络参考模型（Network-Reference-Model）"><a href="#3-网络参考模型（Network-Reference-Model）" class="headerlink" title="3. 网络参考模型（Network Reference Model）"></a>3. 网络参考模型（Network Reference Model）</h2><p>LoRaWAN 架构网络参考模型如图 f0, f1 所示：</p>
 <p><img src="f0.png" alt="Figure 1 LoRaWAN Network Reference Model (NRM), End-Device at home"></p>
-<p>固定终端（End-Device at home）</p>
+<p>f0. 固定终端（End-Device at home）</p>
 <p><img src="f1.png" alt="Figure 2 LoRaWAN Network Reference Model (NRM), roaming End-Device"></p>
-<p>漫游终端（roaming End-Device）</p>
+<p>f1. 漫游终端（roaming End-Device）</p>
 <p><strong>终端（End-Device）：</strong></p>
 <p>终端是传感器或执行器。它是无线方式通过无线网关连入一个 LoRaWAN 网络的。终端的应用层连接到云端特定的 Application Server（简称：AS）。这个终端的所有应用层载荷（payloads）都会路由到响应的 AS。</p>
 <p><strong>无线网关（Radio-Gateway）：</strong></p>
@@ -568,6 +581,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/07/11/LoRaWAN-Backend-Interfaces-v1-0-学习-p2/" rel="prev" title="LoRaWAN Backend Interfaces v1.0 学习 (p2)">
+                LoRaWAN Backend Interfaces v1.0 学习 (p2) <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -643,7 +660,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
