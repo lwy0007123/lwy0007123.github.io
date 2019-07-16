@@ -122,7 +122,7 @@
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://www.findshank.com/2019/07/11/LoRaWAN-Backend-Interfaces-v1-0-学习-p2/f3.png">
 <meta property="og:image" content="http://www.findshank.com/2019/07/11/LoRaWAN-Backend-Interfaces-v1-0-学习-p2/f5.png">
-<meta property="og:updated_time" content="2019-07-12T06:00:37.193Z">
+<meta property="og:updated_time" content="2019-07-16T07:51:24.928Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LoRaWAN Backend Interfaces v1.0 学习 (p2)">
 <meta name="twitter:description" content="接上一篇。 原文档链接 本部分主要介绍终端状态、激活流程以及停用流程。">
@@ -410,7 +410,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-07-12 14:00:37" itemprop="dateModified" datetime="2019-07-12T14:00:37+08:00">2019-07-12</time>
+                <time title="Modified: 2019-07-16 15:51:24" itemprop="dateModified" datetime="2019-07-16T15:51:24+08:00">2019-07-16</time>
               
             
           </span>
@@ -532,6 +532,86 @@
 <p>没有用于执行退出过程的明确且专用的 LoRaWAN 信令。假设终端设备和后端依赖于应用层信令来执行该过程。触发器和应用层信令的实现细节超出本文档范围。</p>
 <p>当 AS 通知了 hNS 执行退出过程时还存在单独的 sNS 时， hNS 应（SHALL）执行切换漫游停止过程（Handover Roaming Stop Procedure)以将 LoRaWAN 会话的终止传达给 sNS 。</p>
 <p>成功执行新的入网/重新入网过程的终端设备也终止当前的 LoRaWAN 会话，并且在某种程度上，它可以被视为停用（Deactivation）关联该会话。</p>
+<h2 id="10-安全关联"><a href="#10-安全关联" class="headerlink" title="10. 安全关联"></a>10. 安全关联</h2><p>表 t1 显示 LoRaWAN 部署使用的完全关联。一些必须的安全关联将在 LoRaWAN 规范中详细说明，有些则留给部署。</p>
+<table>
+<thead>
+<tr>
+<th>终点（End-points）</th>
+<th>类型</th>
+<th>是否属于 LoRa 规范</th>
+<th>用途</th>
+<th>生成于（若动态）</th>
+<th>密钥名称</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ED-JS</td>
+<td>静态</td>
+<td>范围内</td>
+<td>保护 Join/Rejoin</td>
+<td>-</td>
+<td>AppKey, NwkKey</td>
+</tr>
+<tr>
+<td>ED-NS</td>
+<td>动态</td>
+<td>范围内</td>
+<td>保护 OTA 帧递交</td>
+<td>Join 过程</td>
+<td>SNwkSIntKey, FNwkSIntKey, NwkSEncKey, NwkSKey</td>
+</tr>
+<tr>
+<td>ED-AS</td>
+<td>动态</td>
+<td>范围内</td>
+<td>保护端对端帧负载的递交</td>
+<td>Join 过程</td>
+<td>AppSKey</td>
+</tr>
+<tr>
+<td>JS-NS</td>
+<td>静态</td>
+<td>超范围</td>
+<td>保护 Join/Rejoin 以及会话密钥传递</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>AS-JS</td>
+<td>静态</td>
+<td>范围内</td>
+<td>保护 AppSkey 传递</td>
+<td>-</td>
+<td>ASJSKey</td>
+</tr>
+<tr>
+<td>AS-JS</td>
+<td>静态</td>
+<td>超范围</td>
+<td>委托/退役</td>
+<td>-</td>
+<td>ASJSKey</td>
+</tr>
+<tr>
+<td>JS-Manufacturer</td>
+<td>静态</td>
+<td>超范围</td>
+<td>保护 AppKey/NwkKey 传递</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>NS-NS</td>
+<td>静态</td>
+<td>超范围</td>
+<td>保护 Join/Rejoin 以及 NS 间帧传递</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p>t1. LoRaWAN 安全关联</p>
 
       
     </div>
@@ -588,6 +668,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/16/LoRaWAN-Backend-Interfaces-v1-0-学习-p3/" rel="prev" title="LoRaWAN Backend Interfaces v1.0 学习 (p3)">
+                LoRaWAN Backend Interfaces v1.0 学习 (p3) <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -664,7 +748,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-count">48</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -892,7 +976,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-终端类型和状态"><span class="nav-number">1.</span> <span class="nav-text">4. 终端类型和状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-调试程序（Commissioning-Procedure）"><span class="nav-number">2.</span> <span class="nav-text">5. 调试程序（Commissioning Procedure）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-激活-ABP-终端设备"><span class="nav-number">3.</span> <span class="nav-text">6. 激活 ABP 终端设备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-激活-OTA-终端设备"><span class="nav-number">4.</span> <span class="nav-text">7. 激活 OTA 终端设备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-固定激活（OTA-Activation-at-Home-Procedure）"><span class="nav-number">5.</span> <span class="nav-text">8. 固定激活（OTA Activation at Home Procedure）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-OTA-终端设备的停用（退出）"><span class="nav-number">6.</span> <span class="nav-text">9. OTA 终端设备的停用（退出）</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-终端类型和状态"><span class="nav-number">1.</span> <span class="nav-text">4. 终端类型和状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-调试程序（Commissioning-Procedure）"><span class="nav-number">2.</span> <span class="nav-text">5. 调试程序（Commissioning Procedure）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-激活-ABP-终端设备"><span class="nav-number">3.</span> <span class="nav-text">6. 激活 ABP 终端设备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-激活-OTA-终端设备"><span class="nav-number">4.</span> <span class="nav-text">7. 激活 OTA 终端设备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-固定激活（OTA-Activation-at-Home-Procedure）"><span class="nav-number">5.</span> <span class="nav-text">8. 固定激活（OTA Activation at Home Procedure）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-OTA-终端设备的停用（退出）"><span class="nav-number">6.</span> <span class="nav-text">9. OTA 终端设备的停用（退出）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10-安全关联"><span class="nav-number">7.</span> <span class="nav-text">10. 安全关联</span></a></li></ol></div>
             
 
           </div>
