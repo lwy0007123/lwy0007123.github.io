@@ -138,3 +138,20 @@ OTA 激活的终端设备的 LoRa 会话也可能因各种原因而终止。例�
 当 AS 通知了 hNS 执行退出过程时还存在单独的 sNS 时， hNS 应（SHALL）执行切换漫游停止过程（Handover Roaming Stop Procedure)以将 LoRaWAN 会话的终止传达给 sNS 。
 
 成功执行新的入网/重新入网过程的终端设备也终止当前的 LoRaWAN 会话，并且在某种程度上，它可以被视为停用（Deactivation）关联该会话。
+
+## 10. 安全关联
+
+表 t1 显示 LoRaWAN 部署使用的完全关联。一些必须的安全关联将在 LoRaWAN 规范中详细说明，有些则留给部署。
+
+终点（End-points） | 类型 | 是否属于 LoRa 规范 | 用途 | 生成于（若动态） | 密钥名称
+--|--|--|--|--|--
+ED-JS | 静态 | 范围内 | 保护 Join/Rejoin | - | AppKey, NwkKey
+ED-NS | 动态 | 范围内 | 保护 OTA 帧递交 | Join 过程 | SNwkSIntKey, FNwkSIntKey, NwkSEncKey, NwkSKey
+ED-AS | 动态 | 范围内 |  保护端对端帧负载的递交 | Join 过程 | AppSKey
+JS-NS | 静态 | 超范围 | 保护 Join/Rejoin 以及会话密钥传递 | - | -
+AS-JS | 静态 | 范围内 | 保护 AppSkey 传递 | - | ASJSKey
+AS-JS | 静态 | 超范围 | 委托/退役 | - | ASJSKey
+JS-Manufacturer | 静态 | 超范围 | 保护 AppKey/NwkKey 传递 | - | -
+NS-NS | 静态 | 超范围 | 保护 Join/Rejoin 以及 NS 间帧传递 | - | -
+
+t1. LoRaWAN 安全关联
