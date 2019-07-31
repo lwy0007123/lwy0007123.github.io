@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="习惯于使用 git 的你，可能会受不了 svn 残缺的功能。 还好 git 拥有一个十分好用的命令 git svn。 本文仅记录普通场景的使用，详细内容见官方文档。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-07-31T05:19:08.331Z">
+<meta property="og:updated_time" content="2019-07-31T05:24:49.034Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 git 管理 svn">
 <meta name="twitter:description" content="习惯于使用 git 的你，可能会受不了 svn 残缺的功能。 还好 git 拥有一个十分好用的命令 git svn。 本文仅记录普通场景的使用，详细内容见官方文档。">
@@ -390,7 +390,7 @@
                 
               
 
-              <time title="Created: 2019-07-31 09:24:25 / Modified: 13:19:08" itemprop="dateCreated datePublished" datetime="2019-07-31T09:24:25+08:00">2019-07-31</time>
+              <time title="Created: 2019-07-31 09:24:25 / Modified: 13:24:49" itemprop="dateCreated datePublished" datetime="2019-07-31T09:24:25+08:00">2019-07-31</time>
             
 
             
@@ -471,6 +471,8 @@
 <h3 id="项目在根目录"><a href="#项目在根目录" class="headerlink" title="项目在根目录"></a>项目在根目录</h3><p>这种情况，体验相对最舒适，以下命令即可完成：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git svn <span class="built_in">clone</span> -s svn://host/project</span><br></pre></td></tr></table></figure>
 <p><code>-s</code> 让工具知道这是一个标准目录结构。</p>
+<details><br><summary>可能遇到的问题</summary><br><br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Can<span class="string">'t locate Term/ReadKey.pm in @INC (you may need to install the Term::ReadKey module)</span></span><br></pre></td></tr></table></figure><br><br>该问题是缺少 perl 模块，无法读取 svn 密码<br><br>解决办法：<br><br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cpan Term::ReadKey</span><br></pre></td></tr></table></figure><br><br></details>
+
 <details><br><summary>如果不是标准目录命名</summary><br><br>假如目录结构是这样的：<br><br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">project</span><br><span class="line">├── branches1</span><br><span class="line">├── tags2</span><br><span class="line">└── trunk0</span><br></pre></td></tr></table></figure><br><br>就自己指定下各类目录的实际名称：<br><br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git svn <span class="built_in">clone</span> svn://host/project -T trunk0 -b branches1 -t tags2</span><br></pre></td></tr></table></figure><br><br>- <code>-T</code> 主干目录<br>- <code>-b</code> 分支目录<br>- <code>-t</code> 标签目录<br><br></details>
 
 <h3 id="项目不在根目录"><a href="#项目不在根目录" class="headerlink" title="项目不在根目录"></a>项目不在根目录</h3><blockquote>
