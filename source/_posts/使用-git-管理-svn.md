@@ -53,6 +53,23 @@ git svn clone -s svn://host/project
 `-s` 让工具知道这是一个标准目录结构。
 
 <details>
+<summary>可能遇到的问题</summary>
+
+```sh
+Can't locate Term/ReadKey.pm in @INC (you may need to install the Term::ReadKey module)
+```
+
+该问题是缺少 perl 模块，无法读取 svn 密码
+
+解决办法：
+
+```sh
+sudo cpan Term::ReadKey
+```
+
+</details>
+
+<details>
 <summary>如果不是标准目录命名</summary>
 
 假如目录结构是这样的：
