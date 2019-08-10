@@ -51,8 +51,13 @@ goproxy 代理服务会缓存依赖包版本，不需要重复下载，也不需
 
 goproxyio 发布了 docker 镜像，可以很方便地使用 docker 部署 goproxy。
 
-这里我们讲一下源码编译。其实也是相当简单，按照 README 文档做就行了。
-看了下 `build/generate.sh` 文件，发现这个项目真是相当妙，一部分代码直接`‘抄’`自 go 源码中的 internal 目录。
+这里我们讲一下源码编译。其实也是相当简单，按照 README 文档，一条命令搞定。
+
+```sh
+make
+```
+
+> 当然你先要装好 `go` 和 `make`
 
 linux 下编译完成后就出现了 goproxy 执行文件。
 
@@ -82,7 +87,11 @@ export GOPROXY=http://10.0.0.1:8081
 
 仅仅 nohup 的方式启动 goproxy 服务太 low 了，咱们使用 systemd 管理。
 
-编写一个 `goproxy.service` 文件，放到 `/etc/systemd/system/` 目录下。
+~~编写一个 `goproxy.service` 文件~~ 
+项目源码目录下 scripts 下有 service 配置文件，可以直接使用。
+
+<details>
+<summary>放到 `/etc/systemd/system/` 目录下</summary>
 
 > 假设程序在 `/root/goproxy/goproxy`， 请自行替换启动文件路径。
 
@@ -101,6 +110,8 @@ Restart=always
 [Install]
 WantedBy=multi-user.target
 ```
+
+</details>
 
 关于如何编写 service 文件，我推荐一篇不错地[教程](https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units)
 
