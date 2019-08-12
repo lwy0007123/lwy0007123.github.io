@@ -63,6 +63,8 @@ linux 下编译完成后就出现了 goproxy 执行文件。
 
 ## 部署
 
+> 新版 `goproxy` 需要调用 `go mod` 命令，所以部署环境要安装 `go 1.12` （1.12 版本以后支持在任意目录调用 `go mod download` 命令）。
+
 上传 goproxy 执行文件到 linux 主机上，放在任意目录下。
 
 直接 `./goproxy` 运行，会在 `8081` 端口上开启代理服务，然后本地开发环境，配置 GOPROXY 环境变量。
@@ -81,14 +83,20 @@ export GOPROXY=http://10.0.0.1:8081
 
 如果你不想使用 `8081` 端口，可以使用 `-listen` 参数指定新的端口。
 
+本地网络不好希望加一个公共 goproxy 作代理转发，那么设置 `-proxy`。
+
+假设私有仓库地址 `cvs.private.com` 不希望走代理，那么设置 `-exclude`，多个地址用逗号（`,`）分隔，并支持通配符（`*`）。
+
 更多使用说明见 `./goproxy -h`。
 
 ## 进程管理
 
 仅仅 nohup 的方式启动 goproxy 服务太 low 了，咱们使用 systemd 管理。
 
-~~编写一个 `goproxy.service` 文件~~ 
+~~编写一个 `goproxy.service` 文件~~
 项目源码目录下 scripts 下有 service 配置文件，可以直接使用。
+
+> 一定要配置 `Environment` 。
 
 <details>
 <summary>放到 `/etc/systemd/system/` 目录下</summary>
@@ -97,18 +105,23 @@ export GOPROXY=http://10.0.0.1:8081
 
 ```ini
 [Unit]
-Description=private goproxy server
-After=network.target
+Description=goproxy service
+Documentation=https://goproxy.io
+After=network-online.target
 
 [Service]
-Type=simple
-PIDFile=/run/goproxy.pid
-ExecStart=/root/goproxy/goproxy -cacheDir=/root/go
-ExecStartPre=/usr/bin/rm -f /run/goproxy.pid
+Environment=PATH=/usr/local/go/bin
+User=root
+Group=root
+LimitNOFILE=65536
+ExecStart=/root/goproxy/goproxy -cacheDir=/root/go -proxy=https://goproxy.io -exclude="*.private.com"
+KillMode=control-group
+SuccessExitStatus=2
 Restart=always
 
 [Install]
 WantedBy=multi-user.target
+Alias=goproxy.service
 ```
 
 </details>
