@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="上一篇已经实践了在私网环境中配置自签名的证书，并开启 https。 这一切都是为了能在私网中搭建一个方便可用的 Go 集成环境。 Go 在 1.11 版本添加了 Go Module 特性，成为官方推荐的包管理方式。详情见官方 wiki 与 go mod 同时到来的还有 goproxy ，允许使用代理的方式拉取依赖包。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-07-10T08:59:47.815Z">
+<meta property="og:updated_time" content="2019-08-12T02:30:48.104Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="部署 goproxy 服务">
 <meta name="twitter:description" content="上一篇已经实践了在私网环境中配置自签名的证书，并开启 https。 这一切都是为了能在私网中搭建一个方便可用的 Go 集成环境。 Go 在 1.11 版本添加了 Go Module 特性，成为官方推荐的包管理方式。详情见官方 wiki 与 go mod 同时到来的还有 goproxy ，允许使用代理的方式拉取依赖包。">
@@ -407,7 +407,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-07-10 16:59:47" itemprop="dateModified" datetime="2019-07-10T16:59:47+08:00">2019-07-10</time>
+                <time title="Modified: 2019-08-12 10:30:48" itemprop="dateModified" datetime="2019-08-12T10:30:48+08:00">2019-08-12</time>
               
             
           </span>
@@ -477,9 +477,16 @@
 <p>虽然 <code>athens</code> star 数最多，配置文件很灵活可配项很多，但是我觉得它很长一段时间都会是 beta 状态，我自己部署也不需要太多定制化。</p>
 <p>我最后选择了 <code>goproxyio</code> 的项目，代码不多，也很稳定。</p>
 <h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p>goproxyio 发布了 docker 镜像，可以很方便地使用 docker 部署 goproxy。</p>
-<p>这里我们讲一下源码编译。其实也是相当简单，按照 README 文档做就行了。<br>看了下 <code>build/generate.sh</code> 文件，发现这个项目真是相当妙，一部分代码直接<code>‘抄’</code>自 go 源码中的 internal 目录。</p>
+<p>这里我们讲一下源码编译。其实也是相当简单，按照 README 文档，一条命令搞定。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>当然你先要装好 <code>go</code> 和 <code>make</code></p>
+</blockquote>
 <p>linux 下编译完成后就出现了 goproxy 执行文件。</p>
-<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>上传 goproxy 执行文件到 linux 主机上，放在任意目录下。</p>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><blockquote>
+<p>新版 <code>goproxy</code> 需要调用 <code>go mod</code> 命令，所以部署环境要安装 <code>go 1.12</code> （1.12 版本以后支持在任意目录调用 <code>go mod download</code> 命令）。</p>
+</blockquote>
+<p>上传 goproxy 执行文件到 linux 主机上，放在任意目录下。</p>
 <p>直接 <code>./goproxy</code> 运行，会在 <code>8081</code> 端口上开启代理服务，然后本地开发环境，配置 GOPROXY 环境变量。</p>
 <blockquote>
 <p>假设内网 linux 主机 ip 地址是 10.0.0.1，请自行替换 ip 地址。</p>
@@ -489,13 +496,13 @@
 <p>如果你配置了 GOPATH 环境变量， goproxy 服务就会缓存到 <code>$GOPATH/pkg/mod</code> 下。</p>
 <p>如果你不愿意设置 GOPATH 环境变量，也可以使用 <code>-cacheDir</code> 参数指定缓存目录。</p>
 <p>如果你不想使用 <code>8081</code> 端口，可以使用 <code>-listen</code> 参数指定新的端口。</p>
+<p>本地网络不好希望加一个公共 goproxy 作代理转发，那么设置 <code>-proxy</code>。</p>
+<p>假设私有仓库地址 <code>cvs.private.com</code> 不希望走代理，那么设置 <code>-exclude</code>，多个地址用逗号（<code>,</code>）分隔，并支持通配符（<code>*</code>）。</p>
 <p>更多使用说明见 <code>./goproxy -h</code>。</p>
 <h2 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h2><p>仅仅 nohup 的方式启动 goproxy 服务太 low 了，咱们使用 systemd 管理。</p>
-<p>编写一个 <code>goproxy.service</code> 文件，放到 <code>/etc/systemd/system/</code> 目录下。</p>
-<blockquote>
-<p>假设程序在 <code>/root/goproxy/goproxy</code>， 请自行替换启动文件路径。</p>
-</blockquote>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=private goproxy server</span><br><span class="line"><span class="attr">After</span>=network.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Type</span>=simple</span><br><span class="line"><span class="attr">PIDFile</span>=/run/goproxy.pid</span><br><span class="line"><span class="attr">ExecStart</span>=/root/goproxy/goproxy -cacheDir=/root/go</span><br><span class="line"><span class="attr">ExecStartPre</span>=/usr/bin/rm -f /run/goproxy.pid</span><br><span class="line"><span class="attr">Restart</span>=always</span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
+<p><del>编写一个 <code>goproxy.service</code> 文件</del><br>项目源码目录下 scripts 下有 service 配置文件，可以直接使用。</p>
+<details><br><summary>放到 <code>/etc/systemd/system/</code> 目录下</summary><br><br>&gt; 假设程序在 <code>/root/goproxy/goproxy</code>， 请自行替换启动文件路径。<br><br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=private goproxy server</span><br><span class="line"><span class="attr">After</span>=network.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Type</span>=simple</span><br><span class="line"><span class="attr">PIDFile</span>=/run/goproxy.pid</span><br><span class="line"><span class="attr">ExecStart</span>=/root/goproxy/goproxy -cacheDir=/root/go -proxy=https://goproxy.io -exclude=<span class="string">"*.private.com"</span></span><br><span class="line"><span class="attr">ExecStartPre</span>=/usr/bin/rm -f /run/goproxy.pid</span><br><span class="line"><span class="attr">Restart</span>=always</span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure><br><br></details>
+
 <p>关于如何编写 service 文件，我推荐一篇不错地<a href="https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units" target="_blank" rel="noopener">教程</a></p>
 <p>最后启动服务</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 启动服务</span></span><br><span class="line">sudo systemctl start goproxy</span><br><span class="line"></span><br><span class="line"><span class="comment"># （可选）开启自启</span></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> goproxy</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看状态</span></span><br><span class="line">sudo systemctl status goproxy</span><br></pre></td></tr></table></figure>
