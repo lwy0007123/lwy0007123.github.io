@@ -307,8 +307,8 @@
       <tags>
         <tag>Linux</tag>
         <tag>Ubuntu</tag>
-        <tag>Nodejs</tag>
         <tag>npm</tag>
+        <tag>Nodejs</tag>
       </tags>
   </entry>
   <entry>
@@ -379,9 +379,9 @@
       </categories>
       <tags>
         <tag>docker</tag>
-        <tag>npm</tag>
         <tag>git</tag>
         <tag>pip</tag>
+        <tag>npm</tag>
         <tag>conda</tag>
       </tags>
   </entry>
