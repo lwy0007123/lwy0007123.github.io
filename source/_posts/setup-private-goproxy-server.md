@@ -85,13 +85,15 @@ export GOPROXY=http://10.0.0.1:8081
 
 本地网络不好希望加一个公共 goproxy 作代理转发，那么设置 `-proxy`。
 
-假设私有仓库地址 `cvs.private.com` 不希望走代理，那么设置 `-exclude`，多个地址用逗号（`,`）分隔，并支持通配符（`*`）。
+假设私有仓库地址 `cvs.private.com` 不希望走代理，那么设置 `-exclude`，配置域名或者完整仓库路径。
 
 更多使用说明见 `./goproxy -h`。
 
 ## 进程管理
 
 仅仅 nohup 的方式启动 goproxy 服务太 low 了，咱们使用 systemd 管理。
+
+> 路由模式依赖 `go mod -m` 命令需要执行目录是 `go mod` 目录，所以无法使用 systemd 管理。
 
 ~~编写一个 `goproxy.service` 文件~~
 项目源码目录下 scripts 下有 service 配置文件，可以直接使用。
