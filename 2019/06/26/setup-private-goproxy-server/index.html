@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="上一篇已经实践了在私网环境中配置自签名的证书，并开启 https。 这一切都是为了能在私网中搭建一个方便可用的 Go 集成环境。 Go 在 1.11 版本添加了 Go Module 特性，成为官方推荐的包管理方式。详情见官方 wiki 与 go mod 同时到来的还有 goproxy ，允许使用代理的方式拉取依赖包。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-08-12T05:06:01.819Z">
+<meta property="og:updated_time" content="2019-08-15T05:40:21.734Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="部署 goproxy 服务">
 <meta name="twitter:description" content="上一篇已经实践了在私网环境中配置自签名的证书，并开启 https。 这一切都是为了能在私网中搭建一个方便可用的 Go 集成环境。 Go 在 1.11 版本添加了 Go Module 特性，成为官方推荐的包管理方式。详情见官方 wiki 与 go mod 同时到来的还有 goproxy ，允许使用代理的方式拉取依赖包。">
@@ -407,7 +407,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-08-12 13:06:01" itemprop="dateModified" datetime="2019-08-12T13:06:01+08:00">2019-08-12</time>
+                <time title="Modified: 2019-08-15 13:40:21" itemprop="dateModified" datetime="2019-08-15T13:40:21+08:00">2019-08-15</time>
               
             
           </span>
@@ -497,9 +497,12 @@
 <p>如果你不愿意设置 GOPATH 环境变量，也可以使用 <code>-cacheDir</code> 参数指定缓存目录。</p>
 <p>如果你不想使用 <code>8081</code> 端口，可以使用 <code>-listen</code> 参数指定新的端口。</p>
 <p>本地网络不好希望加一个公共 goproxy 作代理转发，那么设置 <code>-proxy</code>。</p>
-<p>假设私有仓库地址 <code>cvs.private.com</code> 不希望走代理，那么设置 <code>-exclude</code>，多个地址用逗号（<code>,</code>）分隔，并支持通配符（<code>*</code>）。</p>
+<p>假设私有仓库地址 <code>cvs.private.com</code> 不希望走代理，那么设置 <code>-exclude</code>，配置域名或者完整仓库路径。</p>
 <p>更多使用说明见 <code>./goproxy -h</code>。</p>
 <h2 id="进程管理"><a href="#进程管理" class="headerlink" title="进程管理"></a>进程管理</h2><p>仅仅 nohup 的方式启动 goproxy 服务太 low 了，咱们使用 systemd 管理。</p>
+<blockquote>
+<p>路由模式依赖 <code>go mod -m</code> 命令需要执行目录是 <code>go mod</code> 目录，所以无法使用 systemd 管理。</p>
+</blockquote>
 <p><del>编写一个 <code>goproxy.service</code> 文件</del><br>项目源码目录下 scripts 下有 service 配置文件，可以直接使用。</p>
 <blockquote>
 <p>一定要配置 <code>Environment</code> 。</p>
