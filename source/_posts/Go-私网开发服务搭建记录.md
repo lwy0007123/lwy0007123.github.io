@@ -85,11 +85,11 @@ sudo yum -y install git
 
 有几个配置项需要注意：
 
-- 域名：建议填域名，不然引用地址会很奇怪，即使没有真实域名也可以再客户端上做个 host 映射。例如："go.findshank.com"。
+- 域名：建议填域名，不然引用地址会很奇怪，即使没有真实域名也可以再客户端上做个 host 映射。例如：`go.findshank.com`。
 
 - HTTP 端口号：可以使用任意未占用的端口号，之后通过 nginx 映射到 80 端口。
 
-- 应用 URL：建议先自签一个证书，然后启用 HTTPS，使用域名不指定端口。例如："https://go.findshank.com"。自签证书[参考这篇](https://www.findshank.com/2019/06/26/enable-https-for-private-network/)
+- 应用 URL：建议先自签一个证书，然后启用 HTTPS，使用域名不指定端口。例如：`https://go.findshank.com` 。自签证书 [参考这篇](/2019/06/26/enable-https-for-private-network/)
 
 - 禁止用户注册：建议勾选，之后统一由管理员分配账号。
 
