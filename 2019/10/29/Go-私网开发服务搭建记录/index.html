@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg?v=6.4.2" color="#222">
+
+
+  <link rel="manifest" href="/images/site.webmanifest">
+
+
+  <meta name="msapplication-config" content="/images/browserconfig.xml">
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '6.4.2',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本文记录了私网 Go 开发所需的所有相关服务，包括版本管理，模块代理，持续集成。 涉及服务如下：  Gogs goproxy Jenkins">
+<meta name="keywords" content="Go,Gogs,goproxy,Jenkins">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go 私网开发服务搭建记录">
+<meta property="og:url" content="http://www.findshank.com/2019/10/29/Go-私网开发服务搭建记录/index.html">
+<meta property="og:site_name" content="Shank&#39;s Notes">
+<meta property="og:description" content="本文记录了私网 Go 开发所需的所有相关服务，包括版本管理，模块代理，持续集成。 涉及服务如下：  Gogs goproxy Jenkins">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-10-30T05:56:06.148Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go 私网开发服务搭建记录">
+<meta name="twitter:description" content="本文记录了私网 Go 开发所需的所有相关服务，包括版本管理，模块代理，持续集成。 涉及服务如下：  Gogs goproxy Jenkins">
+
+
+
+
+
+
+  <link rel="canonical" href="http://www.findshank.com/2019/10/29/Go-私网开发服务搭建记录/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Go 私网开发服务搭建记录 | Shank's Notes</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-128359433-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-128359433-1');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shank's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Code & Tech & Life</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+    <div class="reading-progress-bar"></div>
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.findshank.com/2019/10/29/Go-私网开发服务搭建记录/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="SKo00o">
+      <meta itemprop="description" content="Nothing or Anything">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shank's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Go 私网开发服务搭建记录<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/Go-私网开发服务搭建记录.md" class="post-edit-link" title="Edit this post" target="_blank">
+                    <i class="fa fa-pencil"></i>
+                  </a>
+                
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-10-29 09:50:58" itemprop="dateCreated datePublished" datetime="2019-10-29T09:50:58+08:00">2019-10-29</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-10-30 13:56:06" itemprop="dateModified" datetime="2019-10-30T13:56:06+08:00">2019-10-30</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/10/29/Go-私网开发服务搭建记录/" class="leancloud_visitors" data-flag-title="Go 私网开发服务搭建记录">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Views: </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文记录了私网 Go 开发所需的所有相关服务，包括版本管理，模块代理，持续集成。</p>
+<p>涉及服务如下：</p>
+<ul>
+<li>Gogs</li>
+<li>goproxy</li>
+<li>Jenkins</li>
+</ul>
+<a id="more"></a>
+<p>系统配置：</p>
+<ul>
+<li>CentOS 7</li>
+</ul>
+<h2 id="版本管理"><a href="#版本管理" class="headerlink" title="版本管理"></a>版本管理</h2><h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><p>搭建版本管理系统（VCS）的目的：一方面是为私有项目提供版本管理，一方面是托管修改过的开源项目。</p>
+<h3 id="选型"><a href="#选型" class="headerlink" title="选型"></a>选型</h3><p>私网环境开发，项目源码可以托管于任何版本管理系统，但是 Go 对 Git 的支持更好，优先考虑搭建 Git 服务作为版本管理。</p>
+<p>Go 要求版本管理系统实现 <code>go-get</code> 接口。我们选择了 <a href="https://gogs.io/" target="_blank" rel="noopener">Gogs</a> 。它是由 Go 语言编写的开源 Git 服务，搭建十分便捷 。</p>
+<h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><p>详见 <a href="https://gogs.io/docs/installation" target="_blank" rel="noopener">官方搭建指南</a> ，以下仅作记录。</p>
+<blockquote>
+<p>如果使用 MySQL ，要求版本不低于 5.7 。参考这篇 <a href="/2019/10/28/Install-MySQL-8-0-on-CentOS-7/">安装 MySQL 8.0</a></p>
+</blockquote>
+<h4 id="新建数据库"><a href="#新建数据库" class="headerlink" title="新建数据库"></a>新建数据库</h4><p>名称： gogs</p>
+<p>编码： utf8mb4</p>
+<p>数据库中通过以下脚本新建数据库：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> gogs <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_unicode_ci;</span><br></pre></td></tr></table></figure>
+<h4 id="下载最新二进制程序包"><a href="#下载最新二进制程序包" class="headerlink" title="下载最新二进制程序包"></a>下载最新二进制程序包</h4><p>下载<a href="https://gogs.io/docs/installation/install_from_binary.html" target="_blank" rel="noopener">官网</a>提供的二进制文件。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://cdn.gogs.io/0.11.91/gogs_0.11.91_linux_amd64.tar.gz</span><br></pre></td></tr></table></figure>
+<h4 id="解压运行"><a href="#解压运行" class="headerlink" title="解压运行"></a>解压运行</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar xf gogs_0.11.91_linux_amd64.tar.gz</span><br><span class="line"><span class="built_in">cd</span> gogs</span><br><span class="line">./gogs web</span><br></pre></td></tr></table></figure>
+<h4 id="按照提示进行配置"><a href="#按照提示进行配置" class="headerlink" title="按照提示进行配置"></a>按照提示进行配置</h4><blockquote>
+<p>配置前确保 Git 已安装</p>
+</blockquote>
+<details><br><summary>安装 Git</summary><br><br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install git</span><br></pre></td></tr></table></figure><br><br></details>
+
+<p>浏览器访问当前主机的 3000 端口，开始配置。</p>
+<p>有几个配置项需要注意：</p>
+<ul>
+<li><p>域名：建议填域名，不然引用地址会很奇怪，即使没有真实域名也可以再客户端上做个 host 映射。例如：”go.findshank.com”。</p>
+</li>
+<li><p>HTTP 端口号：可以使用任意未占用的端口号，之后通过 nginx 映射到 80 端口。</p>
+</li>
+<li><p>应用 URL：建议先自签一个证书，然后启用 HTTPS，使用域名不指定端口。例如：”<a href="https://go.findshank.com&quot;。自签证书[参考这篇](https://www.findshank.com/2019/06/26/enable-https-for-private-network/)" target="_blank" rel="noopener">https://go.findshank.com&quot;。自签证书[参考这篇](https://www.findshank.com/2019/06/26/enable-https-for-private-network/)</a></p>
+</li>
+<li><p>禁止用户注册：建议勾选，之后统一由管理员分配账号。</p>
+</li>
+</ul>
+<h4 id="配置守护进程"><a href="#配置守护进程" class="headerlink" title="配置守护进程"></a>配置守护进程</h4><p>修改 <code>./scripts/systemd/gogs.service</code></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=Gogs</span><br><span class="line"><span class="attr">After</span>=syslog.target</span><br><span class="line"><span class="attr">After</span>=network.target</span><br><span class="line"><span class="attr">After</span>=mysqld.service</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">LimitMEMLOCK</span>=infinity</span><br><span class="line"><span class="attr">LimitNOFILE</span>=<span class="number">65535</span></span><br><span class="line"><span class="attr">Type</span>=simple</span><br><span class="line"><span class="attr">User</span>=root</span><br><span class="line"><span class="attr">Group</span>=root</span><br><span class="line"><span class="attr">WorkingDirectory</span>=/home/shank/gogs</span><br><span class="line"><span class="attr">ExecStart</span>=/home/shank/gogs/gogs web</span><br><span class="line"><span class="attr">Restart</span>=always</span><br><span class="line"><span class="attr">Environment</span>=USER=shank HOME=/home/shank</span><br><span class="line"></span><br><span class="line"><span class="attr">ProtectSystem</span>=full</span><br><span class="line"><span class="attr">PrivateDevices</span>=<span class="literal">yes</span></span><br><span class="line"><span class="attr">PrivateTmp</span>=<span class="literal">yes</span></span><br><span class="line"><span class="attr">NoNewPrivileges</span>=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意修改为实际的用户目录</p>
+</blockquote>
+<p>复制到系统目录</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cp ./scripts/systemd/gogs.service /usr/lib/systemd/system/</span><br></pre></td></tr></table></figure>
+<h4 id="启用守护进程"><a href="#启用守护进程" class="headerlink" title="启用守护进程"></a>启用守护进程</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> gogs</span><br><span class="line">sudo systemctl start gogs</span><br></pre></td></tr></table></figure>
+<h2 id="模块代理"><a href="#模块代理" class="headerlink" title="模块代理"></a>模块代理</h2><h3 id="目的-1"><a href="#目的-1" class="headerlink" title="目的"></a>目的</h3><p>Go 1.11 之后推荐使用 <code>go mod</code> 作为依赖管理，使用 <code>go mod</code> 可以通过配置模块代理服务加快依赖包的下载。这类代理服务通过环境变量 <code>GOPROXY</code> 进行指定，只要实现了模块代理协议（Module proxy protocol）的服务都称为模块代理服务。</p>
+<p>因为公有网络的不确定性（比如开源作者删除了代码仓库或者网络被防火墙劫持），可以考虑自己维护一个代理服务，方便私网内构建时拉取常用第三方代码依赖。</p>
+<h3 id="选型-1"><a href="#选型-1" class="headerlink" title="选型"></a>选型</h3><p>目前有许多开源项目实现了 goproxy 服务，我们选择了社区活跃且版本稳定的 <a href="https://github.com/goproxyio/goproxy" target="_blank" rel="noopener">goproxyio/goproxy</a>。</p>
+<h3 id="源码构建及部署"><a href="#源码构建及部署" class="headerlink" title="源码构建及部署"></a>源码构建及部署</h3><blockquote>
+<p>Go 版本不低于 1.11</p>
+</blockquote>
+<details><br><summary>配置 Go 1.13.3 编译环境</summary><br><br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget https://dl.google.com/go/go1.13.3.linux-amd64.tar.gz</span><br><span class="line">sudo tar -C /usr/<span class="built_in">local</span> -xzf go1.13.3.linux-amd64.tar.gz</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'export PATH=$PATH:/usr/local/go/bin'</span> &gt;&gt; <span class="variable">$HOME</span>/.profile</span><br><span class="line"><span class="built_in">source</span> <span class="variable">$HOME</span>/.profile</span><br></pre></td></tr></table></figure><br><br></details>
+
+<details><br><summary>安装 make</summary><br><br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install make</span><br></pre></td></tr></table></figure><br><br></details>
+
+<h4 id="下载一份稳定版版本的源码"><a href="#下载一份稳定版版本的源码" class="headerlink" title="下载一份稳定版版本的源码"></a>下载一份稳定版版本的源码</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/goproxyio/goproxy/archive/v2.0.0.tar.gz</span><br></pre></td></tr></table></figure>
+<h4 id="解压-amp-编译"><a href="#解压-amp-编译" class="headerlink" title="解压 &amp; 编译"></a>解压 &amp; 编译</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar xf v2.0.0.tar.gz</span><br><span class="line"><span class="built_in">cd</span> goproxy-2.0.0</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+<h4 id="添加二进制文件到系统目录"><a href="#添加二进制文件到系统目录" class="headerlink" title="添加二进制文件到系统目录"></a>添加二进制文件到系统目录</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cp ./bin/goproxy /usr/<span class="built_in">local</span>/bin</span><br></pre></td></tr></table></figure>
+<h4 id="配置守护进程-1"><a href="#配置守护进程-1" class="headerlink" title="配置守护进程"></a>配置守护进程</h4><p>修改 <code>./scripts/goproxy.service</code></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=goproxy service</span><br><span class="line"><span class="attr">Documentation</span>=https://goproxy.io</span><br><span class="line"><span class="attr">After</span>=network-<span class="literal">on</span>line.target</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">User</span>=root</span><br><span class="line"><span class="attr">Group</span>=root</span><br><span class="line"><span class="attr">LimitNOFILE</span>=<span class="number">65536</span></span><br><span class="line"><span class="attr">Environment</span>=PATH=/usr/local/go/bin</span><br><span class="line"><span class="attr">ExecStart</span>=/usr/local/bin/goproxy -listen=<span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">8081</span> -proxy=https://goproxy.io -exclude=go.findshank.com</span><br><span class="line"><span class="attr">KillMode</span>=control-group</span><br><span class="line"><span class="attr">SuccessExitStatus</span>=<span class="number">2</span></span><br><span class="line"><span class="attr">Restart</span>=always</span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br><span class="line"><span class="attr">Alias</span>=goproxy.service</span><br></pre></td></tr></table></figure>
+<p>参数说明</p>
+<ul>
+<li><code>-listen</code>：服务监听地址。</li>
+<li><code>-proxy</code>：上游代理模块，不配置则直接请求目的地址。</li>
+<li><code>-exclude</code>：不走代理的域名，私网域名公网无法访问应直接请求。</li>
+</ul>
+<p>复制到系统目录</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cp ./scripts/goproxy.service /usr/lib/systemd/system/</span><br></pre></td></tr></table></figure>
+<h4 id="启用守护进程-1"><a href="#启用守护进程-1" class="headerlink" title="启用守护进程"></a>启用守护进程</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> goproxy</span><br><span class="line">sudo systemctl start goproxy</span><br></pre></td></tr></table></figure>
+<h2 id="持续集成（可选）"><a href="#持续集成（可选）" class="headerlink" title="持续集成（可选）"></a>持续集成（可选）</h2><h3 id="目的-2"><a href="#目的-2" class="headerlink" title="目的"></a>目的</h3><p>开发者将代码提交到版本管理系统，之后的编译构建，自动化测试，打包，发布，部署等都是固定流程，应该由持续集成系统去完成。</p>
+<p>使用持续集成，可以降低重复繁琐操作的出错率。</p>
+<h3 id="选型-2"><a href="#选型-2" class="headerlink" title="选型"></a>选型</h3><p>有许多在线的持续集成服务，由于我们是私网部署，我们选择了 <a href="https://jenkins.io" target="_blank" rel="noopener">Jenkins</a> ,它是由 Java 语言编写的开源 CI&amp;CD 服务，搭建十分便捷 。</p>
+<h3 id="部署-1"><a href="#部署-1" class="headerlink" title="部署"></a>部署</h3><p>详见 <a href="https://jenkins.io/zh/doc/book/installing/" target="_blank" rel="noopener">官方搭建指南</a> ，以下仅作记录。</p>
+<h4 id="安装-Java-1-8-运行环境"><a href="#安装-Java-1-8-运行环境" class="headerlink" title="安装 Java 1.8 运行环境"></a>安装 Java 1.8 运行环境</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install java-1.8.0-openjdk-devel</span><br></pre></td></tr></table></figure>
+<h4 id="启用-Jenkins-存储库"><a href="#启用-Jenkins-存储库" class="headerlink" title="启用 Jenkins 存储库"></a>启用 Jenkins 存储库</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.repo</span><br><span class="line">sudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key</span><br></pre></td></tr></table></figure>
+<h4 id="安装-Jenkins"><a href="#安装-Jenkins" class="headerlink" title="安装 Jenkins"></a>安装 Jenkins</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install jenkins</span><br></pre></td></tr></table></figure>
+<h4 id="启用守护程序"><a href="#启用守护程序" class="headerlink" title="启用守护程序"></a>启用守护程序</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start jenkins</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> jenkins</span><br></pre></td></tr></table></figure>
+<h4 id="按照提示进行配置-1"><a href="#按照提示进行配置-1" class="headerlink" title="按照提示进行配置"></a>按照提示进行配置</h4><p>浏览器访问当前主机的 8080 端口，开始配置。</p>
+<p>安装建议的插件，按需求以后添加插件。</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>考虑使用 NGINX 做端口映射，此处不介绍。</p>
+<blockquote>
+<p>但是建议 443 端口留给 Gogs 服务。 </p>
+</blockquote>
+<h2 id="可能遇到的问题"><a href="#可能遇到的问题" class="headerlink" title="可能遇到的问题"></a>可能遇到的问题</h2><ul>
+<li>无法外部访问服务：检查 CentOS 的防火墙策略，放行特定端口。安全性要求不高甚至可以关闭防火墙。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.liquidweb.com/kb/how-to-stop-and-disable-firewalld-on-centos-7/" target="_blank" rel="noopener">How to Stop and Disable Firewalld on CentOS 7</a></li>
+<li><a href="https://www.findshank.com/2019/06/26/setup-private-goproxy-server/">部署 goproxy 服务</a></li>
+<li><a href="https://linuxize.com/post/how-to-install-jenkins-on-centos-7/" target="_blank" rel="noopener">How To Install Jenkins on CentOS 7</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>SKo00o</li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://www.findshank.com/2019/10/29/Go-私网开发服务搭建记录/" title="Go 私网开发服务搭建记录">http://www.findshank.com/2019/10/29/Go-私网开发服务搭建记录/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> unless stating additionally.</li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Go/" rel="tag"># Go</a>
+          
+            <a href="/tags/Gogs/" rel="tag"># Gogs</a>
+          
+            <a href="/tags/goproxy/" rel="tag"># goproxy</a>
+          
+            <a href="/tags/Jenkins/" rel="tag"># Jenkins</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/28/Install-MySQL-8-0-on-CentOS-7/" rel="next" title="CentOS 7 安装 MySQL 8.0">
+                <i class="fa fa-chevron-left"></i> CentOS 7 安装 MySQL 8.0
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zODE1OC8xNDY4OA=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="SKo00o">
+            
+              <p class="site-author-name" itemprop="name">SKo00o</p>
+              <p class="site-description motion-element" itemprop="description">Nothing or Anything</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">52</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">68</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/sko00o" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:lwylwy@outlook.com" target="_blank" title="E-Mail"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#版本管理"><span class="nav-number">1.</span> <span class="nav-text">版本管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目的"><span class="nav-number">1.1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选型"><span class="nav-number">1.2.</span> <span class="nav-text">选型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署"><span class="nav-number">1.3.</span> <span class="nav-text">部署</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#新建数据库"><span class="nav-number">1.3.1.</span> <span class="nav-text">新建数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下载最新二进制程序包"><span class="nav-number">1.3.2.</span> <span class="nav-text">下载最新二进制程序包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解压运行"><span class="nav-number">1.3.3.</span> <span class="nav-text">解压运行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按照提示进行配置"><span class="nav-number">1.3.4.</span> <span class="nav-text">按照提示进行配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置守护进程"><span class="nav-number">1.3.5.</span> <span class="nav-text">配置守护进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启用守护进程"><span class="nav-number">1.3.6.</span> <span class="nav-text">启用守护进程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模块代理"><span class="nav-number">2.</span> <span class="nav-text">模块代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目的-1"><span class="nav-number">2.1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选型-1"><span class="nav-number">2.2.</span> <span class="nav-text">选型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#源码构建及部署"><span class="nav-number">2.3.</span> <span class="nav-text">源码构建及部署</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载一份稳定版版本的源码"><span class="nav-number">2.3.1.</span> <span class="nav-text">下载一份稳定版版本的源码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解压-amp-编译"><span class="nav-number">2.3.2.</span> <span class="nav-text">解压 &amp; 编译</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加二进制文件到系统目录"><span class="nav-number">2.3.3.</span> <span class="nav-text">添加二进制文件到系统目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置守护进程-1"><span class="nav-number">2.3.4.</span> <span class="nav-text">配置守护进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启用守护进程-1"><span class="nav-number">2.3.5.</span> <span class="nav-text">启用守护进程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#持续集成（可选）"><span class="nav-number">3.</span> <span class="nav-text">持续集成（可选）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目的-2"><span class="nav-number">3.1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#选型-2"><span class="nav-number">3.2.</span> <span class="nav-text">选型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署-1"><span class="nav-number">3.3.</span> <span class="nav-text">部署</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-Java-1-8-运行环境"><span class="nav-number">3.3.1.</span> <span class="nav-text">安装 Java 1.8 运行环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启用-Jenkins-存储库"><span class="nav-number">3.3.2.</span> <span class="nav-text">启用 Jenkins 存储库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装-Jenkins"><span class="nav-number">3.3.3.</span> <span class="nav-text">安装 Jenkins</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启用守护程序"><span class="nav-number">3.3.4.</span> <span class="nav-text">启用守护程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#按照提示进行配置-1"><span class="nav-number">3.3.5.</span> <span class="nav-text">按照提示进行配置</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">4.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可能遇到的问题"><span class="nav-number">5.</span> <span class="nav-text">可能遇到的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SKo00o</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="Total Visitors">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="Total Views">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/reading_progress/reading_progress.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+    <script type="text/javascript">
+      window.livereOptions = {
+        refer: '2019/10/29/Go-私网开发服务搭建记录/'
+      };
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('5');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script>
+    
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
+        .done(function ({ results }) {
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              Counter('post', '/classes/Counter', JSON.stringify({ title: title, url: url, time: 1}))
+                .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(1);
+                })
+                .fail(function () {
+                  console.log('Failed to create');
+                });
+            
+          }
+        })
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
+    }
+    
+
+    $(function() {
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "Xms77fPtgRQDoOFh7gxDB6BU-gzGzoHsz")
+        .done(function ({ api_server }) {
+          var Counter = function (method, url, data) {
+            return $.ajax({
+              method: method,
+              url: `https://${api_server}/1.1${url}`,
+              headers: {
+                'X-LC-Id': "Xms77fPtgRQDoOFh7gxDB6BU-gzGzoHsz",
+                'X-LC-Key': "1jK0c8KSqLajBWxD53aGfXQ3",
+                'Content-Type': 'application/json',
+              },
+              data: data,
+            });
+          };
+          
+          addCount(Counter);
+          
+        })
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+  
+  
+  <script src="/lib/pangu/dist/pangu.min.js?v=3.3"></script>
+  <script type="text/javascript">pangu.spacingPage();</script>
+
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=6.4.2"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=6.4.2"></script>
+
+
+  
+
+  
+  
+  
+  <script src="/lib/bookmark/bookmark.min.js?v=1.0"></script>
+  <script type="text/javascript">
+  
+    bookmark.scrollToMark('auto', "#more");
+  
+  </script>
+
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('Copy')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

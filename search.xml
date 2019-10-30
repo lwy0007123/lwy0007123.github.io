@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Go 私网开发服务搭建记录]]></title>
+    <url>%2F2019%2F10%2F29%2FGo-%E7%A7%81%E7%BD%91%E5%BC%80%E5%8F%91%E6%9C%8D%E5%8A%A1%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95%2F</url>
+    <content type="text"><![CDATA[本文记录了私网 Go 开发所需的所有相关服务，包括版本管理，模块代理，持续集成。 涉及服务如下： Gogs goproxy Jenkins 系统配置： CentOS 7 版本管理目的搭建版本管理系统（VCS）的目的：一方面是为私有项目提供版本管理，一方面是托管修改过的开源项目。 选型私网环境开发，项目源码可以托管于任何版本管理系统，但是 Go 对 Git 的支持更好，优先考虑搭建 Git 服务作为版本管理。 Go 要求版本管理系统实现 go-get 接口。我们选择了 Gogs 。它是由 Go 语言编写的开源 Git 服务，搭建十分便捷 。 部署详见 官方搭建指南 ，以下仅作记录。 如果使用 MySQL ，要求版本不低于 5.7 。参考这篇 安装 MySQL 8.0 新建数据库名称： gogs 编码： utf8mb4 数据库中通过以下脚本新建数据库： 1CREATE DATABASE gogs CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; 下载最新二进制程序包下载官网提供的二进制文件。 1wget https://cdn.gogs.io/0.11.91/gogs_0.11.91_linux_amd64.tar.gz 解压运行123tar xf gogs_0.11.91_linux_amd64.tar.gzcd gogs./gogs web 按照提示进行配置 配置前确保 Git 已安装 安装 Git1sudo yum -y install git 浏览器访问当前主机的 3000 端口，开始配置。 有几个配置项需要注意： 域名：建议填域名，不然引用地址会很奇怪，即使没有真实域名也可以再客户端上做个 host 映射。例如：”go.findshank.com”。 HTTP 端口号：可以使用任意未占用的端口号，之后通过 nginx 映射到 80 端口。 应用 URL：建议先自签一个证书，然后启用 HTTPS，使用域名不指定端口。例如：”https://go.findshank.com&quot;。自签证书[参考这篇](https://www.findshank.com/2019/06/26/enable-https-for-private-network/) 禁止用户注册：建议勾选，之后统一由管理员分配账号。 配置守护进程修改 ./scripts/systemd/gogs.service 123456789101112131415161718192021222324[Unit]Description=GogsAfter=syslog.targetAfter=network.targetAfter=mysqld.service[Service]LimitMEMLOCK=infinityLimitNOFILE=65535Type=simpleUser=rootGroup=rootWorkingDirectory=/home/shank/gogsExecStart=/home/shank/gogs/gogs webRestart=alwaysEnvironment=USER=shank HOME=/home/shankProtectSystem=fullPrivateDevices=yesPrivateTmp=yesNoNewPrivileges=true[Install]WantedBy=multi-user.target 注意修改为实际的用户目录 复制到系统目录 1sudo cp ./scripts/systemd/gogs.service /usr/lib/systemd/system/ 启用守护进程12sudo systemctl enable gogssudo systemctl start gogs 模块代理目的Go 1.11 之后推荐使用 go mod 作为依赖管理，使用 go mod 可以通过配置模块代理服务加快依赖包的下载。这类代理服务通过环境变量 GOPROXY 进行指定，只要实现了模块代理协议（Module proxy protocol）的服务都称为模块代理服务。 因为公有网络的不确定性（比如开源作者删除了代码仓库或者网络被防火墙劫持），可以考虑自己维护一个代理服务，方便私网内构建时拉取常用第三方代码依赖。 选型目前有许多开源项目实现了 goproxy 服务，我们选择了社区活跃且版本稳定的 goproxyio/goproxy。 源码构建及部署 Go 版本不低于 1.11 配置 Go 1.13.3 编译环境1234wget https://dl.google.com/go/go1.13.3.linux-amd64.tar.gzsudo tar -C /usr/local -xzf go1.13.3.linux-amd64.tar.gzecho 'export PATH=$PATH:/usr/local/go/bin' &gt;&gt; $HOME/.profilesource $HOME/.profile 安装 make1sudo yum -y install make 下载一份稳定版版本的源码1wget https://github.com/goproxyio/goproxy/archive/v2.0.0.tar.gz 解压 &amp; 编译123tar xf v2.0.0.tar.gzcd goproxy-2.0.0make 添加二进制文件到系统目录1sudo cp ./bin/goproxy /usr/local/bin 配置守护进程修改 ./scripts/goproxy.service 123456789101112131415161718[Unit]Description=goproxy serviceDocumentation=https://goproxy.ioAfter=network-online.target[Service]User=rootGroup=rootLimitNOFILE=65536Environment=PATH=/usr/local/go/binExecStart=/usr/local/bin/goproxy -listen=0.0.0.0:8081 -proxy=https://goproxy.io -exclude=go.findshank.comKillMode=control-groupSuccessExitStatus=2Restart=always[Install]WantedBy=multi-user.targetAlias=goproxy.service 参数说明 -listen：服务监听地址。 -proxy：上游代理模块，不配置则直接请求目的地址。 -exclude：不走代理的域名，私网域名公网无法访问应直接请求。 复制到系统目录 1sudo cp ./scripts/goproxy.service /usr/lib/systemd/system/ 启用守护进程12sudo systemctl enable goproxysudo systemctl start goproxy 持续集成（可选）目的开发者将代码提交到版本管理系统，之后的编译构建，自动化测试，打包，发布，部署等都是固定流程，应该由持续集成系统去完成。 使用持续集成，可以降低重复繁琐操作的出错率。 选型有许多在线的持续集成服务，由于我们是私网部署，我们选择了 Jenkins ,它是由 Java 语言编写的开源 CI&amp;CD 服务，搭建十分便捷 。 部署详见 官方搭建指南 ，以下仅作记录。 安装 Java 1.8 运行环境1sudo yum -y install java-1.8.0-openjdk-devel 启用 Jenkins 存储库12curl --silent --location http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo | sudo tee /etc/yum.repos.d/jenkins.reposudo rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key 安装 Jenkins1sudo yum -y install jenkins 启用守护程序12sudo systemctl start jenkinssudo systemctl enable jenkins 按照提示进行配置浏览器访问当前主机的 8080 端口，开始配置。 安装建议的插件，按需求以后添加插件。 其他考虑使用 NGINX 做端口映射，此处不介绍。 但是建议 443 端口留给 Gogs 服务。 可能遇到的问题 无法外部访问服务：检查 CentOS 的防火墙策略，放行特定端口。安全性要求不高甚至可以关闭防火墙。 参考 How to Stop and Disable Firewalld on CentOS 7 部署 goproxy 服务 How To Install Jenkins on CentOS 7]]></content>
+      <tags>
+        <tag>Go</tag>
+        <tag>Gogs</tag>
+        <tag>goproxy</tag>
+        <tag>Jenkins</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[CentOS 7 安装 MySQL 8.0]]></title>
+    <url>%2F2019%2F10%2F28%2FInstall-MySQL-8-0-on-CentOS-7%2F</url>
+    <content type="text"><![CDATA[记录下在 CentOS 7 上安装 MySQL 8.0 ，并启用兼容性的密码验证。 安装记录查看当前 linux 版本，执行 uname -a，结果如下： 1Linux localhost.localdomain 3.10.0-1062.el7.x86_64 #1 SMP Wed Aug 7 18:08:02 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux 访问官网获取 linux 7 版本的仓库安装包。 1wget https://dev.mysql.com/get/mysql80-community-release-el7-3.noarch.rpm MD5 校验 1md5sum mysql80-community-release-el7-3.noarch.rpm 对照输出 1893b55d5d885df5c4d4cf7c4f2f6c153 mysql80-community-release-el7-3.noarch.rpm 添加官方仓库 1sudo rpm -ivh mysql80-community-release-el7-3.noarch.rpm 替换阿里云镜像加速下载（可选） 1sudo wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo 安装 MySQL 1sudo yum -y install mysql-server 添加并启动守护进程 12sudo systemctl enable mysqldsudo systemctl start mysqld 检查运行状态 1systemctl status mysqld 查找临时 root 密码 1sudo grep 'temporary password' /var/log/mysqld.log 密码在行末 12019-10-29T06:28:08.128300Z 5 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: Z-_%r1L3PRuJ 配置 MySQL 1sudo mysql_secure_installation 按提示，输入刚才找到的密码，然后变更为新密码（要求足够复杂，包含大小写字母数字及特殊字符）。 登录数据库 1mysql -u root -p 新建用户 1234use mysql;CREATE USER 'appuser'@'%' IDENTIFIED BY 'P@ssw0rd';FLUSH PRIVILEGES; ALTER USER 'appuser'@'%' IDENTIFIED WITH mysql_native_password BY 'P@ssw0rd'; 启用密码验证插件与旧版兼容 1234sudo vim /etc/my.cnf# 末尾添加一行default-authentication-plugin=mysql_native_password 重启 MySQL 1sudo systemctl restart mysqld 防火墙设置（可选） CentOS 默认启用防火墙进程（firewalld） 为 MySQL 开放全 IP 端口 12sudo firewall-cmd --zone=public --add-service=mysql --permanentsudo firewall-cmd --reload 参考 How To Install MySQL on CentOS 7 How to Allow MySQL Traffic using firewalld on CentOS 7]]></content>
+      <tags>
+        <tag>MySQL</tag>
+        <tag>CentOS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[私网 git 仓库 go mod 实践]]></title>
     <url>%2F2019%2F08%2F07%2F%E7%A7%81%E7%BD%91-git-%E4%BB%93%E5%BA%93-go-mod-%E5%AE%9E%E8%B7%B5%2F</url>
     <content type="text"><![CDATA[使用 gogs 搭建私网 git 服务器，搭建十分便捷，参考官方文档 本文旨在探究私网 git 服务对 go get 支持的问题。 写在前面使用 go mod 获取依赖，实际也是调用 go get，但是 go mod 中获取依赖必须要 vcs 服务开启 https，如何启用 https 见之前的文章，本文简单起见使用 go get 的方式获取依赖。 结论： gogs 中要配置好 DOMAIN 及 ROOT_URL 。 初次尝试展开### 准备实验环境本地机器 host 里添加一条记录。&gt; git 服务的实际局域网 IP 为 192.168.20.44。1192.168.20.44 vcs.private.org配置 git 服务的域名，在 gogs 配置文件中修改如下行：1DOMAIN = vcs.private.org重启 gogs 服务。使用 sko00o 用户新建一个仓库，名叫 demo 。上传一个由 go mod 管理的项目。123456789mkdir demo &amp;&amp; cd demogo mod init vcs.private.org/sko00o/demotouch main.goecho package main &gt; main.gogit initgit add .git commit -m "initial commit"git remote add origin gogs@vcs.private.org:sko00o/demo.gitgit push -u origin master### clone 测试直接使用 git clone vcs.private.org/sko00o/demo 仓库拉取成功。### go get 测试尝试 go get 拉取 sko00o/demo 仓库。&gt; 服务未配置 https ，故添上 -insecure 参数。1go get -v -insecure vcs.private.org/sko00o/demo拉取失败，错误提示：12Parsing meta tags from https://vcs.private.org?go-get=1 (status code 502)go get vcs.private.org/sko00o/demo: unrecognized import path "vcs.private.org/sko00o/demo" (parse https://vcs.private.org/sko00o/demo?go-get=1: no go-import meta tags再次尝试：1go get -v -insecure vcs.private.org/sko00o/demo.git拉取失败，错误提示：1go: vcs.private.org/sko00o/demo.git@v0.0.0-20190624043337-f2473e290d4d: parsing go.mod: unexpected module path "vcs.private.org/sko00o/demo"将 demo 仓库中的 go.mod 改为 module vcs.private.org/sko00o/demo.git再次尝试：1go get -v -insecure vcs.private.org/sko00o/demo.git成功。 更合理的办法因为要修改 module 名字，以上处理方式显然不合理。 参考官方文档后， 得知 go 要求版本管理系统的服务端实现 go-get=1 的请求，恰好 gogs 是支持这个请求的。 尝试直接访问这个 API。 curl &quot;http://vcs.private.org/sko00o/demo?go-get=1&quot; 返回内容如下 12345678910&lt;!doctype html&gt;&lt;html&gt; &lt;head&gt; &lt;meta name="go-import" content="192.168.20.44/sko00o/demo git http://192.168.20.44/sko00o/demo.git"&gt; &lt;meta name="go-source" content="192.168.20.44/sko00o/demo _ http://192.168.20.44/sko00o/demo/src/master&#123;/dir&#125; http://192.168.20.44/sko00o/demo/src/master&#123;/dir&#125;/&#123;file&#125;#L&#123;line&#125;"&gt; &lt;/head&gt; &lt;body&gt; go get --insecure 192.168.20.44/sko00o/demo &lt;/body&gt;&lt;/html&gt; 问题应该出在这里，说明 gogs 服务端的配置还存在问题，接着修改： 1ROOT_URL = http://vcs.private.org 重启 gogs 。 service gogos restart 再次请求，返回内容符合要求 12345678910&lt;!doctype html&gt;&lt;html&gt; &lt;head&gt; &lt;meta name="go-import" content="vcs.private.org/sko00o/demo git http://vcs.private.org/sko00o/demo.git"&gt; &lt;meta name="go-source" content="vcs.private.org/sko00o/demo _ http://vcs.private.org/sko00o/demo/src/master&#123;/dir&#125; http://vcs.private.org/sko00o/demo/src/master&#123;/dir&#125;/&#123;file&#125;#L&#123;line&#125;"&gt; &lt;/head&gt; &lt;body&gt; go get --insecure vcs.private.org/sko00o/demo &lt;/body&gt;&lt;/html&gt; 仓库回滚到没有修改 go.mod module 的版本，并强制提交。 12git reset --hard &lt;SHA1&gt; # must replace SHA1git push --force 再次 go get -v -insecure vcs.private.org/sko00o/demo 成功。 还可能遇到的问题如果你设置了环境变量 http_proxy， 你可能遇到下面的问题。 12345678910111213Fetching https://vcs.private.org/sko00o/demo?go-get=1https fetch failed: Get https://vcs.private.org/sko00o/demo?go-get=1: EOFFetching http://vcs.private.org/sko00o/demo?go-get=1Parsing meta tags from http://vcs.private.org/sko00o/demo?go-get=1 (status code 500)Fetching https://vcs.private.org/lowan?go-get=1https fetch failed: Get https://vcs.private.org/lowan?go-get=1: EOFFetching http://vcs.private.org/lowan?go-get=1Parsing meta tags from http://vcs.private.org/lowan?go-get=1 (status code 500)Fetching https://vcs.private.org?go-get=1https fetch failed: Get https://vcs.private.org?go-get=1: EOFFetching http://vcs.private.org?go-get=1Parsing meta tags from http://vcs.private.org?go-get=1 (status code 500)go get vcs.private.org/sko00o/demo: unrecognized import path "vcs.private.org/sko00o/demo" (parse http://vcs.private.org/sko00o/demo?go-get=1: no go-import meta tags ()) 解决办法：取消代理配置 export http_proxy= 。 如果你设置了 git 代理，你可能遇到下面的问题。 123456789101112131415Fetching https://vcs.private.org/sko00o/demo?go-get=1https fetch failed: Get https://vcs.private.org/sko00o/demo?go-get=1: EOFFetching http://vcs.private.org/sko00o/demo?go-get=1Parsing meta tags from http://vcs.private.org/sko00o/demo?go-get=1 (status code 200)get "vcs.private.org/sko00o/demo": found meta tag get.metaImport&#123;Prefix:"vcs.private.org/sko00o/demo", VCS:"git", RepoRoot:"http://vcs.private.org/sko00o/demo.git"&#125; at http://vcs.private.org/sko00o/demo?go-get=1Fetching https://vcs.private.org/lowan?go-get=1https fetch failed: Get https://vcs.private.org/lowan?go-get=1: EOFFetching http://vcs.private.org/lowan?go-get=1Parsing meta tags from http://vcs.private.org/lowan?go-get=1 (status code 200)Fetching https://vcs.private.org?go-get=1https fetch failed: Get https://vcs.private.org?go-get=1: EOFFetching http://vcs.private.org?go-get=1Parsing meta tags from http://vcs.private.org?go-get=1 (status code 404)go get vcs.private.org/sko00o/demo: git ls-remote -q http://vcs.private.org/sko00o/demo.git in /mnt/d/GoDev/pkg/mod/cache/vcs/3172f8a70a0665ea75a1e7fb868f761ef269470c22b6a85cbe78b19c5608fbee: exit status 128: fatal: unable to access 'http://vcs.private.org/sko00o/demo.git/': The requested URL returned error: 500 解决办法：取消 git 中的 http 代理 git config --global --unset http.proxy 。 参考 Download and install packages and dependencies Remote import paths]]></content>
@@ -128,8 +148,8 @@
         <category>WSL</category>
       </categories>
       <tags>
-        <tag>WSL</tag>
         <tag>MySQL</tag>
+        <tag>WSL</tag>
       </tags>
   </entry>
   <entry>
@@ -160,8 +180,8 @@
         <category>Linux</category>
       </categories>
       <tags>
-        <tag>VS Code</tag>
         <tag>Linux</tag>
+        <tag>VS Code</tag>
       </tags>
   </entry>
   <entry>
@@ -198,8 +218,8 @@
         <category>Linux</category>
       </categories>
       <tags>
-        <tag>VS Code</tag>
         <tag>Linux</tag>
+        <tag>VS Code</tag>
       </tags>
   </entry>
   <entry>
@@ -219,8 +239,8 @@
         <category>Linux</category>
       </categories>
       <tags>
-        <tag>VS Code</tag>
         <tag>Linux</tag>
+        <tag>VS Code</tag>
         <tag>Arch</tag>
       </tags>
   </entry>
@@ -268,8 +288,8 @@
         <category>Linux</category>
       </categories>
       <tags>
-        <tag>Linux</tag>
         <tag>DST</tag>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -306,9 +326,9 @@
       </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Ubuntu</tag>
-        <tag>npm</tag>
         <tag>Nodejs</tag>
+        <tag>npm</tag>
+        <tag>Ubuntu</tag>
       </tags>
   </entry>
   <entry>
@@ -378,10 +398,10 @@
         <category>Tools</category>
       </categories>
       <tags>
+        <tag>npm</tag>
         <tag>docker</tag>
         <tag>git</tag>
         <tag>pip</tag>
-        <tag>npm</tag>
         <tag>conda</tag>
       </tags>
   </entry>
@@ -417,9 +437,9 @@
         <category>.NET</category>
       </categories>
       <tags>
-        <tag>MySQL</tag>
         <tag>Database</tag>
         <tag>EntityFramework</tag>
+        <tag>MySQL</tag>
         <tag>Oracle</tag>
         <tag>SQL Server</tag>
         <tag>Visual Studio</tag>
