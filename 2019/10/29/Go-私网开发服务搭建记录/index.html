@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="本文记录了私网 Go 开发所需的所有相关服务，包括版本管理，模块代理，持续集成。 涉及服务如下：  Gogs goproxy Jenkins">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-10-30T05:56:06.148Z">
+<meta property="og:updated_time" content="2019-10-30T06:14:22.394Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go 私网开发服务搭建记录">
 <meta name="twitter:description" content="本文记录了私网 Go 开发所需的所有相关服务，包括版本管理，模块代理，持续集成。 涉及服务如下：  Gogs goproxy Jenkins">
@@ -407,7 +407,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-10-30 13:56:06" itemprop="dateModified" datetime="2019-10-30T13:56:06+08:00">2019-10-30</time>
+                <time title="Modified: 2019-10-30 14:14:22" itemprop="dateModified" datetime="2019-10-30T14:14:22+08:00">2019-10-30</time>
               
             
           </span>
@@ -485,11 +485,11 @@
 <p>浏览器访问当前主机的 3000 端口，开始配置。</p>
 <p>有几个配置项需要注意：</p>
 <ul>
-<li><p>域名：建议填域名，不然引用地址会很奇怪，即使没有真实域名也可以再客户端上做个 host 映射。例如：”go.findshank.com”。</p>
+<li><p>域名：建议填域名，不然引用地址会很奇怪，即使没有真实域名也可以再客户端上做个 host 映射。例如：<code>go.findshank.com</code>。</p>
 </li>
 <li><p>HTTP 端口号：可以使用任意未占用的端口号，之后通过 nginx 映射到 80 端口。</p>
 </li>
-<li><p>应用 URL：建议先自签一个证书，然后启用 HTTPS，使用域名不指定端口。例如：”<a href="https://go.findshank.com&quot;。自签证书[参考这篇](https://www.findshank.com/2019/06/26/enable-https-for-private-network/)" target="_blank" rel="noopener">https://go.findshank.com&quot;。自签证书[参考这篇](https://www.findshank.com/2019/06/26/enable-https-for-private-network/)</a></p>
+<li><p>应用 URL：建议先自签一个证书，然后启用 HTTPS，使用域名不指定端口。例如：<code>https://go.findshank.com</code> 。自签证书 <a href="/2019/06/26/enable-https-for-private-network/">参考这篇</a></p>
 </li>
 <li><p>禁止用户注册：建议勾选，之后统一由管理员分配账号。</p>
 </li>
