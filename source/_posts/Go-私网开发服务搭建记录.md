@@ -190,6 +190,8 @@ cd goproxy-2.0.0
 make
 ```
 
+> 如果你使用的是 go 1.13 以下版本， make 可能因网络问题耗时严重，你需要设置环境变量 GOPROXY 加速构建，例如： `export GOPROXY=https://goproxy.io`。因为 go 1.13 指定了默认的 GOPROXY 可以不需要另外配置。
+
 #### 添加二进制文件到系统目录
 
 ```sh
