@@ -212,7 +212,8 @@ After=network-online.target
 User=root
 Group=root
 LimitNOFILE=65536
-Environment=PATH=/usr/local/go/bin
+Environment=PATH=/usr/bin:/usr/local/go/bin
+Environmnet=GO111MODULE=on
 ExecStart=/usr/local/bin/goproxy -listen=0.0.0.0:8081 -proxy=https://goproxy.io -exclude=go.findshank.com
 KillMode=control-group
 SuccessExitStatus=2
@@ -299,6 +300,9 @@ sudo systemctl enable jenkins
 ## 可能遇到的问题
 
 - 无法外部访问服务：检查 CentOS 的防火墙策略，放行特定端口。安全性要求不高甚至可以关闭防火墙。
+- 私网仓库通过模块代理 go get 失败：
+    - `...exec: "git": executable file not found in $PATH...`：确保 `git` 已安装。
+    - `... reading https://sum.golang.org/lookup/... 410 Gone`： 本地添加环境变量 `GOSUMDB=off`
 
 ## 参考
 
