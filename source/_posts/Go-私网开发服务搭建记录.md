@@ -394,6 +394,7 @@ sudo systemctl enable nginx
 - NGINX 启动失败：
     - `...SSL: error:0200100D:system library:fopen:Permission denied...`： 对证书文件无访问权限，这是 SELinux 的强制模式导致的。解决办法就是 `restorecon -v -R /path/to/keys`。
     - `...[emerg] bind() to 0.0.0.0:XXXX failed...`： 也可能表现为 NGINX 反代的端口返回 502 错误，这也是 SELinux 的坑。使用 semanage 添加 HTTP 端口即可，详见参考资料。
+- 各种 ssl 验证出错的问题： 使用自签证书，要在所有客户端的系统上都信任自签的证书。
 
 ## 参考
 
