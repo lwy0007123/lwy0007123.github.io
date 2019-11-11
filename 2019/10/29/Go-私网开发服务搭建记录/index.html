@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="本文记录了私网 Go 开发所需的所有相关服务，包括版本管理，模块代理，持续集成。 涉及服务如下：  Gogs goproxy Jenkins">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-11-11T07:18:46.717Z">
+<meta property="og:updated_time" content="2019-11-11T07:24:55.636Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go 私网开发服务搭建记录">
 <meta name="twitter:description" content="本文记录了私网 Go 开发所需的所有相关服务，包括版本管理，模块代理，持续集成。 涉及服务如下：  Gogs goproxy Jenkins">
@@ -407,7 +407,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-11-11 15:18:46" itemprop="dateModified" datetime="2019-11-11T15:18:46+08:00">2019-11-11</time>
+                <time title="Modified: 2019-11-11 15:24:55" itemprop="dateModified" datetime="2019-11-11T15:24:55+08:00">2019-11-11</time>
               
             
           </span>
@@ -569,6 +569,7 @@
 <li><code>...[emerg] bind() to 0.0.0.0:XXXX failed...</code>： 也可能表现为 NGINX 反代的端口返回 502 错误，这也是 SELinux 的坑。使用 semanage 添加 HTTP 端口即可，详见参考资料。</li>
 </ul>
 </li>
+<li>各种 ssl 验证出错的问题： 使用自签证书，要在所有客户端的系统上都信任自签的证书。</li>
 </ul>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
 <li><a href="https://www.liquidweb.com/kb/how-to-stop-and-disable-firewalld-on-centos-7/" target="_blank" rel="noopener">How to Stop and Disable Firewalld on CentOS 7</a></li>
