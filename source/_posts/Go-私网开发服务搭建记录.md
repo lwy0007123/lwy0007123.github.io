@@ -393,7 +393,7 @@ sudo systemctl enable nginx
     - `... reading https://sum.golang.org/lookup/... 410 Gone`： 本地添加环境变量 `GOSUMDB=off`
 - NGINX 启动失败：
     - `...SSL: error:0200100D:system library:fopen:Permission denied...`： 对证书文件无访问权限，这是 SELinux 的强制模式导致的。解决办法就是 `restorecon -v -R /path/to/keys`。
-    - `...[emerg] bind() to 0.0.0.0:XXXX failed...`： 也可能表现为 NGINX 反代的端口返回 502 错误，这也是 SELinux 的坑。使用 semanage 添加添加 HTTP 端口即可，详见参考资料。
+    - `...[emerg] bind() to 0.0.0.0:XXXX failed...`： 也可能表现为 NGINX 反代的端口返回 502 错误，这也是 SELinux 的坑。使用 semanage 添加 HTTP 端口即可，详见参考资料。
 
 ## 参考
 
