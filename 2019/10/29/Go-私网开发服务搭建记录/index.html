@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="本文记录了私网 Go 开发所需的所有相关服务，包括版本管理，模块代理，持续集成。 涉及服务如下：  Gogs goproxy Jenkins">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-11-11T07:16:04.188Z">
+<meta property="og:updated_time" content="2019-11-11T07:18:46.717Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go 私网开发服务搭建记录">
 <meta name="twitter:description" content="本文记录了私网 Go 开发所需的所有相关服务，包括版本管理，模块代理，持续集成。 涉及服务如下：  Gogs goproxy Jenkins">
@@ -407,7 +407,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-11-11 15:16:04" itemprop="dateModified" datetime="2019-11-11T15:16:04+08:00">2019-11-11</time>
+                <time title="Modified: 2019-11-11 15:18:46" itemprop="dateModified" datetime="2019-11-11T15:18:46+08:00">2019-11-11</time>
               
             
           </span>
@@ -566,7 +566,7 @@
 </li>
 <li>NGINX 启动失败：<ul>
 <li><code>...SSL: error:0200100D:system library:fopen:Permission denied...</code>： 对证书文件无访问权限，这是 SELinux 的强制模式导致的。解决办法就是 <code>restorecon -v -R /path/to/keys</code>。</li>
-<li><code>...[emerg] bind() to 0.0.0.0:XXXX failed...</code>： 也可能表现为 NGINX 反代的端口返回 502 错误，这也是 SELinux 的坑。使用 semanage 添加添加 HTTP 端口即可，详见参考资料。</li>
+<li><code>...[emerg] bind() to 0.0.0.0:XXXX failed...</code>： 也可能表现为 NGINX 反代的端口返回 502 错误，这也是 SELinux 的坑。使用 semanage 添加 HTTP 端口即可，详见参考资料。</li>
 </ul>
 </li>
 </ul>
