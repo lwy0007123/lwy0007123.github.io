@@ -179,14 +179,18 @@ sudo yum -y install make
 #### 下载一份稳定版版本的源码
 
 ```sh
-wget https://github.com/goproxyio/goproxy/archive/v2.0.0.tar.gz
+wget https://github.com/goproxyio/goproxy/archive/v2.0.1.tar.gz
 ```
+
+> v2.0.0 版本有 BUG 。
+> 我遇到如下问题 `go get golang.org/x/tools/cmd/present: no matching versions for query "upgrade"` 。
+> 故此处已更新。
 
 #### 解压 & 编译
 
 ```sh
-tar xf v2.0.0.tar.gz
-cd goproxy-2.0.0
+tar xf v2.0.1.tar.gz
+cd goproxy-2.0.1
 make
 ```
 
