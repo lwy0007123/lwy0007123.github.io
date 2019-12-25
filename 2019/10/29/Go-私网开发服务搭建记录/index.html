@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="本文记录了私网 Go 开发所需的所有相关服务，包括版本管理，模块代理，持续集成。 涉及服务如下：  Gogs goproxy Jenkins">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-11-11T07:24:55.636Z">
+<meta property="og:updated_time" content="2019-12-25T02:07:05.324Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go 私网开发服务搭建记录">
 <meta name="twitter:description" content="本文记录了私网 Go 开发所需的所有相关服务，包括版本管理，模块代理，持续集成。 涉及服务如下：  Gogs goproxy Jenkins">
@@ -407,7 +407,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-11-11 15:24:55" itemprop="dateModified" datetime="2019-11-11T15:24:55+08:00">2019-11-11</time>
+                <time title="Modified: 2019-12-25 10:07:05" itemprop="dateModified" datetime="2019-12-25T10:07:05+08:00">2019-12-25</time>
               
             
           </span>
@@ -512,8 +512,11 @@
 
 <details><br><summary>安装 make</summary><br><br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum -y install make</span><br></pre></td></tr></table></figure><br><br></details>
 
-<h4 id="下载一份稳定版版本的源码"><a href="#下载一份稳定版版本的源码" class="headerlink" title="下载一份稳定版版本的源码"></a>下载一份稳定版版本的源码</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/goproxyio/goproxy/archive/v2.0.0.tar.gz</span><br></pre></td></tr></table></figure>
-<h4 id="解压-amp-编译"><a href="#解压-amp-编译" class="headerlink" title="解压 &amp; 编译"></a>解压 &amp; 编译</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar xf v2.0.0.tar.gz</span><br><span class="line"><span class="built_in">cd</span> goproxy-2.0.0</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+<h4 id="下载一份稳定版版本的源码"><a href="#下载一份稳定版版本的源码" class="headerlink" title="下载一份稳定版版本的源码"></a>下载一份稳定版版本的源码</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/goproxyio/goproxy/archive/v2.0.1.tar.gz</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>v2.0.0 版本有 BUG 。<br>我遇到如下问题 <code>go get golang.org/x/tools/cmd/present: no matching versions for query &quot;upgrade&quot;</code> 。<br>故此处已更新。</p>
+</blockquote>
+<h4 id="解压-amp-编译"><a href="#解压-amp-编译" class="headerlink" title="解压 &amp; 编译"></a>解压 &amp; 编译</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar xf v2.0.1.tar.gz</span><br><span class="line"><span class="built_in">cd</span> goproxy-2.0.1</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>如果你使用的是 go 1.13 以下版本， make 可能因网络问题耗时严重，你需要设置环境变量 GOPROXY 加速构建，例如： <code>export GOPROXY=https://goproxy.io</code>。因为 go 1.13 指定了默认的 GOPROXY 可以不需要另外配置。</p>
 </blockquote>
