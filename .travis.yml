@@ -6,6 +6,10 @@ cache: npm
 branches:
   only:
     - hexo # build hexo branch only
+before_install:
+  - git clone https://github.com/theme-next/theme-next-reading-progress themes/next/source/lib/reading_progress
+  - git clone https://github.com/theme-next/theme-next-pangu.git themes/next/source/lib/pangu
+  - git clone https://github.com/theme-next/theme-next-bookmark.git themes/next/source/lib/bookmark
 script:
   - hexo generate # generate static files
 deploy:
