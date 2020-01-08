@@ -79,7 +79,7 @@ theme: next
 deploy:
   type: git
   repo: https://github.com/sko00o/sko00o.github.io # git@github.com:sko00o/sko00o.github.io.git
-  branch: gh-pages
+  branch: master
 
 jsonContent:
     meta: false
