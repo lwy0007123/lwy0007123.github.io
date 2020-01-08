@@ -1,0 +1,15 @@
+[submodule "themes/next"]
+	path = themes/next
+	url = https://github.com/theme-next/hexo-theme-next
+
+[submodule "themes/next/theme-next-reading-progress"]
+	path = themes/next/source/lib/reading_progress
+	url = https://github.com/theme-next/theme-next-reading-progress
+
+[submodule "themes/next/theme-next-pangu"]
+	path = themes/next/source/lib/pangu
+	url = https://github.com/theme-next/theme-next-pangu
+
+[submodule "themes/next/theme-next-bookmark"]
+	path = themes/next/source/lib/bookmark
+	url = https://github.com/theme-next/theme-next-bookmark
