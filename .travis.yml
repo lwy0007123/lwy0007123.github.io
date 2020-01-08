@@ -14,6 +14,8 @@ deploy:
   github-token: $GH_TOKEN
   keep-history: true
   on:
+    # solve "Skipping a deployment with the pages provider because this branch 
+    # is not permitted"
     all_branches: true
   target_branch: master
   local-dir: public
