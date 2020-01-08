@@ -15,7 +15,7 @@
 
 
 <html class="theme-next gemini use-motion" lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -113,7 +113,7 @@
 
 
   <meta name="description" content="Content LocalDB SQL Server MySQL Oralce">
-<meta name="keywords" content="Database,EntityFramework,MySQL,Oracle,SQL Server,Visual Studio">
+<meta name="keywords" content="MySQL,Database,EntityFramework,Oracle,SQL Server,Visual Studio">
 <meta property="og:type" content="article">
 <meta property="og:title" content="EF框架配置使用各种数据库">
 <meta property="og:url" content="http://www.findshank.com/2017/06/04/EF框架配置使用各种数据库/index.html">
@@ -130,7 +130,7 @@
 <meta property="og:image" content="http://www.findshank.com/2017/06/04/EF框架配置使用各种数据库/7.png">
 <meta property="og:image" content="http://www.findshank.com/2017/06/04/EF框架配置使用各种数据库/9.png">
 <meta property="og:image" content="http://www.findshank.com/2017/06/04/EF框架配置使用各种数据库/10.png">
-<meta property="og:updated_time" content="2019-02-28T01:24:51.508Z">
+<meta property="og:updated_time" content="2020-01-08T08:22:40.705Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="EF框架配置使用各种数据库">
 <meta name="twitter:description" content="Content LocalDB SQL Server MySQL Oralce">
@@ -200,7 +200,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
 
   
   
@@ -210,7 +210,7 @@
   <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -351,20 +351,20 @@
     <div class="reading-progress-bar"></div>
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.findshank.com/2017/06/04/EF框架配置使用各种数据库/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="SKo00o">
       <meta itemprop="description" content="Nothing or Anything">
       <meta itemprop="image" content="/uploads/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Shank's Notes">
     </span>
 
@@ -418,7 +418,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-02-28 09:24:51" itemprop="dateModified" datetime="2019-02-28T09:24:51+08:00">2019-02-28</time>
+                <time title="Modified: 2020-01-08 16:22:40" itemprop="dateModified" datetime="2020-01-08T16:22:40+08:00">2020-01-08</time>
               
             
           </span>
@@ -435,7 +435,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/NET/" itemprop="url" rel="index"><span itemprop="name">.NET</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/NET/" itemprop="url" rel="index"><span itemprop="name">.NET</span></a></span>
 
                 
                 
@@ -496,7 +496,7 @@
 <ul>
 <li>程序包管理器控制台安装EF框架</li>
 </ul>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Package EntityFramework</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Install-Package</span> EntityFramework</span><br></pre></td></tr></table></figure>
 <p>  <em>PS. 如果解决方里有多个项目，默认项目注意选择DbConnectPrac</em></p>
 <ul>
 <li><p>Models中新建一个类</p>
@@ -504,7 +504,7 @@
 <p><em>Program.cs</em></p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line">using System.ComponentModel.DataAnnotations;</span><br><span class="line">namespace DbConnectPrac.Models</span><br><span class="line">&#123;</span><br><span class="line">    public class User</span><br><span class="line">    &#123;</span><br><span class="line">        [Key]</span><br><span class="line">        public int Uid &#123; get; set; &#125;</span><br><span class="line">        [Required]</span><br><span class="line">        [StringLength(16, MinimumLength = 3)]</span><br><span class="line">        public string NickName &#123; get; set; &#125;</span><br><span class="line">        [Required]</span><br><span class="line">        [StringLength(16, MinimumLength = 6)]</span><br><span class="line">        public string Password &#123; get; set; &#125;</span><br><span class="line">        [Required]</span><br><span class="line">        [RegularExpression(@&quot;^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$&quot;)]</span><br><span class="line">        public string Email &#123; get; set; &#125;</span><br><span class="line">        public int Privilege &#123; get; set; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public class Video</span><br><span class="line">    &#123;</span><br><span class="line">        [Key]</span><br><span class="line">        public int Vid &#123; get; set; &#125;</span><br><span class="line">        [Required]</span><br><span class="line">        [StringLength(30)]</span><br><span class="line">        public string Vname &#123; get; set; &#125;</span><br><span class="line">        [Required]</span><br><span class="line">        public string Vurl &#123; get; set; &#125;</span><br><span class="line">        [Required]</span><br><span class="line">        public string Thumbnail &#123; get; set; &#125;</span><br><span class="line">        public int ViewedNum &#123; get; set; &#125;</span><br><span class="line">        [DataType(DataType.Date)]</span><br><span class="line">        [DisplayFormat(DataFormatString = &quot;&#123;0:yyyy-MM-dd&#125;&quot;, ApplyFormatInEditMode = true)]</span><br><span class="line">        [Required]</span><br><span class="line">        public string UploadTime &#123; get; set; &#125;</span><br><span class="line">        [Required]</span><br><span class="line">        public string Vtype &#123; get; set; &#125;</span><br><span class="line">        public int Uid &#123; get; set; &#125;</span><br><span class="line">        [StringLength(200)]</span><br><span class="line">        public string Vinfo &#123; get; set; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public class Comment</span><br><span class="line">    &#123;</span><br><span class="line">        [Key]</span><br><span class="line">        public int Cid &#123; get; set; &#125;</span><br><span class="line">        [Required]</span><br><span class="line">        public int Uid &#123; get; set; &#125;</span><br><span class="line">        [Required]</span><br><span class="line">        public int Vid &#123; get; set; &#125;</span><br><span class="line">        [Required]</span><br><span class="line">        public string Content &#123; get; set; &#125;</span><br><span class="line">        [DataType(DataType.Date)]</span><br><span class="line">        [DisplayFormat(DataFormatString = &quot;&#123;0:yyyy-MM-dd&#125;&quot;, ApplyFormatInEditMode = true)]</span><br><span class="line">        [Required]</span><br><span class="line">        public string CommentTime &#123; get; set; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public class History</span><br><span class="line">    &#123;</span><br><span class="line">        [Key]</span><br><span class="line">        public int Hid &#123; get; set; &#125;</span><br><span class="line">        [Required]</span><br><span class="line">        public int Uid &#123; get; set; &#125;</span><br><span class="line">        [Required]</span><br><span class="line">        public int Vid &#123; get; set; &#125;</span><br><span class="line">        [DataType(DataType.Date)]</span><br><span class="line">        [DisplayFormat(DataFormatString = &quot;&#123;0:yyyy-MM-dd&#125;&quot;, ApplyFormatInEditMode = true)]</span><br><span class="line">        [Required]</span><br><span class="line">        public string HistoryTime &#123; get; set; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.ComponentModel.DataAnnotations;</span><br><span class="line"><span class="keyword">namespace</span> <span class="title">DbConnectPrac.Models</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">User</span></span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="meta">Key</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> Uid &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        [<span class="meta">Required</span>]</span><br><span class="line">        [<span class="meta">StringLength(16, MinimumLength = 3)</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> NickName &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        [<span class="meta">Required</span>]</span><br><span class="line">        [<span class="meta">StringLength(16, MinimumLength = 6)</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> Password &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        [<span class="meta">Required</span>]</span><br><span class="line">        [<span class="meta">RegularExpression(@<span class="meta-string">"^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$"</span>)</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> Email &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> Privilege &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Video</span></span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="meta">Key</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> Vid &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        [<span class="meta">Required</span>]</span><br><span class="line">        [<span class="meta">StringLength(30)</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> Vname &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        [<span class="meta">Required</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> Vurl &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        [<span class="meta">Required</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> Thumbnail &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> ViewedNum &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        [<span class="meta">DataType(DataType.Date)</span>]</span><br><span class="line">        [<span class="meta">DisplayFormat(DataFormatString = <span class="meta-string">"&#123;0:yyyy-MM-dd&#125;"</span>, ApplyFormatInEditMode = true)</span>]</span><br><span class="line">        [<span class="meta">Required</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> UploadTime &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        [<span class="meta">Required</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> Vtype &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> Uid &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        [<span class="meta">StringLength(200)</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> Vinfo &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Comment</span></span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="meta">Key</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> Cid &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        [<span class="meta">Required</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> Uid &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        [<span class="meta">Required</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> Vid &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        [<span class="meta">Required</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> Content &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        [<span class="meta">DataType(DataType.Date)</span>]</span><br><span class="line">        [<span class="meta">DisplayFormat(DataFormatString = <span class="meta-string">"&#123;0:yyyy-MM-dd&#125;"</span>, ApplyFormatInEditMode = true)</span>]</span><br><span class="line">        [<span class="meta">Required</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> CommentTime &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">History</span></span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="meta">Key</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> Hid &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        [<span class="meta">Required</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> Uid &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        [<span class="meta">Required</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> Vid &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        [<span class="meta">DataType(DataType.Date)</span>]</span><br><span class="line">        [<span class="meta">DisplayFormat(DataFormatString = <span class="meta-string">"&#123;0:yyyy-MM-dd&#125;"</span>, ApplyFormatInEditMode = true)</span>]</span><br><span class="line">        [<span class="meta">Required</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> HistoryTime &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>生成解决方案</li>
 </ul>
@@ -534,11 +534,11 @@
 <ul>
 <li>打开Models/DbConnectPracContext.cs</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class DbConnectPracContext : DbContext</span><br><span class="line">&#123;</span><br><span class="line">  // 修改指定使用的数据库连接</span><br><span class="line">  //public DbConnectPracContext() : base(&quot;name=DbConnectPracContext&quot;)&#123;&#125; // LocalDB</span><br><span class="line">  public DbConnectPracContext() : base(&quot;name=MSSQLConnectContext&quot;) &#123;&#125; // SQL Server</span><br><span class="line">  // .....省略......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DbConnectPracContext</span> : <span class="title">DbContext</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 修改指定使用的数据库连接</span></span><br><span class="line">  <span class="comment">//public DbConnectPracContext() : base("name=DbConnectPracContext")&#123;&#125; // LocalDB</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">DbConnectPracContext</span>(<span class="params"></span>) : <span class="title">base</span>(<span class="params"><span class="string">"name=MSSQLConnectContext"</span></span>)</span> &#123;&#125; <span class="comment">// SQL Server</span></span><br><span class="line">  <span class="comment">// .....省略......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>程序包管理器控制台输入</li>
 </ul>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Enable-Migrations -EnableAutomaticMigrations</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Enable-Migrations</span> <span class="literal">-EnableAutomaticMigrations</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>运行项目进入对应的Controller你可以方便的实现增删改查(CRUD)操作。</li>
 </ul>
@@ -560,11 +560,11 @@
 <ul>
 <li>打开Models/DbConnectPracContext.cs完成两处修改</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 在Context指定mySql的配置文件</span><br><span class="line">[DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]</span><br><span class="line">public class DbConnectPracContext : DbContext</span><br><span class="line">&#123;</span><br><span class="line">  // 修改指定使用的数据库连接</span><br><span class="line">  //public DbConnectPracContext() : base(&quot;name=DbConnectPracContext&quot;)&#123;&#125; // LocalDB</span><br><span class="line">  public DbConnectPracContext() : base(&quot;name=MySQLConnectContext&quot;)&#123;&#125; // MySQL</span><br><span class="line">  // .....省略......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在Context指定mySql的配置文件</span></span><br><span class="line">[<span class="meta">DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DbConnectPracContext</span> : <span class="title">DbContext</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// 修改指定使用的数据库连接</span></span><br><span class="line">  <span class="comment">//public DbConnectPracContext() : base("name=DbConnectPracContext")&#123;&#125; // LocalDB</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">DbConnectPracContext</span>(<span class="params"></span>) : <span class="title">base</span>(<span class="params"><span class="string">"name=MySQLConnectContext"</span></span>)</span>&#123;&#125; <span class="comment">// MySQL</span></span><br><span class="line">  <span class="comment">// .....省略......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>程序包管理器控制台输入</li>
 </ul>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Enable-Migrations -EnableAutomaticMigrations</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Enable-Migrations</span> <span class="literal">-EnableAutomaticMigrations</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>运行项目进入对应的Controller你可以方便的实现增删改查(CRUD)操作。</li>
 </ul>
@@ -574,7 +574,7 @@
 <ul>
 <li>建议先创建一个新用户，否则使用默认用户可能有意想不到的问题</li>
 </ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 用SQLPLUS登录后，连接管理员 (system_password 是你的管理员密码)</span></span><br><span class="line">CONNECT system/system_password@ORCL</span><br><span class="line"><span class="comment">-- 该版本Oracle上创建新用户名必须C##或c##开头，否则不合法</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> C##TESTUSER <span class="keyword">IDENTIFIED</span> <span class="keyword">BY</span> <span class="number">123</span>;</span><br><span class="line"><span class="comment">-- 创建测试用户并授权，要给DBA权限</span></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">CONNECT</span>, <span class="keyword">RESOURCE</span>, DBA, <span class="keyword">CREATE</span> <span class="keyword">VIEW</span> <span class="keyword">TO</span>  C##TESTUSER ;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 用SQLPLUS登录后，连接管理员 (system_password 是你的管理员密码)</span></span><br><span class="line">CONNECT system/system_password@ORCL</span><br><span class="line"><span class="comment">-- 该版本Oracle上创建新用户名必须C##或c##开头，否则不合法</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> C<span class="comment">##TESTUSER IDENTIFIED BY 123;</span></span><br><span class="line"><span class="comment">-- 创建测试用户并授权，要给DBA权限</span></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">CONNECT</span>, <span class="keyword">RESOURCE</span>, DBA, <span class="keyword">CREATE</span> <span class="keyword">VIEW</span> <span class="keyword">TO</span>  C<span class="comment">##TESTUSER ;</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>程序包管理器控制台安装EF框架</li>
 </ul>
@@ -592,13 +592,13 @@
 <ul>
 <li>修改Models/DbConnectPracContext.cs</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">namespace DbConnectPrac.Models</span><br><span class="line">&#123;</span><br><span class="line">    public class DbConnectPracContext : DbContext</span><br><span class="line">    &#123;</span><br><span class="line">        // 修改指定使用的数据库连接</span><br><span class="line">        //public DbConnectPracContext() : base(&quot;name=DbConnectPracContext&quot;) &#123; &#125; // LocalDB</span><br><span class="line">        public DbConnectPracContext() : base(&quot;name=OracleDbContext&quot;) &#123; &#125; // Oracle</span><br><span class="line">        // 默认的模式名是dbo，但Oracle中不存在模式名为dbo，需要指定默认模式名</span><br><span class="line">      	protected override void OnModelCreating(DbModelBuilder modelBuilder)</span><br><span class="line">        &#123;</span><br><span class="line">            modelBuilder.HasDefaultSchema(&quot;C##TESTUSER&quot;); // 默认模式名就是把你用户名大写</span><br><span class="line">        &#125;</span><br><span class="line">        // .....省略......</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">DbConnectPrac.Models</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DbConnectPracContext</span> : <span class="title">DbContext</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 修改指定使用的数据库连接</span></span><br><span class="line">        <span class="comment">//public DbConnectPracContext() : base("name=DbConnectPracContext") &#123; &#125; // LocalDB</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">DbConnectPracContext</span>(<span class="params"></span>) : <span class="title">base</span>(<span class="params"><span class="string">"name=OracleDbContext"</span></span>)</span> &#123; &#125; <span class="comment">// Oracle</span></span><br><span class="line">        <span class="comment">// 默认的模式名是dbo，但Oracle中不存在模式名为dbo，需要指定默认模式名</span></span><br><span class="line">      	<span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnModelCreating</span>(<span class="params">DbModelBuilder modelBuilder</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            modelBuilder.HasDefaultSchema(<span class="string">"C##TESTUSER"</span>); <span class="comment">// 默认模式名就是把你用户名大写</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// .....省略......</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Oracle中不存在模式名为dbo，dbo是SQL Server数据库的，如图例。</p>
 <p><img src="9.png" alt="pic9"></p>
 <ul>
 <li>程序包管理器控制台输入</li>
 </ul>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Enable-Migrations -EnableAutomaticMigrations</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Enable-Migrations</span> <span class="literal">-EnableAutomaticMigrations</span></span><br></pre></td></tr></table></figure>
 <ul>
 <li>运行项目进入对应的Controller你可以方便的实现增删改查(CRUD)操作。</li>
 </ul>
@@ -639,11 +639,11 @@
       
         <div class="post-tags">
           
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
             <a href="/tags/Database/" rel="tag"># Database</a>
           
             <a href="/tags/EntityFramework/" rel="tag"># EntityFramework</a>
-          
-            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
           
             <a href="/tags/Oracle/" rel="tag"># Oracle</a>
           
@@ -736,7 +736,7 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="SKo00o">
             
@@ -1011,7 +1011,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-heart"></i>
   </span>

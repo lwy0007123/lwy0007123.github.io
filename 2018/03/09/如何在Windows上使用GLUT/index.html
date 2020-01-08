@@ -15,7 +15,7 @@
 
 
 <html class="theme-next gemini use-motion" lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="最近在看计算机图形学书里的代码要用到OpenGL，然而在Windows上少了GLUT，需要自己手动配置。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-07-10T09:09:52.281Z">
+<meta property="og:updated_time" content="2020-01-08T08:22:40.721Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何在Windows上使用GLUT">
 <meta name="twitter:description" content="最近在看计算机图形学书里的代码要用到OpenGL，然而在Windows上少了GLUT，需要自己手动配置。">
@@ -189,7 +189,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
 
   
   
@@ -199,7 +199,7 @@
   <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -340,20 +340,20 @@
     <div class="reading-progress-bar"></div>
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.findshank.com/2018/03/09/如何在Windows上使用GLUT/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="SKo00o">
       <meta itemprop="description" content="Nothing or Anything">
       <meta itemprop="image" content="/uploads/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Shank's Notes">
     </span>
 
@@ -407,7 +407,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-07-10 17:09:52" itemprop="dateModified" datetime="2019-07-10T17:09:52+08:00">2019-07-10</time>
+                <time title="Modified: 2020-01-08 16:22:40" itemprop="dateModified" datetime="2020-01-08T16:22:40+08:00">2020-01-08</time>
               
             
           </span>
@@ -424,7 +424,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/图形学/" itemprop="url" rel="index"><span itemprop="name">图形学</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/图形学/" itemprop="url" rel="index"><span itemprop="name">图形学</span></a></span>
 
                 
                 
@@ -504,7 +504,7 @@
 </blockquote>
 </li>
 <li><p><code>ConsoleApplication1?.cpp</code>中写入以下代码：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdafx.h&quot;</span><br><span class="line">#include &lt;gl/glut.h&gt;</span><br><span class="line"></span><br><span class="line">void init(void)</span><br><span class="line">&#123;</span><br><span class="line">    glClearColor(1.0, 1.0, 1.0, 1.0);</span><br><span class="line">    glMatrixMode(GL_PROJECTION);</span><br><span class="line">    gluOrtho2D(0.0, 200.0, 0.0, 250.0);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void lineSegment(void)</span><br><span class="line">&#123;</span><br><span class="line">    glClear(GL_COLOR_BUFFER_BIT);</span><br><span class="line"></span><br><span class="line">    glColor3f(0.0, 0.4, 0.2);</span><br><span class="line">    glBegin(GL_LINES);</span><br><span class="line">    glVertex2i(180, 15);</span><br><span class="line">    glVertex2i(10, 145);</span><br><span class="line">    glEnd();</span><br><span class="line">    glFlush();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, char** argv)</span><br><span class="line">&#123;</span><br><span class="line">    glutInit(&amp;argc, argv);</span><br><span class="line">    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);</span><br><span class="line">    glutInitWindowPosition(50, 100);</span><br><span class="line">    glutInitWindowSize(400, 300);</span><br><span class="line">    glutCreateWindow(&quot;An Example OpenGL Program&quot;);</span><br><span class="line"></span><br><span class="line">    init();</span><br><span class="line">    glutDisplayFunc(lineSegment);</span><br><span class="line">    glutMainLoop();</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ <figure class="highlight cxx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdafx.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;gl/glut.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    glClearColor(<span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>);</span><br><span class="line">    glMatrixMode(GL_PROJECTION);</span><br><span class="line">    gluOrtho2D(<span class="number">0.0</span>, <span class="number">200.0</span>, <span class="number">0.0</span>, <span class="number">250.0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lineSegment</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    glClear(GL_COLOR_BUFFER_BIT);</span><br><span class="line"></span><br><span class="line">    glColor3f(<span class="number">0.0</span>, <span class="number">0.4</span>, <span class="number">0.2</span>);</span><br><span class="line">    glBegin(GL_LINES);</span><br><span class="line">    glVertex2i(<span class="number">180</span>, <span class="number">15</span>);</span><br><span class="line">    glVertex2i(<span class="number">10</span>, <span class="number">145</span>);</span><br><span class="line">    glEnd();</span><br><span class="line">    glFlush();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    glutInit(&amp;argc, argv);</span><br><span class="line">    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);</span><br><span class="line">    glutInitWindowPosition(<span class="number">50</span>, <span class="number">100</span>);</span><br><span class="line">    glutInitWindowSize(<span class="number">400</span>, <span class="number">300</span>);</span><br><span class="line">    glutCreateWindow(<span class="string">"An Example OpenGL Program"</span>);</span><br><span class="line"></span><br><span class="line">    init();</span><br><span class="line">    glutDisplayFunc(lineSegment);</span><br><span class="line">    glutMainLoop();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>F5调试，你可以看到图像是一条斜线。</p>
 </li>
@@ -638,7 +638,7 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="SKo00o">
             
@@ -913,7 +913,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-heart"></i>
   </span>

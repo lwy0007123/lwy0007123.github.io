@@ -15,7 +15,7 @@
 
 
 <html class="theme-next gemini use-motion" lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="Rime这个输入法是很强大。 但是我对输入法的要求不高: 能输入中文；界面简洁；词汇联想别太”睿智”。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-02-28T01:24:51.594Z">
+<meta property="og:updated_time" content="2020-01-08T08:22:40.713Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Rime默认简体中文配置">
 <meta name="twitter:description" content="Rime这个输入法是很强大。 但是我对输入法的要求不高: 能输入中文；界面简洁；词汇联想别太”睿智”。">
@@ -189,7 +189,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
 
   
   
@@ -199,7 +199,7 @@
   <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -340,20 +340,20 @@
     <div class="reading-progress-bar"></div>
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.findshank.com/2018/06/09/Rime默认简体中文配置/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="SKo00o">
       <meta itemprop="description" content="Nothing or Anything">
       <meta itemprop="image" content="/uploads/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Shank's Notes">
     </span>
 
@@ -407,7 +407,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-02-28 09:24:51" itemprop="dateModified" datetime="2019-02-28T09:24:51+08:00">2019-02-28</time>
+                <time title="Modified: 2020-01-08 16:22:40" itemprop="dateModified" datetime="2020-01-08T16:22:40+08:00">2020-01-08</time>
               
             
           </span>
@@ -424,7 +424,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a></span>
 
                 
                 
@@ -478,7 +478,7 @@
 <blockquote>
 <p>这是linux中的用户配置位置，其他系统查看<a href="https://github.com/rime/home/wiki/RimeWithSchemata#rime-%E4%B8%AD%E7%9A%84%E6%95%B8%E6%93%9A%E6%96%87%E4%BB%B6%E5%88%86%E4%BD%88%E5%8F%8A%E4%BD%9C%E7%94%A8" target="_blank" rel="noopener">这里</a></p>
 </blockquote>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># luna_pinyin.custom.yaml</span></span><br><span class="line"></span><br><span class="line"><span class="attr">patch:</span></span><br><span class="line"><span class="attr">  switches:</span>                   <span class="comment"># 注意缩进</span></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">ascii_mode</span></span><br><span class="line"><span class="attr">      reset:</span> <span class="number">0</span>                <span class="comment"># reset 0 的作用是当从其他输入法切换到本输入法重设为指定状态</span></span><br><span class="line"><span class="attr">      states:</span> <span class="string">[</span> <span class="string">中文,</span> <span class="string">西文</span> <span class="string">]</span>   <span class="comment"># 选择输入方案后通常需要立即输入中文，故重设 ascii_mode = 0</span></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">full_shape</span></span><br><span class="line"><span class="attr">      states:</span> <span class="string">[</span> <span class="string">半角,</span> <span class="string">全角</span> <span class="string">]</span>   <span class="comment"># 而全／半角则可沿用之前方案的用法。</span></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">simplification</span></span><br><span class="line"><span class="attr">      reset:</span> <span class="number">1</span>                <span class="comment"># 增加这一行：默认启用「繁→簡」转换。</span></span><br><span class="line"><span class="attr">      states:</span> <span class="string">[</span> <span class="string">漢字,</span> <span class="string">汉字</span> <span class="string">]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># luna_pinyin.custom.yaml</span></span><br><span class="line"></span><br><span class="line"><span class="attr">patch:</span></span><br><span class="line">  <span class="attr">switches:</span>                   <span class="comment"># 注意缩进</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">ascii_mode</span></span><br><span class="line">      <span class="attr">reset:</span> <span class="number">0</span>                <span class="comment"># reset 0 的作用是当从其他输入法切换到本输入法重设为指定状态</span></span><br><span class="line">      <span class="attr">states:</span> <span class="string">[</span> <span class="string">中文,</span> <span class="string">西文</span> <span class="string">]</span>   <span class="comment"># 选择输入方案后通常需要立即输入中文，故重设 ascii_mode = 0</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">full_shape</span></span><br><span class="line">      <span class="attr">states:</span> <span class="string">[</span> <span class="string">半角,</span> <span class="string">全角</span> <span class="string">]</span>   <span class="comment"># 而全／半角则可沿用之前方案的用法。</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">simplification</span></span><br><span class="line">      <span class="attr">reset:</span> <span class="number">1</span>                <span class="comment"># 增加这一行：默认启用「繁→簡」转换。</span></span><br><span class="line">      <span class="attr">states:</span> <span class="string">[</span> <span class="string">漢字,</span> <span class="string">汉字</span> <span class="string">]</span></span><br></pre></td></tr></table></figure>
 <p>参考 <a href="https://github.com/rime/home/wiki/CustomizationG" target="_blank" rel="noopener">Rime 定制指南</a></p>
 
       
@@ -539,7 +539,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/06/18/Install-yaourt-on-Arch-Linux/" rel="prev" title="Install yay (or yaourt) on Arch Linux">
+              <a href="/2018/06/17/Install-yaourt-on-Arch-Linux/" rel="prev" title="Install yay (or yaourt) on Arch Linux">
                 Install yay (or yaourt) on Arch Linux <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -594,7 +594,7 @@
 
       <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="SKo00o">
             
@@ -853,7 +853,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-heart"></i>
   </span>

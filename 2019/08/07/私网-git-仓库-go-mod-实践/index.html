@@ -15,7 +15,7 @@
 
 
 <html class="theme-next gemini use-motion" lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -120,7 +120,7 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="使用 gogs 搭建私网 git 服务器，搭建十分便捷，参考官方文档 本文旨在探究私网 git 服务对 go get 支持的问题。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-08-07T03:40:40.171Z">
+<meta property="og:updated_time" content="2020-01-08T08:22:40.729Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="私网 git 仓库 go mod 实践">
 <meta name="twitter:description" content="使用 gogs 搭建私网 git 服务器，搭建十分便捷，参考官方文档 本文旨在探究私网 git 服务对 go get 支持的问题。">
@@ -189,7 +189,7 @@
 
 </head>
 
-<body itemscope="" itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
 
   
   
@@ -199,7 +199,7 @@
   <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
     
@@ -340,20 +340,20 @@
     <div class="reading-progress-bar"></div>
   
 
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
   
   <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.findshank.com/2019/08/07/私网-git-仓库-go-mod-实践/">
 
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="SKo00o">
       <meta itemprop="description" content="Nothing or Anything">
       <meta itemprop="image" content="/uploads/avatar.jpg">
     </span>
 
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Shank's Notes">
     </span>
 
@@ -390,12 +390,24 @@
                 
               
 
-              <time title="Created: 2019-08-07 10:30:05 / Modified: 11:40:40" itemprop="dateCreated datePublished" datetime="2019-08-07T10:30:05+08:00">2019-08-07</time>
+              <time title="Created: 2019-08-07 10:30:05" itemprop="dateCreated datePublished" datetime="2019-08-07T10:30:05+08:00">2019-08-07</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-01-08 16:22:40" itemprop="dateModified" datetime="2020-01-08T16:22:40+08:00">2020-01-08</time>
               
             
           </span>
@@ -452,12 +464,12 @@
 <p>尝试直接访问这个 API。</p>
 <p><code>curl &quot;http://vcs.private.org/sko00o/demo?go-get=1&quot;</code></p>
 <p>返回内容如下</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!doctype html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"go-import"</span> <span class="attr">content</span>=<span class="string">"192.168.20.44/sko00o/demo git http://192.168.20.44/sko00o/demo.git"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"go-source"</span> <span class="attr">content</span>=<span class="string">"192.168.20.44/sko00o/demo _ http://192.168.20.44/sko00o/demo/src/master&#123;/dir&#125; http://192.168.20.44/sko00o/demo/src/master&#123;/dir&#125;/&#123;file&#125;#L&#123;line&#125;"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">                go get --insecure 192.168.20.44/sko00o/demo</span><br><span class="line">        <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!doctype <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"go-import"</span> <span class="attr">content</span>=<span class="string">"192.168.20.44/sko00o/demo git http://192.168.20.44/sko00o/demo.git"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"go-source"</span> <span class="attr">content</span>=<span class="string">"192.168.20.44/sko00o/demo _ http://192.168.20.44/sko00o/demo/src/master&#123;/dir&#125; http://192.168.20.44/sko00o/demo/src/master&#123;/dir&#125;/&#123;file&#125;#L&#123;line&#125;"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">                go get --insecure 192.168.20.44/sko00o/demo</span><br><span class="line">        <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>问题应该出在这里，说明 gogs 服务端的配置还存在问题，接着修改：</p>
 <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">ROOT_URL</span> = http://vcs.private.org</span><br></pre></td></tr></table></figure>
 <p>重启 gogs 。 <code>service gogos restart</code></p>
 <p>再次请求，返回内容符合要求</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!doctype html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"go-import"</span> <span class="attr">content</span>=<span class="string">"vcs.private.org/sko00o/demo git http://vcs.private.org/sko00o/demo.git"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"go-source"</span> <span class="attr">content</span>=<span class="string">"vcs.private.org/sko00o/demo _ http://vcs.private.org/sko00o/demo/src/master&#123;/dir&#125; http://vcs.private.org/sko00o/demo/src/master&#123;/dir&#125;/&#123;file&#125;#L&#123;line&#125;"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">                go get --insecure vcs.private.org/sko00o/demo</span><br><span class="line">        <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!doctype <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"go-import"</span> <span class="attr">content</span>=<span class="string">"vcs.private.org/sko00o/demo git http://vcs.private.org/sko00o/demo.git"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"go-source"</span> <span class="attr">content</span>=<span class="string">"vcs.private.org/sko00o/demo _ http://vcs.private.org/sko00o/demo/src/master&#123;/dir&#125; http://vcs.private.org/sko00o/demo/src/master&#123;/dir&#125;/&#123;file&#125;#L&#123;line&#125;"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">                go get --insecure vcs.private.org/sko00o/demo</span><br><span class="line">        <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>仓库回滚到没有修改 go.mod module 的版本，并强制提交。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard &lt;SHA1&gt; <span class="comment"># must replace SHA1</span></span><br><span class="line">git push --force</span><br></pre></td></tr></table></figure>
 <p>再次 <code>go get -v -insecure vcs.private.org/sko00o/demo</code></p>
@@ -597,7 +609,7 @@
 
       <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <img class="site-author-image" itemprop="image" src="/uploads/avatar.jpg" alt="SKo00o">
             
@@ -872,7 +884,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; 2015 – <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-heart"></i>
   </span>
