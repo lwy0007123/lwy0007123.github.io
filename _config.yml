@@ -101,6 +101,6 @@ jsonContent:
       tags: true
 
 leancloud_counter_security:
-  enable_sync: true
+  enable_sync: false
   app_id: Xms77fPtgRQDoOFh7gxDB6BU-gzGzoHsz
   app_key: 1jK0c8KSqLajBWxD53aGfXQ3
