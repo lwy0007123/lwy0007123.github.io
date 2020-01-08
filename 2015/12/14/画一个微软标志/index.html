@@ -55,7 +55,7 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://www.findshank.com/2015/12/14/画一个微软标志/20151209232926.png">
-<meta property="og:updated_time" content="2020-01-08T09:24:20.601Z">
+<meta property="og:updated_time" content="2020-01-08T09:56:19.959Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="画一个微软标志">
 <meta name="twitter:image" content="http://www.findshank.com/2015/12/14/画一个微软标志/20151209232926.png">
@@ -239,7 +239,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-01-08 17:24:20" itemprop="dateModified" datetime="2020-01-08T17:24:20+08:00">2020-01-08</time>
+                <time title="Modified: 2020-01-08 17:56:19" itemprop="dateModified" datetime="2020-01-08T17:56:19+08:00">2020-01-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -487,11 +487,9 @@
         .then(({ results }) => {
           if (results.length > 0) {
             var counter = results[0];
+              leancloudSelector(url).innerText = counter.time + 1;
             Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
               .then(response => response.json())
-              .then(() => {
-                leancloudSelector(url).innerText = counter.time + 1;
-              })
               .catch(error => {
                 console.error('Failed to save visitor count', error);
               })

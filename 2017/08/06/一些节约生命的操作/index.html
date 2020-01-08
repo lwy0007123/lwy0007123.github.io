@@ -56,7 +56,7 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="你是否感觉  pip， npm, git， docker 之类的工具下载安装奇慢？因为它们的默认服务器都在国外，那么需要必要的设置才能发挥咱百兆光纤的作用。下面介绍方法:">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-01-08T09:24:20.593Z">
+<meta property="og:updated_time" content="2020-01-08T09:56:19.951Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一些节约生命的操作 (墙内加速 git pip conda npm docker)">
 <meta name="twitter:description" content="你是否感觉  pip， npm, git， docker 之类的工具下载安装奇慢？因为它们的默认服务器都在国外，那么需要必要的设置才能发挥咱百兆光纤的作用。下面介绍方法:">
@@ -240,7 +240,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-01-08 17:24:20" itemprop="dateModified" datetime="2020-01-08T17:24:20+08:00">2020-01-08</time>
+                <time title="Modified: 2020-01-08 17:56:19" itemprop="dateModified" datetime="2020-01-08T17:56:19+08:00">2020-01-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -544,11 +544,9 @@
         .then(({ results }) => {
           if (results.length > 0) {
             var counter = results[0];
+              leancloudSelector(url).innerText = counter.time + 1;
             Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
               .then(response => response.json())
-              .then(() => {
-                leancloudSelector(url).innerText = counter.time + 1;
-              })
               .catch(error => {
                 console.error('Failed to save visitor count', error);
               })

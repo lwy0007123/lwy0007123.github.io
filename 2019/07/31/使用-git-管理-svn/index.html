@@ -56,7 +56,7 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="习惯于使用 git 的你，可能会受不了 svn 残缺的功能。 还好 git 拥有一个十分好用的命令 git svn。 本文仅记录普通场景的使用，详细内容见官方文档。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-01-08T09:24:20.593Z">
+<meta property="og:updated_time" content="2020-01-08T09:56:19.951Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 git 管理 svn">
 <meta name="twitter:description" content="习惯于使用 git 的你，可能会受不了 svn 残缺的功能。 还好 git 拥有一个十分好用的命令 git svn。 本文仅记录普通场景的使用，详细内容见官方文档。">
@@ -240,7 +240,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-01-08 17:24:20" itemprop="dateModified" datetime="2020-01-08T17:24:20+08:00">2020-01-08</time>
+                <time title="Modified: 2020-01-08 17:56:19" itemprop="dateModified" datetime="2020-01-08T17:56:19+08:00">2020-01-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -543,11 +543,9 @@
         .then(({ results }) => {
           if (results.length > 0) {
             var counter = results[0];
+              leancloudSelector(url).innerText = counter.time + 1;
             Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
               .then(response => response.json())
-              .then(() => {
-                leancloudSelector(url).innerText = counter.time + 1;
-              })
               .catch(error => {
                 console.error('Failed to save visitor count', error);
               })

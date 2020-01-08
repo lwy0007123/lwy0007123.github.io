@@ -62,7 +62,7 @@
 <meta property="og:image" content="http://www.findshank.com/2019/07/16/LoRaWAN-Backend-Interfaces-v1-0-学习-p3/f9.png">
 <meta property="og:image" content="http://www.findshank.com/2019/07/16/LoRaWAN-Backend-Interfaces-v1-0-学习-p3/f10.png">
 <meta property="og:image" content="http://www.findshank.com/2019/07/16/LoRaWAN-Backend-Interfaces-v1-0-学习-p3/f11.png">
-<meta property="og:updated_time" content="2020-01-08T09:24:20.581Z">
+<meta property="og:updated_time" content="2020-01-08T09:56:19.939Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="LoRaWAN Backend Interfaces v1.0 学习 (p3)">
 <meta name="twitter:description" content="接上一篇。 原文档链接 本部分主要介绍漫游过程。">
@@ -247,7 +247,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-01-08 17:24:20" itemprop="dateModified" datetime="2020-01-08T17:24:20+08:00">2020-01-08</time>
+                <time title="Modified: 2020-01-08 17:56:19" itemprop="dateModified" datetime="2020-01-08T17:56:19+08:00">2020-01-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -610,11 +610,9 @@
         .then(({ results }) => {
           if (results.length > 0) {
             var counter = results[0];
+              leancloudSelector(url).innerText = counter.time + 1;
             Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
               .then(response => response.json())
-              .then(() => {
-                leancloudSelector(url).innerText = counter.time + 1;
-              })
               .catch(error => {
                 console.error('Failed to save visitor count', error);
               })

@@ -56,7 +56,7 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="problem12345678910panic: runtime error: invalid memory address or nil pointer dereference[signal SIGSEGV: segmentation violation code=0x1 addr=0x10 pc=0x6e2bea]goroutine 10233 [running]:.../backend.(*">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-01-08T09:24:20.585Z">
+<meta property="og:updated_time" content="2020-01-08T09:56:19.943Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Solve ridiculous problem in Golang">
 <meta name="twitter:description" content="problem12345678910panic: runtime error: invalid memory address or nil pointer dereference[signal SIGSEGV: segmentation violation code=0x1 addr=0x10 pc=0x6e2bea]goroutine 10233 [running]:.../backend.(*">
@@ -240,7 +240,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-01-08 17:24:20" itemprop="dateModified" datetime="2020-01-08T17:24:20+08:00">2020-01-08</time>
+                <time title="Modified: 2020-01-08 17:56:19" itemprop="dateModified" datetime="2020-01-08T17:56:19+08:00">2020-01-08</time>
               </span>
 
           
@@ -469,11 +469,9 @@
         .then(({ results }) => {
           if (results.length > 0) {
             var counter = results[0];
+              leancloudSelector(url).innerText = counter.time + 1;
             Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
               .then(response => response.json())
-              .then(() => {
-                leancloudSelector(url).innerText = counter.time + 1;
-              })
               .catch(error => {
                 console.error('Failed to save visitor count', error);
               })
