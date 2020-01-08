@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+  <link rel="manifest" href="/images/site.webmanifest">
+  <meta name="msapplication-config" content="/images/browserconfig.xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://www.findshank.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="WhatGot a new 256G nvme ssd hard drive. Install Arch Linux again.">
+<meta name="keywords" content="Linux,Arch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Install Arch Linux again">
+<meta property="og:url" content="http://www.findshank.com/2019/03/31/Install-Arch-Linux-again/index.html">
+<meta property="og:site_name" content="Shank&#39;s Notes">
+<meta property="og:description" content="WhatGot a new 256G nvme ssd hard drive. Install Arch Linux again.">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-01-08T09:08:34.645Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Install Arch Linux again">
+<meta name="twitter:description" content="WhatGot a new 256G nvme ssd hard drive. Install Arch Linux again.">
+
+<link rel="canonical" href="http://www.findshank.com/2019/03/31/Install-Arch-Linux-again/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Install Arch Linux again | Shank's Notes</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shank's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Code & Tech & Life</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="http://www.findshank.com/2019/03/31/Install-Arch-Linux-again/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="SKo00o">
+      <meta itemprop="description" content="Nothing or Anything">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shank's Notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Install Arch Linux again<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/_posts/Install-Arch-Linux-again.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pencil"></i></a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-31 17:29:08" itemprop="dateCreated datePublished" datetime="2019-03-31T17:29:08+08:00">2019-03-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-01-08 17:08:34" itemprop="dateModified" datetime="2020-01-08T17:08:34+08:00">2020-01-08</time>
+              </span>
+
+          
+            <span id="/2019/03/31/Install-Arch-Linux-again/" class="post-meta-item leancloud_visitors" data-flag-title="Install Arch Linux again" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="What"><a href="#What" class="headerlink" title="What"></a>What</h1><p>Got a new 256G nvme ssd hard drive.</p>
+<p>Install Arch Linux again.</p>
+<a id="more"></a>
+<h1 id="Prepare"><a href="#Prepare" class="headerlink" title="Prepare"></a>Prepare</h1><p>Download latest ISO file <a href="https://www.archlinux.org/download/" target="_blank" rel="noopener">here</a>.</p>
+<p>Check md5 with tools. e.g. <code>md5sum</code>  on linux.</p>
+<p>Write ISO file in your usb driver.</p>
+<blockquote>
+<p>select <code>GPT</code> for EFI only</p>
+</blockquote>
+<p>Plug in you usb drive and reboot into it.</p>
+<h1 id="partition"><a href="#partition" class="headerlink" title="partition"></a>partition</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># list all disks and partitions</span></span><br><span class="line">fdisk -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># my new ssd is `nvme0n1`</span></span><br><span class="line"><span class="comment"># make partition table with `cfdisk`</span></span><br><span class="line">cfisk /dev/nvme0n1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 512M EFI file system --&gt; nvme0n1p1</span></span><br><span class="line"><span class="comment"># 218G Linux file system --&gt; nvme0n1p2</span></span><br><span class="line"><span class="comment"># 20G swap space --&gt; nvme0n1p3</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># write then quit</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># format new partitions</span></span><br><span class="line">mkfs.fat -F32 /dev/nvme0n1p1</span><br><span class="line">mkfs.ext4 /dev/nvme0n1p2</span><br><span class="line">mkswap /dev/nvme0n1p3</span><br><span class="line">swapon /dev/nvme0n1p3</span><br><span class="line"></span><br><span class="line"><span class="comment"># mount to /mnt</span></span><br><span class="line">mount /dev/nvme0n1p2 /mnt</span><br><span class="line">mkdir -p /mnt/boot</span><br><span class="line">mount /dev/nvme0n1p1 /mnt/boot</span><br></pre></td></tr></table></figure>
+<h1 id="Install"><a href="#Install" class="headerlink" title="Install"></a>Install</h1><p>If your network special as China, I recommended you change pacman mirror first.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/pacman.d</span><br><span class="line">mv ./mirrorlist ./mirrorlist.bak</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'Server = http://mirrors.163.com/archlinux/$repo/os/$arch'</span> &gt; ./mirrorlist</span><br></pre></td></tr></table></figure>
+<p>Then follow the pase.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Update you pacman database</span></span><br><span class="line">pacman -Syy</span><br><span class="line"><span class="comment"># Install base and dev-base</span></span><br><span class="line">pacstrap -i /mnt base base-devel</span><br><span class="line"><span class="comment"># Type enter enter enter ...</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Generate fstab</span></span><br><span class="line">genfstab -U /mnt &gt;&gt; /mnt/etc/fstab</span><br><span class="line"></span><br><span class="line"><span class="comment"># Change root</span></span><br><span class="line">arch-chroot /mnt</span><br><span class="line"></span><br><span class="line"><span class="comment"># set timezone, I live in China, so I use this timezone.</span></span><br><span class="line">ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br><span class="line"></span><br><span class="line"><span class="comment"># set localtime instead of UTC time, I want my windows have same time set.</span></span><br><span class="line">hwclock --systohc -l</span><br><span class="line"></span><br><span class="line"><span class="comment"># Install vim first</span></span><br><span class="line">pacman -S vim</span><br><span class="line"></span><br><span class="line"><span class="comment"># Localization</span></span><br><span class="line">vim /etc/locale.gen</span><br><span class="line"><span class="comment"># uncommit follow lines and save</span></span><br><span class="line"><span class="comment">#en_US.UTF-8 UTF-8</span></span><br><span class="line"><span class="comment">#zh_CN.GBK GBK</span></span><br><span class="line"><span class="comment">#zh_CN.UTF-8 UTF-8</span></span><br><span class="line"><span class="comment">#zh_CN.GB2312</span></span><br><span class="line">locale-gen</span><br><span class="line"><span class="comment"># set default locale</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'LANG=en_US.UTF-8'</span> &gt; /etc/locale.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># Network</span></span><br><span class="line"><span class="built_in">echo</span> HOSTNAME &gt; /etc/hostname</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'127.0.0.1 localhost'</span> &gt;&gt; /etc/hosts</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'::1       localhost'</span> &gt;&gt; /etc/hosts</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'127.0.1.1 HOSTNAME.localdomain    HOSTNAME'</span>  &gt;&gt;/etc/hosts</span><br><span class="line"></span><br><span class="line"><span class="comment"># dhcpcd enable</span></span><br><span class="line">systemctl <span class="built_in">enable</span> dhcpcd</span><br><span class="line"></span><br><span class="line"><span class="comment"># Initramfs</span></span><br><span class="line">mkinitcpio -p linux</span><br><span class="line"></span><br><span class="line"><span class="comment"># set root password</span></span><br><span class="line">passwd</span><br><span class="line"></span><br><span class="line"><span class="comment"># Boot loader install intel mocro-code</span></span><br><span class="line">pacman -S intel-ucode</span><br><span class="line"></span><br><span class="line"><span class="comment"># use grub for boot manage</span></span><br><span class="line">pacman -S grub efibootmgr os-prober</span><br><span class="line">grub-install --efi-directory=/boot --bootloader-id=ArchLinux --recheck</span><br><span class="line"></span><br><span class="line"><span class="comment"># If your windows boot loader in other EFI partition, you can mount the partition,</span></span><br><span class="line"><span class="comment"># and copy `Boot` and `Microsoft` to your /boot/EFI/, otherwise, grub can not</span></span><br><span class="line"><span class="comment"># find your windows boot loader.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># set default boot on last saved one</span></span><br><span class="line">vim /etc/default/grub</span><br><span class="line"><span class="comment"># GRUB_DEFAULT=saved</span></span><br><span class="line"><span class="comment"># GRUB_SAVEDEFAULT="true"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># generate grub.cfg</span></span><br><span class="line">grub-mkconfig -o /boot/grub/grub.cfg</span><br><span class="line"></span><br><span class="line"><span class="comment"># install more apps</span></span><br><span class="line">pacman -S iw wpa_supplicant dialog <span class="comment"># wifi support</span></span><br><span class="line">pacman -S ttf-dejavu wqy-microhei wqy-zenhei <span class="comment"># font support</span></span><br><span class="line">pacman -S alsa-utils <span class="comment"># sound</span></span><br><span class="line">pacman -S dosfstools <span class="comment"># support NTFS usb driver</span></span><br><span class="line">pacman -S zsh openssh</span><br><span class="line"></span><br><span class="line"><span class="comment"># exit, unmount and reboot</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">umount -R /mnt</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+<h1 id="After-Install"><a href="#After-Install" class="headerlink" title="After Install"></a>After Install</h1><h2 id="check-network"><a href="#check-network" class="headerlink" title="check network"></a>check network</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># check if your network interfaces</span></span><br><span class="line">ip link</span><br><span class="line"><span class="comment"># if state is DOWN, maybe you dhcpcd not run</span></span><br><span class="line">systemctl start dhcpcd &amp;&amp; systemctl <span class="built_in">enable</span> dhcpcd</span><br></pre></td></tr></table></figure>
+<h2 id="new-sudo-user"><a href="#new-sudo-user" class="headerlink" title="new sudo user"></a>new sudo user</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># then add a new user, my username is shank</span></span><br><span class="line">useradd -m -g users -s /bin/zsh shank</span><br><span class="line"><span class="comment"># new passord for new user</span></span><br><span class="line">passwd shank</span><br><span class="line"><span class="comment"># set new user in sudo</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'shank ALL=(ALL) ALL'</span> &gt; /etc/sudoers.d/shank</span><br></pre></td></tr></table></figure>
+<h2 id="dual-video-card-driver"><a href="#dual-video-card-driver" class="headerlink" title="dual video card driver"></a>dual video card driver</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># check you video card</span></span><br><span class="line">lspci | grep VGA</span><br><span class="line"><span class="comment"># found my NVIDIA GTX 1060 here</span></span><br><span class="line"><span class="comment"># install driver for video card</span></span><br><span class="line">pacman -S mesa vulkan-intel</span><br><span class="line"><span class="comment"># pacman -S xf86-video-intel # often not recommended</span></span><br><span class="line">pacman -S nvidia</span><br><span class="line">pacman -S nvidia-libgl</span><br><span class="line">pacman -S xorg-xrandr</span><br><span class="line">nvidia-xconfig</span><br></pre></td></tr></table></figure>
+<h2 id="desktop-environment"><a href="#desktop-environment" class="headerlink" title="desktop environment"></a>desktop environment</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Install an desktop manager</span></span><br><span class="line">sudo pacman -S sddm</span><br><span class="line"></span><br><span class="line"><span class="comment"># Install an desktop environment</span></span><br><span class="line">sudo pacman -S gnome</span><br><span class="line"></span><br><span class="line"><span class="comment"># enable the desktop manager</span></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> sddm</span><br><span class="line"></span><br><span class="line"><span class="comment"># Install NetworkManager</span></span><br><span class="line">sudo pacman -S networkmanager</span><br><span class="line"></span><br><span class="line"><span class="comment"># enable the NetworkManager</span></span><br><span class="line">sudo systemctl <span class="built_in">enable</span> NetworkManager</span><br><span class="line"></span><br><span class="line"><span class="comment"># then reboot</span></span><br><span class="line">sudo reboot</span><br></pre></td></tr></table></figure>
+<h2 id="install-yay"><a href="#install-yay" class="headerlink" title="install yay"></a>install yay</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S git</span><br><span class="line">git <span class="built_in">clone</span> https://aur.archlinux.org/yay.git</span><br><span class="line"><span class="built_in">cd</span> yay</span><br><span class="line">makepkg -si</span><br></pre></td></tr></table></figure>
+<h2 id="more-apps"><a href="#more-apps" class="headerlink" title="more apps"></a>more apps</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S \</span><br><span class="line">ibus ibus-qt ibus-rime \</span><br><span class="line">ttf-inconsolata noto-fonts-cjk \</span><br><span class="line">powerline-fonts ttf-font-awesome \</span><br><span class="line">net-tools dnsutils inetutils iproute2 \</span><br><span class="line">zsh terminator thunar \</span><br><span class="line">vlc alsa-utils deadbeef cmus telegram-desktop \</span><br><span class="line">goldendict mplayer \</span><br><span class="line">go git wget openssh unzip unrar \</span><br><span class="line">ntfs-3g deluge shadowsocks shadowsocks-qt5 \</span><br><span class="line">gnome gnome-tweaks \</span><br><span class="line">numix-gtk-theme</span><br><span class="line"></span><br><span class="line">yay -S numix-circle-icon-theme-git \</span><br><span class="line">capitaine-cursors \</span><br><span class="line">google-chrome \</span><br><span class="line">visual-studio-code-bin \</span><br><span class="line">foxitreader \</span><br><span class="line">anaconda</span><br></pre></td></tr></table></figure>
+<h2 id="more-operations"><a href="#more-operations" class="headerlink" title="more operations"></a>more operations</h2><h3 id="set-oh-my-zsh"><a href="#set-oh-my-zsh" class="headerlink" title="set oh-my-zsh"></a>set oh-my-zsh</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)</span>"</span></span><br></pre></td></tr></table></figure>
+<h3 id="set-anaconda"><a href="#set-anaconda" class="headerlink" title="set anaconda"></a>set anaconda</h3><p>Don’t set anaconda in your path, will occur many problems!<br>So we just set <code>alias</code> to make it easy for activate conda environment.</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim ~/.zshrc</span></span><br><span class="line"><span class="built_in">alias</span> activate-env=<span class="string">"source /opt/anaconda/bin/activate"</span></span><br><span class="line"><span class="built_in">alias</span> deactivate-env=<span class="string">"source /opt/anaconda/bin/deactivate"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ease access to conda</span></span><br><span class="line">sudo ln /opt/anaconda/bin/conda /usr/bin/conda</span><br></pre></td></tr></table></figure>
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
+<li><a href="https://wiki.archlinux.org/index.php/EFI_system_partition" target="_blank" rel="noopener">Installation guide</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/Arch/" rel="tag"># Arch</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/03/14/install-postgresql-on-centos7/" rel="prev" title="Install PostgreSQL on CentOS7">
+      <i class="fa fa-chevron-left"></i> Install PostgreSQL on CentOS7
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/04/01/try-faceswap-on-archlinux/" rel="next" title="Try faceswap with Arch Linux">
+      Try faceswap with Arch Linux <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODE1OC8xNDY4OA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#What"><span class="nav-number">1.</span> <span class="nav-text">What</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Prepare"><span class="nav-number">2.</span> <span class="nav-text">Prepare</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#partition"><span class="nav-number">3.</span> <span class="nav-text">partition</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Install"><span class="nav-number">4.</span> <span class="nav-text">Install</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#After-Install"><span class="nav-number">5.</span> <span class="nav-text">After Install</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#check-network"><span class="nav-number">5.1.</span> <span class="nav-text">check network</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#new-sudo-user"><span class="nav-number">5.2.</span> <span class="nav-text">new sudo user</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dual-video-card-driver"><span class="nav-number">5.3.</span> <span class="nav-text">dual video card driver</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#desktop-environment"><span class="nav-number">5.4.</span> <span class="nav-text">desktop environment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#install-yay"><span class="nav-number">5.5.</span> <span class="nav-text">install yay</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#more-apps"><span class="nav-number">5.6.</span> <span class="nav-text">more apps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#more-operations"><span class="nav-number">5.7.</span> <span class="nav-text">more operations</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#set-oh-my-zsh"><span class="nav-number">5.7.1.</span> <span class="nav-text">set oh-my-zsh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#set-anaconda"><span class="nav-number">5.7.2.</span> <span class="nav-text">set anaconda</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ref"><span class="nav-number">6.</span> <span class="nav-text">Ref</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="SKo00o"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">SKo00o</p>
+  <div class="site-description" itemprop="description">Nothing or Anything</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sko00o" title="GitHub → https://github.com/sko00o" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:lwylwy@outlook.com" title="E-Mail → mailto:lwylwy@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SKo00o</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+  <script>
+  function leancloudSelector(url) {
+    url = encodeURI(url);
+    return document.getElementById(url).querySelector('.leancloud-visitors-count');
+  }
+  if (CONFIG.page.isPost) {
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.getAttribute('id'));
+      var title = visitors.getAttribute('data-flag-title');
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .then(response => response.json())
+              .then(() => {
+                leancloudSelector(url).innerText = counter.time + 1;
+              })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              })
+          } else {
+              Counter('post', '/classes/Counter', { title: title, url: url, time: 1 })
+                .then(response => response.json())
+                .then(() => {
+                  leancloudSelector(url).innerText = 1;
+                })
+                .catch(error => {
+                  console.error('Failed to create', error);
+                });
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+  } else {
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.getAttribute('id'));
+      });
+
+      Counter('get', `/classes/Counter?where=${JSON.stringify({ url: { '$in': entries } })}`)
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length === 0) {
+            document.querySelectorAll('.leancloud_visitors .leancloud-visitors-count').forEach(element => {
+              element.innerText = 0;
+            });
+            return;
+          }
+          for (let item of results) {
+            let { url, time } = item;
+            leancloudSelector(url).innerText = time;
+          }
+          for (let url of entries) {
+            var element = leancloudSelector(url);
+            if (element.innerText == '') {
+              element.innerText = 0;
+            }
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+  }
+
+  fetch('https://app-router.leancloud.cn/2/route?appId=Xms77fPtgRQDoOFh7gxDB6BU-gzGzoHsz')
+    .then(response => response.json())
+    .then(({ api_server }) => {
+      var Counter = (method, url, data) => {
+        return fetch(`https://${api_server}/1.1${url}`, {
+          method: method,
+          headers: {
+            'X-LC-Id': 'Xms77fPtgRQDoOFh7gxDB6BU-gzGzoHsz',
+            'X-LC-Key': '1jK0c8KSqLajBWxD53aGfXQ3',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>
