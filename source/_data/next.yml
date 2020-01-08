@@ -290,7 +290,7 @@ rating:
 # Show number of visitors to each article.
 # You can visit https://leancloud.cn get AppID and AppKey.
 leancloud_visitors:
-  enable: true
+  enable: false
   app_id: Xms77fPtgRQDoOFh7gxDB6BU-gzGzoHsz
   app_key: 1jK0c8KSqLajBWxD53aGfXQ3
   # Dependencies: https://github.com/theme-next/hexo-leancloud-counter-security
@@ -298,6 +298,15 @@ leancloud_visitors:
   # (without hexo-leancloud-counter-security plugin), set the `security` to `false`.
   security: false
   betterPerformance: true
+
+# Another tool to show number of visitors to each article.
+# Visit https://console.firebase.google.com/u/0/ to get apiKey and projectId.
+# Visit https://firebase.google.com/docs/firestore/ to get more information about firestore.
+firestore:
+  enable: true
+  collection: articles # Required, a string collection name to access firestore database
+  apiKey: AIzaSyAh5G6EjuxSOyExsKAcgFnc6AMLOn75q44 # Required
+  projectId: myblog-1520f # Required
 
 # Show Views/Visitors of the website/page with busuanzi.
 # Get more information on http://ibruce.info/2015/04/04/busuanzi/
