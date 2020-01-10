@@ -453,8 +453,47 @@
 <p>终端设备发送第一次上行链路数据包。NS2 应该（SHALL）发送这个数据包给 NS1 。</p>
 <p>步骤 12：</p>
 <p>当 NS2 接收到终端设备的第一次上行链路数据包时， NS2 开始充当 sNS， 而 NS1 停止充当 sNS 。同时， NS1 继续作为 hNS 服务于终端设备。</p>
-<h4 id="11-4-2-数据包传输"><a href="#11-4-2-数据包传输" class="headerlink" title="11.4.2 数据包传输"></a>11.4.2 数据包传输</h4><p>TODO …</p>
-<h4 id="11-4-3-切换漫游停止"><a href="#11-4-3-切换漫游停止" class="headerlink" title="11.4.3 切换漫游停止"></a>11.4.3 切换漫游停止</h4><h4 id="11-4-4-hNS-重获控制权"><a href="#11-4-4-hNS-重获控制权" class="headerlink" title="11.4.4 hNS 重获控制权"></a>11.4.4 hNS 重获控制权</h4>]]></content>
+<h4 id="11-4-2-数据包传输"><a href="#11-4-2-数据包传输" class="headerlink" title="11.4.2 数据包传输"></a>11.4.2 数据包传输</h4><p>切换漫游的案例中，hNS 和 sNS 应该（SHALL）使用和被动漫游（参见 11.3.2 节）相同方式的 XmitDataReq/Ans 消息。唯一的不同就是， hNS-sNS 接口携带的是 FRMPayload 而不是 PHYPayload，ULMetadata/DLMetadata 包含不同的对象集合在第 16 节描述。</p>
+<h4 id="11-4-3-切换漫游停止"><a href="#11-4-3-切换漫游停止" class="headerlink" title="11.4.3 切换漫游停止"></a>11.4.3 切换漫游停止</h4><p>图 f12 阐明在终端设备执行切换漫游到新的 sNS 之后，hNS 与之前提供服务的 sNS 终止了切换漫游。</p>
+<p><img src="f12.png" alt="Figure 12 Termination of sNS"></p>
+<p>步骤 0：</p>
+<p>终端设备在 NS1 和 NS2 之间执行切换漫游。</p>
+<p>步骤 1：</p>
+<p>终端设备在 NS1 和 NS3 之间执行切换漫游。</p>
+<p>步骤 2：</p>
+<p>终端设备的第一次上行数据包通过新的 sNS （NS3） 被 NS1 接收到。</p>
+<p>步骤 3：</p>
+<p>当 NS1 通过新的 sNS （NS3）收到终端设备的第一条上行包时， NS1 应该（SHALL）发送一条带有 DevEUI 的 HRStopReq 消息到之前的 sNS （NS2）。</p>
+<p>HRStopReq 消息带有可选的 Lifetime ，表示 NS1 不希望在规定时间内收到 NS2 的另一条 HRStartReq 消息。</p>
+<p>步骤 4：</p>
+<p>如果 NS2 为收到 DevEUI 标识的终端设备和相关联的 NS1 激活了切换漫游， 则先前提供服务的 sNS （NS2）应该终止切换漫游并且发送携带 Result=Success 的 HRStopAns 消息给 NS1 。 如果 NS2 没有为中断设别和相关联的 NS1 激活切换漫游，则 NS2 应该（SHALL）发送携带 Result=UnknownDevEUI 的 HRStopAns 消息给 NS1 。</p>
+<p>步骤 5：</p>
+<p>NS2 停止作为 sNS 为终端设备的 LoRa 会话提供服务。如果 NS2 为终端设备的 LoRa 会话启用了和其他 NS 的被动漫游，则 NS2 应该（SHALL） 也终止和那个 NS 的被动漫游。</p>
+<p>如果先前用 HRStopReq 命令终止了对终端设备的切换漫游，则新的 HRStopReq 命令 Lifetime 值为 0 ，使 NS2 能够在收到新的类型为 0 的 Rejoin-request 请求后再次向该终端设备发送 HRStart 请求。</p>
+<p>另一种情况是当 sNS 决定终止漫游时终止切换漫游。sNS 可以通过发送 ForceRejoinReq 命令给终端设备来执行终止流程。然后， sNS 应该（SHALL）发送带有 DevEUI 的 HRStopReq 给 hNS 。如果 hNS 已经激活了 DevEUI 标识的终端设别和相关联 sNS 的切换漫游， hNS 应该（SHALL）终止切换漫游并且发送一条带有 Result=Success 的 HRStopAns 给 sNS 。如果 hNS 没有和相关联的终端设备激活切换漫游，那么 hNS 应该（SHALL）发送携带 Result=UnknownDevEUI 的 HRStopAns 消息给 sNS 。即使 sNS 从 hNS 收到了错误结果，仍然可以终止切换漫游。</p>
+<h4 id="11-4-4-hNS-重获控制权"><a href="#11-4-4-hNS-重获控制权" class="headerlink" title="11.4.4 hNS 重获控制权"></a>11.4.4 hNS 重获控制权</h4><p>图 f13 阐释了 hNS 通过接管当前服务的 sNS 而变成 sNS 的消息流程。</p>
+<p><img src="f13.png" alt="Figure 13 hNS regaining sNS control"></p>
+<p>步骤 0：</p>
+<p>终端设备在 NS1 和 NS2 之间执行切换漫游。</p>
+<p>步骤 1：</p>
+<p>NS1 决定变成 sNS 。</p>
+<p>步骤 2：</p>
+<p>NS1 应该（SHALL）发送一条带有 DevEUI 的 HRStartReq 消息给 NS2 触发切换漫游。 </p>
+<blockquote>
+<p>原文有误，稍作修改。原文：<code>The NS1 SHALL send an HRStartReq message to the NS1 carrying DevEUI to trigger the Handover Roaming.</code></p>
+</blockquote>
+<p>步骤 3：</p>
+<p>如果 NS2 通过收到的 DevEUI 标识和相关联的 NS1 为终端设备激活了切换漫游，那 NS2 就应该（SHALL）发送携带 Result=Success 的 HRStartAns 给 NS1 ，否则携带 Result=UnknownDevEUI 。 </p>
+<p>步骤 4：</p>
+<p>NS2 应该（SHALL）初始化网络触发（network-triggered）的切换漫游，如 11.4.1 节所描述。它假设这个流程初始化的时候终端设备在 NS1 的无线电覆盖范围内， NS1 拒绝了来自其他 NS 的切换漫游尝试，包括 NS2 ，而变成了 sNS 。</p>
+<p>步骤 5：</p>
+<p>NS1 直接从终端设备获取到第一次上行数据包。</p>
+<p>步骤 6：</p>
+<p>NS1 应该（SHALL）与 NS2 执行切换漫游的停止流程，如 11.4.3 节所示。</p>
+<p>步骤 7：</p>
+<p>NS2 停止作为 sNS 服务于终端设备的 LoRa 会话。如果 NS2 已经和其他 NS 为终端设备的 LoRa 会话启用了被动漫游，那么 NS2 也应该（SHALL）终止和那个 NS 的被动漫游。</p>
+<p>或者，NS1 可以等到终端设备自己决定要初始化切换漫游，有效的跳过步骤 2 和 3，继续步骤 4 至 7 。</p>
+]]></content>
       <categories>
         <category>LoRaWAN</category>
       </categories>
