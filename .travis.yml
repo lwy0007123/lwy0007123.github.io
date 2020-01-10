@@ -1,4 +1,4 @@
-sudo: false
+os: linux
 language: node_js
 node_js:
   - 10 # use nodejs v10 LTS
@@ -14,12 +14,12 @@ script:
   - hexo generate # generate static files
 deploy:
   provider: pages
-  skip-cleanup: true
-  github-token: $GH_TOKEN
-  keep-history: true
+  token: $GH_TOKEN
+  skip_cleanup: true
+  keep_history: true
+  target_branch: master
+  local_dir: public
   on:
     # solve "Skipping a deployment with the pages provider because this branch 
     # is not permitted"
     all_branches: true
-  target_branch: master
-  local-dir: public
