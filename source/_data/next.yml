@@ -229,7 +229,11 @@ livere_uid: MTAyMC8zODE1OC8xNDY4OA==
 #google_site_verification:
 
 # Google Analytics
-google_analytics: UA-128359433-1
+google_analytics:
+  tracking_id: UA-128359433-1
+  # By default, NexT will load an external gtag.js script on your site.
+  # If you only need the pageview feature, set the following option to true to get a better performance.
+  only_pageview: false
 
 # Bing Webmaster tools verification setting
 # See: https://www.bing.com/webmaster/
