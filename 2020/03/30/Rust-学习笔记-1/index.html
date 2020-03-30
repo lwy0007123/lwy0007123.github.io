@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+  <link rel="manifest" href="/images/site.webmanifest">
+  <meta name="msapplication-config" content="/images/browserconfig.xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css?family=Lato:300,300italic,400,400italic,700,700italic|Inconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://www.findshank.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"flat"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    comments: {"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":null,"activeClass":"livere"},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":true,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="阅读 《 Rust 程序设计》的一些笔记。 从一个猜数字游戏了解语言特性。">
+<meta name="keywords" content="rust">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust 学习笔记 1">
+<meta property="og:url" content="https://www.findshank.com/2020/03/30/Rust-学习笔记-1/index.html">
+<meta property="og:site_name" content="Shank&#39;s Notes">
+<meta property="og:description" content="阅读 《 Rust 程序设计》的一些笔记。 从一个猜数字游戏了解语言特性。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-03-30T15:53:01.375Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Rust 学习笔记 1">
+<meta name="twitter:description" content="阅读 《 Rust 程序设计》的一些笔记。 从一个猜数字游戏了解语言特性。">
+
+<link rel="canonical" href="https://www.findshank.com/2020/03/30/Rust-学习笔记-1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Rust 学习笔记 1 | Shank's Notes</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128359433-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-128359433-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shank's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Code & Tech & Life</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.findshank.com/2020/03/30/Rust-学习笔记-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="sko00o">
+      <meta itemprop="description" content="Nothing or Anything">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shank's Notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Rust 学习笔记 1<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/Rust-学习笔记-1.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pencil"></i></a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-03-30 23:39:35 / Modified: 23:53:01" itemprop="dateCreated datePublished" datetime="2020-03-30T23:39:35+08:00">2020-03-30</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-users"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="firestore-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>阅读 <a href="https://doc.rust-lang.org/book" target="_blank" rel="noopener">《 Rust 程序设计》</a>的一些笔记。</p>
+<p>从一个猜数字游戏了解语言特性。</p>
+<a id="more"></a>
+<blockquote>
+<p>参考<a href="https://doc.rust-lang.org/book/ch02-00-guessing-game-tutorial.html" target="_blank" rel="noopener">原文</a></p>
+</blockquote>
+<h2 id="保存值到变量"><a href="#保存值到变量" class="headerlink" title="保存值到变量"></a>保存值到变量</h2><p>Rust 中，变量默认是不可变的（immutable）。</p>
+<p><code>String::new</code> 函数返回的 <code>String.String</code> 是标准库提供的字符串类型，它是可增长的（grawable），UTF-8 编码的文本。</p>
+<p><code>::new</code> 中的 <code>::</code> 语法表明 <code>new</code> 是 <code>String</code> 类型的关联函数（associated function），关联函数都是再类型上实现的，而不是再某一类型的特定实例上实现。</p>
+<p><code>&amp;</code> 表明这个参数是一个引用（reference），即直接访问某块内存中的数据而不需要拷贝。引用是一项复杂的功能， Rust 的主要优势之一是使用引用的安全性和便捷性（第 4 章会有详细介绍）。而目前需要知道的是，像变量一样，引用也默认是不可变的，因此 <code>read_line()</code> 函数中需要传递 <code>&amp;mut guess</code> 参数，而不是 <code>&amp;guess</code> 。</p>
+<h2 id="使用结果（Result）类型处理潜在的故障"><a href="#使用结果（Result）类型处理潜在的故障" class="headerlink" title="使用结果（Result）类型处理潜在的故障"></a>使用结果（Result）类型处理潜在的故障</h2><p><code>read_line</code> 接收用户输入，返回一个值，本例中它是 <code>io::Result</code>， Rust 在其标准库中有大量名为 <code>Result</code> 的类型：通用 <code>Result</code> 和特定版本的子模块，例如 <code>io::Result</code> 。</p>
+<p><code>Result</code> 类型是枚举类型（enumerations），通常被成为 <code>enums</code>，枚举类型是一种有固定值集合的类型，这些值成为枚举变量，第 6 章会详细介绍枚举类型。</p>
+<p><code>Result</code> 类型的目的是对错误处理（error-handling）信息进行编码。<code>io::Result</code> 的实例拥有 <code>expect</code> 方法。如果 <code>io::Result</code> 实例是一个 <code>Err</code> 值， <code>expect</code> 将导致程序崩溃，并显示你传递给 <code>expect</code> 的参数。如果 <code>read_line</code> 方法返回一个 <code>Err</code> ，可能是来自底层操作系统的错误导致的。如果 <code>io::Result</code> 实例是 <code>Ok</code> 值，<code>expect</code> 将获得 <code>Ok</code> 持有的返回值，并只将该值返回给你，以便你使用它。这种情况下，该值是用户输入到标准输入的字节数。</p>
+<p>如果你不调用 <code>expect</code> ，程序可以通过编译，但是你会获得警告：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">warning: unused `std::result::Result` that must be used</span><br><span class="line"> --&gt; src/main.rs:8:5</span><br><span class="line">  |</span><br><span class="line">8 | /     io::stdin()</span><br><span class="line">9 | |         .read_line(&amp;mut guess);</span><br><span class="line">  | |_______________________________^</span><br><span class="line">  |</span><br><span class="line">  = note: `<span class="comment">#[warn(unused_must_use)]` on by default</span></span><br><span class="line">  = note: this `Result` may be an `Err` variant, <span class="built_in">which</span> should be handled</span><br></pre></td></tr></table></figure>
+<p>抑制警告的正确做法是编写实际的错误处理，但是你仅仅希望问题发生时程序崩溃，你可以使用 <code>expect</code> 。第 9 章可以学到如何从错误中恢复。</p>
+<h2 id="使用-println-占位符"><a href="#使用-println-占位符" class="headerlink" title="使用 println! 占位符"></a>使用 <code>println!</code> 占位符</h2><p>闭合的大括号 <code>{}</code> 就是一个占位符：<code>{}</code> 像螃蟹的小钳子抓住一个值。</p>
+<h2 id="产生秘密数字"><a href="#产生秘密数字" class="headerlink" title="产生秘密数字"></a>产生秘密数字</h2><p>我们使用 1 至 100 之间的随机数，虽然 Rust 当前的标准库中没有随机数函数，但是 Rust 团队提供了 <code>rand</code> 板条箱（crate）。</p>
+<h2 id="使用板条箱获得更多功能"><a href="#使用板条箱获得更多功能" class="headerlink" title="使用板条箱获得更多功能"></a>使用板条箱获得更多功能</h2><p>一个 crate 是 Rust 源码文件的集合。我们正在构建的项目是一个可执行的二进制板条箱（binary crate）。<code>rand</code> 是一个库板条箱（library crate）包含可以被其他程序使用的代码。</p>
+<p>在 <code>Cargo.toml</code> 文件中，依赖项部分添加一行：</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[dependencies]</span></span><br><span class="line"><span class="attr">rand</span> = <span class="string">"0.5.5"</span></span><br></pre></td></tr></table></figure>
+<p>我们指定 <code>rand</code> 板条箱的语义版本说明符（semantic version specifier）为 <code>0.5.5</code> ， Cargo 理解语义版本（有时称为 <code>SemVer</code>），这是一种书写版本号的标准。<code>0.5.5</code> 是 <code>^0.5.5</code> 的简写，它表示“具有兼容 0.5.5 版本公共 API 的任意版本”。</p>
+<p>执行 <code>cargo build</code> 获取依赖。</p>
+<h2 id="使用-Cargo-lock-文件确保可复制的构建"><a href="#使用-Cargo-lock-文件确保可复制的构建" class="headerlink" title="使用 Cargo.lock 文件确保可复制的构建"></a>使用 Cargo.lock 文件确保可复制的构建</h2><p>Cargo 具有一种机制，可以确保你或其他任何人每次构建代码时都可以重建相同的工件：除非另有说明，否则 Cargo 将仅使用你指定的依赖项版本。</p>
+<h2 id="更新-Crate-获取新版本"><a href="#更新-Crate-获取新版本" class="headerlink" title="更新 Crate 获取新版本"></a>更新 Crate 获取新版本</h2><p><code>update</code> 命令将忽略 Cargo.lock 文件并找到所有最新版本依赖，并写入 Cargo.lock 文件。</p>
+<p>默认情况下，Cargo 将仅查找介于 <code>0.5.5</code> 和 <code>0.6.0</code> 的版本。</p>
+<p>通过修改 Cargo.toml 来指定 rand 0.6.x 版本，再次执行 <code>cargo build</code>， Cargo 将更新可用的注册表，并根据你指定的新版本重新评估你的 <code>rand</code> 需求。</p>
+<h2 id="产生随机数"><a href="#产生随机数" class="headerlink" title="产生随机数"></a>产生随机数</h2><p>首先添加 <code>use</code> 行： <code>use rand::Rng</code> 。 <code>Rng</code> 特征（trait）定义了产生随机数的实现方法，并且该特性必须要在我们可以使用这些方法的范围内。第 10 章详细介绍 trait 。</p>
+<p>接着添加两行， <code>rand::thread_rng</code> 函数将为我们提供将要使用的特定随机数生成器：它有当前线程执行并且操作系统提供随机种子。</p>
+<h2 id="查看使用说明文档"><a href="#查看使用说明文档" class="headerlink" title="查看使用说明文档"></a>查看使用说明文档</h2><p>你不可能一开始就知道要使用哪些 traits 或者要调用哪些函数，crate 的使用说明在其文档中，使用 <code>cargo doc --open</code> 可以构建所有本地依赖的文档。</p>
+<p>使用说明文档生成在 <code>./target/doc/guessing_game/index.html</code> 目录中，我们起一个简单的 web 服务方便查看文档（需要 python3 支持，你也可以直接打开目标文件）。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m http.server -d ./target/doc/</span><br></pre></td></tr></table></figure>
+<p>浏览器打开 <a href="http://localhost:8000/guessing_game" target="_blank" rel="noopener">http://localhost:8000/guessing_game</a> 。</p>
+<h2 id="比较-Guess-和-Secret-Number"><a href="#比较-Guess-和-Secret-Number" class="headerlink" title="比较 Guess 和 Secret Number"></a>比较 Guess 和 Secret Number</h2><p>我们用到了 match 表达式，一个 <code>match</code> 表达式由手臂（arms）构成，手臂由模式（pattern）和执行代码构成，如果 <code>match</code> 表达式开头的值符合该模式，就会执行这段代码。<code>match</code> 结构和模式是 Rust 中的强大功能，可以当你表达代码可能遇到的各种情况，并确保对所有情况进行处理。这些功能分别在第 6 章和第 18 章中详细介绍。</p>
+<p>Rust 具有强大的静态类型系统。然而，它也有类型推断（type inference）。当我们写下 <code>let mut guesss = String::new()</code> ， Rust 就能够推断出 <code>guess</code> 应该是 <code>String</code> 类型。</p>
+<p>由于 <code>guess</code> 和 <code>secret_number</code> 类型不匹配，cmp 方法调用失败，则我们需要类型转换。我们再创建一个变量 <code>guess</code> ，虽然它和之前的变量重名，但是 Rust 允许我们用一个新的值来掩盖（shadow）以前的 <code>guess</code> 值，次功能通常用于值类型转换的情况。掩盖使我们可以重用变量名称，而不是强迫我们创建两个唯一变量，例如 <code>guess_str</code> 和 <code>guess</code> 。（第 3 章详细描述 shadowing ）</p>
+<p><code>trim</code> 方法用于消除（eliminates）按下回车键时被读取到的 <code>\n</code> 字符。</p>
+<p><code>parse</code> 方法作用于字符串可以将字符串解析为数字。但是这个方法可以解析出多种类型，我们要明确指定 <code>guess</code> 的类型：<code>let guess: u32</code> 。</p>
+<p>例程中的 <code>u32</code> 注解，影响到与 <code>secret_number</code> 比较时，将其也推断成 <code>u32</code> 类型。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/rust/" rel="tag"># rust</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/30/Rust-学习笔记-0/" rel="prev" title="Rust 学习笔记 0">
+      <i class="fa fa-chevron-left"></i> Rust 学习笔记 0
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODE1OC8xNDY4OA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#保存值到变量"><span class="nav-number">1.</span> <span class="nav-text">保存值到变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用结果（Result）类型处理潜在的故障"><span class="nav-number">2.</span> <span class="nav-text">使用结果（Result）类型处理潜在的故障</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-println-占位符"><span class="nav-number">3.</span> <span class="nav-text">使用 println! 占位符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#产生秘密数字"><span class="nav-number">4.</span> <span class="nav-text">产生秘密数字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用板条箱获得更多功能"><span class="nav-number">5.</span> <span class="nav-text">使用板条箱获得更多功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Cargo-lock-文件确保可复制的构建"><span class="nav-number">6.</span> <span class="nav-text">使用 Cargo.lock 文件确保可复制的构建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新-Crate-获取新版本"><span class="nav-number">7.</span> <span class="nav-text">更新 Crate 获取新版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#产生随机数"><span class="nav-number">8.</span> <span class="nav-text">产生随机数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看使用说明文档"><span class="nav-number">9.</span> <span class="nav-text">查看使用说明文档</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比较-Guess-和-Secret-Number"><span class="nav-number">10.</span> <span class="nav-text">比较 Guess 和 Secret Number</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="sko00o"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">sko00o</p>
+  <div class="site-description" itemprop="description">Nothing or Anything</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">69</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sko00o" title="GitHub → https://github.com/sko00o" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:lwylwy@outlook.com" title="E-Mail → mailto:lwylwy@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sko00o</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
+  <script>
+    firebase.initializeApp({
+      apiKey: 'AIzaSyAh5G6EjuxSOyExsKAcgFnc6AMLOn75q44',
+      projectId: 'myblog-1520f'
+    });
+
+    function getCount(doc, increaseCount) {
+      // IncreaseCount will be false when not in article page
+      return doc.get().then(d => {
+        var count = 0;
+        if (!d.exists) { // Has no data, initialize count
+          if (increaseCount) {
+            doc.set({
+              count: 1
+            });
+            count = 1;
+          }
+        } else { // Has data
+          count = d.data().count;
+          if (increaseCount) {
+            // If first view this article
+            doc.set({ // Increase count
+              count: count + 1
+            });
+            count++;
+          }
+        }
+
+        return count;
+      });
+    }
+
+    function appendCountTo(el) {
+      return count => {
+        el.innerText = count;
+      }
+    }
+  </script>
+  <script>
+    (function() {
+      var db = firebase.firestore();
+      var articles = db.collection('articles');
+
+      if (CONFIG.page.isPost) { // Is article page
+        var title = document.querySelector('.post-title').innerText.trim();
+        var doc = articles.doc(title);
+        var increaseCount = CONFIG.hostname === location.hostname;
+        if (localStorage.getItem(title)) {
+          increaseCount = false;
+        } else {
+          // Mark as visited
+          localStorage.setItem(title, true);
+        }
+        getCount(doc, increaseCount).then(appendCountTo(document.querySelector('.firestore-visitors-count')));
+      } else if (CONFIG.page.isHome) { // Is index page
+        var promises = [...document.querySelectorAll('.post-title')].map(element => {
+          var title = element.innerText.trim();
+          var doc = articles.doc(title);
+          return getCount(doc);
+        });
+        Promise.all(promises).then(counts => {
+          var metas = document.querySelectorAll('.firestore-visitors-count');
+          counts.forEach((val, idx) => {
+            appendCountTo(metas[idx])(val);
+          });
+        });
+      }
+    })();
+  </script>
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>
