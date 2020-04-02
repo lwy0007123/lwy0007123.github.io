@@ -7,9 +7,19 @@ tags:
 
 阅读 [《 Rust 程序设计》](https://doc.rust-lang.org/book)的一些笔记。
 
-第一个 Rust 项目。
+第 1 章. 第一个 Rust 项目。
 
 <!--more-->
+
+## 安装 Rust
+
+```sh
+curl https://sh.rustup.rs -sSf | sh
+
+export PATH="$HOME/.cargo/bin:$PATH"
+```
+
+> default 模式安装，会修改 ~/.profile 文件，需要手动修改你的环境变量。
 
 ## 新建项目
 
