@@ -7,7 +7,7 @@ tags:
 
 阅读 [《 Rust 程序设计》](https://doc.rust-lang.org/book)的一些笔记。
 
-第 3 章. 通用编程概念
+第 3 章 - 通用编程概念
 
 <!--more-->
 
