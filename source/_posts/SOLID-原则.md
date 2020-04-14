@@ -53,11 +53,11 @@ for message := range claim.Messages() {
 
 ### 规则引擎
 
-当你把某物称为引擎时，意味着你暗示它很强大，它管理这系统中困难工作的核心。这里想法类似。
+当你把某物称为引擎时，意味着它很强大，它管理这系统中困难工作的核心。此处命名理由类似。
 
 当我的规则引擎启动（实例化）时，它就等待 `ProcessEvent()` 接口被调用。在我们的例子中是，消费者去调用它。
 
-因此，它主要负责一件事，至少对外是这样的。
+因此，它主要负责一件事（至少对外是这样的）。
 
 ```go
 type Engine interface {
@@ -110,7 +110,7 @@ func (s *SMSNotifier) Notify(msg string, recipient string) error
 ```
 
 - 问： 为什么后一种方法更好？
-- 答： 考虑“天真”方式的实现，如果客户还要求我们通过电子邮件发送通知，我们就要“打开” SMSNotifier 类的实现，并在其中添加代码。这不可避免地违反了开闭原则。如果我们考虑了后者地实现，我们只需要实现另一个通知者。
+- 答： 考虑“天真”方式的实现，如果客户还要求我们通过电子邮件发送通知，我们就要“打开” SMSNotifier 类的实现，并在其中添加代码。这不可避免地违反了开闭原则。如果我们考虑了后者的实现，我们只需要实现另一个通知者。
 
     ```go
     type EmailNotifier struct {}
@@ -125,6 +125,8 @@ func (s *SMSNotifier) Notify(msg string, recipient string) error
 ## 3. 里氏替换原则 （Liskov Substitution Principle）
 
 抱歉。
+
+> 译注： 原文中未用到该原则。
 
 ### 小结
 
