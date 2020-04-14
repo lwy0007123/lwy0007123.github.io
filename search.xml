@@ -1,6 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>SOLID 原则 —— 理解现实中的问题（译）</title>
+    <url>/2020/04/14/SOLID-%E5%8E%9F%E5%88%99/</url>
+    <content><![CDATA[<p><a href="https://medium.com/@minhajukhan/solid-principles-and-how-we-write-code-57beb1668db3" target="_blank" rel="noopener">原文：SOLID Principles — Understanding with Real-Life Problems.</a></p>
+<p>毕业至今进入软件公司工作，我们多次接受有关 SOLID 原则的讲座，其中包括其定义和抽象示例。<br>今天我们将以不同的方式去理解这个原则。</p>
+<p>我们遵循 SOLID 原则从头开始构造一些东西。</p>
+<p>如果你是初学者，不知道什么是 SOLID ，没关系，边看边学。</p>
+<a id="more"></a>
+<hr>
+<p>最近我被要求实现一个服务，该服务在某些事件发生时发送文本消息。</p>
+<p>这里是需求：</p>
+<ol>
+<li>在系统发生登录事件时，从分布式队列接收一条消息。</li>
+<li>根据配置验证传入的消息，评估向哪些用户发送短信消息。</li>
+<li>发送短信消息给评估通过的用户。</li>
+</ol>
+<p>简单，那么用我最喜欢的 Go 语言实现。</p>
+<h2 id="1-单一职责原则-Single-Responsibility-Principle"><a href="#1-单一职责原则-Single-Responsibility-Principle" class="headerlink" title="1. 单一职责原则 (Single Responsibility Principle)"></a>1. 单一职责原则 (Single Responsibility Principle)</h2><blockquote>
+<p>一个类或模块应该有且仅有一个被修改的原因。</p>
+</blockquote>
+<p>考虑到需求，我将应用拆成三个组件。</p>
+<ol>
+<li>消费者 （consumer） —— 从分布式队列读取消息</li>
+<li>规则引擎 （rule engine） —— 根据传入消息验证用户</li>
+<li>通知者（notifier） —— 发送消息给通过验证的用户</li>
+</ol>
+<h3 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h3><p>消费者应该只做一件事：从队列中读取消息，传递给规则引擎。</p>
+<p>我们服务中的这个消费者是一个简单的 Kafka 消费者，它可以读取消息。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> message := <span class="keyword">range</span> claim.Messages() &#123;</span><br><span class="line">    n.Engine.ProcessEvent(message)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="规则引擎"><a href="#规则引擎" class="headerlink" title="规则引擎"></a>规则引擎</h3><p>当你把某物称为引擎时，意味着它很强大，它管理这系统中困难工作的核心。此处命名理由类似。</p>
+<p>当我的规则引擎启动（实例化）时，它就等待 <code>ProcessEvent()</code> 接口被调用。在我们的例子中是，消费者去调用它。</p>
+<p>因此，它主要负责一件事（至少对外是这样的）。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Engine <span class="keyword">interface</span> &#123;</span><br><span class="line">    ProcessEvent(message types.NotificationMessage) error</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>如果你真的以 SRP（单一职责原则） 的方式考虑架构组件，那么可以创建出相同行为的接口或类。</p>
+<h2 id="2-开闭原则-（Open-Closed-Principle）"><a href="#2-开闭原则-（Open-Closed-Principle）" class="headerlink" title="2. 开闭原则 （Open Closed Principle）"></a>2. 开闭原则 （Open Closed Principle）</h2><blockquote>
+<p>软件实体应该为拓展而开放，为修改而封闭。</p>
+</blockquote>
+<p>更进一步，我们来实现通知者组件。</p>
+<h3 id="通知者，天真的实现"><a href="#通知者，天真的实现" class="headerlink" title="通知者，天真的实现"></a>通知者，天真的实现</h3><p>一种天真的方式将是简单，简洁且直接的：</p>
+<ol>
+<li>实现一个类。</li>
+<li>在需要时传递类实例。</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> SMSNotifier <span class="keyword">struct</span> &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SMSNotifier)</span> <span class="title">SendSMS</span><span class="params">(msg <span class="keyword">string</span>, recipient <span class="keyword">string</span>)</span> <span class="title">error</span></span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>对于不熟悉 Go 的程序员，第二句表示该类拥有名为 SendSMS 的方法。</p>
+</blockquote>
+<h3 id="通知者，一种更好的实现"><a href="#通知者，一种更好的实现" class="headerlink" title="通知者，一种更好的实现"></a>通知者，一种更好的实现</h3><ol>
+<li>定义一个接口，具体类要实现这个接口。</li>
+<li>传递实现了该接口的具体类的实例。</li>
+</ol>
+<p>接口：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Notifier <span class="keyword">interface</span> &#123;</span><br><span class="line">    Notify(msg <span class="keyword">string</span>, recipient <span class="keyword">string</span>) error</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>类：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> SMSNotifier <span class="keyword">struct</span> &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *SMSNotifier)</span> <span class="title">Notify</span><span class="params">(msg <span class="keyword">string</span>, recipient <span class="keyword">string</span>)</span> <span class="title">error</span></span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>问： 为什么后一种方法更好？</li>
+<li><p>答： 考虑“天真”方式的实现，如果客户还要求我们通过电子邮件发送通知，我们就要“打开” SMSNotifier 类的实现，并在其中添加代码。这不可避免地违反了开闭原则。如果我们考虑了后者的实现，我们只需要实现另一个通知者。</p>
+  <figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> EmailNotifier <span class="keyword">struct</span> &#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *EmailNotifier)</span> <span class="title">Notify</span><span class="params">(msg <span class="keyword">string</span>, recipient <span class="keyword">string</span>)</span> <span class="title">error</span></span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><p>并非总是如此，但是在大多数情况下，都是在程序中传递接口而不是具体实现，因此当新的需求到来时，你只需实现接口的另一个实例。</p>
+<h2 id="3-里氏替换原则-（Liskov-Substitution-Principle）"><a href="#3-里氏替换原则-（Liskov-Substitution-Principle）" class="headerlink" title="3. 里氏替换原则 （Liskov Substitution Principle）"></a>3. 里氏替换原则 （Liskov Substitution Principle）</h2><p>抱歉。</p>
+<blockquote>
+<p>译注： 原文中未用到该原则。</p>
+</blockquote>
+<h3 id="小结-2"><a href="#小结-2" class="headerlink" title="小结"></a>小结</h3><p>不好意思。</p>
+<h2 id="4-接口隔离-（Interface-Segregation-Principle）"><a href="#4-接口隔离-（Interface-Segregation-Principle）" class="headerlink" title="4. 接口隔离 （Interface Segregation Principle）"></a>4. 接口隔离 （Interface Segregation Principle）</h2><blockquote>
+<p>不应强迫客户端依赖于不使用的接口。</p>
+</blockquote>
+<h3 id="规则引擎-1"><a href="#规则引擎-1" class="headerlink" title="规则引擎"></a>规则引擎</h3><p>回到我们的规则引擎，并实现其接口要求我们实现的唯一方法。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ProcessEvent</span><span class="params">(message types.NotificationMessage)</span> <span class="title">error</span></span></span><br></pre></td></tr></table></figure>
+<p>规则引擎可以处理许多不同类型的传入消息。我倾向于称它为事件，因为我们正在根据系统中发生的事件来接收消息。</p>
+<p>考虑以上描述，我们可以肯定地将一条消息转换为一个事件。为此，我们可以使用“<a href="https://en.wikipedia.org/wiki/Factory_method_pattern" target="_blank" rel="noopener">工厂设计模式</a>”，稍后介绍这个。</p>
+<p>继续，创建一个事件接口，</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Event <span class="keyword">interface</span> &#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>概括需求，我们必须根据传入系统的事件向用户发送文本消息。</p>
+<p>因为事件已经成为我们服务中的一个实体，我们应该在定义该实体边界时，围绕我们刚学习的“单一职责原则”进行思考。</p>
+<ol>
+<li>事件应该知道它要发送什么消息，以封装事件的所有细节。</li>
+<li>事件不应该知道如何发送消息。</li>
+</ol>
+<p>由于要发送消息，就必须告知事件有关通知者的信息。因此，我们将其作为参数提供。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Event <span class="keyword">interface</span> &#123;</span><br><span class="line">    Send(n Notifier) error</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后，这是我们规则引擎的消息提取方法的小而美的实现。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(e *engine)</span> <span class="title">ProcessMessage</span><span class="params">(message types.NotificationMessage)</span></span> &#123;</span><br><span class="line">    event, err := e.eventFactory(message)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> err</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> event.Notify(e.notifier)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>消息到事件的转换就是 EventFactory 的全部内容。</p>
+<p>以下是工厂中的一段代码，以供熟悉：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">switch</span> messageType &#123;</span><br><span class="line">    <span class="keyword">case</span> loginSuccessfulEvent:</span><br><span class="line">       <span class="keyword">return</span> NewLoginEvent()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="小结-3"><a href="#小结-3" class="headerlink" title="小结"></a>小结</h3><p>接口要求如下：</p>
+<ul>
+<li><p>Notifier</p>
+<ol>
+<li>Notifier 接口只想要客户端实现 Notify() 接口。</li>
+<li>除了需要的之外， SMSNotifier 不会实现 Notifier 强迫它实现的任何方法。</li>
+</ol>
+</li>
+<li><p>Event</p>
+<ol>
+<li>Event 接口只要客户端实现 Send() 接口。</li>
+<li>除了需要的之外， LoginEvent （由工厂返回） 不会实现 Event 强迫它实现的任何方法。</li>
+</ol>
+</li>
+</ul>
+<p>要点： 保持接口尽可能短，最多一种方法就很不错。</p>
+<h2 id="5-依赖倒置原则-（Dependency-Inversion-Principle）"><a href="#5-依赖倒置原则-（Dependency-Inversion-Principle）" class="headerlink" title="5. 依赖倒置原则 （Dependency Inversion Principle）"></a>5. 依赖倒置原则 （Dependency Inversion Principle）</h2><blockquote>
+<p>高级模块不应该依赖低级模块，两者都应依赖抽象。</p>
+</blockquote>
+<p>我们系统中主要由两个组件（由于消费者除了读取队列中的消息并扔到规则引擎之外，没做多少事情，我们可以忽略它）。</p>
+<p>规则引擎相比通知者是更高级的模块。</p>
+<p>假如 Notifier 不是接口，但是具体实现是 SMSNotifier。<br>这种情况下，Engine（高级模块）依赖于 SMSNotifier （低级模块），它在引导时实例化引擎时注入。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">+--------+   +-------------+</span><br><span class="line">| Engine +---&gt; SMSNotifier |</span><br><span class="line">+--------+   +-------------+</span><br></pre></td></tr></table></figure>
+<p>在实例化依赖项是将其注入 Engine 中：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">fucn NewRuleEngine(config Config, notifier SMSNotifier) *Engine</span><br></pre></td></tr></table></figure>
+<p>考虑到依赖关系树，以下是此服务的生命周期中可能发生的事件：</p>
+<ul>
+<li>12:00 AM —— 更改在 SMSNotifier 中完成。</li>
+<li>12:01 AM —— SMSNotifier 重新编译，因为有更改。</li>
+<li>12:02 AM —— 因为 SMSNotifier 是 Engine 的直接依赖，它被重新编译。</li>
+<li>04:20 AM —— 违反依赖倒置原则。</li>
+</ul>
+<h3 id="引入抽象"><a href="#引入抽象" class="headerlink" title="引入抽象"></a>引入抽象</h3><p>通过引入我们的 Notifier 接口，我们可以反转来自 Engine 的 SMSNotifier 的依赖关系。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">      +----------+</span><br><span class="line">   +--&gt; Notifier +&lt;--+</span><br><span class="line">   |  +----------+   |</span><br><span class="line">   |                 |</span><br><span class="line">+--+-----+   +-------+-----+</span><br><span class="line">| Engine |   | SMSNotifier |</span><br><span class="line">+--------+   +-------------+</span><br></pre></td></tr></table></figure>
+<p>回看之前的事件：</p>
+<ul>
+<li>12:00 AM —— 更改在 SMSNotifier 中完成。</li>
+<li>12:01 AM —— SMSNotifier 重新编译。</li>
+<li>12:02 AM —— 此时 SMSNotifier 不是 Engine 的直接依赖，它不会被重新编译。</li>
+<li>12:01 同上 —— 依赖倒置原则完好。</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>基于组件的方法架构适合以 SOLID 原则实施。</li>
+<li>组件必须与合约以及配置通信，而不是与具体的实现。</li>
+<li>保持合约越小越好，这样生活更轻松。</li>
+<li>不要一满意就签入代码。上述解决方案不是初稿。花时间分析你写的内容。</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>translation</tag>
+        <tag>design pattern</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Rust 学习笔记 2</title>
     <url>/2020/03/30/Rust-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-2/</url>
     <content><![CDATA[<p>阅读 <a href="https://doc.rust-lang.org/book" target="_blank" rel="noopener">《 Rust 程序设计》</a>的一些笔记。</p>
@@ -2494,62 +2636,6 @@
       </tags>
   </entry>
   <entry>
-    <title>记录一下在WordPress上用过的插件</title>
-    <url>/2017/08/27/%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%8B%E5%9C%A8WordPress%E4%B8%8A%E7%94%A8%E8%BF%87%E7%9A%84%E6%8F%92%E4%BB%B6/</url>
-    <content><![CDATA[<p>虽然已经不用WordPress了，但是没准哪天又用上了呢？记录下用过的插件。</p>
-<a id="more"></a>
-<table>
-<thead>
-<tr>
-<th>插件</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Akismet Anti-Spam</strong></td>
-<td>由千百万人使用，Akismet可能是保护您的站点免受垃圾评论<strong>的世界上最好的方式</strong>。 您的站点已完全配置并受到不断的保护。3.3.4版本 由<a href="http://automattic.com/wordpress-plugins/" target="_blank" rel="noopener">Automattic</a></td>
-</tr>
-<tr>
-<td><strong>Chat Room</strong></td>
-<td>Chat Room for WordPress 0.1.3版本 由<a href="http://webdevstudios.com/" target="_blank" rel="noopener">WebDevStudios.com</a></td>
-</tr>
-<tr>
-<td><strong>Crayon Syntax Highlighter</strong></td>
-<td>Supports multiple languages, themes, highlighting from a URL, local file or post text. 2.8.4版本 由<a href="http://aramk.com/" target="_blank" rel="noopener">Aram Kocharyan</a></td>
-</tr>
-<tr>
-<td><strong>Jetpack 由 WordPress.com 出品</strong></td>
-<td>将 WordPress.com 云的强大功能引入您的自托管 WordPress。Jetpack 使您能够将自己的博客与一个 WordPress.com 帐户连接，以使用一般只有 WordPress.com 用户才可使用的强大功能。 5.2.1版本 由<a href="https://jetpack.com" target="_blank" rel="noopener">Automattic</a></td>
-</tr>
-<tr>
-<td><strong>Netease Music</strong></td>
-<td>WordPress 音乐播放器，支持网易云音乐和虾米音乐。3.0.4版本 由<a href="https://fatesinger.com/" target="_blank" rel="noopener">bigfa</a></td>
-</tr>
-<tr>
-<td><strong>Useso take over Google</strong></td>
-<td>替换所有的Google字体、谷歌JS公用库、Gravatar头像为geekzu资源。 1.8版本 由<a href="http://www.brunoxu.com/" target="_blank" rel="noopener">Bruno Xu</a></td>
-</tr>
-<tr>
-<td><strong>WP User Avatar</strong></td>
-<td>Use any image from your WordPress Media Library as a custom user avatar. Add your own Default Avatar. 2.0.8版本  由<a href="http://www.flippercode.com/" target="_blank" rel="noopener">flippercode</a></td>
-</tr>
-<tr>
-<td><strong>你好多莉</strong></td>
-<td>这不是普通的插件，它象征着一代人希望和热情，浓缩成Louis Armstrong的四个字：你好，多莉。在启用后，在您站点后台每个页面的右上角都可以看到一句来自《俏红娘》音乐剧的英文原版台词。 1.6版本  由<a href="http://ma.tt/" target="_blank" rel="noopener">Matt Mullenweg</a></td>
-</tr>
-</tbody>
-</table>
-]]></content>
-      <categories>
-        <category>闲扯</category>
-      </categories>
-      <tags>
-        <tag>WordPress</tag>
-        <tag>Plugins</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>一些节约生命的操作 (墙内加速 git pip conda npm docker)</title>
     <url>/2017/08/06/%E4%B8%80%E4%BA%9B%E8%8A%82%E7%BA%A6%E7%94%9F%E5%91%BD%E7%9A%84%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<p>你是否感觉  pip， npm, git， docker 之类的工具下载安装奇慢？<br>因为它们的默认服务器都在国外，那么需要必要的设置才能发挥咱百兆光纤的作用。下面介绍方法:</p>
@@ -2629,29 +2715,6 @@
         <tag>git</tag>
         <tag>pip</tag>
         <tag>conda</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>更换了新域名</title>
-    <url>/2017/07/15/%E7%BD%91%E7%AB%99%E9%9C%80%E8%A6%81%E5%A4%87%E6%A1%88/</url>
-    <content><![CDATA[<p>据说万网的域名很坑，当年图方便，偶然发现website域名不用备案，就买了。一直用着都挺好的，今年11月才到期。</p>
-<a id="more"></a>
-<p>本来还打算一直用下去的。可就在前天，想看看自己的博客，不能访问，一个TestPage挡在前面要求我去备案。那没办法，就去呗。可是尼玛，不支持 .website 域名是什么鬼。</p>
-<p>这是逼着我把域名往外转啊……</p>
-<p>在GoDaddy上注册一个账号，然后阿里云控制台申请域名转出万网。在GoDaddy上找到域名转入输入域名和邮箱收到转移密码。我去，价格199还强行要续一年，我有点不能接受啊（学生党资金不充裕）。</p>
-<p>重新申请吧…… 换个 findshank.com 好了，正巧可以注册，爽爽的。一年60，还能接受。还有个隐私保护又要收60，我就没选，毕竟我填的信息基本是假的啊……</p>
-<p>新域名到手，将域名解析指向云主机的IP。等几分钟试一下。打不开什么鬼？那么全局翻墙，嗯，可以进。</p>
-<p>为了方便国内访问，就要换国内的DNS服务器来解析这个域名。Google了一下，就用<a href="https://www.dnspod.cn/" target="_blank" rel="noopener">DNSPod</a>好了，域名解析是免费的，跟着官方提示做很简单，然后GoDaddy上更换自定义解析服务器为DNSPod的提供的地址就好了。</p>
-<p>欢迎新朋友访问我的新域名 <a href="http://www.findshank.com">www.findshank.com</a> 😄</p>
-<blockquote>
-<p>然而，后来发现被封的是云主机，云主机需要备案，这个就没那么容易换了。既然买了域名就折腾 Github Pages 吧！</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>闲扯</category>
-      </categories>
-      <tags>
-        <tag>烦</tag>
       </tags>
   </entry>
   <entry>
@@ -3715,6 +3778,66 @@
       </tags>
   </entry>
   <entry>
+    <title>使用 Terminator &amp; ZSH的配置</title>
+    <url>/2016/10/01/%E4%BD%BF%E7%94%A8%20Terminator%20%20&amp;%20ZSH%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p> 在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。</p>
+<a id="more"></a>
+<h2 id="安装-Terminator"><a href="#安装-Terminator" class="headerlink" title="安装 Terminator"></a>安装 Terminator</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install terminator</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>利用 Debian 的重新配置命令选择默认终端：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo update-alternatives --config x-terminal-emulator</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>非ubuntu系统设置terminator快捷键</em></li>
+</ul>
+<p>Setting -&gt; Keyboard -&gt; Shortcuts -&gt; Custom Shortcuts -&gt; add(+)<br>Name : Terminal<br>Command : /usr/bin/terminator<br>Apply<br>Click “Disable”<br>press Ctrl + Alt + T</p>
+<h2 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">/* 打开Terminator ，进行如下操作 */</span><br><span class="line">Preferenvces -&gt; General</span><br><span class="line">Disable ‘Show titlebar’</span><br><span class="line">Preferenvces -&gt; Profiles -&gt; Colors -&gt; Foreground and Background -&gt; Build-in schemes</span><br><span class="line">Choose ‘Solarized dark’</span><br></pre></td></tr></table></figure>
+<h2 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install zsh</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>设置当前用户使用zsh</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
+<h2 id="安装-on-my-zsh"><a href="#安装-on-my-zsh" class="headerlink" title="安装 on my zsh"></a>安装 on my zsh</h2><ul>
+<li><em>自动安装：(推荐)</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>手动安装：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh</span><br><span class="line">cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</span><br></pre></td></tr></table></figure>
+<h2 id="安装powerline字体"><a href="#安装powerline字体" class="headerlink" title="安装powerline字体"></a>安装powerline字体</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/powerline/fonts</span><br><span class="line"><span class="built_in">cd</span> fonts</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
+<p>然后在终端中使用powerline字体</p>
+<h2 id="编辑：-zshrc"><a href="#编辑：-zshrc" class="headerlink" title="编辑： ~/.zshrc"></a>编辑： ~/.zshrc</h2><ul>
+<li><em>增加自己的用户名：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">DEFAULT_USER=<span class="string">"Shank"</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>PS：上面 Shank 替换成你当前的用户名，用whoami查看你的用户名</p>
+</blockquote>
+<ul>
+<li><em>修改主题：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ZSH_THEME=<span class="string">"agnoster"</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>启用几个功能：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span><br></pre></td></tr></table></figure>
+<h3 id="或者用以下简单粗暴的方式屏蔽zsh中的用户名"><a href="#或者用以下简单粗暴的方式屏蔽zsh中的用户名" class="headerlink" title="或者用以下简单粗暴的方式屏蔽zsh中的用户名"></a>或者用以下简单粗暴的方式屏蔽zsh中的用户名</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.oh-my-zsh/themes</span><br><span class="line">sudo vim 当前主题名称</span><br></pre></td></tr></table></figure>
+<p>找到最下面对<code>build_prompt</code>的定义，把<code>prompt_context</code>用<code>#</code>注释掉即可</p>
+<blockquote>
+<p>来自2018/10/29：“以前的自己 Markdown 写得这么烂还敢贴出来。”</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Terminator</tag>
+        <tag>ZSH</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Thinkpad X250 安装ubuntu16.04.1LTS 的记录</title>
     <url>/2016/10/01/Thinkpad%20X250%20%E5%AE%89%E8%A3%85ubuntu16.04.1LTS%20%E7%9A%84%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<p>X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。<br>因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。<br>U盘制作ubuntu安装盘，开机启动到U盘。</p>
@@ -3791,164 +3914,6 @@
         <tag>Linux</tag>
         <tag>Terminator</tag>
         <tag>ZSH</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用 Terminator &amp; ZSH的配置</title>
-    <url>/2016/10/01/%E4%BD%BF%E7%94%A8%20Terminator%20%20&amp;%20ZSH%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p> 在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。</p>
-<a id="more"></a>
-<h2 id="安装-Terminator"><a href="#安装-Terminator" class="headerlink" title="安装 Terminator"></a>安装 Terminator</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install terminator</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>利用 Debian 的重新配置命令选择默认终端：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo update-alternatives --config x-terminal-emulator</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>非ubuntu系统设置terminator快捷键</em></li>
-</ul>
-<p>Setting -&gt; Keyboard -&gt; Shortcuts -&gt; Custom Shortcuts -&gt; add(+)<br>Name : Terminal<br>Command : /usr/bin/terminator<br>Apply<br>Click “Disable”<br>press Ctrl + Alt + T</p>
-<h2 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">/* 打开Terminator ，进行如下操作 */</span><br><span class="line">Preferenvces -&gt; General</span><br><span class="line">Disable ‘Show titlebar’</span><br><span class="line">Preferenvces -&gt; Profiles -&gt; Colors -&gt; Foreground and Background -&gt; Build-in schemes</span><br><span class="line">Choose ‘Solarized dark’</span><br></pre></td></tr></table></figure>
-<h2 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install zsh</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>设置当前用户使用zsh</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
-<h2 id="安装-on-my-zsh"><a href="#安装-on-my-zsh" class="headerlink" title="安装 on my zsh"></a>安装 on my zsh</h2><ul>
-<li><em>自动安装：(推荐)</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>手动安装：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh</span><br><span class="line">cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</span><br></pre></td></tr></table></figure>
-<h2 id="安装powerline字体"><a href="#安装powerline字体" class="headerlink" title="安装powerline字体"></a>安装powerline字体</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/powerline/fonts</span><br><span class="line"><span class="built_in">cd</span> fonts</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
-<p>然后在终端中使用powerline字体</p>
-<h2 id="编辑：-zshrc"><a href="#编辑：-zshrc" class="headerlink" title="编辑： ~/.zshrc"></a>编辑： ~/.zshrc</h2><ul>
-<li><em>增加自己的用户名：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">DEFAULT_USER=<span class="string">"Shank"</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>PS：上面 Shank 替换成你当前的用户名，用whoami查看你的用户名</p>
-</blockquote>
-<ul>
-<li><em>修改主题：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ZSH_THEME=<span class="string">"agnoster"</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>启用几个功能：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span><br></pre></td></tr></table></figure>
-<h3 id="或者用以下简单粗暴的方式屏蔽zsh中的用户名"><a href="#或者用以下简单粗暴的方式屏蔽zsh中的用户名" class="headerlink" title="或者用以下简单粗暴的方式屏蔽zsh中的用户名"></a>或者用以下简单粗暴的方式屏蔽zsh中的用户名</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.oh-my-zsh/themes</span><br><span class="line">sudo vim 当前主题名称</span><br></pre></td></tr></table></figure>
-<p>找到最下面对<code>build_prompt</code>的定义，把<code>prompt_context</code>用<code>#</code>注释掉即可</p>
-<blockquote>
-<p>来自2018/10/29：“以前的自己 Markdown 写得这么烂还敢贴出来。”</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Terminator</tag>
-        <tag>ZSH</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>闲来无事，做个课表UWP练练手</title>
-    <url>/2016/08/30/%E9%97%B2%E6%9D%A5%E6%97%A0%E4%BA%8B%EF%BC%8C%E5%81%9A%E4%B8%AA%E8%AF%BE%E8%A1%A8UWP%E7%BB%83%E7%BB%83%E6%89%8B/</url>
-    <content><![CDATA[<blockquote>
-<p>→_→ 为什么我总是这么闲……</p>
-</blockquote>
-<a id="more"></a>
-<p>正好学了一段时间UWP，我觉得我可以做一个自己用啊。<br>目前是自用版本，等我写好爬虫和教务登录，试试放到微软商店怎样？</p>
-<p><img src="20160830173641.jpg" alt="20160830173641"></p>
-<p><del>尽管很low，但还是放自己网站上秀一下吧。<br><a href="https://github.com/sko00o/ClassSchedule" target="_blank" rel="noopener">git@github.com:sko00o/ClassSchedule.git</a></del> 辣鸡代码别秀了</p>
-]]></content>
-      <categories>
-        <category>闲扯</category>
-      </categories>
-      <tags>
-        <tag>UWP</tag>
-        <tag>好闲啊</tag>
-        <tag>课表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>沙雕黑历史</title>
-    <url>/2016/04/17/%E5%A4%AA%E4%B9%85%E4%B8%8D%E6%9B%B4%E6%96%B0%EF%BC%8C%E6%88%91%E9%83%BD%E5%BF%AB%E5%BF%98%E4%BA%86%E8%BF%99%E4%B8%AA%E7%AB%99%E7%82%B9%E4%BA%86/</url>
-    <content><![CDATA[<p>做了一段视频来恶搞我的室友<code>凯子</code>同学，插进来看看效果</p>
-<a id="more"></a>
-<iframe height="100" src="http://player.youku.com/embed/XMTUzODQyMjM1Mg==" frameborder="0"></iframe>
-]]></content>
-      <categories>
-        <category>闲扯</category>
-      </categories>
-      <tags>
-        <tag>扯淡</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>画一个微软标志</title>
-    <url>/2015/12/14/%E7%94%BB%E4%B8%80%E4%B8%AA%E5%BE%AE%E8%BD%AF%E6%A0%87%E5%BF%97/</url>
-    <content><![CDATA[<p><img src="20151209232926.png" alt="img"></p>
-<a id="more"></a>
-<p>闲来无事，玩了会CSS，所以画一个<del>微软标志展示我的信仰</del>信仰田牌</p>
-<ul>
-<li><p>index.html</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"use.css"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>画一个微软标志<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"icon"</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"text"</span>&gt;</span>Microsoft<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"zz"</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"s1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"s2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"s3"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"s4"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>use.css</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@CHARSET</span> <span class="string">"UTF-8"</span>;</span><br><span class="line"><span class="selector-id">#icon</span>&#123;</span><br><span class="line"> <span class="attribute">height</span>: <span class="number">420px</span>;</span><br><span class="line"> <span class="attribute">width</span>:<span class="number">1500px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.text</span>&#123;</span><br><span class="line"> <span class="attribute">width</span>: <span class="number">1000px</span>;</span><br><span class="line"> <span class="attribute">height</span>: <span class="number">420px</span>;</span><br><span class="line"> <span class="attribute">line-height</span>:<span class="number">420px</span>;</span><br><span class="line"> <span class="attribute">font-size</span>: <span class="number">340px</span>;</span><br><span class="line"> <span class="attribute">float</span>: right;</span><br><span class="line"> <span class="attribute">font-family</span>: <span class="string">"Microsoft YaHei"</span>! important; </span><br><span class="line"> <span class="attribute">font-weight</span>:bold;</span><br><span class="line"> <span class="attribute">letter-spacing</span>: -<span class="number">10px</span>;</span><br><span class="line"> <span class="attribute">color</span>: <span class="built_in">rgb</span>(<span class="number">119</span>,<span class="number">119</span>,<span class="number">119</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.zz</span> &#123;</span><br><span class="line"> <span class="attribute">width</span>: <span class="number">420px</span>;</span><br><span class="line"> <span class="attribute">height</span>: <span class="number">420px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.s1</span> &#123;</span><br><span class="line"> <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line"> <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line"> <span class="attribute">background</span>: <span class="built_in">rgb</span>(<span class="number">243</span>,<span class="number">100</span>,<span class="number">34</span>);</span><br><span class="line"> <span class="attribute">float</span>: left;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.s2</span> &#123;</span><br><span class="line"> <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line"> <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line"> <span class="attribute">background</span>: <span class="built_in">rgb</span>(<span class="number">141</span>,<span class="number">197</span>,<span class="number">62</span>);</span><br><span class="line"> <span class="attribute">float</span>: right;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.s3</span> &#123;</span><br><span class="line"> <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line"> <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line"> <span class="attribute">background</span>: <span class="built_in">rgb</span>(<span class="number">0</span>,<span class="number">173</span>,<span class="number">239</span>);</span><br><span class="line"> <span class="attribute">float</span>: left;</span><br><span class="line"> <span class="attribute">margin-top</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.s4</span> &#123;</span><br><span class="line"> <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line"> <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line"> <span class="attribute">background</span>: <span class="built_in">rgb</span>(<span class="number">255</span>,<span class="number">195</span>,<span class="number">13</span>);</span><br><span class="line"> <span class="attribute">float</span>: right;</span><br><span class="line"> <span class="attribute">margin-top</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p><del>现在是2018年，再看此文，感觉当年真傻逼……</del><br>  ​</p>
-<blockquote>
-<p>来自2018/10/29：“是啊，真幼稚。”</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>闲扯</category>
-      </categories>
-      <tags>
-        <tag>扯淡</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>第一篇就谈谈这个吧</title>
-    <url>/2015/12/01/%E7%AC%AC%E4%B8%80%E7%AF%87%E5%B0%B1%E8%B0%88%E8%B0%88%E8%BF%99%E4%B8%AA%E5%90%A7/</url>
-    <content><![CDATA[<blockquote>
-<p>当前博客放在 Github Page 与本文无关 <em>旧博客已删除，本文仅作记录</em></p>
-</blockquote>
-<a id="more"></a>
-<h1 id="这网站怎么建的"><a href="#这网站怎么建的" class="headerlink" title="这网站怎么建的"></a><del>这网站怎么建的</del></h1><p><em>准备好云空间和域名云解析，Xshell 和 Xftp</em><br><em>本站运行于CentOS 7，使用阿里云ecs</em><br><em>用ssh客户端(xshell,putty等)连接你的服务器，root下执行以下命令行操作：</em></p>
-<h2 id="安装mqsql-（mariadb）、apache、php"><a href="#安装mqsql-（mariadb）、apache、php" class="headerlink" title="安装mqsql （mariadb）、apache、php"></a>安装mqsql （mariadb）、apache、php</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum install mariadb-server mariadb-client</span><br><span class="line">yum install httpd httpd-devel</span><br><span class="line">yum install php php-devel php-mysql /</span><br><span class="line">php-gd php-imap php-ldap php-odbc php-pear php-xml php-xmlrpc</span><br></pre></td></tr></table></figure>
-<h2 id="重设mysql-root用户密码"><a href="#重设mysql-root用户密码" class="headerlink" title="重设mysql root用户密码"></a>重设mysql root用户密码</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mysqladmin -u root password 'PASSWORD'</span><br></pre></td></tr></table></figure>
-<h2 id="登陆mysql"><a href="#登陆mysql" class="headerlink" title="登陆mysql"></a>登陆mysql</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">mysql -u root -p # 新建一个wordpress的数据库</span><br></pre></td></tr></table></figure>
-<h2 id="配置-wordpress"><a href="#配置-wordpress" class="headerlink" title="配置 wordpress"></a>配置 wordpress</h2><p><em>使用ftp上传wordpress到 /var/www/html/ 并解压</em><br><em>根据readme.html 中的说明配置 wordpress</em></p>
-<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>在wordpress管理页面直接搜索插件安装即可</p>
-<ul>
-<li><p>Useso take over Google<br><em>替换所有的Google字体、谷歌JS公用库、Gravatar头像的源(解决页面访问慢的问题，必装！)</em></p>
-</li>
-<li><p>JP Markdown<br><em>使页面支持Markdown，Markdown是个好东西，Geek嘛，谁愿意拿着鼠标改格式，但要注意编辑文章不要用可视化视图</em></p>
-</li>
-<li><p>Crayon Syntax Highlighter<br><em>代码格式化插件，安装后文章编辑器多了个crayon标签，把代码选择然后点标签，你就会用了</em></p>
-</li>
-</ul>
-<h2 id="解决插件或主题更新-安装失败的问题"><a href="#解决插件或主题更新-安装失败的问题" class="headerlink" title="解决插件或主题更新/安装失败的问题"></a>解决插件或主题更新/安装失败的问题</h2><ul>
-<li>方法1</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># www目录及文件所有者设置为你apache的用户和组</span></span><br><span class="line">sudo chown -R apache:apache /var/www/</span><br><span class="line"><span class="comment"># 如果你改过wordpress里文件的权限，最好改回来</span></span><br><span class="line">find <span class="variable">$path</span> -<span class="built_in">type</span> f -<span class="built_in">exec</span> chmod 644 &#123;&#125; \;  <span class="comment">#设置文件权限为644</span></span><br><span class="line">find <span class="variable">$path</span> -<span class="built_in">type</span> d -<span class="built_in">exec</span> chmod 755 &#123;&#125; \;  <span class="comment">#设置目录权限为755</span></span><br><span class="line"><span class="comment">#PS: $path 处填你的wordpress路径</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>方法2 (PS:不推荐)</li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 直接简单粗暴改权限</span></span><br><span class="line">sudo chmod -R 777 /var/www/html/wp-content/</span><br><span class="line"><span class="comment"># 更新完成后再改回来</span></span><br><span class="line">sudo chmod -R 751 /var/www/html/wp-content/</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>闲扯</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>WordPress</tag>
       </tags>
   </entry>
 </search>
