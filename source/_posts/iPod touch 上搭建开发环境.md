@@ -11,6 +11,8 @@ typora-root-url: iPod touch 上搭建开发环境
 
 老touch在抽屉里躺了好几年，偶然把它翻出来，这么一个PDA，现在顶多用来听歌，怪可惜的，好像用它搞事情啊。
 
+<!--more-->
+
 # 正题
 
 闲来无事google了一下"iTouch c++"，发现一个大神的博客

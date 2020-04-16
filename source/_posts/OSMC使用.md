@@ -8,6 +8,8 @@ tags:
 
 去年某宝上买了 Raspberry Pi 2B，期间玩过一段时间的Raspbian，没有买其他配件，全当练习使用linux了。最近盯上了 OSMC，所以，要搞事情！
 
+<!--more-->
+
 ## 设备
 
 * Raspberry Pi 2B  
