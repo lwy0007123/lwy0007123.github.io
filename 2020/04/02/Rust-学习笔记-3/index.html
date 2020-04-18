@@ -51,15 +51,18 @@
   <meta name="description" content="阅读 《 Rust 程序设计》的一些笔记。 第 4 章 - 理解所有权（ownership）">
 <meta name="keywords" content="rust">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Rust 学习笔记 3">
+<meta property="og:title" content="Rust 学习笔记 3.1">
 <meta property="og:url" content="https://www.findshank.com/2020/04/02/Rust-学习笔记-3/index.html">
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="阅读 《 Rust 程序设计》的一些笔记。 第 4 章 - 理解所有权（ownership）">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://www.findshank.com/2020/04/02/Rust-学习笔记-3/trpl04-01.svg">
-<meta property="og:updated_time" content="2020-04-16T15:43:49.763Z">
+<meta property="og:image" content="https://www.findshank.com/2020/04/02/Rust-学习笔记-3/trpl04-02.svg">
+<meta property="og:image" content="https://www.findshank.com/2020/04/02/Rust-学习笔记-3/trpl04-03.svg">
+<meta property="og:image" content="https://www.findshank.com/2020/04/02/Rust-学习笔记-3/trpl04-04.svg">
+<meta property="og:updated_time" content="2020-04-18T15:47:15.256Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Rust 学习笔记 3">
+<meta name="twitter:title" content="Rust 学习笔记 3.1">
 <meta name="twitter:description" content="阅读 《 Rust 程序设计》的一些笔记。 第 4 章 - 理解所有权（ownership）">
 <meta name="twitter:image" content="https://www.findshank.com/2020/04/02/Rust-学习笔记-3/trpl04-01.svg">
 
@@ -75,7 +78,7 @@
   };
 </script>
 
-  <title>Rust 学习笔记 3 | Shank's Notes</title>
+  <title>Rust 学习笔记 3.1 | Shank's Notes</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128359433-1"></script>
     <script>
@@ -234,7 +237,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Rust 学习笔记 3<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/Rust-学习笔记-3.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pencil"></i></a>
+          Rust 学习笔记 3.1<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/Rust-学习笔记-3.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pencil"></i></a>
         </h1>
 
         <div class="post-meta">
@@ -251,7 +254,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-16 23:43:49" itemprop="dateModified" datetime="2020-04-16T23:43:49+08:00">2020-04-16</time>
+                <time title="Modified: 2020-04-18 23:47:15" itemprop="dateModified" datetime="2020-04-18T23:47:15+08:00">2020-04-18</time>
               </span>
 
           
@@ -323,7 +326,7 @@
 <p>注意：在 C++ 中，这种在项目生命周期结束时分配资源的模式有时称为“资源获取即初始化”（ Resource Acquisition Is Initialization, RAII），如果你使用过 RAII 模式，Rust 中的 drop 也就不会陌生。</p>
 </blockquote>
 <p>这种模式对 Rust 代码的编写方式有深远影响。现在看起来似乎很简单，但是在更复杂的情况下，当我们想让多个变量使用我们在堆上分配的数据时，代码的行为可能出乎意料。现在我们探讨其中的一些情况。</p>
-<h3 id="变量与数据交互的方式：移动"><a href="#变量与数据交互的方式：移动" class="headerlink" title="变量与数据交互的方式：移动"></a>变量与数据交互的方式：移动</h3><p>多个变量可以在 Rust 中以不同方式与同一个数据交互。看清单 4-2 中的例子：</p>
+<h3 id="变量与数据交互的方式：移动（Move）"><a href="#变量与数据交互的方式：移动（Move）" class="headerlink" title="变量与数据交互的方式：移动（Move）"></a>变量与数据交互的方式：移动（Move）</h3><p>多个变量可以在 Rust 中以不同方式与同一个数据交互。看清单 4-2 中的例子：</p>
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> x = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">let</span> y = x;</span><br></pre></td></tr></table></figure>
 <p>清单 4-2 ：将变量 x 赋值给 y</p>
 <p>我们可能会猜它做了什么：“将 5 值绑定到 x ；然后在 x 中复制值并将其绑定到 y 。” 我们现在有两个变量 x 和 y ， 它们都等于 5 。这确实是正在发生的事情，因为整数是已知且固定大小的简单值，然后将这两个 5 值压入栈。</p>
@@ -331,10 +334,56 @@
 <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> s1 = <span class="built_in">String</span>::from(<span class="string">"hello"</span>);</span><br><span class="line"><span class="keyword">let</span> s2 = s1;</span><br></pre></td></tr></table></figure>
 <p>这和前一段代码很相似，因此我们可以假设它的工作方式是相同的：那就是，第二行会得到 s1 的拷贝并绑定到 s2 。但是实际不是这样的。</p>
 <p>看图 4-1 ,看看 String 幕后发生了什么。一个 String 分成三个部分，画在了左边：一个指向保存字符串内容的内存指针，一个长度，还有一个容量。这组数据保存在栈里。右边是保存在堆内存上的内容。</p>
-<p><img src="trpl04-01.svg" alt="04-01"><br>图 4-1：内存中绑定到 s1 的值 “hello” 的字符串表示形式。</p>
-<blockquote>
-<p>TO BE CONTINUE…</p>
-</blockquote>
+<p><img src="trpl04-01.svg" alt="4-1"></p>
+<p>图 4-1：内存中绑定到 s1 的值 “hello” 的字符串表示形式。</p>
+<p>该长度（len）是 String 当前正在使用的内存量（以字节为单位）。此处容量（capacity）是 String 从操作系统接受的内存总量（以字节为单位）。长度和容量之间的差别很重要，但这种情况下并不重要，暂时可以忽略容量。</p>
+<p>当我们把 s1 赋值给 s2 ， String 数据被复制，这意味着我们复制了栈上的指针，长度和容量。我们不会复制指针指向的堆上的数据，内存中的数据如图 4-2 所示。</p>
+<p><img src="trpl04-02.svg" alt="4-2"></p>
+<p>图 4-2：变量 <code>s2</code> 在内存中表示形式，该变量具有 <code>s1</code> 的指针，长度和容量的副本。</p>
+<p>如果 Rust 复制了堆数据的话，就会像图 4-3 ，但不是这样的。如果堆上的数据很大， Rust 复制堆上的数据，就会使 <code>s2 = s1</code> 运行代价很高。</p>
+<p><img src="trpl04-03.svg" alt="4-3"></p>
+<p>图 4-3：如果 Rust 也复制堆数据，则 s2 = s1 可能这么做</p>
+<p>先前我们说过，当变量超出作用域， Rust 自动调用 drop 函数并清理该变量的堆内存。但是图 4-2 显示了两个指向相同位置的数据指针。这是一个问题：当 s2 和 s1 都超出范围时，它们都会尝试释放相同一块的内存。这被称为 <em>双重释放错误</em> ,是我们前面提到的内存安全错误之一。释放内存两次可能导致内存损坏，从而可能导致安全漏洞。</p>
+<p>为了确保内存安全，在 Rust 中，在这种情况下会发生的事情有很多细节。Rust 不会尝试复制分配的内存，而是认为 s1 不再有效，因此，当 s1 超出范围时， Rust 不需要释放任何内容。检查下创建 s2 之后尝试使用 s1 会发生什么；它不起作用：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> s1 = <span class="built_in">String</span>::from(<span class="string">"hello"</span>);</span><br><span class="line"><span class="keyword">let</span> s2 = s1;</span><br><span class="line"></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">"&#123;&#125;, world"</span>, s1);</span><br></pre></td></tr></table></figure>
+<p>你会得到下面的错误，因为 Rust 阻止你使用无效的引用：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">error[E0382]: use of moved value: `s1`</span><br><span class="line"> --&gt; src/main.rs:5:28</span><br><span class="line">  |</span><br><span class="line">3 |     <span class="built_in">let</span> s2 = s1;</span><br><span class="line">  |         -- value moved here</span><br><span class="line">4 |</span><br><span class="line">5 |     println!(<span class="string">"&#123;&#125;, world!"</span>, s1);</span><br><span class="line">  |                            ^^ value used here after move</span><br><span class="line">  |</span><br><span class="line">  = note: move occurs because `s1` has <span class="built_in">type</span> `std::string::String`, <span class="built_in">which</span> does</span><br><span class="line">  not implement the `Copy` trait</span><br></pre></td></tr></table></figure>
+<p>如果你在使用其他语言时听说过浅拷贝（shallow copy）和深拷贝（deep copy）这两个术语，那么复制指针、长度和容量而不复制数据的概念听起来就像是浅拷贝。但是由于 Rust 还使第一个变量无效，这不是浅拷贝，因此称为移动（move）。在此示例中，我们说 s1 已移入 s2。因此实际发生的情况如图 4-4 所示。</p>
+<p><img src="trpl04-04.svg" alt="4-4"></p>
+<p>图 4-4：s1 无效后再内存中的表示形式</p>
+<p>那解决了我们的问题！只有 s2 有效，当它超出范围时，仅凭它就可以释放内存，完成了。</p>
+<p>此外，这暗示了一种设计选择： Rust 永远不会自动创建数据的“深层”副本。因此，就运行效率而言，任何自动复制都被认为是廉价的。</p>
+<h2 id="变量与数据交互的方式：克隆（Clone）"><a href="#变量与数据交互的方式：克隆（Clone）" class="headerlink" title="变量与数据交互的方式：克隆（Clone）"></a>变量与数据交互的方式：克隆（Clone）</h2><p>如果我们确实要深拷贝 String 的堆数据，而不仅仅是栈数据，则可以使用一种称为 <code>clone</code> 的通用方法。我们将在第 5 章讨论方法语法，但是由于方法是许多编程语言中的常用功能，因此你以前可能见过它们。</p>
+<p>这是 <code>clone</code> 方法的实际例子：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> s1 = <span class="built_in">String</span>::from(<span class="string">"hello"</span>);</span><br><span class="line"><span class="keyword">let</span> s2 = s1.clone();</span><br><span class="line"></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">"s1 = &#123;&#125;, s2 = &#123;&#125;"</span>, s1, s2);</span><br></pre></td></tr></table></figure>
+<p>这代码可以运行，并且显示完成了图 4-3 的行为，它确实复制了堆数据。</p>
+<p>当你看到克隆调用时，你因该知道正在执行的代码可能运行开销很大。这种视觉指示器表明发生了一些不同的情况。</p>
+<h2 id="仅栈数据：拷贝（Copy）"><a href="#仅栈数据：拷贝（Copy）" class="headerlink" title="仅栈数据：拷贝（Copy）"></a>仅栈数据：拷贝（Copy）</h2><p>还有个问题没有讨论。这段使用了整数的代码是有效的，部分代码如清单 4-2 所示：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> x = <span class="number">5</span>;</span><br><span class="line"><span class="keyword">let</span> y = x;</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">"x = &#123;&#125;, y = &#123;&#125;"</span>, x, y);</span><br></pre></td></tr></table></figure>
+<p>这段代码似乎与我们刚学到的矛盾：我们没有调用 clone 方法，但是 x 仍然可用且不是移入 y 。</p>
+<p>原因是诸如在编译时已知大小的整数之类的类型，完全存储在栈中，因此可以快速产生实际值的副本。这意味着在创建变量 y 之后，我们不需要阻止 x 生效。换句话说，这里的深拷贝和浅拷贝没有区别，因此调用克隆与通常的浅拷贝没有不同，我们可以将其省略。</p>
+<p>Rust 具有一个特殊的注释，称为 <code>Copy</code> 特征，我们可以将其放在存储在栈的类型上（第 10 章进一步讨论）。如果类型具有 <code>Copy</code> 特征，则分配后仍然可以使用旧的变量值。但如果该类型或其实现部分实现了 <code>Drop</code> 特性， Rust 将不允许我们使用 <code>Copy</code> 特征对该类型进行注释。如果在值超出范围时对该类型需要特殊处理，向该类型添加 <code>Copy</code> 注释，则会出现编译错误。要了解如何将 <code>Copy</code> 特征添加到你的类型中，参考附录 C 的“可导出特征”。</p>
+<p>那么什么类型被拷贝？你可以查看给定的文档，一般规则是，任何一组简单的标量值都可以拷贝，而不需要分配或是某种形式的资源都不是拷贝。一下是一些 Copy 类型：</p>
+<ul>
+<li>所有整数类型，例如 u32 。</li>
+<li>布尔类型， <code>bool</code>。</li>
+<li>所有浮点类型，例如 f64 。</li>
+<li>字符类型， <code>char</code>。</li>
+<li>元组，如果它们仅包含复制类型，例如， (i32, i32) 。而 (i32, String) 就不是。</li>
+</ul>
+<h2 id="所有权和职能"><a href="#所有权和职能" class="headerlink" title="所有权和职能"></a>所有权和职能</h2><p>用于将值传递给函数的语义类似于用于将值分配给变量的语义。就像赋值一样，将变量传递给函数将移动或拷贝。清单 4-3 给出了一个示例，启动带有注释，显示变量进入和退出范围的位置。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> s = <span class="built_in">String</span>::from(<span class="string">"hello"</span>);  <span class="comment">// s 进入作用域</span></span><br><span class="line"></span><br><span class="line">    takes_ownership(s);             <span class="comment">// s 的值移入函数</span></span><br><span class="line">                                    <span class="comment">// ... s 从这开始无效了</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> x = <span class="number">5</span>;                      <span class="comment">// x 进入作用域</span></span><br><span class="line"></span><br><span class="line">    makes_copy(x);                  <span class="comment">// x 移入函数中</span></span><br><span class="line">                                    <span class="comment">// 但是 i32 是拷贝类型，所以 x 仍然有效</span></span><br><span class="line">                                    <span class="comment">// 继续使用 x 变量。</span></span><br><span class="line"></span><br><span class="line">&#125; <span class="comment">// 这里x 超出作用域，接着是 s 。但是因为 s 的值被移动了，没什么特别情况。</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">takes_ownership</span></span>(some_string: <span class="built_in">String</span>) &#123; <span class="comment">// some_string 进入作用域</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;&#125;"</span>, some_string);</span><br><span class="line">&#125; <span class="comment">// 这里， some_string 超出作用域，调用 drop ，释放内存。</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">makes_copy</span></span>(some_integer: <span class="built_in">i32</span>) &#123; <span class="comment">// some_integer 进入作用域</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"&#123;&#125;"</span>, some_integer);</span><br><span class="line">&#125; <span class="comment">// 这里，some_integer 超出作用域，没什么特别的。</span></span><br></pre></td></tr></table></figure>
+<p>清单 4-3：函数的所有权和作用域注释</p>
+<p>如果我们在调用 <code>takes_ownership</code> 之后使用 s , Rust 将抛出编译一场，这些静态检查防止我们犯错误。尝试将代码添加到使用 s 和 x 的 main 函数中，以查看可以在哪里使用它们以及所有权规则在哪里阻止你这么做。</p>
+<h2 id="返回值和作用域"><a href="#返回值和作用域" class="headerlink" title="返回值和作用域"></a>返回值和作用域</h2><p>返回值也可以转移所有权。清单 4-4 带有与清单 4-3 类似的注释。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> s1 = gives_ownership();         <span class="comment">// gives_ownership 将其返回值移入 s</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> s2 = <span class="built_in">String</span>::from(<span class="string">"hello"</span>);     <span class="comment">// s2 进入作用域</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> s3 = takes_and_gives_back(s2);  <span class="comment">// s2 被移入 takes_and_gives_back， 该</span></span><br><span class="line">                                        <span class="comment">//  函数也将返回值移入 s3</span></span><br><span class="line">&#125; <span class="comment">// 这里, s3 超出作用域而被 drop. s2 超出作用域但是由于被移动，所以无事发生. </span></span><br><span class="line">  <span class="comment">//  s1 超出作用域被 drop 。</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">gives_ownership</span></span>() -&gt; <span class="built_in">String</span> &#123;             <span class="comment">// gives_ownership 将返回值移动给</span></span><br><span class="line">                                             <span class="comment">// 调用方。</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> some_string = <span class="built_in">String</span>::from(<span class="string">"hello"</span>); <span class="comment">// some_string 进入作用域</span></span><br><span class="line"></span><br><span class="line">    some_string                              <span class="comment">// some_string 被返回并移动到函数</span></span><br><span class="line">                                             <span class="comment">// 调用方。</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// takes_and_gives_back will take a String and return one</span></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">takes_and_gives_back</span></span>(a_string: <span class="built_in">String</span>) -&gt; <span class="built_in">String</span> &#123; <span class="comment">// a_string 进入作用域</span></span><br><span class="line"></span><br><span class="line">    a_string  <span class="comment">// a_string 别返回且移动到函数调用方</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>清单 4-4：返回值转移所有权</p>
+<p>变量的所有权每次都遵循相同的模式：将值分配给它移动的另一个变量。当包含堆上数据的变量超出范围，只有该数据移至另一个变量，才 drop 这个值。</p>
+<p>拥有所有权，然后返回每个函数的所有权，有点乏味。如果我们要让函数使用值但不取得所有权怎么办？令人烦恼的是，除了我们可能想返回的函数主体的任何数据之外，如果我们想再次使用它们，还需要将其传递回去。</p>
+<p>可以使用元组返回多个值，如清单 4-5 。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">main</span></span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> s1 = <span class="built_in">String</span>::from(<span class="string">"hello"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> (s2, len) = calculate_length(s1);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">"The length of '&#123;&#125;' is &#123;&#125;."</span>, s2, len);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fn</span> <span class="title">calculate_length</span></span>(s: <span class="built_in">String</span>) -&gt; (<span class="built_in">String</span>, <span class="built_in">usize</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> length = s.len(); <span class="comment">// len() returns the length of a String</span></span><br><span class="line"></span><br><span class="line">    (s, length)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>清单 4-5：返回参数所有权</p>
+<p>但对于一个应该是通用的概念来说，这有太多的仪式和大量的工作。幸运的是， Rust 有此概念的功能，称为参考（references） 。</p>
 
     </div>
 
@@ -424,7 +473,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是所有权？"><span class="nav-number">1.</span> <span class="nav-text">什么是所有权？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#所有权规则"><span class="nav-number">2.</span> <span class="nav-text">所有权规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量作用域"><span class="nav-number">3.</span> <span class="nav-text">变量作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String-类型"><span class="nav-number">4.</span> <span class="nav-text">String 类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存和分配"><span class="nav-number">5.</span> <span class="nav-text">内存和分配</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#变量与数据交互的方式：移动"><span class="nav-number">5.1.</span> <span class="nav-text">变量与数据交互的方式：移动</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是所有权？"><span class="nav-number">1.</span> <span class="nav-text">什么是所有权？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#所有权规则"><span class="nav-number">2.</span> <span class="nav-text">所有权规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量作用域"><span class="nav-number">3.</span> <span class="nav-text">变量作用域</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String-类型"><span class="nav-number">4.</span> <span class="nav-text">String 类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存和分配"><span class="nav-number">5.</span> <span class="nav-text">内存和分配</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#变量与数据交互的方式：移动（Move）"><span class="nav-number">5.1.</span> <span class="nav-text">变量与数据交互的方式：移动（Move）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量与数据交互的方式：克隆（Clone）"><span class="nav-number">6.</span> <span class="nav-text">变量与数据交互的方式：克隆（Clone）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#仅栈数据：拷贝（Copy）"><span class="nav-number">7.</span> <span class="nav-text">仅栈数据：拷贝（Copy）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#所有权和职能"><span class="nav-number">8.</span> <span class="nav-text">所有权和职能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#返回值和作用域"><span class="nav-number">9.</span> <span class="nav-text">返回值和作用域</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
