@@ -217,6 +217,143 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.findshank.com/2020/04/20/trial-and-error/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="sko00o">
+      <meta itemprop="description" content="Nothing or Anything">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shank's Notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/20/trial-and-error/" class="post-title-link" itemprop="url">使用“试错法”解决问题（译）</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-04-20 23:36:46 / Modified: 23:41:05" itemprop="dateCreated datePublished" datetime="2020-04-20T23:36:46+08:00">2020-04-20</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-users"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="firestore-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a href="https://leetcode.com/explore/learn/card/binary-search/146/more-practices-ii/1041/discuss/109082/Approach-the-problem-using-the-%22trial-and-error%22-algorithm" target="_blank" rel="noopener">原文：Approach the problem using the “trial and error” algorithm</a></p>
+<p><strong>更新</strong>：如果我们把输入的数组按升序排列，这个问题实际上可以改写成找到排序矩阵中的第 K 小的元素，在 <code>(i, j)</code> 位置的矩阵元素由 <code>matrix[i][j] = nums[j] - nums[i]</code> 得出，还有 <code>k = K + n*(n+1)/2</code> 和 <code>n = nums.length</code>。这个问题就可以用我<a href="https://leetcode.com/problems/k-th-smallest-prime-fraction/discuss/115819/Summary-of-solutions-for-problems-%22reducible%22-to-LeetCode-378" target="_blank" rel="noopener">之前发帖</a>中的多种算法（优先队列 PriorityQueue， 二分搜索 BinarySearch， 之字形搜索 ZigzagSearch）来解决。</p>
+<hr>
+<p>通常我们会避免使用天真的试错算法（<a href="https://en.wikipedia.org/wiki/Trial_and_error" target="_blank" rel="noopener">trial and error</a>）来解决问题，因为它通常会导致糟糕的时间复杂度。但是，有些情况下，这种天真的算法可能胜过其他更复杂的解决方案，而 LeetCode 确实有一些这样的问题（在本文的末尾列出 —— 具有讽刺意味的是，他们大多数都是“难”题）。因此，我觉得应该在此描述应用此算法的一般过程。</p>
+<p>试错算法的基本思想实际上非常简单，总结如下：</p>
+<ul>
+<li><p>第一步：构建候选解决方案。</p>
+</li>
+<li><p>第二步：验证它是否符合我们的要求。</p>
+</li>
+<li><p>第三步：如果是，则接受解决方案；否则丢弃并重复第一步。</p>
+</li>
+</ul>
+<p>但是，为了使此算法有效工作，需要满足以下两个条件：</p>
+<ul>
+<li><p>条件一：我们在<code>第二步</code>中一个有效的验证算法；</p>
+</li>
+<li><p>条件二：由所有候选解决方案形成的搜索空间很小，或者如果它很大，我们有有效的方法来遍历（或搜索）这个空间。</p>
+</li>
+</ul>
+<p>第一个条件确保每个验证操作都可以快速完成，而第二个条件限制了需要完成的此类操作的总数。这两个组合将保证我们有一个有效的试错算法（这意味着如果不能满足其中一个，你甚至可能不会考虑这个算法）。</p>
+<hr>
+<p>现在我们来看看这个问题： <code>719. Find The K-th Smallest Pair Distance</code>，看看我们怎么应用试错算法。</p>
+<p><strong>一、 构建候选解决方案</strong></p>
+<p>为了构建候选解决方案，我们首先需要了解所需的解决方案。这个问题描述要求我们输出第 K 个最小的对距离（pair distance），这不过是一个非负整数（因为输入数组 nums 是一个整数数组，对距离的是绝对值）。因此，我们的候选解决方案应该也是非负整数。</p>
+<p><strong>二、 搜索空间由所有的候选解决方案组成</strong></p>
+<p>设 <code>min</code> 和 <code>max</code> 为输入数组 nums 中的最小和最大值，并且 <code>d = max - min</code>，然后任何 nums 中的对距离必须位于 <code>[0, d]</code> 的范围。因此，我们所需的解决方案一再此范围内，这意味着搜索空间将为<code>[0, d]</code> （超出此范围的任何数字都可以立即排除，无需进一步验证）。</p>
+<p><strong>三、 验证给定的候选解决方案</strong></p>
+<p>这是试错算法的关键部分。因此，给定一个候选整数，我们如何确定它是否是第 K 个最小的对距离呢？</p>
+<p>首先，第 K 个最小的对距离究竟意味着什么？根据定义，如果我们计算所有对距离并按照升序排序，那么第 K 个最小的对距离将是索引 <code>K-1</code> 处的距离。这实际上是解决这个问题的天真方式（但是不出所料会因为 <code>MLE</code> 而被拒绝）。</p>
+<p>显然，上述定义不能用于验证，因为它需要显示计算对距离数组。幸运的是，还有另一种方法来定义第 K 个最小的对距离：给定一个整数 <code>num</code>，用 <code>count(num)</code> 表示不大于 <code>num</code> 的对距离数，则第 K 个最小对距离将是满足 <code>count(num) &gt;= K</code> 的最小整数。</p>
+<p>以下是替代定义。令 <code>num_k</code> 为具有索引 <code>K-1</code> 的有序对距离数组的第 K 个对距离，如第一定义中所指定的。由于索引 <code>K-1</code> 及其之前的所有对距离都不大于 <code>num_k</code> ，因此 <code>count(num_k) &gt;= K</code> 。现在假设 <code>num</code> 是满足 <code>count(num) &gt;= K</code> 最小的整数，我们认定 <code>num</code> 必须等于 <code>num_k</code> ，如下所示：</p>
+<ol>
+<li>如果 <code>num_k &lt; num</code> ，因为 <code>count(num) &gt;= K</code> ，那么 <code>num</code>  将不是满足 <code>count(num) &gt;= K</code> 的最小整数，这与我们假设相矛盾。</li>
+<li>如果 <code>num_k &gt; num</code> ，因为 <code>count(num) &gt;= K</code> ，根据 <code>count</code> 的函数定义，至少有 K 个对距离不大于 <code>num</code> ，这意味着至少有 K 个对距离小于 <code>num_k</code> 。这意味着 <code>num_k</code> 不能是第 K 个对距离，这再次与我们的假设矛盾。</li>
+</ol>
+<p>利用第 K 个最小对距离的这种替代定义，我们可以将验证过程转换为一个计数过程，那么我们究竟如何计算呢？</p>
+<p><strong>四、 计算不超过给定整数的对距离数</strong></p>
+<p>正如我提到的，我们不能使用对距离数组，这意味着唯一的选择是输入数组本身。如果其元素之间没有顺序，除了逐个计算和测试每个对距离之外，我们没有更好的方法。这导致 <code>O(n^2)</code> 的验证算法，其与上述朴素解决方法一样差。所以我们需要对 nums 强加一些命令，默认是排序。</p>
+<p>现在假设 <code>nums</code> 按升序排序，我们如何继续计算给定的 <code>num</code> ？注意，每个对距离 <code>d_ij</code> 的特征在于一对索引 <code>(i, j)</code> ，其中 <code>i &lt; j</code> ，即 <code>d_ij &lt;= nums[j] - nums[i]</code> 。如果我们保持第一个索引 <code>i</code> 固定，那么 <code>d_ij &lt;= num</code> 等价于 <code>nums[j] &lt;= nums[i] + num</code> 。这表明至少我们可以进行二分搜索以找到最小的索引 <code>j</code> ，使得每个索引 <code>i</code> 的 <code>nums[j] &gt; nums[i] + num</code> ，然后索引 <code>i</code> 的 count 将是 <code>j-i-1</code> ，并且总的来说，我们有一个 O(nlogn) 的验证算法。</p>
+<p>事实证明，如果我们使用以下属性，则可以使用经典的双指针技术在线性时间内完成计数：假设有两个起始索引 <code>i1</code> 和 <code>i2</code> ， <code>i1 &lt; i2</code> ， 让 <code>j1</code> 和 <code>j2</code> 成为最小的索引，使得 <code>nums[j1] &gt; nums[i1] + num</code> he <code>nums[j2] &gt; nums[i2] + num</code> ，那么 <code>j2 &gt;= j1</code> 必定是真的。证明是直截了当的：假设 <code>j2 &lt; j1</code> ，因为 <code>j1</code> 是满足 <code>nums[j1] &gt; nums[i1] + num</code> 的最小的索引， 我们应该有 <code>nums[j2] &lt;= nums[i1] + num</code> 。另一方面， <code>nums[j2] &gt; nums[i2] + num &gt;= nums[i1] + num</code> 。这两个不等式相互矛盾，从而证实了我们上面的结论。</p>
+<p><strong>五、 如何有效地遍历（或搜索）搜索空间</strong></p>
+<p>到目前为止，我们知道搜索空间，知道如何构建候选解决方案以及如何通过计数来验证它，我们仍然需要最后一块拼图：如何遍历搜索空间。</p>
+<p>当然，我们可以通过尝试从 <code>0</code> 到 <code>d</code> 的每个整数来进行天真的线性遍历，并选择第一个满足 <code>count(num) &gt;= K</code>  的整数 <code>num</code>  。时间复杂度将是 <code>O(nd)</code> 。然而，假设 <code>d</code> 可以比 <code>n</code> 大得多，则改算法可能比之前提出的朴素 <code>O(n^2)</code> 解更差。</p>
+<p>这里关键是观察到候选解决方案是按升序自然排序的，因此可能使用二分搜索。另一个事实是 <code>count</code> 函数的非递减属性：给定两个整数 <code>num1</code> 和 <code>num2</code> 满足 <code>num1 &lt; num2</code> ，我们有 <code>count(num1) &lt;= count(num2)</code> （我将证明过程留给你）。所以二分搜索步骤如下：</p>
+<ol>
+<li>设 <code>[l,r]</code> 为当前搜索空间，初始化 <code>l = 0, r = d</code> 。</li>
+<li>如果 <code>l &lt; r</code> ，计算中间点 <code>m = (l + r) / 2</code> 并评估 <code>count(m)</code> 。</li>
+<li>如果 <code>count(m) &lt; K</code> ，我们丢弃当前搜索空间的左半边，令 <code>l = m + 1</code>；否则 <code>count(m) &gt;= K</code> 丢弃右半边，令 <code>r=m</code> 。</li>
+</ol>
+<p>你可能想知道为什么即使 <code>count(m) == K</code> ，我们也丢弃搜索空间的右半部分。注意第 K 小的对距离 <code>num_k</code> 是满足 <code>count(num_k) &gt;= K</code> 的最小整数。当 <code>count(m) == K</code> 时，我们知道 <code>num_k &lt;= K</code> （但不一定是 <code>num_k == m</code>，想想吧！）所以保持右半边没有意义。</p>
+<p><strong>六、 把所有东西放到一起，又称解决方案</strong></p>
+<p>不要被上述分析吓到。一旦理解，最终的解决方案就更容易编写。下面是 Java 版本的试错算法，时间复杂度 <code>O(nlogd + nlogn)</code> （别忘了排序），空间复杂度 <code>O(1)</code> 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">smallestDistancePair</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    Arrays.sort(nums);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> n = nums.length;</span><br><span class="line">    <span class="keyword">int</span> l = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> r = nums[n - <span class="number">1</span>] - nums[<span class="number">0</span>];</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> cnt = <span class="number">0</span>; l &lt; r; cnt = <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span> m = l + (r - l) / <span class="number">2</span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">while</span> (j &lt; n &amp;&amp; nums[j] &lt;= nums[i] + m) j++;</span><br><span class="line">            cnt += j - i - <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> (cnt &lt; k) &#123;</span><br><span class="line">            l = m + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            r = m;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> l;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p>最后是 LeetCode 上可以用试错算法解决的问题列表（欢迎添加新的例子）：</p>
+<ul>
+<li><p><a href="https://leetcode.com/problems/k-th-smallest-prime-fraction/description/" target="_blank" rel="noopener">786. K-th Smallest Prime Fraction</a></p>
+</li>
+<li><p><a href="https://leetcode.com/problems/minimize-max-distance-to-gas-station/description/" target="_blank" rel="noopener">774    Minimize Max Distance to Gas Station</a></p>
+</li>
+<li><p><a href="https://leetcode.com/problems/find-k-th-smallest-pair-distance/description/" target="_blank" rel="noopener">719. Find K-th Smallest Pair Distance</a></p>
+</li>
+<li><p><a href="https://leetcode.com/problems/kth-smallest-number-in-multiplication-table/description/" target="_blank" rel="noopener">668. Kth Smallest Number in Multiplication Table</a></p>
+</li>
+<li><p><a href="https://leetcode.com/problems/maximum-average-subarray-ii/description/" target="_blank" rel="noopener">644. Maximum Average Subarray II</a></p>
+</li>
+<li><p><a href="https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/description/" target="_blank" rel="noopener">378. Kth Smallest Element in a Sorted Matrix</a></p>
+</li>
+</ul>
+<p>无论如何，这篇文章只是提醒你，如果你所有其他常见解决方案严重受到不良时间或空间性能的影响，则试错算法值得尝试。此外，我们始终建议你在完全致力于此算法前，快速评估搜索空间大小和潜在的验证算法，以及估计算法复杂度。</p>
+<p>希望有帮助，编码愉快！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="https://www.findshank.com/2020/04/14/SOLID-原则/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -248,7 +385,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-18 23:47:15" itemprop="dateModified" datetime="2020-04-18T23:47:15+08:00">2020-04-18</time>
+                <time title="Modified: 2020-04-20 23:41:05" itemprop="dateModified" datetime="2020-04-20T23:41:05+08:00">2020-04-20</time>
               </span>
 
           
@@ -299,7 +436,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://www.findshank.com/2020/04/02/Rust-学习笔记-3/">
+    <link itemprop="mainEntityOfPage" href="https://www.findshank.com/2020/04/02/Rust-学习笔记-3-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.jpg">
@@ -313,7 +450,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2020/04/02/Rust-学习笔记-3/" class="post-title-link" itemprop="url">Rust 学习笔记 3.1</a>
+            <a href="/2020/04/02/Rust-学习笔记-3-1/" class="post-title-link" itemprop="url">Rust 学习笔记 3.1</a>
         </h1>
 
         <div class="post-meta">
@@ -330,7 +467,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-18 23:47:15" itemprop="dateModified" datetime="2020-04-18T23:47:15+08:00">2020-04-18</time>
+                <time title="Modified: 2020-04-20 23:41:05" itemprop="dateModified" datetime="2020-04-20T23:41:05+08:00">2020-04-20</time>
               </span>
 
           
@@ -355,7 +492,7 @@
 <p>第 4 章 - 理解所有权（ownership）</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/04/02/Rust-学习笔记-3/#more" rel="contents">
+              <a class="btn" href="/2020/04/02/Rust-学习笔记-3-1/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -410,7 +547,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-18 23:47:15" itemprop="dateModified" datetime="2020-04-18T23:47:15+08:00">2020-04-18</time>
+                <time title="Modified: 2020-04-20 23:41:05" itemprop="dateModified" datetime="2020-04-20T23:41:05+08:00">2020-04-20</time>
               </span>
 
           
@@ -490,7 +627,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-18 23:47:15" itemprop="dateModified" datetime="2020-04-18T23:47:15+08:00">2020-04-18</time>
+                <time title="Modified: 2020-04-20 23:41:05" itemprop="dateModified" datetime="2020-04-20T23:41:05+08:00">2020-04-20</time>
               </span>
 
           
@@ -570,7 +707,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-18 23:47:15" itemprop="dateModified" datetime="2020-04-18T23:47:15+08:00">2020-04-18</time>
+                <time title="Modified: 2020-04-20 23:41:05" itemprop="dateModified" datetime="2020-04-20T23:41:05+08:00">2020-04-20</time>
               </span>
 
           
@@ -650,7 +787,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-18 23:47:15" itemprop="dateModified" datetime="2020-04-18T23:47:15+08:00">2020-04-18</time>
+                <time title="Modified: 2020-04-20 23:41:05" itemprop="dateModified" datetime="2020-04-20T23:41:05+08:00">2020-04-20</time>
               </span>
 
           
@@ -681,85 +818,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2019/10/29/Go-私网开发服务搭建记录/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://www.findshank.com/2019/10/28/Install-MySQL-8-0-on-CentOS-7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="sko00o">
-      <meta itemprop="description" content="Nothing or Anything">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Shank's Notes">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/10/28/Install-MySQL-8-0-on-CentOS-7/" class="post-title-link" itemprop="url">CentOS 7 安装 MySQL 8.0</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-10-28 13:43:10" itemprop="dateCreated datePublished" datetime="2019-10-28T13:43:10+08:00">2019-10-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-18 23:47:15" itemprop="dateModified" datetime="2020-04-18T23:47:15+08:00">2020-04-18</time>
-              </span>
-
-          
-            <span class="post-meta-item" title="Views">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-users"></i>
-              </span>
-              <span class="post-meta-item-text">Views: </span>
-              <span class="firestore-visitors-count"></span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>记录下在 CentOS 7 上安装 MySQL 8.0 ，并启用兼容性的密码验证。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/10/28/Install-MySQL-8-0-on-CentOS-7/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -851,7 +909,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -864,7 +922,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-count">60</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
