@@ -6,8 +6,11 @@ tags:
 - translation
 ---
 
+> 在 leetcode 上看评论时，看到一篇写得很好的文章，学习一下思维方式，顺便翻译一下。
+
 [原文：Approach the problem using the "trial and error" algorithm](https://leetcode.com/explore/learn/card/binary-search/146/more-practices-ii/1041/discuss/109082/Approach-the-problem-using-the-%22trial-and-error%22-algorithm)
 
+<!--more-->
 
 **更新**：如果我们把输入的数组按升序排列，这个问题实际上可以改写成找到排序矩阵中的第 K 小的元素，在 `(i, j)` 位置的矩阵元素由 `matrix[i][j] = nums[j] - nums[i]` 得出，还有 `k = K + n*(n+1)/2` 和 `n = nums.length`。这个问题就可以用我[之前发帖](https://leetcode.com/problems/k-th-smallest-prime-fraction/discuss/115819/Summary-of-solutions-for-problems-%22reducible%22-to-LeetCode-378)中的多种算法（优先队列 PriorityQueue， 二分搜索 BinarySearch， 之字形搜索 ZigzagSearch）来解决。
 
