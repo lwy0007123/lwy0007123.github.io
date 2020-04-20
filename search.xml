@@ -3,7 +3,11 @@
   <entry>
     <title>使用“试错法”解决问题（译）</title>
     <url>/2020/04/20/trial-and-error/</url>
-    <content><![CDATA[<p><a href="https://leetcode.com/explore/learn/card/binary-search/146/more-practices-ii/1041/discuss/109082/Approach-the-problem-using-the-%22trial-and-error%22-algorithm" target="_blank" rel="noopener">原文：Approach the problem using the “trial and error” algorithm</a></p>
+    <content><![CDATA[<blockquote>
+<p>在 leetcode 上看评论时，看到一篇写得很好的文章，学习一下思维方式，顺便翻译一下。</p>
+</blockquote>
+<p><a href="https://leetcode.com/explore/learn/card/binary-search/146/more-practices-ii/1041/discuss/109082/Approach-the-problem-using-the-%22trial-and-error%22-algorithm" target="_blank" rel="noopener">原文：Approach the problem using the “trial and error” algorithm</a></p>
+<a id="more"></a>
 <p><strong>更新</strong>：如果我们把输入的数组按升序排列，这个问题实际上可以改写成找到排序矩阵中的第 K 小的元素，在 <code>(i, j)</code> 位置的矩阵元素由 <code>matrix[i][j] = nums[j] - nums[i]</code> 得出，还有 <code>k = K + n*(n+1)/2</code> 和 <code>n = nums.length</code>。这个问题就可以用我<a href="https://leetcode.com/problems/k-th-smallest-prime-fraction/discuss/115819/Summary-of-solutions-for-problems-%22reducible%22-to-LeetCode-378" target="_blank" rel="noopener">之前发帖</a>中的多种算法（优先队列 PriorityQueue， 二分搜索 BinarySearch， 之字形搜索 ZigzagSearch）来解决。</p>
 <hr>
 <p>通常我们会避免使用天真的试错算法（<a href="https://en.wikipedia.org/wiki/Trial_and_error" target="_blank" rel="noopener">trial and error</a>）来解决问题，因为它通常会导致糟糕的时间复杂度。但是，有些情况下，这种天真的算法可能胜过其他更复杂的解决方案，而 LeetCode 确实有一些这样的问题（在本文的末尾列出 —— 具有讽刺意味的是，他们大多数都是“难”题）。因此，我觉得应该在此描述应用此算法的一般过程。</p>
