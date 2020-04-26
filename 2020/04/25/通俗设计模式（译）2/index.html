@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+  <link rel="manifest" href="/images/site.webmanifest">
+  <meta name="msapplication-config" content="/images/browserconfig.xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css?family=Lato:300,300italic,400,400italic,700,700italic|Inconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://www.findshank.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"flat"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    comments: {"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":null,"activeClass":"livere"},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":true,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="原文：Design Patterns for Humans 接上一篇，本章关于行为设计模式。">
+<meta name="keywords" content="translation,design pattern">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通俗设计模式（译）2">
+<meta property="og:url" content="https://www.findshank.com/2020/04/25/通俗设计模式（译）2/index.html">
+<meta property="og:site_name" content="Shank&#39;s Notes">
+<meta property="og:description" content="原文：Design Patterns for Humans 接上一篇，本章关于行为设计模式。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-04-26T09:27:02.444Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通俗设计模式（译）2">
+<meta name="twitter:description" content="原文：Design Patterns for Humans 接上一篇，本章关于行为设计模式。">
+
+<link rel="canonical" href="https://www.findshank.com/2020/04/25/通俗设计模式（译）2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>通俗设计模式（译）2 | Shank's Notes</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128359433-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-128359433-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shank's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Code & Tech & Life</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.findshank.com/2020/04/25/通俗设计模式（译）2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="sko00o">
+      <meta itemprop="description" content="Nothing or Anything">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shank's Notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          通俗设计模式（译）2<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/通俗设计模式（译）2.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pencil"></i></a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-04-25 10:57:17" itemprop="dateCreated datePublished" datetime="2020-04-25T10:57:17+08:00">2020-04-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-04-26 17:27:02" itemprop="dateModified" datetime="2020-04-26T17:27:02+08:00">2020-04-26</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-users"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="firestore-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a href="https://roadmap.sh/guides/design-patterns-for-humans" target="_blank" rel="noopener">原文：Design Patterns for Humans</a></p>
+<p>接上一篇，本章关于行为设计模式。</p>
+<a id="more"></a>
+<h2 id="行为设计模式"><a href="#行为设计模式" class="headerlink" title="行为设计模式"></a>行为设计模式</h2><p>简而言之</p>
+<blockquote>
+<p>它与对象之间的职责分配有关。它们与结构模式的不同之处在于它们不仅指定结构，而且还概述了它们之间消息传递/通信的模式。换句话说，它们是为了解决如何在软件组件中运行一种行为的问题。</p>
+</blockquote>
+<p>维基说</p>
+<blockquote>
+<p>软件工程中，行为设计模式是识别对象之间常见的通信模式并实现这些模式的设计模式。这样做提高了执行此通信的灵活性。</p>
+</blockquote>
+<p>下面列出 10 种行为设计模式：</p>
+<ul>
+<li><a href="#🔗-责任链">Chain of Responsibility 责任链</a></li>
+<li><a href="#👮-命令">Command 命令</a></li>
+<li><a href="#➿-迭代器">Iterator 迭代器</a></li>
+<li><a href="#👽-调解员">Mediator 调解员</a></li>
+<li><a href="#💾-记忆">Memento 记忆</a></li>
+<li><a href="#😎-观察者">Observer 观察者</a></li>
+<li><a href="#🏃-访问者">Visitor 访问者</a></li>
+<li><a href="#💡-策略">Strategy 策略</a></li>
+<li><a href="#💢-状态">State 声明</a></li>
+<li><a href="#📒-模板方法">Template Method 模板方法</a></li>
+</ul>
+<h3 id="🔗-责任链"><a href="#🔗-责任链" class="headerlink" title="🔗 责任链"></a>🔗 责任链</h3><p>现实例子</p>
+<blockquote>
+<p>如果，你的账号有三种支付方式（A，B 和 C)；每个账号都有不同的存款。 A 有 100 元， B 有 300 元 和 C 有 1000 元，支付偏好的顺序依次为 A、B、C 。你将支付以捡 210 元的商品。用上责任链，首先会检查账户 A 够不够支付，如果可以，将进行购买，然后链条断裂。如果不够，则请求会进一步到账户 B ，检查是否够支付，如果可以，将进行购买，然后链条断裂。否则请求继续直到找到何时的处理程序为止。在这里，A、B 和 C 是链上的链接，整个现象就是责任链。</p>
+</blockquote>
+<p>简而言之</p>
+<blockquote>
+<p>它有助于构建对象链。请求从一端进入，并不断地从一个对象移到另一个对象，直到找到合适地处理程序为止。</p>
+</blockquote>
+<p>维基说</p>
+<blockquote>
+<p>面向对象设计中，责任链模式是一种设计模式，由命令对象的源和一系列处理对象组成。每个处理对象都包含定义其可以处理的命令对象类型的逻辑；其余的将传递到链中的下一个处理对象。</p>
+</blockquote>
+<p><strong>程序示例</strong></p>
+<p>用上账户的例子。首先，我们有一个基本账户，该账户具有账户和某些账户链接在一起的逻辑。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Account</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $successor;</span><br><span class="line">    <span class="keyword">protected</span> $balance;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setNext</span><span class="params">(Account $account)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;successor = $account;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">pay</span><span class="params">(float $amountToPay)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;canPay($amountToPay)) &#123;</span><br><span class="line">            <span class="keyword">echo</span> sprintf(<span class="string">'Paid %s using %s'</span> . PHP_EOL, $amountToPay, get_called_class());</span><br><span class="line">        &#125; <span class="keyword">elseif</span> (<span class="keyword">$this</span>-&gt;successor) &#123;</span><br><span class="line">            <span class="keyword">echo</span> sprintf(<span class="string">'Cannot pay using %s. Proceeding ..'</span> . PHP_EOL, get_called_class());</span><br><span class="line">            <span class="keyword">$this</span>-&gt;successor-&gt;pay($amountToPay);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="keyword">Exception</span>(<span class="string">'None of the accounts have enough balance'</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">canPay</span><span class="params">($amount)</span>: <span class="title">bool</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;balance &gt;= $amount;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bank</span> <span class="keyword">extends</span> <span class="title">Account</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $balance;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(float $balance)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;balance = $balance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Paypal</span> <span class="keyword">extends</span> <span class="title">Account</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $balance;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(float $balance)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;balance = $balance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bitcoin</span> <span class="keyword">extends</span> <span class="title">Account</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $balance;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(float $balance)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;balance = $balance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在，使用上面定义的链接（即银行、PayPal、比特币）准备链。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 准备这样一条链</span></span><br><span class="line"><span class="comment">//      $bank-&gt;$paypal-&gt;$bitcoin</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">// 最开始是银行</span></span><br><span class="line"><span class="comment">//      如果银行不够就尝试 PayPal</span></span><br><span class="line"><span class="comment">//     如果 PayPal 不够再尝试 bit coin</span></span><br><span class="line"></span><br><span class="line">$bank = <span class="keyword">new</span> Bank(<span class="number">100</span>);          <span class="comment">// 银行余额 100</span></span><br><span class="line">$paypal = <span class="keyword">new</span> Paypal(<span class="number">200</span>);      <span class="comment">// Paypal 余额为 200</span></span><br><span class="line">$bitcoin = <span class="keyword">new</span> Bitcoin(<span class="number">300</span>);    <span class="comment">// Bitcoin 余额为 300</span></span><br><span class="line"></span><br><span class="line">$bank-&gt;setNext($paypal);</span><br><span class="line">$paypal-&gt;setNext($bitcoin);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Let's try to pay using the first priority i.e. bank</span></span><br><span class="line">$bank-&gt;pay(<span class="number">259</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Output will be</span></span><br><span class="line"><span class="comment">// ==============</span></span><br><span class="line"><span class="comment">// Cannot pay using bank. Proceeding ..</span></span><br><span class="line"><span class="comment">// Cannot pay using paypal. Proceeding ..:</span></span><br><span class="line"><span class="comment">// Paid 259 using Bitcoin!</span></span><br></pre></td></tr></table></figure>
+<h3 id="👮-命令"><a href="#👮-命令" class="headerlink" title="👮 命令"></a>👮 命令</h3><p>现实例子</p>
+<blockquote>
+<p>一个通用的例子是你在餐厅点餐。你（即客户）要求服务员（即调用者）带来一些食物（即命令），服务员只需将请求转发给负责烹饪的厨师（即接收者）。另一个例子是，你（即客户）使用遥控器（即调用者）打开（即命令）电视（即接收者）。</p>
+</blockquote>
+<p>简而言之</p>
+<blockquote>
+<p>允许你将动作封装在对象中。该模式的关键思想是提供使客户端和接收者解耦的方法。</p>
+</blockquote>
+<p>维基说</p>
+<blockquote>
+<p>面向对象编程中，命令模式是一种行为设计模式，其中的对象用于封装以后执行动作或触发事件所需的所有信息。该信息包括方法名称，拥有方法的对象和方法参数的值。</p>
+</blockquote>
+<p><strong>程序示例</strong></p>
+<p>首先实现接收者的所有动作</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Receiver</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bulb</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">turnOn</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"Bulb has been lit"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">turnOff</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"Darkness!"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们将接口的每一个命令都实现</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Command</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">execute</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">undo</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">redo</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Command</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TurnOn</span> <span class="keyword">implements</span> <span class="title">Command</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $bulb;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(Bulb $bulb)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;bulb = $bulb;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">execute</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;bulb-&gt;turnOn();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">undo</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;bulb-&gt;turnOff();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">redo</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TurnOff</span> <span class="keyword">implements</span> <span class="title">Command</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $bulb;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(Bulb $bulb)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;bulb = $bulb;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">execute</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;bulb-&gt;turnOff();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">undo</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;bulb-&gt;turnOn();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">redo</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着我们的调用者，客户端将与之交互以处理任何命令。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Invoker</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RemoteControl</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">submit</span><span class="params">(Command $command)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $command-&gt;execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后看看客户端中如何使用</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$bulb = <span class="keyword">new</span> Bulb();</span><br><span class="line"></span><br><span class="line">$turnOn = <span class="keyword">new</span> TurnOn($bulb);</span><br><span class="line">$turnOff = <span class="keyword">new</span> TurnOff($bulb);</span><br><span class="line"></span><br><span class="line">$remote = <span class="keyword">new</span> RemoteControl();</span><br><span class="line">$remote-&gt;submit($turnOn); <span class="comment">// Bulb has been lit!</span></span><br><span class="line">$remote-&gt;submit($turnOff); <span class="comment">// Darkness!</span></span><br></pre></td></tr></table></figure>
+<p>命令模式可以用来实现基于事务的系统。一旦执行命令，便会继续保持命令的历史记录。如果最终的命令被成功执行，要么一切正常否则只需要便利历史记录并继续对所有已执行的命令执行撤销即可。</p>
+<h3 id="➿-迭代器"><a href="#➿-迭代器" class="headerlink" title="➿ 迭代器"></a>➿ 迭代器</h3><p>现实例子</p>
+<blockquote>
+<p>旧收音机的例子挺不错，用户可以从某个频道开始，然后使用下一个或者上一个按钮浏览各个频道。又或者是 MP3 播放器或者电视机也可以通过前后按钮浏览内容，换句话说它们都提供了一个接口，以循环的方式访问相应的频道，歌曲或广播电台。</p>
+</blockquote>
+<p>简而言之</p>
+<blockquote>
+<p>它提供了一种在不暴露底层实现的情况下访问对象元素的方法。</p>
+</blockquote>
+<p>维基说</p>
+<blockquote>
+<p>面向对象编程中，迭代器模式是一种设计模式，其中迭代器用于遍历容器并访问容器的元素。迭代器模式将算法与容器解耦；在某些情况下，算法必然特定于容器，因此无法解耦。</p>
+</blockquote>
+<p><strong>程序示例</strong></p>
+<p>在 PHP 中使用 SPL （标准库） 很容易实现。转换上面电台的例子，首先设计电台类。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RadioStation</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $frequency;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(float $frequency)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;frequency = $frequency;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getFrequency</span><span class="params">()</span>: <span class="title">float</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;frequency;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后实现迭代器</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> <span class="title">Countable</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Iterator</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">StationList</span> <span class="keyword">implements</span> <span class="title">Countable</span>, <span class="title">Iterator</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">/** <span class="doctag">@var</span> RadioStation[] $stations */</span></span><br><span class="line">    <span class="keyword">protected</span> $stations = [];</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** <span class="doctag">@var</span> int $counter */</span></span><br><span class="line">    <span class="keyword">protected</span> $counter;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">addStation</span><span class="params">(RadioStation $station)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;stations[] = $station;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">removeStation</span><span class="params">(RadioStation $toRemove)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $toRemoveFrequency = $toRemove-&gt;getFrequency();</span><br><span class="line">        <span class="keyword">$this</span>-&gt;stations = array_filter(<span class="keyword">$this</span>-&gt;stations, <span class="function"><span class="keyword">function</span> <span class="params">(RadioStation $station)</span> <span class="title">use</span> <span class="params">($toRemoveFrequency)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> $station-&gt;getFrequency() !== $toRemoveFrequency;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">count</span><span class="params">()</span>: <span class="title">int</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> count(<span class="keyword">$this</span>-&gt;stations);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">current</span><span class="params">()</span>: <span class="title">RadioStation</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;stations[<span class="keyword">$this</span>-&gt;counter];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">key</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;counter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">next</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;counter++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">rewind</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;counter = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">valid</span><span class="params">()</span>: <span class="title">bool</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;stations[<span class="keyword">$this</span>-&gt;counter]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这么用</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$stationList = <span class="keyword">new</span> StationList();</span><br><span class="line"></span><br><span class="line">$stationList-&gt;addStation(<span class="keyword">new</span> RadioStation(<span class="number">89</span>));</span><br><span class="line">$stationList-&gt;addStation(<span class="keyword">new</span> RadioStation(<span class="number">101</span>));</span><br><span class="line">$stationList-&gt;addStation(<span class="keyword">new</span> RadioStation(<span class="number">102</span>));</span><br><span class="line">$stationList-&gt;addStation(<span class="keyword">new</span> RadioStation(<span class="number">103.2</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span>($stationList <span class="keyword">as</span> $station) &#123;</span><br><span class="line">    <span class="keyword">echo</span> $station-&gt;getFrequency() . PHP_EOL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$stationList-&gt;removeStation(<span class="keyword">new</span> RadioStation(<span class="number">89</span>)); <span class="comment">// Will remove station 89</span></span><br></pre></td></tr></table></figure>
+<h3 id="👽-调解员"><a href="#👽-调解员" class="headerlink" title="👽 调解员"></a>👽 调解员</h3><p>现实例子</p>
+<blockquote>
+<p>一个一般的例子，当你与其他人通过手机通话时，对话消息是通过网络提供商发送过去的。这里网络提供商就是调解员。</p>
+</blockquote>
+<p>简而言之</p>
+<blockquote>
+<p>调解员模式添加了第三方对象（称作调解员）用于控制两个对象（称作同事）之间的交互。它有助于减少彼此通信的类之间的耦合。因为他们不需要了解彼此的实现。</p>
+</blockquote>
+<p>维基说</p>
+<blockquote>
+<p>软件工程中，调解员模式定义了一个对象，该对象封装了一组对象的交互方式。由于该模式可以更改程序运行行为，因此该模式被视为行为模式。</p>
+</blockquote>
+<p><strong>程序示例</strong></p>
+<p>这是一个简单的聊天室（即调解员）中的用户（即同事）互相发消息的例子。</p>
+<p>首先，实现调解员接口，即聊天室。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">ChatRoomMediator</span> </span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">showMessage</span><span class="params">(User $user, string $message)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Mediator</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ChatRoom</span> <span class="keyword">implements</span> <span class="title">ChatRoomMediator</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">showMessage</span><span class="params">(User $user, string $message)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $time = date(<span class="string">'M d, y H:i'</span>);</span><br><span class="line">        $sender = $user-&gt;getName();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">echo</span> $time . <span class="string">'['</span> . $sender . <span class="string">']:'</span> . $message;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后是用户，即同事</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $name;</span><br><span class="line">    <span class="keyword">protected</span> $chatMediator;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(string $name, ChatRoomMediator $chatMediator)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;name = $name;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;chatMediator = $chatMediator;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">send</span><span class="params">($message)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;chatMediator-&gt;showMessage(<span class="keyword">$this</span>, $message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用例</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$mediator = <span class="keyword">new</span> ChatRoom();</span><br><span class="line"></span><br><span class="line">$john = <span class="keyword">new</span> User(<span class="string">'John Doe'</span>, $mediator);</span><br><span class="line">$jane = <span class="keyword">new</span> User(<span class="string">'Jane Doe'</span>, $mediator);</span><br><span class="line"></span><br><span class="line">$john-&gt;send(<span class="string">'Hi there!'</span>);</span><br><span class="line">$jane-&gt;send(<span class="string">'Hey!'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Output will be</span></span><br><span class="line"><span class="comment">// Feb 14, 10:58 [John]: Hi there!</span></span><br><span class="line"><span class="comment">// Feb 14, 10:58 [Jane]: Hey!</span></span><br></pre></td></tr></table></figure>
+<h3 id="💾-记忆"><a href="#💾-记忆" class="headerlink" title="💾 记忆"></a>💾 记忆</h3><p>现实例子</p>
+<blockquote>
+<p>举一个计算器的例子，计算器（即 originator ）在这里每执行一些运算，最后的结果都会保存在内存中（即记忆），以便你返回它，还可以用某些操作按钮（即看守者）将其恢复。</p>
+</blockquote>
+<p>简而言之</p>
+<blockquote>
+<p>记忆模式是关于捕获和存储对象的当前状态的方式，以便之后可以平滑地恢复它。</p>
+</blockquote>
+<p>维基说</p>
+<blockquote>
+<p>记忆模式是一种软件设计模式，它提供了将对象恢复到其先前状态（回滚撤销）的能力。</p>
+</blockquote>
+<p>通常在需要提供某种撤销功能时很有用。</p>
+<p><strong>程序示例</strong></p>
+<p>我们以文本编辑器为例，该编辑器不时保存状态，并可以根据需要进行恢复。</p>
+<p>首先是保存编辑器状态的记忆对象。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EditorMemento</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $content;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(string $content)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;content = $content;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getContent</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;content;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着我们的编辑器，即 originator ，将要使用这个记忆对象。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Editor</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $content = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">type</span><span class="params">(string $words)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;content = <span class="keyword">$this</span>-&gt;content . <span class="string">' '</span> . $words;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getContent</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;content;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">save</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> EditorMemento(<span class="keyword">$this</span>-&gt;content);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">restore</span><span class="params">(EditorMemento $memento)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;content = $memento-&gt;getContent();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着这么用</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$editor = <span class="keyword">new</span> Editor();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Type some stuff</span></span><br><span class="line">$editor-&gt;type(<span class="string">'This is the first sentence.'</span>);</span><br><span class="line">$editor-&gt;type(<span class="string">'This is second.'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Save the state to restore to : This is the first sentence. This is second.</span></span><br><span class="line">$saved = $editor-&gt;save();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Type some more</span></span><br><span class="line">$editor-&gt;type(<span class="string">'And this is third.'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Output: Content before Saving</span></span><br><span class="line"><span class="keyword">echo</span> $editor-&gt;getContent(); <span class="comment">// This is the first sentence. This is second. And this is third.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Restoring to last saved state</span></span><br><span class="line">$editor-&gt;restore($saved);</span><br><span class="line"></span><br><span class="line">$editor-&gt;getContent(); <span class="comment">// This is the first sentence. This is second.</span></span><br></pre></td></tr></table></figure>
+<h3 id="😎-观察者"><a href="#😎-观察者" class="headerlink" title="😎 观察者"></a>😎 观察者</h3><p>现实例子</p>
+<blockquote>
+<p>找工作的人在职位发布网站上订阅，获得匹配的工作机会时，他们可以收到消息。</p>
+</blockquote>
+<p>简而言之</p>
+<blockquote>
+<p>定义对象之间的依赖关系，以便每当对象改变状态时，都会通知其所有依赖对象。</p>
+</blockquote>
+<p>维基说</p>
+<blockquote>
+<p>观察者模式是一种软件设计模式，其中对象（称为主题）维护其依赖项的列表（称为观察者），并通过调用其方法来自动将状态更改通知他们。</p>
+</blockquote>
+<p><strong>程序示例</strong></p>
+<p>实现上面的例子，首先，需要发布通知给求职者。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JobPost</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $title;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(string $title)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;title = $title;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">getTitle</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;title;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JobSeeker</span> <span class="keyword">implements</span> <span class="title">Observer</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $name;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(string $name)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;name = $name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">onJobPosted</span><span class="params">(JobPost $job)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// Do something with the job posting</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Hi '</span> . <span class="keyword">$this</span>-&gt;name . <span class="string">'! New job posted: '</span>. $job-&gt;getTitle();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后求职者将订阅职位消息</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EmploymentAgency</span> <span class="keyword">implements</span> <span class="title">Observable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $observers = [];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">notify</span><span class="params">(JobPost $jobPosting)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">$this</span>-&gt;observers <span class="keyword">as</span> $observer) &#123;</span><br><span class="line">            $observer-&gt;onJobPosted($jobPosting);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">attach</span><span class="params">(Observer $observer)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;observers[] = $observer;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">addJob</span><span class="params">(JobPost $jobPosting)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;notify($jobPosting);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用例</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Create subscribers</span></span><br><span class="line">$johnDoe = <span class="keyword">new</span> JobSeeker(<span class="string">'John Doe'</span>);</span><br><span class="line">$janeDoe = <span class="keyword">new</span> JobSeeker(<span class="string">'Jane Doe'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Create publisher and attach subscribers</span></span><br><span class="line">$jobPostings = <span class="keyword">new</span> EmploymentAgency();</span><br><span class="line">$jobPostings-&gt;attach($johnDoe);</span><br><span class="line">$jobPostings-&gt;attach($janeDoe);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Add a new job and see if subscribers get notified</span></span><br><span class="line">$jobPostings-&gt;addJob(<span class="keyword">new</span> JobPost(<span class="string">'Software Engineer'</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// Output</span></span><br><span class="line"><span class="comment">// Hi John Doe! New job posted: Software Engineer</span></span><br><span class="line"><span class="comment">// Hi Jane Doe! New job posted: Software Engineer</span></span><br></pre></td></tr></table></figure>
+<h3 id="🏃-访问者"><a href="#🏃-访问者" class="headerlink" title="🏃 访问者"></a>🏃 访问者</h3><p>实际例子</p>
+<blockquote>
+<p>加入有人要去迪拜旅游，他们需要一种进入迪拜的方式（即签证）。抵达之后，他们可以独自前往迪拜的任何地方，而不需要跑腿搞许可证；只要告诉他们地名，就可以去参观。访问者模式让你做到这一点，它可以帮助你添加游览的地点，以便他们可以尽可能多访问而不需要做任何繁琐的工作。</p>
+</blockquote>
+<p>简而言之</p>
+<blockquote>
+<p>访问者模式使你可以给对象添加进一步的操作，而无需修改它们。</p>
+</blockquote>
+<p>维基说</p>
+<blockquote>
+<p>在面向对象程序设计中，访问者设计模式时一种将算法和操作对象的结构分离的方法。这种分离的实际结果是能够在不修改这些对象结构的情况下向现有对象结构添加新操作。这是遵循开闭原则（Open Closed Principle）的一种方法。</p>
+</blockquote>
+<p><strong>程序示例</strong></p>
+<p>我们来模拟一所动物园，其中有几种不同的动物，我们必须赋予它们声音。下面用访问者模式来实现它。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Visitee</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Animal</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">accept</span><span class="params">(AnimalOperation $operation)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Visitor</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">AnimalOperation</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">visitMonkey</span><span class="params">(Monkey $monkey)</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">visitLion</span><span class="params">(Lion $lion)</span></span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">visitDolphin</span><span class="params">(Dolphin $dolphin)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实现这些动物</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Monkey</span> <span class="keyword">implements</span> <span class="title">Animal</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">shout</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Ooh oo aa aa!'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">accept</span><span class="params">(AnimalOperation $operation)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $operation-&gt;visitMonkey(<span class="keyword">$this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Lion</span> <span class="keyword">implements</span> <span class="title">Animal</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">roar</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Roaaar!'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">accept</span><span class="params">(AnimalOperation $operation)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $operation-&gt;visitLion(<span class="keyword">$this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dolphin</span> <span class="keyword">implements</span> <span class="title">Animal</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">speak</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Tuut tuttu tuutt!'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">accept</span><span class="params">(AnimalOperation $operation)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $operation-&gt;visitDolphin(<span class="keyword">$this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实现访问者</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Speak</span> <span class="keyword">implements</span> <span class="title">AnimalOperation</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">visitMonkey</span><span class="params">(Monkey $monkey)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $monkey-&gt;shout();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">visitLion</span><span class="params">(Lion $lion)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $lion-&gt;roar();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">visitDolphin</span><span class="params">(Dolphin $dolphin)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        $dolphin-&gt;speak();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样用</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$monkey = <span class="keyword">new</span> Monkey();</span><br><span class="line">$lion = <span class="keyword">new</span> Lion();</span><br><span class="line">$dolphin = <span class="keyword">new</span> Dolphin();</span><br><span class="line"></span><br><span class="line">$speak = <span class="keyword">new</span> Speak();</span><br><span class="line"></span><br><span class="line">$monkey-&gt;accept($speak);    <span class="comment">// Ooh oo aa aa!    </span></span><br><span class="line">$lion-&gt;accept($speak);      <span class="comment">// Roaaar!</span></span><br><span class="line">$dolphin-&gt;accept($speak);   <span class="comment">// Tuut tutt tuutt!</span></span><br></pre></td></tr></table></figure>
+<p>我们可以通过对动物具有继承层次结构来简单地做到这一点，但是每当我们必须向动物添加新动作时，就必须修改动物。但是现在我们不必更改它们。例如：假设我们被要求将跳跃行为添加到动物中，我们可以简单地通过创建一个新的访问者来添加它，即：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Jump</span> <span class="keyword">implements</span> <span class="title">AnimalOperation</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">visitMonkey</span><span class="params">(Monkey $monkey)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Jumped 20 feet high! on to the tree!'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">visitLion</span><span class="params">(Lion $lion)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Jumped 7 feet! Back on the ground!'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">visitDolphin</span><span class="params">(Dolphin $dolphin)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Walked on water a little and disappeared'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$jump = <span class="keyword">new</span> Jump();</span><br><span class="line"></span><br><span class="line">$monkey-&gt;accept($speak);   <span class="comment">// Ooh oo aa aa!</span></span><br><span class="line">$monkey-&gt;accept($jump);    <span class="comment">// Jumped 20 feet high! on to the tree!</span></span><br><span class="line"></span><br><span class="line">$lion-&gt;accept($speak);     <span class="comment">// Roaaar!</span></span><br><span class="line">$lion-&gt;accept($jump);      <span class="comment">// Jumped 7 feet! Back on the ground!</span></span><br><span class="line"></span><br><span class="line">$dolphin-&gt;accept($speak);  <span class="comment">// Tuut tutt tuutt!</span></span><br><span class="line">$dolphin-&gt;accept($jump);   <span class="comment">// Walked on water a little and disappeared</span></span><br></pre></td></tr></table></figure>
+<h3 id="💡-策略"><a href="#💡-策略" class="headerlink" title="💡 策略"></a>💡 策略</h3><p>现实例子</p>
+<blockquote>
+<p>考虑一个排序的例子，我们实现了冒泡排序，但是随着数据的增长，冒泡排序越来越慢。为了解决这个问题，我们实现了快排。但是现在，尽管快速排序算法对大型数据集表现更好，但是对于较小数据集却很慢。为了解决这个问题，我们实现了一种策略，对于小型数据集，使用冒泡排序，而对于较大的使用快排。</p>
+</blockquote>
+<p>简而言之</p>
+<blockquote>
+<p>策略模式可以根据情况切换算法或策略。</p>
+</blockquote>
+<p>维基说</p>
+<blockquote>
+<p>在计算机编程中，策略（strategy）模式（也称为策略（policy）模式）是一种行为设计模式，可以在运行时选择算法行为。</p>
+</blockquote>
+<p><strong>程序示例</strong></p>
+<p>首先对我们测策略接口做出不同实现。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">SortStrategy</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">sort</span><span class="params">(array $dataset)</span>: <span class="title">array</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BubbleSortStrategy</span> <span class="keyword">implements</span> <span class="title">SortStrategy</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">sort</span><span class="params">(array $dataset)</span>: <span class="title">array</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"Sorting using bubble sort"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Do sorting</span></span><br><span class="line">        <span class="keyword">return</span> $dataset;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">QuickSortStrategy</span> <span class="keyword">implements</span> <span class="title">SortStrategy</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">sort</span><span class="params">(array $dataset)</span>: <span class="title">array</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"Sorting using quick sort"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Do sorting</span></span><br><span class="line">        <span class="keyword">return</span> $dataset;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后客户可以使用任意策略</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sorter</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $sorter;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(SortStrategy $sorter)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;sorter = $sorter;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">sort</span><span class="params">(array $dataset)</span>: <span class="title">array</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;sorter-&gt;sort($dataset);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用法</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$dataset = [<span class="number">1</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">8</span>];</span><br><span class="line"></span><br><span class="line">$sorter = <span class="keyword">new</span> Sorter(<span class="keyword">new</span> BubbleSortStrategy());</span><br><span class="line">$sorter-&gt;sort($dataset); <span class="comment">// Output : Sorting using bubble sort</span></span><br><span class="line"></span><br><span class="line">$sorter = <span class="keyword">new</span> Sorter(<span class="keyword">new</span> QuickSortStrategy());</span><br><span class="line">$sorter-&gt;sort($dataset); <span class="comment">// Output : Sorting using quick sort</span></span><br></pre></td></tr></table></figure>
+<h3 id="💢-状态"><a href="#💢-状态" class="headerlink" title="💢 状态"></a>💢 状态</h3><p>实际例子</p>
+<blockquote>
+<p>假设你正在使用某些绘图程序，绘画时选择画笔。现在，画笔将根据所选颜色更改其行为，即如果选择红色，它将绘制为红色，选择蓝色，则将绘制为蓝色等。</p>
+</blockquote>
+<p>简而言之</p>
+<blockquote>
+<p>当状态改变时，它允许你改变类的行为。</p>
+</blockquote>
+<p>维基说</p>
+<blockquote>
+<p>状态模式是一种行为软件设计模式，它以面向对象的方式实现状态机。使用状态模式，通过将每个单独的状态实现为状态模式接口的派生类，并通过调用模式的超类所定义的方法来实现状态转换。状态模式可以解释为策略模式，该模式能够通过调用模式接口中定义的方法来切换当前策略。</p>
+</blockquote>
+<p><strong>程序示例</strong></p>
+<p>再用文本编辑器的例子，它使你可以改变键入文本的状态，选择斜体，将以斜体显示；如果选择粗体，将以粗体显示。</p>
+<p>首先是状态接口及其实现。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">WritingState</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">write</span><span class="params">(string $words)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UpperCase</span> <span class="keyword">implements</span> <span class="title">WritingState</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">write</span><span class="params">(string $words)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> strtoupper($words);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LowerCase</span> <span class="keyword">implements</span> <span class="title">WritingState</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">write</span><span class="params">(string $words)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> strtolower($words);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DefaultText</span> <span class="keyword">implements</span> <span class="title">WritingState</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">write</span><span class="params">(string $words)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> $words;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着是编辑器</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TextEditor</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> $state;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(WritingState $state)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;state = $state;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">setState</span><span class="params">(WritingState $state)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;state = $state;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">type</span><span class="params">(string $words)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;state-&gt;write($words);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$editor = <span class="keyword">new</span> TextEditor(<span class="keyword">new</span> DefaultText());</span><br><span class="line"></span><br><span class="line">$editor-&gt;type(<span class="string">'First line'</span>);</span><br><span class="line"></span><br><span class="line">$editor-&gt;setState(<span class="keyword">new</span> UpperCase());</span><br><span class="line"></span><br><span class="line">$editor-&gt;type(<span class="string">'Second line'</span>);</span><br><span class="line">$editor-&gt;type(<span class="string">'Third line'</span>);</span><br><span class="line"></span><br><span class="line">$editor-&gt;setState(<span class="keyword">new</span> LowerCase());</span><br><span class="line"></span><br><span class="line">$editor-&gt;type(<span class="string">'Fourth line'</span>);</span><br><span class="line">$editor-&gt;type(<span class="string">'Fifth line'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Output:</span></span><br><span class="line"><span class="comment">// First line</span></span><br><span class="line"><span class="comment">// SECOND LINE</span></span><br><span class="line"><span class="comment">// THIRD LINE</span></span><br><span class="line"><span class="comment">// fourth line</span></span><br><span class="line"><span class="comment">// fifth line</span></span><br></pre></td></tr></table></figure>
+<h3 id="📒-模板方法"><a href="#📒-模板方法" class="headerlink" title="📒 模板方法"></a>📒 模板方法</h3><p>实际例子</p>
+<blockquote>
+<p>假设我们要造房子，构建步骤可能如下：</p>
+<ul>
+<li>打地基</li>
+<li>砌墙</li>
+<li>加屋顶</li>
+<li>添加其他楼层</li>
+</ul>
+<p>这些步骤的顺序是不会改变的，即你不可以在砌墙之前盖屋顶，但是每个步骤可以修改，例如墙壁可以由木头、聚酯或石头制成。</p>
+</blockquote>
+<p>简而言之</p>
+<blockquote>
+<p>模板方法定义了如何执行某种算法的框架，但是将这些步骤的实现交给字类。</p>
+</blockquote>
+<p>维基说</p>
+<blockquote>
+<p>软件工程领域，模板方法模式是一种行为设计模式，用于定义操作中算法的程序框架，从而将某些步骤推迟到子类中。</p>
+</blockquote>
+<p><strong>程序示例</strong></p>
+<p>设想我们有一个构建工具可以帮助我们测试、整理、构建，生成报告（即覆盖率报告，lint 报告等）并且将我们的程序部署在测试服务器上。</p>
+<p>首先，搭建基类，它指定构建算法的框架。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Builder</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">// Template method</span></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">build</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;test();</span><br><span class="line">        <span class="keyword">$this</span>-&gt;lint();</span><br><span class="line">        <span class="keyword">$this</span>-&gt;assemble();</span><br><span class="line">        <span class="keyword">$this</span>-&gt;deploy();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">abstract</span> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">abstract</span> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">lint</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">abstract</span> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">assemble</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="keyword">abstract</span> <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">deploy</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实现接口</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AndroidBuilder</span> <span class="keyword">extends</span> <span class="title">Builder</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Running android tests'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">lint</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Linting the android code'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">assemble</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Assembling the android build'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">deploy</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Deploying android build to server'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">IosBuilder</span> <span class="keyword">extends</span> <span class="title">Builder</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">test</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Running ios tests'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">lint</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Linting the ios code'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">assemble</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Assembling the ios build'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">deploy</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">'Deploying ios build to server'</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用法</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$androidBuilder = <span class="keyword">new</span> AndroidBuilder();</span><br><span class="line">$androidBuilder-&gt;build();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Output:</span></span><br><span class="line"><span class="comment">// Running android tests</span></span><br><span class="line"><span class="comment">// Linting the android code</span></span><br><span class="line"><span class="comment">// Assembling the android build</span></span><br><span class="line"><span class="comment">// Deploying android build to server</span></span><br><span class="line"></span><br><span class="line">$iosBuilder = <span class="keyword">new</span> IosBuilder();</span><br><span class="line">$iosBuilder-&gt;build();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Output:</span></span><br><span class="line"><span class="comment">// Running ios tests</span></span><br><span class="line"><span class="comment">// Linting the ios code</span></span><br><span class="line"><span class="comment">// Assembling the ios build</span></span><br><span class="line"><span class="comment">// Deploying ios build to server</span></span><br></pre></td></tr></table></figure>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>到此为止。我将继续对此进行改进，你可以 watch/star 这个<a href="https://github.com/kamranahmedse/developer-roadmap/" target="_blank" rel="noopener">仓库</a>。之后计划编写有关架构模式的文章，敬请期待。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/translation/" rel="tag"># translation</a>
+              <a href="/tags/design-pattern/" rel="tag"># design pattern</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/24/通俗设计模式（译）1/" rel="prev" title="通俗设计模式（译）1">
+      <i class="fa fa-chevron-left"></i> 通俗设计模式（译）1
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODE1OC8xNDY4OA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#行为设计模式"><span class="nav-number">1.</span> <span class="nav-text">行为设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#🔗-责任链"><span class="nav-number">1.1.</span> <span class="nav-text">🔗 责任链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#👮-命令"><span class="nav-number">1.2.</span> <span class="nav-text">👮 命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#➿-迭代器"><span class="nav-number">1.3.</span> <span class="nav-text">➿ 迭代器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#👽-调解员"><span class="nav-number">1.4.</span> <span class="nav-text">👽 调解员</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#💾-记忆"><span class="nav-number">1.5.</span> <span class="nav-text">💾 记忆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#😎-观察者"><span class="nav-number">1.6.</span> <span class="nav-text">😎 观察者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#🏃-访问者"><span class="nav-number">1.7.</span> <span class="nav-text">🏃 访问者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#💡-策略"><span class="nav-number">1.8.</span> <span class="nav-text">💡 策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#💢-状态"><span class="nav-number">1.9.</span> <span class="nav-text">💢 状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#📒-模板方法"><span class="nav-number">1.10.</span> <span class="nav-text">📒 模板方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最后"><span class="nav-number">2.</span> <span class="nav-text">最后</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="sko00o"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">sko00o</p>
+  <div class="site-description" itemprop="description">Nothing or Anything</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">60</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sko00o" title="GitHub → https://github.com/sko00o" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:lwylwy@outlook.com" title="E-Mail → mailto:lwylwy@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sko00o</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
+  <script>
+    firebase.initializeApp({
+      apiKey: 'AIzaSyAh5G6EjuxSOyExsKAcgFnc6AMLOn75q44',
+      projectId: 'myblog-1520f'
+    });
+
+    function getCount(doc, increaseCount) {
+      // IncreaseCount will be false when not in article page
+      return doc.get().then(d => {
+        var count = 0;
+        if (!d.exists) { // Has no data, initialize count
+          if (increaseCount) {
+            doc.set({
+              count: 1
+            });
+            count = 1;
+          }
+        } else { // Has data
+          count = d.data().count;
+          if (increaseCount) {
+            // If first view this article
+            doc.set({ // Increase count
+              count: count + 1
+            });
+            count++;
+          }
+        }
+
+        return count;
+      });
+    }
+
+    function appendCountTo(el) {
+      return count => {
+        el.innerText = count;
+      }
+    }
+  </script>
+  <script>
+    (function() {
+      var db = firebase.firestore();
+      var articles = db.collection('articles');
+
+      if (CONFIG.page.isPost) { // Is article page
+        var title = document.querySelector('.post-title').innerText.trim();
+        var doc = articles.doc(title);
+        var increaseCount = CONFIG.hostname === location.hostname;
+        if (localStorage.getItem(title)) {
+          increaseCount = false;
+        } else {
+          // Mark as visited
+          localStorage.setItem(title, true);
+        }
+        getCount(doc, increaseCount).then(appendCountTo(document.querySelector('.firestore-visitors-count')));
+      } else if (CONFIG.page.isHome) { // Is index page
+        var promises = [...document.querySelectorAll('.post-title')].map(element => {
+          var title = element.innerText.trim();
+          var doc = articles.doc(title);
+          return getCount(doc);
+        });
+        Promise.all(promises).then(counts => {
+          var metas = document.querySelectorAll('.firestore-visitors-count');
+          counts.forEach((val, idx) => {
+            appendCountTo(metas[idx])(val);
+          });
+        });
+      }
+    })();
+  </script>
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>
