@@ -1,6 +1,6 @@
 ---
 title: Go 谚语
-date: 2020-01-10 00:00:00
+date: 2020-01-10 17:27:10
 tags:
 - Go
 ---
@@ -8,6 +8,8 @@ tags:
  > Go 语言之父 Rob Pike 总结的几条 Go 谚语。
 
  [来源： Go Proverbs - Rob Pike - Gopherfest - November 18, 2015](https://www.youtube.com/watch?v=PAAkCSZUG1c)
+
+ <!--more-->
 
 1. Don’t communicate by sharing memory, share memory by communicating.
 1. Concurrency is not parallism.
