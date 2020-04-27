@@ -217,164 +217,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://www.findshank.com/2019/03/14/for-select-in-go/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="sko00o">
-      <meta itemprop="description" content="Nothing or Anything">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Shank's Notes">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/03/14/for-select-in-go/" class="post-title-link" itemprop="url">For-Select loop in Go</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-03-14 09:36:50" itemprop="dateCreated datePublished" datetime="2019-03-14T09:36:50+08:00">2019-03-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-26 17:27:02" itemprop="dateModified" datetime="2020-04-26T17:27:02+08:00">2020-04-26</time>
-              </span>
-
-          
-            <span class="post-meta-item" title="Views">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-users"></i>
-              </span>
-              <span class="post-meta-item-text">Views: </span>
-              <span class="firestore-visitors-count"></span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Simple <code>break</code> in for-select loop, will not break out of <code>for</code> loop. You should use <code>break label</code>.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/03/14/for-select-in-go/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://www.findshank.com/2018/10/30/Solve-ridiculous-problem-in-Golang/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="sko00o">
-      <meta itemprop="description" content="Nothing or Anything">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Shank's Notes">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2018/10/30/Solve-ridiculous-problem-in-Golang/" class="post-title-link" itemprop="url">Solve ridiculous problem in Golang</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2018-10-30 19:00:20" itemprop="dateCreated datePublished" datetime="2018-10-30T19:00:20+08:00">2018-10-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-26 17:27:02" itemprop="dateModified" datetime="2020-04-26T17:27:02+08:00">2020-04-26</time>
-              </span>
-
-          
-            <span class="post-meta-item" title="Views">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-users"></i>
-              </span>
-              <span class="post-meta-item-text">Views: </span>
-              <span class="firestore-visitors-count"></span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="problem"><a href="#problem" class="headerlink" title="problem"></a>problem</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">panic: runtime error: invalid memory address or nil pointer dereference</span><br><span class="line">[signal SIGSEGV: segmentation violation code=0x1 addr=0x10 pc=0x6e2bea]</span><br><span class="line"></span><br><span class="line">goroutine 10233 [running]:</span><br><span class="line">.../backend.(*ActionBackend).ReceiveTXPacket(0xc42968f940)</span><br><span class="line">        /.../backend/actionbackend.go:102 +0x2a</span><br><span class="line">.../backend.NewActionBackend.func1(0xc42968f940)</span><br><span class="line">        /.../backend/actionbackend.go:45 +0x2b</span><br><span class="line">created by .../backend.NewActionBackend</span><br><span class="line">        /.../backend/actionbackend.go:44 +0x89</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2018/10/30/Solve-ridiculous-problem-in-Golang/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
     <link itemprop="mainEntityOfPage" href="https://www.findshank.com/2018/09/15/Install-mysql-on-wsl/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -406,7 +248,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-26 17:27:02" itemprop="dateModified" datetime="2020-04-26T17:27:02+08:00">2020-04-26</time>
+                <time title="Modified: 2020-04-27 08:59:53" itemprop="dateModified" datetime="2020-04-27T08:59:53+08:00">2020-04-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -503,7 +345,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-26 17:27:02" itemprop="dateModified" datetime="2020-04-26T17:27:02+08:00">2020-04-26</time>
+                <time title="Modified: 2020-04-27 08:59:53" itemprop="dateModified" datetime="2020-04-27T08:59:53+08:00">2020-04-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -593,7 +435,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-26 17:27:02" itemprop="dateModified" datetime="2020-04-26T17:27:02+08:00">2020-04-26</time>
+                <time title="Modified: 2020-04-27 08:59:53" itemprop="dateModified" datetime="2020-04-27T08:59:53+08:00">2020-04-27</time>
               </span>
 
           
@@ -674,7 +516,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-26 17:27:02" itemprop="dateModified" datetime="2020-04-26T17:27:02+08:00">2020-04-26</time>
+                <time title="Modified: 2020-04-27 08:59:53" itemprop="dateModified" datetime="2020-04-27T08:59:53+08:00">2020-04-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -764,7 +606,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-26 17:27:02" itemprop="dateModified" datetime="2020-04-26T17:27:02+08:00">2020-04-26</time>
+                <time title="Modified: 2020-04-27 08:59:53" itemprop="dateModified" datetime="2020-04-27T08:59:53+08:00">2020-04-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -800,6 +642,186 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2018/07/25/screen-Cannot-open-your-terminal-dev-pts-1/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.findshank.com/2018/06/18/Failed-to-delete-using-Trash-in-vscode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="sko00o">
+      <meta itemprop="description" content="Nothing or Anything">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shank's Notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/06/18/Failed-to-delete-using-Trash-in-vscode/" class="post-title-link" itemprop="url">Failed to delete using Trash in vscode</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-06-18 09:31:23" itemprop="dateCreated datePublished" datetime="2018-06-18T09:31:23+08:00">2018-06-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-04-27 08:59:53" itemprop="dateModified" datetime="2020-04-27T08:59:53+08:00">2020-04-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-users"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="firestore-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Update-on-2018-07-25"><a href="#Update-on-2018-07-25" class="headerlink" title="Update on 2018-07-25"></a>Update on 2018-07-25</h1><h2 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h2><p>OS: Arch linux<br>Desktop: i3 4.15.0.1<br>VScode version: 1.25.1</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/06/18/Failed-to-delete-using-Trash-in-vscode/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.findshank.com/2018/06/17/Install-vscode-on-Arch-Linux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="sko00o">
+      <meta itemprop="description" content="Nothing or Anything">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shank's Notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/06/17/Install-vscode-on-Arch-Linux/" class="post-title-link" itemprop="url">Install vscode on Arch Linux</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-06-18 00:52:49" itemprop="dateCreated datePublished" datetime="2018-06-18T00:52:49+08:00">2018-06-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-04-27 08:59:53" itemprop="dateModified" datetime="2020-04-27T08:59:53+08:00">2020-04-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-users"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="firestore-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Method-1-official-binary-version-recommend"><a href="#Method-1-official-binary-version-recommend" class="headerlink" title="Method 1: official binary version (recommend)"></a>Method 1: official binary version (recommend)</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yaourt -S visual-studio-code-bin</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/06/17/Install-vscode-on-Arch-Linux/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -891,7 +913,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-count">50</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
