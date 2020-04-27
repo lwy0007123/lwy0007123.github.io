@@ -1120,6 +1120,98 @@
       </tags>
   </entry>
   <entry>
+    <title>Go 谚语</title>
+    <url>/2020/01/10/Go-Proverbs/</url>
+    <content><![CDATA[<blockquote>
+<p>Go 语言之父 Rob Pike 总结的几条 Go 谚语。</p>
+</blockquote>
+<p> <a href="https://www.youtube.com/watch?v=PAAkCSZUG1c" target="_blank" rel="noopener">来源： Go Proverbs - Rob Pike - Gopherfest - November 18, 2015</a></p>
+ <a id="more"></a>
+<ol>
+<li>Don’t communicate by sharing memory, share memory by communicating.</li>
+<li>Concurrency is not parallism.</li>
+<li>Channels orchestrate; mutexes serialize.</li>
+<li>The bigger the interface, the weaker the abstraction.</li>
+<li>Make the zero value useful. (e.g. bytes.Buffer or sync.Mutex)</li>
+<li>interface{} says nothing.</li>
+<li>Gofmt’s style is no one’s favorite, yet gofmt is everyone’s favorite.</li>
+<li>A little copying is better than a little dependency.</li>
+<li>Syscall must always be guarded with build tags.</li>
+<li>Cgo must always be guarded with build tags.</li>
+<li>Cgo is not Go.</li>
+<li>With the unsafe package, there are no guarantees.</li>
+<li>Clear is better than clever.</li>
+<li>Reflection is never clear.</li>
+<li>Errors are values.</li>
+<li>Don’t just check errors, handle them gracefully.</li>
+<li>Design the architecture, name the components, document the details.</li>
+<li>Documentation is for users.</li>
+<li>Don’t panic.</li>
+</ol>
+<h2 id="解读"><a href="#解读" class="headerlink" title="解读"></a>解读</h2><ol>
+<li>不要通过共享内存来通信，而应该通过通信的方式共享内存。<blockquote>
+<p>Go 官方博客的<a href="https://blog.golang.org/share-memory-by-communicating" target="_blank" rel="noopener">解读</a></p>
+</blockquote>
+</li>
+<li>并发不是并行。</li>
+<li>Channels 编排；互斥量的串行化。<blockquote>
+<p>使用 chan 串行处理互斥量。</p>
+</blockquote>
+</li>
+<li>接口越大，抽象能力越弱。<blockquote>
+<p>好的接口定义一般不超过两种方法.</p>
+</blockquote>
+</li>
+<li>让零值有用（比如 bytes.Buffer 或 sync.Mutex）。</li>
+<li>interface{} 没有信息。<blockquote>
+<p>因为接口类型无法做到静态检查。</p>
+</blockquote>
+</li>
+<li>Gofmt 的风格没有人喜欢，但 Gofmt 却是每个人的最爱。</li>
+<li>做一点复制比一点依赖更好。</li>
+<li>系统调用必须由构建标签保证。</li>
+<li>Cgo 必须由构建标签保证。</li>
+<li>Cgo 不是 Go 。<blockquote>
+<p>他说自己几乎不使用 cgo 。<br>Dave 博客的<a href="https://dave.cheney.net/2016/01/18/cgo-is-not-go" target="_blank" rel="noopener">解读</a>。</p>
+</blockquote>
+</li>
+<li>unsafe 包中的内容，没有保证。</li>
+<li>清晰比聪明更重要。<blockquote>
+<p>书写逻辑清晰的代码，不要耍小聪明。</p>
+</blockquote>
+</li>
+<li>反射永远是不清晰的。</li>
+<li>错误也是值。<blockquote>
+<p>Go 官方博客的<a href="https://blog.golang.org/errors-are-values" target="_blank" rel="noopener">解读</a>。</p>
+</blockquote>
+</li>
+<li>不要仅仅检查报错，要优雅的处理它们。<blockquote>
+<p>Dave 博客的<a href="https://dave.cheney.net/2016/04/27/dont-just-check-errors-handle-them-gracefully" target="_blank" rel="noopener">解读</a>。</p>
+</blockquote>
+</li>
+<li>设计架构，命名组件，记录细节。<blockquote>
+<p>取一个好名字解释起来也省事。</p>
+</blockquote>
+</li>
+<li>文档是给用户看的。<blockquote>
+<p>文档应该记录用户需要知道的内容。</p>
+</blockquote>
+</li>
+<li>不要恐慌。<blockquote>
+<p>程序 panic 不是正常的错误，要找到问题并解决。正常错误用 error 处理。</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://go-proverbs.github.io/" target="_blank" rel="noopener">Go Proverbs</a></li>
+<li><a href="https://studygolang.com/articles/12327" target="_blank" rel="noopener">Go 语言中文网 - Go 谚语</a></li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Go</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Go 私网开发服务搭建记录</title>
     <url>/2019/10/29/Go-%E7%A7%81%E7%BD%91%E5%BC%80%E5%8F%91%E6%9C%8D%E5%8A%A1%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<p>本文记录了私网 Go 开发所需的所有相关服务，包括版本管理，模块代理，持续集成。</p>
@@ -2011,6 +2103,36 @@
         <tag>https</tag>
         <tag>TLS</tag>
         <tag>CA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Go 调度器</title>
+    <url>/2019/05/15/Go-Scheduler/</url>
+    <content><![CDATA[<blockquote>
+<p>本文翻译自 Go 核心开发者 Ian Lance Taylor, 在 Quora 上的<a href="https://qr.ae/pNrVMG" target="_blank" rel="noopener">回答</a>。</p>
+</blockquote>
+<a id="more"></a>
+<p>我将概述从 Go 版本 1.7 开始使用的调度程序。</p>
+<p>有三个基础数据结构，被称作 G、M 和 P 。G 是 goroutine， M 是操作系统线程， P 是（逻辑）处理单元。</p>
+<p>调度器拥有确切的 GOMAXPROCS 数量的 P （GOMAXPROCS 是一个环境变量，并且运行时函数用它来设置程序中的并发度）。为了让一个 M 执行一个 G ，它需要先获取一个 P 。然后运行 G 直到停止。 G 通过诸如 I/O 操作的系统调用、通过阻塞一个 channel 操作、通过调用一个 C 函数、通过被预抢占（pre-empted），或者一些少数情况来停止。一个 G 只能在安全的地方被预抢占，当前实现中只能在代码发生函数调用时发生。</p>
+<p>当一个 G 被 channel 操作之类的东西所阻塞时，它会被放进队列中，此时 M 将会寻找另一个可运行的 G 。如果没有可运行的 G ，这个 M 就会释放 P 然后进入休眠。</p>
+<p>当一个 G 被系统调用之类的东西所阻塞时，它会释放 P 且继续在 M 上运行。有一个系统监视器线程，每隔一段时间（20us 到 10ms 之间）就会唤醒一次。如果系统监视器线程发现有可运行的 G 和可用的 P ，它就会唤醒一个正在休眠的 M ，或者没有休眠的 M 就启动一个新的。那个 M 将获得 P 并捡起一个可运行的 G 。</p>
+<p>当一个 G 完成一次系统调用时，它必须重新获取 P 。如果没有可用的 P ，它将被标记为可运行接着 M 就会休眠。</p>
+<p>当一个 channel 操作成功时，它将唤醒另一个 goroutine ，把它标记为可运行，并且如果有可用的 P ，唤醒一个 M 去运行它。</p>
+<p>虽然垃圾回收器多数情况下时并发的，但还是有部分情况需要短暂停止所有线程才能安全地转移到回收地下一个阶段。它通过将所有正在运行的 goroutine 标记为预抢占来实现此目的。当它们到达安全地点时， G 和 M 将会休眠。当垃圾回收器时唯一剩下的正在运行的 G 时，它将进入下一阶段，接着唤醒 GOMAXPROCS <a href="#note1"><sup>1</sup></a> 数量的 M ，它们将各自找到可运行的 G 并继续下去。</p>
+<p>runtime.Gosched 函数促使 M 将当前的 G 放到可运行 goroutine 列表中，并从那个列表中选取一个新的 G 开始运行。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.quora.com/How-does-the-golang-scheduler-work/answer/Ian-Lance-Taylor" target="_blank" rel="noopener">How does the golang scheduler work?</a></li>
+<li><a href="https://studygolang.com/articles/12326" target="_blank" rel="noopener">Go 调度工作机制</a></li>
+</ul>
+<h2 id="注"><a href="#注" class="headerlink" title="注"></a>注</h2><div id="note1"></div>
+
+<ul>
+<li>[1] 原回答中应该是少了个 <code>S</code> 。</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Go</tag>
       </tags>
   </entry>
   <entry>
