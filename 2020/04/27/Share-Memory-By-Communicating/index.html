@@ -56,7 +56,7 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="原文 The Go Blog - Share Memory By Communicating">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-04-27T15:51:32.587Z">
+<meta property="og:updated_time" content="2020-04-27T16:23:47.432Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="通过通信共享内存（译）">
 <meta name="twitter:description" content="原文 The Go Blog - Share Memory By Communicating">
@@ -241,10 +241,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-04-27 22:42:50 / Modified: 23:51:32" itemprop="dateCreated datePublished" datetime="2020-04-27T22:42:50+08:00">2020-04-27</time>
+              <time title="Created: 2020-04-27 22:42:50" itemprop="dateCreated datePublished" datetime="2020-04-27T22:42:50+08:00">2020-04-27</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-04-28 00:23:47" itemprop="dateModified" datetime="2020-04-28T00:23:47+08:00">2020-04-28</time>
+              </span>
 
           
             <span class="post-meta-item" title="Views">
@@ -269,7 +275,7 @@
 </blockquote>
 <a id="more"></a>
 <p>传统线程模型（例如，在编写 Java、 C++ 和 Python 程序时常用）要求程序员使用共享内存在线程之间通信。通常，共享数据结构受锁的保护，线程将争夺这些锁以访问数据。在某些情况下，通过使用线程安全的数据结构（例如 Python 的队列）可以使此操作变得更容易。</p>
-<p>Go 的并发原语 —— goroutine 和 channel ，提供了一种优雅而独特的方式来构造并发软件。（这些概念有一段有趣的历史，始于 C.A.R Hoare 的<a href="http://www.usingcsp.com/" target="_blank" rel="noopener">通信顺序流程 CSP</a>。）与其明确使用锁来调解对共享数据的访问，Go 鼓励使用 channels 再 goroutine 之间传递对数据引用。这种方法确保再给定时间只有一个 goroutine 可以访问数据。该概念在 <a href="https://golang.org/doc/effective_go.html" target="_blank" rel="noopener">Effective Go</a>（Go 程序员必读）中进行了总结。</p>
+<p>Go 的并发原语 —— goroutine 和 channel ，提供了一种优雅而独特的方式来构造并发软件。（这些概念有一段有趣的历史，始于 C.A.R Hoare 的<a href="http://www.usingcsp.com/" target="_blank" rel="noopener">通信顺序流程 CSP</a>。）与其明确使用锁来调解对共享数据的访问，Go 鼓励使用 channels 在 goroutine 之间传递对数据引用。这种方法确保在给定时间只有一个 goroutine 可以访问数据。该概念在 <a href="https://golang.org/doc/effective_go.html" target="_blank" rel="noopener">Effective Go</a>（Go 程序员必读）中进行了总结。</p>
 <p><code>不要通过共享内存通信，而是，通过通信共享内存。</code></p>
 <p>考虑一个轮询 URL 列表的程序。在传统的线程环境中，人们可能会这样构造其数据：</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Resource <span class="keyword">struct</span> &#123;</span><br><span class="line">    url        <span class="keyword">string</span></span><br><span class="line">    polling    <span class="keyword">bool</span></span><br><span class="line">    lastPolled <span class="keyword">int64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Resources <span class="keyword">struct</span> &#123;</span><br><span class="line">    data []*Resource</span><br><span class="line">    lock *sync.Mutex</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
