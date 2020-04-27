@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>通过通信共享内存（译）</title>
+    <url>/2020/04/27/Share-Memory-By-Communicating/</url>
+    <content><![CDATA[<blockquote>
+<p>原文 <a href="https://blog.golang.org/codelab-share" target="_blank" rel="noopener">The Go Blog - Share Memory By Communicating</a></p>
+</blockquote>
+<a id="more"></a>
+<p>传统线程模型（例如，在编写 Java、 C++ 和 Python 程序时常用）要求程序员使用共享内存在线程之间通信。通常，共享数据结构受锁的保护，线程将争夺这些锁以访问数据。在某些情况下，通过使用线程安全的数据结构（例如 Python 的队列）可以使此操作变得更容易。</p>
+<p>Go 的并发原语 —— goroutine 和 channel ，提供了一种优雅而独特的方式来构造并发软件。（这些概念有一段有趣的历史，始于 C.A.R Hoare 的<a href="http://www.usingcsp.com/" target="_blank" rel="noopener">通信顺序流程 CSP</a>。）与其明确使用锁来调解对共享数据的访问，Go 鼓励使用 channels 再 goroutine 之间传递对数据引用。这种方法确保再给定时间只有一个 goroutine 可以访问数据。该概念在 <a href="https://golang.org/doc/effective_go.html" target="_blank" rel="noopener">Effective Go</a>（Go 程序员必读）中进行了总结。</p>
+<p><code>不要通过共享内存通信，而是，通过通信共享内存。</code></p>
+<p>考虑一个轮询 URL 列表的程序。在传统的线程环境中，人们可能会这样构造其数据：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Resource <span class="keyword">struct</span> &#123;</span><br><span class="line">    url        <span class="keyword">string</span></span><br><span class="line">    polling    <span class="keyword">bool</span></span><br><span class="line">    lastPolled <span class="keyword">int64</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Resources <span class="keyword">struct</span> &#123;</span><br><span class="line">    data []*Resource</span><br><span class="line">    lock *sync.Mutex</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后，一个轮询器函数（其中的许多函数将在单独线程中运行）可能看起来像这样：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Poller</span><span class="params">(res *Resources)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        <span class="comment">// 获取最近最少轮询的资源</span></span><br><span class="line">        <span class="comment">// 并将其标记为已轮询</span></span><br><span class="line">        res.lock.Lock()</span><br><span class="line">        <span class="keyword">var</span> r *Resource</span><br><span class="line">        <span class="keyword">for</span> _, v := <span class="keyword">range</span> res.data &#123;</span><br><span class="line">            <span class="keyword">if</span> v.polling &#123;</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> r == <span class="literal">nil</span> || v.lastPolled &lt; r.lastPolled &#123;</span><br><span class="line">                r = v</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> r != <span class="literal">nil</span> &#123;</span><br><span class="line">            r.polling = <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">        res.lock.Unlock()</span><br><span class="line">        <span class="keyword">if</span> r == <span class="literal">nil</span> &#123;</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 轮询 URL</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 更新资源的 polling 和 lastPolled</span></span><br><span class="line">        res.lock.Lock()</span><br><span class="line">        r.polling = <span class="literal">false</span></span><br><span class="line">        r.lastPolled = time.Nanoseconds()</span><br><span class="line">        res.lock.Unlock()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此函数大约要写一页纸，并且需要更多细节才能完成。它甚至不包括 URL 轮询逻辑（它本身只有几行），也不能优雅地处理资源池耗尽的问题。</p>
+<p>让我们看一下使用 Go 惯用语实现的相同功能。在这个例子中，轮询器是一个函数，可以从输入 channel 接收要轮询地资源，并在完成后将其发送给输入 channel 。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Resource <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">Poller</span><span class="params">(in, out <span class="keyword">chan</span> *Resource)</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> r := <span class="keyword">range</span> in &#123;</span><br><span class="line">        <span class="comment">// 轮询 URL</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 将处理后地资源发送出去</span></span><br><span class="line">        out &lt;- r</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上一个示例中地微妙逻辑显然不存在，并且我们的资源数据结构不再包含用作标记的字段。实际上，剩下的就是重要的部分。这应该使你对这些简单语言功能的强大之处有所了解了。</p>
+<p>上述代码有很多遗漏之处。使用 Go 的惯用写法的完整实现，移步 Codewalk <a href="https://golang.org/doc/codewalk/sharemem/" target="_blank" rel="noopener">通过通信共享内存</a></p>
+]]></content>
+      <tags>
+        <tag>Go</tag>
+        <tag>translation</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>通俗设计模式（译）</title>
     <url>/2020/04/23/%E9%80%9A%E4%BF%97%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E8%AF%91%EF%BC%89/</url>
     <content><![CDATA[<p><a href="https://roadmap.sh/guides/design-patterns-for-humans" target="_blank" rel="noopener">原文：Design Patterns for Humans</a></p>
@@ -4619,66 +4644,6 @@
       </tags>
   </entry>
   <entry>
-    <title>使用 Terminator &amp; ZSH的配置</title>
-    <url>/2016/10/01/%E4%BD%BF%E7%94%A8%20Terminator%20%20&amp;%20ZSH%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p> 在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。</p>
-<a id="more"></a>
-<h2 id="安装-Terminator"><a href="#安装-Terminator" class="headerlink" title="安装 Terminator"></a>安装 Terminator</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install terminator</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>利用 Debian 的重新配置命令选择默认终端：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo update-alternatives --config x-terminal-emulator</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>非ubuntu系统设置terminator快捷键</em></li>
-</ul>
-<p>Setting -&gt; Keyboard -&gt; Shortcuts -&gt; Custom Shortcuts -&gt; add(+)<br>Name : Terminal<br>Command : /usr/bin/terminator<br>Apply<br>Click “Disable”<br>press Ctrl + Alt + T</p>
-<h2 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">/* 打开Terminator ，进行如下操作 */</span><br><span class="line">Preferenvces -&gt; General</span><br><span class="line">Disable ‘Show titlebar’</span><br><span class="line">Preferenvces -&gt; Profiles -&gt; Colors -&gt; Foreground and Background -&gt; Build-in schemes</span><br><span class="line">Choose ‘Solarized dark’</span><br></pre></td></tr></table></figure>
-<h2 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install zsh</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>设置当前用户使用zsh</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
-<h2 id="安装-on-my-zsh"><a href="#安装-on-my-zsh" class="headerlink" title="安装 on my zsh"></a>安装 on my zsh</h2><ul>
-<li><em>自动安装：(推荐)</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>手动安装：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh</span><br><span class="line">cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</span><br></pre></td></tr></table></figure>
-<h2 id="安装powerline字体"><a href="#安装powerline字体" class="headerlink" title="安装powerline字体"></a>安装powerline字体</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/powerline/fonts</span><br><span class="line"><span class="built_in">cd</span> fonts</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
-<p>然后在终端中使用powerline字体</p>
-<h2 id="编辑：-zshrc"><a href="#编辑：-zshrc" class="headerlink" title="编辑： ~/.zshrc"></a>编辑： ~/.zshrc</h2><ul>
-<li><em>增加自己的用户名：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">DEFAULT_USER=<span class="string">"Shank"</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>PS：上面 Shank 替换成你当前的用户名，用whoami查看你的用户名</p>
-</blockquote>
-<ul>
-<li><em>修改主题：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ZSH_THEME=<span class="string">"agnoster"</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>启用几个功能：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span><br></pre></td></tr></table></figure>
-<h3 id="或者用以下简单粗暴的方式屏蔽zsh中的用户名"><a href="#或者用以下简单粗暴的方式屏蔽zsh中的用户名" class="headerlink" title="或者用以下简单粗暴的方式屏蔽zsh中的用户名"></a>或者用以下简单粗暴的方式屏蔽zsh中的用户名</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.oh-my-zsh/themes</span><br><span class="line">sudo vim 当前主题名称</span><br></pre></td></tr></table></figure>
-<p>找到最下面对<code>build_prompt</code>的定义，把<code>prompt_context</code>用<code>#</code>注释掉即可</p>
-<blockquote>
-<p>来自2018/10/29：“以前的自己 Markdown 写得这么烂还敢贴出来。”</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Terminator</tag>
-        <tag>ZSH</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Thinkpad X250 安装ubuntu16.04.1LTS 的记录</title>
     <url>/2016/10/01/Thinkpad%20X250%20%E5%AE%89%E8%A3%85ubuntu16.04.1LTS%20%E7%9A%84%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<p>X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。<br>因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。<br>U盘制作ubuntu安装盘，开机启动到U盘。</p>
@@ -4747,6 +4712,66 @@
 <p><strong>安装cherrytree笔记本：</strong></p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install cherrytree</span><br></pre></td></tr></table></figure>
 <p><strong>安装lantern翻墙：</strong><br><a href="https://github.com/getlantern/forum/issues/833" target="_blank" rel="noopener">传送门</a></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Terminator</tag>
+        <tag>ZSH</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用 Terminator &amp; ZSH的配置</title>
+    <url>/2016/10/01/%E4%BD%BF%E7%94%A8%20Terminator%20%20&amp;%20ZSH%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p> 在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。</p>
+<a id="more"></a>
+<h2 id="安装-Terminator"><a href="#安装-Terminator" class="headerlink" title="安装 Terminator"></a>安装 Terminator</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install terminator</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>利用 Debian 的重新配置命令选择默认终端：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo update-alternatives --config x-terminal-emulator</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>非ubuntu系统设置terminator快捷键</em></li>
+</ul>
+<p>Setting -&gt; Keyboard -&gt; Shortcuts -&gt; Custom Shortcuts -&gt; add(+)<br>Name : Terminal<br>Command : /usr/bin/terminator<br>Apply<br>Click “Disable”<br>press Ctrl + Alt + T</p>
+<h2 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">/* 打开Terminator ，进行如下操作 */</span><br><span class="line">Preferenvces -&gt; General</span><br><span class="line">Disable ‘Show titlebar’</span><br><span class="line">Preferenvces -&gt; Profiles -&gt; Colors -&gt; Foreground and Background -&gt; Build-in schemes</span><br><span class="line">Choose ‘Solarized dark’</span><br></pre></td></tr></table></figure>
+<h2 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install zsh</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>设置当前用户使用zsh</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
+<h2 id="安装-on-my-zsh"><a href="#安装-on-my-zsh" class="headerlink" title="安装 on my zsh"></a>安装 on my zsh</h2><ul>
+<li><em>自动安装：(推荐)</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>手动安装：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh</span><br><span class="line">cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</span><br></pre></td></tr></table></figure>
+<h2 id="安装powerline字体"><a href="#安装powerline字体" class="headerlink" title="安装powerline字体"></a>安装powerline字体</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/powerline/fonts</span><br><span class="line"><span class="built_in">cd</span> fonts</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
+<p>然后在终端中使用powerline字体</p>
+<h2 id="编辑：-zshrc"><a href="#编辑：-zshrc" class="headerlink" title="编辑： ~/.zshrc"></a>编辑： ~/.zshrc</h2><ul>
+<li><em>增加自己的用户名：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">DEFAULT_USER=<span class="string">"Shank"</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>PS：上面 Shank 替换成你当前的用户名，用whoami查看你的用户名</p>
+</blockquote>
+<ul>
+<li><em>修改主题：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ZSH_THEME=<span class="string">"agnoster"</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>启用几个功能：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span><br></pre></td></tr></table></figure>
+<h3 id="或者用以下简单粗暴的方式屏蔽zsh中的用户名"><a href="#或者用以下简单粗暴的方式屏蔽zsh中的用户名" class="headerlink" title="或者用以下简单粗暴的方式屏蔽zsh中的用户名"></a>或者用以下简单粗暴的方式屏蔽zsh中的用户名</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.oh-my-zsh/themes</span><br><span class="line">sudo vim 当前主题名称</span><br></pre></td></tr></table></figure>
+<p>找到最下面对<code>build_prompt</code>的定义，把<code>prompt_context</code>用<code>#</code>注释掉即可</p>
+<blockquote>
+<p>来自2018/10/29：“以前的自己 Markdown 写得这么烂还敢贴出来。”</p>
+</blockquote>
 ]]></content>
       <categories>
         <category>Linux</category>
