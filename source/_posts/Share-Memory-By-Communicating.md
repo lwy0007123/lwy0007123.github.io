@@ -12,7 +12,7 @@ tags:
 
 传统线程模型（例如，在编写 Java、 C++ 和 Python 程序时常用）要求程序员使用共享内存在线程之间通信。通常，共享数据结构受锁的保护，线程将争夺这些锁以访问数据。在某些情况下，通过使用线程安全的数据结构（例如 Python 的队列）可以使此操作变得更容易。
 
-Go 的并发原语 —— goroutine 和 channel ，提供了一种优雅而独特的方式来构造并发软件。（这些概念有一段有趣的历史，始于 C.A.R Hoare 的[通信顺序流程 CSP](http://www.usingcsp.com/)。）与其明确使用锁来调解对共享数据的访问，Go 鼓励使用 channels 再 goroutine 之间传递对数据引用。这种方法确保再给定时间只有一个 goroutine 可以访问数据。该概念在 [Effective Go](https://golang.org/doc/effective_go.html)（Go 程序员必读）中进行了总结。
+Go 的并发原语 —— goroutine 和 channel ，提供了一种优雅而独特的方式来构造并发软件。（这些概念有一段有趣的历史，始于 C.A.R Hoare 的[通信顺序流程 CSP](http://www.usingcsp.com/)。）与其明确使用锁来调解对共享数据的访问，Go 鼓励使用 channels 在 goroutine 之间传递对数据引用。这种方法确保在给定时间只有一个 goroutine 可以访问数据。该概念在 [Effective Go](https://golang.org/doc/effective_go.html)（Go 程序员必读）中进行了总结。
 
 `不要通过共享内存通信，而是，通过通信共享内存。`
 
