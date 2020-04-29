@@ -56,15 +56,15 @@
 <meta property="og:site_name" content="Shank&#39;s Notes">
 <meta property="og:description" content="原文 The Go scheduler">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://www.findshank.com/2020/04/28/The-Go-scheduler/out-cast.jpg">
+<meta property="og:image" content="https://www.findshank.com/2020/04/28/The-Go-scheduler/entities.jpg">
 <meta property="og:image" content="https://www.findshank.com/2020/04/28/The-Go-scheduler/in-motion.jpg">
 <meta property="og:image" content="https://www.findshank.com/2020/04/28/The-Go-scheduler/syscall.jpg">
 <meta property="og:image" content="https://www.findshank.com/2020/04/28/The-Go-scheduler/steal.jpg">
-<meta property="og:updated_time" content="2020-04-29T11:29:30.071Z">
+<meta property="og:updated_time" content="2020-04-29T11:58:04.467Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go 调度器（译）">
 <meta name="twitter:description" content="原文 The Go scheduler">
-<meta name="twitter:image" content="https://www.findshank.com/2020/04/28/The-Go-scheduler/out-cast.jpg">
+<meta name="twitter:image" content="https://www.findshank.com/2020/04/28/The-Go-scheduler/entities.jpg">
 
 <link rel="canonical" href="https://www.findshank.com/2020/04/28/The-Go-scheduler/">
 
@@ -254,7 +254,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-29 19:29:30" itemprop="dateModified" datetime="2020-04-29T19:29:30+08:00">2020-04-29</time>
+                <time title="Modified: 2020-04-29 19:58:04" itemprop="dateModified" datetime="2020-04-29T19:58:04+08:00">2020-04-29</time>
               </span>
 
           
@@ -289,7 +289,7 @@
 <h2 id="我们的角色"><a href="#我们的角色" class="headerlink" title="我们的角色"></a>我们的角色</h2><p>通常有 3 种线程模型。一个是 N:1 ，在操作系统线程上运行多个用户空间线程。这样的优势时可以非常快速地进行上下文切换，但是不能利用多核系统的优势。另一个是 1:1 ，一个执行线程与一个操作系统线程匹配。它利用了计算机上所有的内核，但是上下文切换很慢，因为它不许通过操作系统捕获。</p>
 <p>Go 尝试通过使用 M:N 调度程序融合以上两者的优势。它将任意数量的 goroutine 调度到任意数量的操作系统线程上。你可以快速进行上下文切换，并利用系统中的所有核心。这种方法的主要缺点是它增加了调度程序的复杂性。</p>
 <p>为了完成调度任务，Go 调度器使用了 3 个主要实体：</p>
-<p><img src="out-cast.jpg" alt="3 main entities"></p>
+<p><img src="entities.jpg" alt="entities"></p>
 <p>三角形代表操作系统线程。它是由操作系统管理的执行线程，其工作原理与你的标准 POSIX 线程非常相似。在运行时代码中，它被称为 M 表示机器。</p>
 <p>圆形代表一个 goroutine 。它包括栈，指令指针和其他对调度 goroutine 至关重要的信息，例如可能会阻塞它的任何通道。在运行时代码中，它被称为 G 。</p>
 <p>矩形代表调度的上下文。你可以将其视为调度程序的本地化版本，该调度程序在单个线程上运行 Go 代码。这是让我们从 N:1 调度程序转到 M:N 调度程序的重要部分。在运行时代码中，它被称为 P 表示处理器。这部分内容多一点。</p>

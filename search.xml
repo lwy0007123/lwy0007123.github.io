@@ -17,7 +17,7 @@
 <h2 id="我们的角色"><a href="#我们的角色" class="headerlink" title="我们的角色"></a>我们的角色</h2><p>通常有 3 种线程模型。一个是 N:1 ，在操作系统线程上运行多个用户空间线程。这样的优势时可以非常快速地进行上下文切换，但是不能利用多核系统的优势。另一个是 1:1 ，一个执行线程与一个操作系统线程匹配。它利用了计算机上所有的内核，但是上下文切换很慢，因为它不许通过操作系统捕获。</p>
 <p>Go 尝试通过使用 M:N 调度程序融合以上两者的优势。它将任意数量的 goroutine 调度到任意数量的操作系统线程上。你可以快速进行上下文切换，并利用系统中的所有核心。这种方法的主要缺点是它增加了调度程序的复杂性。</p>
 <p>为了完成调度任务，Go 调度器使用了 3 个主要实体：</p>
-<p><img src="out-cast.jpg" alt="3 main entities"></p>
+<p><img src="entities.jpg" alt="entities"></p>
 <p>三角形代表操作系统线程。它是由操作系统管理的执行线程，其工作原理与你的标准 POSIX 线程非常相似。在运行时代码中，它被称为 M 表示机器。</p>
 <p>圆形代表一个 goroutine 。它包括栈，指令指针和其他对调度 goroutine 至关重要的信息，例如可能会阻塞它的任何通道。在运行时代码中，它被称为 G 。</p>
 <p>矩形代表调度的上下文。你可以将其视为调度程序的本地化版本，该调度程序在单个线程上运行 Go 代码。这是让我们从 N:1 调度程序转到 M:N 调度程序的重要部分。在运行时代码中，它被称为 P 表示处理器。这部分内容多一点。</p>
@@ -4690,6 +4690,66 @@
       </tags>
   </entry>
   <entry>
+    <title>使用 Terminator &amp; ZSH的配置</title>
+    <url>/2016/10/01/%E4%BD%BF%E7%94%A8%20Terminator%20%20&amp;%20ZSH%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p> 在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。</p>
+<a id="more"></a>
+<h2 id="安装-Terminator"><a href="#安装-Terminator" class="headerlink" title="安装 Terminator"></a>安装 Terminator</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install terminator</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>利用 Debian 的重新配置命令选择默认终端：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo update-alternatives --config x-terminal-emulator</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>非ubuntu系统设置terminator快捷键</em></li>
+</ul>
+<p>Setting -&gt; Keyboard -&gt; Shortcuts -&gt; Custom Shortcuts -&gt; add(+)<br>Name : Terminal<br>Command : /usr/bin/terminator<br>Apply<br>Click “Disable”<br>press Ctrl + Alt + T</p>
+<h2 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">/* 打开Terminator ，进行如下操作 */</span><br><span class="line">Preferenvces -&gt; General</span><br><span class="line">Disable ‘Show titlebar’</span><br><span class="line">Preferenvces -&gt; Profiles -&gt; Colors -&gt; Foreground and Background -&gt; Build-in schemes</span><br><span class="line">Choose ‘Solarized dark’</span><br></pre></td></tr></table></figure>
+<h2 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install zsh</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>设置当前用户使用zsh</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
+<h2 id="安装-on-my-zsh"><a href="#安装-on-my-zsh" class="headerlink" title="安装 on my zsh"></a>安装 on my zsh</h2><ul>
+<li><em>自动安装：(推荐)</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>手动安装：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh</span><br><span class="line">cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</span><br></pre></td></tr></table></figure>
+<h2 id="安装powerline字体"><a href="#安装powerline字体" class="headerlink" title="安装powerline字体"></a>安装powerline字体</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/powerline/fonts</span><br><span class="line"><span class="built_in">cd</span> fonts</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
+<p>然后在终端中使用powerline字体</p>
+<h2 id="编辑：-zshrc"><a href="#编辑：-zshrc" class="headerlink" title="编辑： ~/.zshrc"></a>编辑： ~/.zshrc</h2><ul>
+<li><em>增加自己的用户名：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">DEFAULT_USER=<span class="string">"Shank"</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>PS：上面 Shank 替换成你当前的用户名，用whoami查看你的用户名</p>
+</blockquote>
+<ul>
+<li><em>修改主题：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ZSH_THEME=<span class="string">"agnoster"</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>启用几个功能：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span><br></pre></td></tr></table></figure>
+<h3 id="或者用以下简单粗暴的方式屏蔽zsh中的用户名"><a href="#或者用以下简单粗暴的方式屏蔽zsh中的用户名" class="headerlink" title="或者用以下简单粗暴的方式屏蔽zsh中的用户名"></a>或者用以下简单粗暴的方式屏蔽zsh中的用户名</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.oh-my-zsh/themes</span><br><span class="line">sudo vim 当前主题名称</span><br></pre></td></tr></table></figure>
+<p>找到最下面对<code>build_prompt</code>的定义，把<code>prompt_context</code>用<code>#</code>注释掉即可</p>
+<blockquote>
+<p>来自2018/10/29：“以前的自己 Markdown 写得这么烂还敢贴出来。”</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Terminator</tag>
+        <tag>ZSH</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Thinkpad X250 安装ubuntu16.04.1LTS 的记录</title>
     <url>/2016/10/01/Thinkpad%20X250%20%E5%AE%89%E8%A3%85ubuntu16.04.1LTS%20%E7%9A%84%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<p>X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。<br>因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。<br>U盘制作ubuntu安装盘，开机启动到U盘。</p>
@@ -4758,66 +4818,6 @@
 <p><strong>安装cherrytree笔记本：</strong></p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install cherrytree</span><br></pre></td></tr></table></figure>
 <p><strong>安装lantern翻墙：</strong><br><a href="https://github.com/getlantern/forum/issues/833" target="_blank" rel="noopener">传送门</a></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Terminator</tag>
-        <tag>ZSH</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用 Terminator &amp; ZSH的配置</title>
-    <url>/2016/10/01/%E4%BD%BF%E7%94%A8%20Terminator%20%20&amp;%20ZSH%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p> 在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。</p>
-<a id="more"></a>
-<h2 id="安装-Terminator"><a href="#安装-Terminator" class="headerlink" title="安装 Terminator"></a>安装 Terminator</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install terminator</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>利用 Debian 的重新配置命令选择默认终端：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo update-alternatives --config x-terminal-emulator</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>非ubuntu系统设置terminator快捷键</em></li>
-</ul>
-<p>Setting -&gt; Keyboard -&gt; Shortcuts -&gt; Custom Shortcuts -&gt; add(+)<br>Name : Terminal<br>Command : /usr/bin/terminator<br>Apply<br>Click “Disable”<br>press Ctrl + Alt + T</p>
-<h2 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">/* 打开Terminator ，进行如下操作 */</span><br><span class="line">Preferenvces -&gt; General</span><br><span class="line">Disable ‘Show titlebar’</span><br><span class="line">Preferenvces -&gt; Profiles -&gt; Colors -&gt; Foreground and Background -&gt; Build-in schemes</span><br><span class="line">Choose ‘Solarized dark’</span><br></pre></td></tr></table></figure>
-<h2 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install zsh</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>设置当前用户使用zsh</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
-<h2 id="安装-on-my-zsh"><a href="#安装-on-my-zsh" class="headerlink" title="安装 on my zsh"></a>安装 on my zsh</h2><ul>
-<li><em>自动安装：(推荐)</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>手动安装：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh</span><br><span class="line">cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</span><br></pre></td></tr></table></figure>
-<h2 id="安装powerline字体"><a href="#安装powerline字体" class="headerlink" title="安装powerline字体"></a>安装powerline字体</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/powerline/fonts</span><br><span class="line"><span class="built_in">cd</span> fonts</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
-<p>然后在终端中使用powerline字体</p>
-<h2 id="编辑：-zshrc"><a href="#编辑：-zshrc" class="headerlink" title="编辑： ~/.zshrc"></a>编辑： ~/.zshrc</h2><ul>
-<li><em>增加自己的用户名：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">DEFAULT_USER=<span class="string">"Shank"</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>PS：上面 Shank 替换成你当前的用户名，用whoami查看你的用户名</p>
-</blockquote>
-<ul>
-<li><em>修改主题：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ZSH_THEME=<span class="string">"agnoster"</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>启用几个功能：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span><br></pre></td></tr></table></figure>
-<h3 id="或者用以下简单粗暴的方式屏蔽zsh中的用户名"><a href="#或者用以下简单粗暴的方式屏蔽zsh中的用户名" class="headerlink" title="或者用以下简单粗暴的方式屏蔽zsh中的用户名"></a>或者用以下简单粗暴的方式屏蔽zsh中的用户名</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.oh-my-zsh/themes</span><br><span class="line">sudo vim 当前主题名称</span><br></pre></td></tr></table></figure>
-<p>找到最下面对<code>build_prompt</code>的定义，把<code>prompt_context</code>用<code>#</code>注释掉即可</p>
-<blockquote>
-<p>来自2018/10/29：“以前的自己 Markdown 写得这么烂还敢贴出来。”</p>
-</blockquote>
 ]]></content>
       <categories>
         <category>Linux</category>
