@@ -19,3 +19,4 @@ deploy:
   type: git
   repo: https://github.com/sko00o/sko00o.github.io # git@github.com:sko00o/sko00o.github.io.git
   branch: master
+new_post_name: :year-:month-:day-:title.md
