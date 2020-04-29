@@ -1,8 +1,10 @@
 ---
-title: Go 调度器
+title: Go 调度器如何工作（译）
 date: 2019-05-15 13:27:30
 tags:
 - Go
+- scheduler
+- translation
 ---
 
 > 本文翻译自 Go 核心开发者 Ian Lance Taylor, 在 Quora 上的[回答](https://qr.ae/pNrVMG)。
