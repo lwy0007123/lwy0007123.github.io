@@ -1,9 +1,12 @@
 ---
 title: Go 内存模型
 tags:
-- Go
-- translation
+  - Go
+  - translation
+date: 2020-05-04 00:11:38
+categories:
 ---
+
 
 原文： [The Go Memory Model - Version of May 31, 2014](https://golang.google.cn/ref/mem)
 
