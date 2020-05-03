@@ -1,6 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Go 内存模型</title>
+    <url>/2020/05/03/The-Go-Memory-Model/</url>
+    <content><![CDATA[<p>原文： <a href="https://golang.google.cn/ref/mem" target="_blank" rel="noopener">The Go Memory Model - Version of May 31, 2014</a></p>
+<a id="more"></a>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>Go 内存模型指定了一种条件，在这种条件下，可以保证在一个 goroutine 中对变量的读取操作可以观察到在不同 goroutine 中对同一变量的写入操作所产生的值。</p>
+<h2 id="忠告"><a href="#忠告" class="headerlink" title="忠告"></a>忠告</h2><p>修改由多个 goroutine 同时访问的数据时，程序必须将这种访问序列化。</p>
+<p>为了序列化访问，请使用通道（channel）操作或其他同步原语（例如 <code>sync</code> 和 <code>sync/atomic</code> 包中的原语）以保护数据。</p>
+<p>如果您必须阅读本文档其余部分来了解程序的行为，那么您就太聪明了。</p>
+<p>别耍小聪明。</p>
+<h2 id="发生之前"><a href="#发生之前" class="headerlink" title="发生之前"></a>发生之前</h2><p>在单个 goroutine 中，读取和写入行为必须按照程序指定的顺序执行。也就是说，仅当重新排序不会改变语言规范所定义的该 goroutine 中的行为时，编译器和处理器才可以对单个 goroutine 中执行的读取和写入行为重新排序。正因为这个重新排序，一个 goroutine 观察到的执行顺序可能与另一个  goroutine 察觉到的执行顺序不同。例如，如果一个 goroutine 执行 <code>a = 1; b = 2;</code>，另一个可能会在 <code>a</code> 的值更新以前观察到 <code>b</code> 已更新的值。</p>
+<p>为了指定读取和写入的要求，我们定义了 <code>发生之前 (happens before)</code>，发生在 Go 程序中执行内存操作的部分顺序。如果事件 <code>e1</code> 发生在事件 <code>e2</code> 之前，那么我们就说 <code>e2</code> 发生在 <code>e1</code> 之后。同理，如果 <code>e1</code> 不在 <code>e2</code> 之前发生并且在 <code>e2</code> 发生之后也没有发生，那么我们说 <code>e1</code> 和 <code>e2</code> 同时发生。</p>
+<blockquote>
+<p>在单个 goroutine 中，事前发生（happens-before）顺序是程序表示的顺序。</p>
+</blockquote>
+<p>如果同时满足以下两个条件，则允许变量 v 的读操作 <code>r</code> 观察到对 v 的写操作 <code>w</code> ：</p>
+<ol>
+<li><code>r</code> 不在 <code>w</code> 之前发生 。</li>
+<li>在 <code>w</code> 之后但在 <code>r</code> 之前没有发生对 v 的其他写入 <code>w&#39;</code> 。</li>
+</ol>
+<p>为了保证变量 v 的读取操作 <code>r</code> 能观察到对 v 的特定写入操作 <code>w</code> ，确保 <code>w</code> 是唯一允许 <code>r</code> 观察的写操作。也就是说，如果以下两个条件成立，则保证 <code>r</code> 能观察到 <code>w</code> ：</p>
+<ol>
+<li><code>w</code> 发生在 <code>r</code> 之前。</li>
+<li>任何对共享变量 v 的其他写操作，发生在 <code>w</code> 之前或 <code>r</code> 之后。</li>
+</ol>
+<p>这一对条件要比第一对条件更苛刻，它要求没有其他写入操作与 <code>w</code> 或者 <code>r</code> 同时发生。</p>
+<p>在一个 goroutine 中，没有并发，因此两个定义是等效的：一个读操作 <code>r</code> 观察到最近写操作 <code>w</code> 写入变量 v 的值。当多个 goroutine 访问共享变量 v 时，它们必须使用同步事件来建立事前发生条件，这些条件必须确保读取操作能够观察到所需的写入操作。</p>
+<p>用 v 的类型的零值初始化变量 v 的行为与在内存模型中的写操作相同。</p>
+<p>大于单个机器字的值的读写将表现为未指定顺序的多个机器字（machine-word-sized）大小的操作。</p>
+<h2 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h2><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>程序初始化在单个 goroutine 中运行，但是该 goroutine 可能会创建其他同时运行的  goroutine 。</p>
+<blockquote>
+<p>如果包 p 导入了包 q ，则 q 的 <code>init</code> 函数会在 p 包中的任何函数之前完成。</p>
+</blockquote>
+<blockquote>
+<p>函数 <code>main.main</code> 的启动发生在所有 <code>init</code> 函数完成之后。</p>
+</blockquote>
+<h3 id="goroutine-的创建"><a href="#goroutine-的创建" class="headerlink" title="goroutine 的创建"></a>goroutine 的创建</h3><blockquote>
+<p>启动新的 goroutine 的 Go 语句在 goroutine 的执行开始之前发生。</p>
+</blockquote>
+<p>例如，这段程序：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="built_in">print</span>(a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">()</span></span> &#123;</span><br><span class="line">	a = <span class="string">"hello, world"</span></span><br><span class="line">	<span class="keyword">go</span> f()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用 <code>hello</code> 函数会在将来某个时候（也许是 <code>hello</code> 返回之后）打印出 “hello, world” 。</p>
+<h3 id="goroutine-的销毁"><a href="#goroutine-的销毁" class="headerlink" title="goroutine 的销毁"></a>goroutine 的销毁</h3><p>不能保证 goroutine 的退出会在程序发生任何事件之前发生。例如，这段程序中：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">hello</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">()</span></span> &#123; a = <span class="string">"hello"</span> &#125;()</span><br><span class="line">	<span class="built_in">print</span>(a)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>给 <code>a</code> 分配之后没有任何同步事件，因此，不能保证任何其他 goroutine 能观察到它的值。实际上，激进的编译器可能会删除整个 <code>go</code> 语句。</p>
+<p>如果必须通过另一个 goroutine 来观察 goroutine 的影响，请使用同步机制（例如锁或者通道通信）来建立相对顺序。</p>
+<h3 id="通道通信"><a href="#通道通信" class="headerlink" title="通道通信"></a>通道通信</h3><p>通道是 goroutine 之间同步的主要方法。通常在不同的 goroutine 中，将特定通道上的每个发送与该通道上的响应接收进行匹配。</p>
+<blockquote>
+<p>在一个通道上的发送操作在那个通道相应接收操作之前发生。</p>
+</blockquote>
+<p>这有段程序：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> c = <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">10</span>)</span><br><span class="line"><span class="keyword">var</span> a <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">()</span></span> &#123;</span><br><span class="line">	a = <span class="string">"hello, world"</span></span><br><span class="line">	c &lt;- <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> f()</span><br><span class="line">	&lt;-c</span><br><span class="line">	<span class="built_in">print</span>(a)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这段代码就能保证打印出 “hello, world” 。对 <code>a</code> 的写操作一定发生在发消息给 <code>c</code> 之前，即发生在 <code>c</code> 上相应接收完成之前，即发生在打印（print）之前。</p>
+<blockquote>
+<p>通道的关闭发生在关闭的通道返回的零值被接收前。</p>
+</blockquote>
+<p>在前面的示例中，用 <code>close(c)</code> 替换  <code>c &lt;- 0</code> 也能达到相同的保证。</p>
+<blockquote>
+<p>无缓冲通道的接收发生在该通道上的发送完成之前。</p>
+</blockquote>
+<p>这段程序（与上一段相似，但是发送和接收的语句被交换，并使用了无缓冲的通道)</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> c = <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>)</span><br><span class="line"><span class="keyword">var</span> a <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">()</span></span> &#123;</span><br><span class="line">	a = <span class="string">"hello, world"</span></span><br><span class="line">	&lt;-c</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> f()</span><br><span class="line">	c &lt;- <span class="number">0</span></span><br><span class="line">	<span class="built_in">print</span>(a)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也保证能打印 “hello, world” 。对 <code>a</code> 的写操作发生在 c 接收之前，即发生在相应的 <code>c</code> 上发送完成之前，即发生在打印之前。</p>
+<p>如果是有缓冲的通道（例如： <code>c = make(chan int, 1)</code>）那么程序就不能保证打印出 “hello, world” 了（可能打印出空字符串，崩溃或者其他）。</p>
+<blockquote>
+<p>容量为 C 的通道上的第 k 个接收发生在该通道的第 k+C 个发送完成之前。</p>
+</blockquote>
+<p>通道中的项目数量对应有效使用的数量，通道的容量对应与最大同时使用的数量，发送项目会获取信号量，接收项目会释放信号量。这是限制并发的常见惯用用法。</p>
+<p>该程序为工作列表中的每个条目启动一个 goroutine ，但是 goroutine 使用限制通道进行协调，以确保一次最多运行三个函数。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> limit = <span class="built_in">make</span>(<span class="keyword">chan</span> <span class="keyword">int</span>, <span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">for</span> _, w := <span class="keyword">range</span> work &#123;</span><br><span class="line">		<span class="keyword">go</span> <span class="function"><span class="keyword">func</span><span class="params">(w <span class="keyword">func</span>()</span>)</span> &#123;</span><br><span class="line">			limit &lt;- <span class="number">1</span></span><br><span class="line">			w()</span><br><span class="line">			&lt;-limit</span><br><span class="line">		&#125;(w)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">select</span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h3><p>sync 包实现了两种锁定数据类型，即 <code>sync.Mutex</code> 和 <code>sync.RWMutex</code> 。</p>
+<blockquote>
+<p>对于任何 <code>sync.Mutex</code> 或者 <code>sync.RWMutex</code> 类型的变量 l ，第 n 次 <code>l.Unlock()</code> 的调用发生在第 m 次 <code>l.Lock()</code> 的调用返回之前，其中 n &lt; m 。</p>
+</blockquote>
+<p>这段程序：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> l sync.Mutex</span><br><span class="line"><span class="keyword">var</span> a <span class="keyword">string</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">()</span></span> &#123;</span><br><span class="line">	a = <span class="string">"hello, world"</span></span><br><span class="line">	l.Unlock()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	l.Lock()</span><br><span class="line">	<span class="keyword">go</span> f()</span><br><span class="line">	l.Lock()</span><br><span class="line">	<span class="built_in">print</span>(a)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也保证可以打印出 “hello, world” 。第一次调用 <code>l.Unlock()</code> （在 f 中） 发生在第二次调用 <code>l.Lock()</code> （在 main 中） 返回之前，即在 <code>print</code> 函数之前。</p>
+<blockquote>
+<p>对于一个 <code>sync.RWMutex</code> 类型的变量 <code>l</code> 的的任何 <code>l.RLock()</code> 调用，第 n 次 <code>l.RLock()</code> 在 n 次 <code>l.Unlock()</code> 之后发生（返回），并且与之匹配的 <code>l.RUnlock()</code> 在 n+1 次 <code>l.Lock()</code> 之前发生。</p>
+</blockquote>
+<h3 id="一次（Once）"><a href="#一次（Once）" class="headerlink" title="一次（Once）"></a>一次（Once）</h3><p><code>sync</code> 包为使用 <code>Once</code> 类型的多个 goroutine 进行初始化提供了一种安全的机制。多个线程可以对特定的 <code>f</code> 函数，执行 <code>once.Do(f)</code> ，但是只有一个线程会执行 <code>f()</code> ，其他的调用会被阻塞直到 <code>f()</code> 返回。</p>
+<blockquote>
+<p>使用 <code>once.Do(f)</code> 单次调用 <code>f()</code> 发生（返回）在任何一次 <code>once.Do(f)</code> 调用返回之前。</p>
+</blockquote>
+<p>这段程序中：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="keyword">string</span></span><br><span class="line"><span class="keyword">var</span> once sync.Once</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">setup</span><span class="params">()</span></span> &#123;</span><br><span class="line">	a = <span class="string">"hello, world"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">doprint</span><span class="params">()</span></span> &#123;</span><br><span class="line">	once.Do(setup)</span><br><span class="line">	<span class="built_in">print</span>(a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">twoprint</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> doprint()</span><br><span class="line">	<span class="keyword">go</span> doprint()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用 <code>twoprint</code> 函数将完全调用一次 <code>setup</code> 函数。<code>setup</code> 函数将在两次调用 <code>print</code> 之前完成。最后将打印两次 “hello, world” 。</p>
+<h2 id="同步不正确"><a href="#同步不正确" class="headerlink" title="同步不正确"></a>同步不正确</h2><p>注意，一个读取操作 <code>r</code> 可能会观察到一个同时发生的写入操作 <code>w</code> 写入的值。即使发生这种情况，也不意味着 <code>r</code> 之后发生的读取操作将观察到 <code>w</code> 之前发生的写入操作。</p>
+<p>这段程序中：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a, b <span class="keyword">int</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">()</span></span> &#123;</span><br><span class="line">	a = <span class="number">1</span></span><br><span class="line">	b = <span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">g</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="built_in">print</span>(b)</span><br><span class="line">	<span class="built_in">print</span>(a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> f()</span><br><span class="line">	g()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有可能 <code>g</code> 先打印 2 ，然后打印 0 。</p>
+<p>这实际上使一些惯用习语无效。</p>
+<p>双重检查锁定是为了避免同步的开销。例如， <code>twoprint</code> 程序可能被错误地写成：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="keyword">string</span></span><br><span class="line"><span class="keyword">var</span> done <span class="keyword">bool</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">setup</span><span class="params">()</span></span> &#123;</span><br><span class="line">	a = <span class="string">"hello, world"</span></span><br><span class="line">	done = <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">doprint</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">if</span> !done &#123;</span><br><span class="line">		once.Do(setup)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">print</span>(a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">twoprint</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> doprint()</span><br><span class="line">	<span class="keyword">go</span> doprint()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但不能保证在 <code>doprint</code> 中观察到写入 <code>done</code> 就意味着写入了 <code>a</code> 。此版本可以（错误地）打印出一个空字符串，而不是 “hello, world” 。</p>
+<p>另一个不正确地习惯用法是忙于等待一个值，例如：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a <span class="keyword">string</span></span><br><span class="line"><span class="keyword">var</span> done <span class="keyword">bool</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">setup</span><span class="params">()</span></span> &#123;</span><br><span class="line">	a = <span class="string">"hello, world"</span></span><br><span class="line">	done = <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> setup()</span><br><span class="line">	<span class="keyword">for</span> !done &#123;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">print</span>(a)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>和上一个例子一样，不能保证在 <code>main</code> 上观察到写入 <code>done</code> 就意味着写入了 <code>a</code> ，因此该程序也可能打印一个空字符串。更糟糕的是，由于两个线程之间没有同步事件，因此无法保证对 <code>done</code> 的写入操作被 <code>main</code> 观察到。不能保证 <code>main</code> 中的循环能完成。</p>
+<p>此主题有一些微妙的变体，例如该程序：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> T <span class="keyword">struct</span> &#123;</span><br><span class="line">	msg <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> g *T</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">setup</span><span class="params">()</span></span> &#123;</span><br><span class="line">	t := <span class="built_in">new</span>(T)</span><br><span class="line">	t.msg = <span class="string">"hello, world"</span></span><br><span class="line">	g = t</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">go</span> setup()</span><br><span class="line">	<span class="keyword">for</span> g == <span class="literal">nil</span> &#123;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">print</span>(g.msg)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>即使 <code>main</code> 观察到 <code>g != nil</code> 并且退出它的循环，也无法保证它将观察到对<br><code>g.ms</code>g 初始化的值。</p>
+<p>所有这些例子，解决方案都是相同的：使用显式同步。</p>
+]]></content>
+      <tags>
+        <tag>Go</tag>
+        <tag>translation</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Go 调度器（译）</title>
     <url>/2020/04/28/The-Go-scheduler/</url>
     <content><![CDATA[<blockquote>
@@ -4690,6 +4798,66 @@
       </tags>
   </entry>
   <entry>
+    <title>使用 Terminator &amp; ZSH的配置</title>
+    <url>/2016/10/01/%E4%BD%BF%E7%94%A8-Terminator-ZSH%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<p> 在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。</p>
+<a id="more"></a>
+<h2 id="安装-Terminator"><a href="#安装-Terminator" class="headerlink" title="安装 Terminator"></a>安装 Terminator</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install terminator</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>利用 Debian 的重新配置命令选择默认终端：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo update-alternatives --config x-terminal-emulator</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>非ubuntu系统设置terminator快捷键</em></li>
+</ul>
+<p>Setting -&gt; Keyboard -&gt; Shortcuts -&gt; Custom Shortcuts -&gt; add(+)<br>Name : Terminal<br>Command : /usr/bin/terminator<br>Apply<br>Click “Disable”<br>press Ctrl + Alt + T</p>
+<h2 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">/* 打开Terminator ，进行如下操作 */</span><br><span class="line">Preferenvces -&gt; General</span><br><span class="line">Disable ‘Show titlebar’</span><br><span class="line">Preferenvces -&gt; Profiles -&gt; Colors -&gt; Foreground and Background -&gt; Build-in schemes</span><br><span class="line">Choose ‘Solarized dark’</span><br></pre></td></tr></table></figure>
+<h2 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install zsh</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>设置当前用户使用zsh</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
+<h2 id="安装-on-my-zsh"><a href="#安装-on-my-zsh" class="headerlink" title="安装 on my zsh"></a>安装 on my zsh</h2><ul>
+<li><em>自动安装：(推荐)</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>手动安装：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh</span><br><span class="line">cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</span><br></pre></td></tr></table></figure>
+<h2 id="安装powerline字体"><a href="#安装powerline字体" class="headerlink" title="安装powerline字体"></a>安装powerline字体</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/powerline/fonts</span><br><span class="line"><span class="built_in">cd</span> fonts</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
+<p>然后在终端中使用powerline字体</p>
+<h2 id="编辑：-zshrc"><a href="#编辑：-zshrc" class="headerlink" title="编辑： ~/.zshrc"></a>编辑： ~/.zshrc</h2><ul>
+<li><em>增加自己的用户名：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">DEFAULT_USER=<span class="string">"Shank"</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>PS：上面 Shank 替换成你当前的用户名，用whoami查看你的用户名</p>
+</blockquote>
+<ul>
+<li><em>修改主题：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ZSH_THEME=<span class="string">"agnoster"</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>启用几个功能：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span><br></pre></td></tr></table></figure>
+<h3 id="或者用以下简单粗暴的方式屏蔽zsh中的用户名"><a href="#或者用以下简单粗暴的方式屏蔽zsh中的用户名" class="headerlink" title="或者用以下简单粗暴的方式屏蔽zsh中的用户名"></a>或者用以下简单粗暴的方式屏蔽zsh中的用户名</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.oh-my-zsh/themes</span><br><span class="line">sudo vim 当前主题名称</span><br></pre></td></tr></table></figure>
+<p>找到最下面对<code>build_prompt</code>的定义，把<code>prompt_context</code>用<code>#</code>注释掉即可</p>
+<blockquote>
+<p>来自2018/10/29：“以前的自己 Markdown 写得这么烂还敢贴出来。”</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Terminator</tag>
+        <tag>ZSH</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Thinkpad X250 安装ubuntu16.04.1LTS 的记录</title>
     <url>/2016/10/01/Thinkpad-X250-%E5%AE%89%E8%A3%85ubuntu16-04-1LTS-%E7%9A%84%E8%AE%B0%E5%BD%95/</url>
     <content><![CDATA[<p>X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。<br>因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。<br>U盘制作ubuntu安装盘，开机启动到U盘。</p>
@@ -4758,66 +4926,6 @@
 <p><strong>安装cherrytree笔记本：</strong></p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install cherrytree</span><br></pre></td></tr></table></figure>
 <p><strong>安装lantern翻墙：</strong><br><a href="https://github.com/getlantern/forum/issues/833" target="_blank" rel="noopener">传送门</a></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Terminator</tag>
-        <tag>ZSH</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用 Terminator &amp; ZSH的配置</title>
-    <url>/2016/10/01/%E4%BD%BF%E7%94%A8-Terminator-ZSH%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p> 在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。</p>
-<a id="more"></a>
-<h2 id="安装-Terminator"><a href="#安装-Terminator" class="headerlink" title="安装 Terminator"></a>安装 Terminator</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install terminator</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>利用 Debian 的重新配置命令选择默认终端：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo update-alternatives --config x-terminal-emulator</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>非ubuntu系统设置terminator快捷键</em></li>
-</ul>
-<p>Setting -&gt; Keyboard -&gt; Shortcuts -&gt; Custom Shortcuts -&gt; add(+)<br>Name : Terminal<br>Command : /usr/bin/terminator<br>Apply<br>Click “Disable”<br>press Ctrl + Alt + T</p>
-<h2 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">/* 打开Terminator ，进行如下操作 */</span><br><span class="line">Preferenvces -&gt; General</span><br><span class="line">Disable ‘Show titlebar’</span><br><span class="line">Preferenvces -&gt; Profiles -&gt; Colors -&gt; Foreground and Background -&gt; Build-in schemes</span><br><span class="line">Choose ‘Solarized dark’</span><br></pre></td></tr></table></figure>
-<h2 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install zsh</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>设置当前用户使用zsh</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
-<h2 id="安装-on-my-zsh"><a href="#安装-on-my-zsh" class="headerlink" title="安装 on my zsh"></a>安装 on my zsh</h2><ul>
-<li><em>自动安装：(推荐)</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>手动安装：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh</span><br><span class="line">cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</span><br></pre></td></tr></table></figure>
-<h2 id="安装powerline字体"><a href="#安装powerline字体" class="headerlink" title="安装powerline字体"></a>安装powerline字体</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/powerline/fonts</span><br><span class="line"><span class="built_in">cd</span> fonts</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
-<p>然后在终端中使用powerline字体</p>
-<h2 id="编辑：-zshrc"><a href="#编辑：-zshrc" class="headerlink" title="编辑： ~/.zshrc"></a>编辑： ~/.zshrc</h2><ul>
-<li><em>增加自己的用户名：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">DEFAULT_USER=<span class="string">"Shank"</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>PS：上面 Shank 替换成你当前的用户名，用whoami查看你的用户名</p>
-</blockquote>
-<ul>
-<li><em>修改主题：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ZSH_THEME=<span class="string">"agnoster"</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>启用几个功能：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span><br></pre></td></tr></table></figure>
-<h3 id="或者用以下简单粗暴的方式屏蔽zsh中的用户名"><a href="#或者用以下简单粗暴的方式屏蔽zsh中的用户名" class="headerlink" title="或者用以下简单粗暴的方式屏蔽zsh中的用户名"></a>或者用以下简单粗暴的方式屏蔽zsh中的用户名</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.oh-my-zsh/themes</span><br><span class="line">sudo vim 当前主题名称</span><br></pre></td></tr></table></figure>
-<p>找到最下面对<code>build_prompt</code>的定义，把<code>prompt_context</code>用<code>#</code>注释掉即可</p>
-<blockquote>
-<p>来自2018/10/29：“以前的自己 Markdown 写得这么烂还敢贴出来。”</p>
-</blockquote>
 ]]></content>
       <categories>
         <category>Linux</category>
