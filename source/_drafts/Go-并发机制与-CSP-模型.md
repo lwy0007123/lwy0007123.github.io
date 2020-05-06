@@ -1,6 +1,5 @@
 ---
 title: Go 并发机制与 CSP 模型
-date: 2020-04-27 22:32:06
 tags:
 - CSP
 - Go

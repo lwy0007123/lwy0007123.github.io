@@ -1,8 +1,9 @@
 ---
 title: Rust 学习笔记 3.2
-date: 2020-04-19 17:42:47
+categories: 
+- The Rust Programming Language
 tags:
-- rust
+- Rust
 ---
 
 顺便翻译 [《 Rust 程序设计》](https://doc.rust-lang.org/book)。
