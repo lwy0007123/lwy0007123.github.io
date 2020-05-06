@@ -7,13 +7,17 @@ tags:
 - Razor
 ---
 
+一些再 ASP.NET 中，使页面部分刷新的解决方案。
+
+> 此文仅作为黑历史留下来。
+
+<!--more-->
+
 <a href="#NewVersion">直接跳到2.0版本</a>
 
 # 版本0.1 - 简单的异步刷新尝试
 
 * ProcessController中加入
-
-<!--more-->
 
 ```csharp
 [AllowAnonymous] // 这是允许匿名访问的声明，没有用ASP.NET IDENTITY可以删掉
@@ -253,8 +257,6 @@ public class ProcessController : Controller
 
 * 运行后地址栏访问/Process/PartialTest2即可
 
-## 总结：JS大法好
+## 总结
 
-弱弱问一句垃圾代码有人要看吗：
-
-<a href="https://github.com/sko00o/ZeroMovie"  target="_blank">传送门</a>
+JS大法好
