@@ -1,16 +1,12 @@
 ---
-title: Google Protocol Buffer with Golang
+title: 初次了解 Google Protocol Buffer
 date: 2018-02-11 18:57:00
 tags: 
-- Golang
+- Go
 - Protocol Buffer
 ---
 
-## 了解 Google Protocol Buffer
-
-[官网](https://developers.google.com/protocol-buffers)
-
-Protocol buffers are a language-neutral, platform-neutral extensible mechanism for serializing structured data.
+Protocol Buffer 是一种语言无关、平台无关的可扩展机制，用于序列化结构话数据。
 
 <!--more-->
 
@@ -84,3 +80,7 @@ protoc --go_out=./ ./addressbook.proto
 ```
 
 在当前目录下生成`addressbook.pb.go`文件
+
+## 参考
+
+- [官网](https://developers.google.com/protocol-buffers)
