@@ -1,7 +1,6 @@
 ---
 title: 一点数据库笔记
 date: 2017-01-03 21:02:31
-categories: Database
 tags: 
 - SQL
 - Database

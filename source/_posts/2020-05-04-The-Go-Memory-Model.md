@@ -4,7 +4,6 @@ tags:
   - Go
   - translation
 date: 2020-05-04 00:11:38
-categories:
 ---
 
 

@@ -1,7 +1,6 @@
 ---
 title: Thinkpad X250 安装ubuntu16.04.1LTS 的记录
 date: 2016-10-01 21:11:38
-categories: Linux
 tags: 
 - Linux
 - Terminator

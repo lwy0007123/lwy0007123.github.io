@@ -1,7 +1,6 @@
 ---
 title: Install vscode on Arch Linux
 date: 2018-06-18 00:52:49
-categories: Linux
 tags:
 - VS Code
 - Linux

@@ -1,7 +1,6 @@
 ---
 title: ArchLinux安装记录
 date: 2018-06-03 13:25:05
-categories: Linux
 tags:
 - Linux
 - Arch

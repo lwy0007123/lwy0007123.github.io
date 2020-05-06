@@ -1,7 +1,6 @@
 ---
 title: Ubuntu16.04安装Node.js&npm
 date: 2018-04-15 11:28:53
-categories: Linux
 tags:
 - Linux
 - Nodejs

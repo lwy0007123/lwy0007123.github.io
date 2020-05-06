@@ -1,7 +1,6 @@
 ---
 title: 使用 git 管理 svn
 date: 2019-07-31 09:24:25
-categories: Tools
 tags:
 - git
 - svn

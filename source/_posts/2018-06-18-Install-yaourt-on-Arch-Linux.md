@@ -1,7 +1,6 @@
 ---
 title: Install yay (or yaourt) on Arch Linux
 date: 2018-06-18 00:48:48
-categories: Linux
 tags:
 - Linux
 - Arch

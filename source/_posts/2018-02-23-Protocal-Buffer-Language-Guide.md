@@ -1,7 +1,6 @@
 ---
 title: Protocal Buffer 语言指南（译）
 date: 2018-02-23 17:45:00
-categories: Protocol
 tags: 
 - Protocol Buffer
 ---

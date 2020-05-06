@@ -1,7 +1,6 @@
 ---
 title: Windows下zip安装MySQL总结
 date: 2018-04-01 22:28:03
-categories: Database
 tags:
 - MySQL
 - Windows

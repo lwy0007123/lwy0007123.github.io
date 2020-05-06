@@ -1,7 +1,6 @@
 ---
 title: How to revert Singly Linked List
 date: 2018-08-17 22:27:45
-categories: algorithm
 tags:
 - C++
 - LinkdList

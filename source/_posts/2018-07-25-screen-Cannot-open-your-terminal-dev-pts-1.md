@@ -1,7 +1,6 @@
 ---
 title: 'screen: Cannot open your terminal ''/dev/pts/1'''
 date: 2018-07-25 14:35:57
-categories: Linux
 tags:
 - Screen
 - Linux

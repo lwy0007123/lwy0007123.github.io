@@ -1,7 +1,6 @@
 ---
 title: Google Protocol Buffer with Golang
 date: 2018-02-11 18:57:00
-categories: Golang
 tags: 
 - Golang
 - Protocol Buffer

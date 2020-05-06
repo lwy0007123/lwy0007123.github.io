@@ -1,7 +1,8 @@
 ---
 title: LoRaWAN Backend Interfaces v1.0 学习 (p3)
 date: 2019-07-16 14:01:27
-categories: LoRaWAN
+categories: 
+- LoRaWAN Backend Interface v1.0
 tags:
 - LoRaWAN
 ---

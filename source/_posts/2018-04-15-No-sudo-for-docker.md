@@ -1,7 +1,6 @@
 ---
 title: Ubuntu16.04上Docker免sudo使用的解决方式
 date: 2018-04-15 17:23:29
-categories: Linux
 tags:
 - Ubuntu
 - docker

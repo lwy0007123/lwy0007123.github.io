@@ -1,7 +1,6 @@
 ---
 title: 将UWP应用部署到其他win10设备
 date: 2016-12-20 12:38:51
-categories: UWP
 tags: 
 - UWP
 ---

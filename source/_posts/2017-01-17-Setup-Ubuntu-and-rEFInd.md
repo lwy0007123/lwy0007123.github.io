@@ -1,7 +1,6 @@
 ---
 title: 重装Ubuntu的配置及折腾rEFInd
 date: 2017-01-17 14:52:14
-categories: Linux
 tags: 
 - EFI
 - Linux

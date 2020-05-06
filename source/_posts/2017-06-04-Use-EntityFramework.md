@@ -1,7 +1,6 @@
 ---
 title: EF框架配置使用各种数据库
 date: 2017-06-04 14:22:40
-categories: .NET
 tags: 
 - Database
 - EntityFramework

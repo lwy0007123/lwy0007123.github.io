@@ -1,7 +1,6 @@
 ---
 title: iPod touch 上搭建开发环境
 date: 2017-01-01 13:50:37
-categories: 闲扯
 tags: 
 - iOS
 typora-root-url: iPod touch 上搭建开发环境

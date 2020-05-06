@@ -1,7 +1,6 @@
 ---
 title: Install mysql on wsl
 date: 2018-09-15 13:30:28
-categories: WSL
 tags:
 - WSL
 - MySQL
