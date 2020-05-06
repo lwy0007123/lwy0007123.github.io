@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+  <link rel="manifest" href="/images/site.webmanifest">
+  <meta name="msapplication-config" content="/images/browserconfig.xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css?family=Lato:300,300italic,400,400italic,700,700italic|Inconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://www.findshank.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"flat"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    comments: {"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":null,"activeClass":"livere"},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":true,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="原文 Go’s work-stealing scheduler">
+<meta name="keywords" content="Go,translation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Go 工作窃取调度器（译）">
+<meta property="og:url" content="https://www.findshank.com/2020/05/06/Go-s-work-stealing-scheduler/index.html">
+<meta property="og:site_name" content="Shank&#39;s Notes">
+<meta property="og:description" content="原文 Go’s work-stealing scheduler">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://www.findshank.com/2020/05/06/Go-s-work-stealing-scheduler/scheduler-concepts.png">
+<meta property="og:image" content="https://www.findshank.com/2020/05/06/Go-s-work-stealing-scheduler/scheduler-stealing.png">
+<meta property="og:updated_time" content="2020-05-06T07:39:10.257Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Go 工作窃取调度器（译）">
+<meta name="twitter:description" content="原文 Go’s work-stealing scheduler">
+<meta name="twitter:image" content="https://www.findshank.com/2020/05/06/Go-s-work-stealing-scheduler/scheduler-concepts.png">
+
+<link rel="canonical" href="https://www.findshank.com/2020/05/06/Go-s-work-stealing-scheduler/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Go 工作窃取调度器（译） | Shank's Notes</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128359433-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-128359433-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shank's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Code & Tech & Life</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.findshank.com/2020/05/06/Go-s-work-stealing-scheduler/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="sko00o">
+      <meta itemprop="description" content="Nothing or Anything">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shank's Notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Go 工作窃取调度器（译）<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/2020-05-06-Go-s-work-stealing-scheduler.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pencil"></i></a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-06 15:05:36 / Modified: 15:39:10" itemprop="dateCreated datePublished" datetime="2020-05-06T15:05:36+08:00">2020-05-06</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-users"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="firestore-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a href="https://rakyll.org/scheduler/" target="_blank" rel="noopener">原文 Go’s work-stealing scheduler</a></p>
+<a id="more"></a>
+<p>Go 调度器的工作是将可运行的 goroutine 分配到多个系统线程上运行，这些线程由一个或多个处理器执行。在多线程计算中，有两种典型例子：工作共享（work sharing）和工作窃取（work stealing）。</p>
+<ul>
+<li><em>工作共享</em>：当处理器生成新的线程时，它将尝试将其中一些迁移到其他处理器，为了将处理器充分利用。</li>
+<li><em>工作窃取</em>：未充分利用的处理器会主动寻找其他处理器的线程并“窃取”某些线程。</li>
+</ul>
+<p>线程迁移在工作窃取中发生频率比在工作共享中发生的频率低。当所有处理器都能运行时，不会迁移任何线程。只要有空闲处理器，就考虑迁移。</p>
+<p>Go 自从 1.1 版本开始拥有工作窃取调度器（work-stealing schedule），由 Dmitry Vyukov 贡献。这篇文章将深入理解工作窃取调度器以及 Go 如何实现它。</p>
+<h2 id="调度基础"><a href="#调度基础" class="headerlink" title="调度基础"></a>调度基础</h2><p>Go 有一个 M:N 调度器，它也可以利用多个处理器。任何时候，都需要在最多 GOMAXPROCES  个处理器的 N 个操作系统线程上调度 M 个 goroutine 。Go 调度器对 goroutine、线程和处理器使用以下术语：</p>
+<ul>
+<li>G: goroutine</li>
+<li>M: 系统线程</li>
+<li>P: 处理器</li>
+</ul>
+<p>有一个特定于 P 的本地和全局的 goroutine 队列。每个 M 应该被分配一个 P 。如果 P 被阻塞或者在系统调用中，它们可能没有 M 。任何时候，每个 P 只能运行一个 M 。如果需要，调度程序可以创建更多的 M 。</p>
+<p><img src="scheduler-concepts.png" alt="scheduler concepts"></p>
+<p>每一轮调度都只是找到一个可运行的  goroutine 并执行它。，每一轮调度中，搜索均按照以下顺序进行：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">runtime.schedule() &#123;</span><br><span class="line">    <span class="comment">// 仅 1/61 的时间，检查全局队列里的 G 。</span></span><br><span class="line">    <span class="comment">// 如果没找到，检查本地队列。</span></span><br><span class="line">    <span class="comment">// 如果没找到，</span></span><br><span class="line">    <span class="comment">//     尝试偷取其他的 P 。</span></span><br><span class="line">    <span class="comment">//     如果没有，检查全局可运行队列。</span></span><br><span class="line">    <span class="comment">//     如果还找不到，轮询网络。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一旦找到一个可运行的 G ，就运行它直到被阻塞。</p>
+<p>注意: 看起来全局队列比本地队列更优先，如果 M 仅从本地队列进行调度，这样会出现本地队列没有 goroutine 的情况，所以每隔一段时间检查一次全局队列对于避免这种情况至关重要。</p>
+<h2 id="偷窃"><a href="#偷窃" class="headerlink" title="偷窃"></a>偷窃</h2><p>当新的 G 被创建或者现有的 G 变成可运行状态时，将其推入当前 P 的可运行 goroutine 列表中。当 P 将 G 执行完毕后，它将尝试从自己的可运行 goroutine 列表中弹出 G 。如果现在列表空了， P 随机选择另外一个处理器（P）然后从它队列里偷一半可运行的 goroutine 。</p>
+<p><img src="scheduler-stealing.png" alt="scheduler stealing"></p>
+<p>上面的例子中， P2 无法找到可运行的 goroutine 。因此，它随机挑选了另一个处理器（P1）然后偷取了 3 个 goroutine 到自己的本地队列里。 P2 将要运行这些 goroutine ，并且多处理器之间的调度工作会更加公平。</p>
+<h2 id="自旋线程（Spinning-threads）"><a href="#自旋线程（Spinning-threads）" class="headerlink" title="自旋线程（Spinning threads）"></a>自旋线程（Spinning threads）</h2><p>调度程序始终希望向 M 分发尽可能多的可运行 goroutine ，以充分利用处理器，但与此同时，我们需要进行大量工作以节省 CPU 和电源。与此相反，调度器还应该为高吞吐量和 CPU 密集型程序而扩展。</p>
+<p>如果性能至关重要，则持续抢占既耗费资源又会成为高吞吐量程序的问题。操作系统线程不应该经常切换可运行的 goroutine ，因为这会导致延迟增加。除了存在系统调用外，还需要不断阻塞和解除阻塞操作系统线程，这又增加许多性能开销。</p>
+<p>为了最大程度地减少传递（hand-off）， Go 调度器实现了“自旋线程”，自旋线程会消耗一点额外的 CPU 运算，但是可以最大程度地减少操作系统线程的抢占。发生以下情况时线程自旋：</p>
+<ul>
+<li>分配了 P 的 M 正在寻找可运行的 goroutine 。</li>
+<li>没有分配 P 的 M 正在寻找可用的  P 。</li>
+<li>如果有一个空闲的 P 并且没有其他自旋线程，则调度器还会在准备 goroutine 时释放附加的线程并旋转它。</li>
+</ul>
+<p>任何时候最多有 GOMAXPROCS 个旋转的 M 。当一个自旋线程找到工作时，它将退出旋转状态。</p>
+<p>如果存在未分配 P 的空闲的 M ， 则分配了 P 的空闲线程不会阻塞。当创建了新的 goroutine 或者一个 M 被阻塞时，调度器确保至少有一个旋转的 M 。这样可以确保没有可运行的 goroutine 能够在其他情况下运行；也就避免了过多的 M 阻塞/解除阻塞。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>Go 调度器通过偷窃将 goroutine 调度到正确且未充分利用的处理器上，从而避免了过多的操作系统线程抢占；以及实现了“自旋”线程，以避免高频发生阻塞和非阻塞的切换。</p>
+<p>调度事件可以由<a href="https://golang.org/cmd/trace/" target="_blank" rel="noopener">执行跟踪器（execution tracer）</a>跟踪。如果你碰巧认为自己的处理器利用率低，则可以调查发生了什么。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://github.com/golang/go/blob/master/src/runtime/proc.go" target="_blank" rel="noopener">The Go runtime scheduler source</a></li>
+<li><a href="https://golang.org/s/go11sched" target="_blank" rel="noopener">Scalable Go Scheduler design document</a></li>
+<li><a href="https://morsmachine.dk/go-scheduler" target="_blank" rel="noopener">The Go scheduler by Daniel Morsing</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Go/" rel="tag"># Go</a>
+              <a href="/tags/translation/" rel="tag"># translation</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/03/The-Go-Memory-Model/" rel="prev" title="Go 内存模型（译）">
+      <i class="fa fa-chevron-left"></i> Go 内存模型（译）
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODE1OC8xNDY4OA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#调度基础"><span class="nav-number">1.</span> <span class="nav-text">调度基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#偷窃"><span class="nav-number">2.</span> <span class="nav-text">偷窃</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自旋线程（Spinning-threads）"><span class="nav-number">3.</span> <span class="nav-text">自旋线程（Spinning threads）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">4.</span> <span class="nav-text">结论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="sko00o"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">sko00o</p>
+  <div class="site-description" itemprop="description">Nothing or Anything</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">60</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sko00o" title="GitHub → https://github.com/sko00o" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:lwylwy@outlook.com" title="E-Mail → mailto:lwylwy@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sko00o</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
+  <script>
+    firebase.initializeApp({
+      apiKey: 'AIzaSyAh5G6EjuxSOyExsKAcgFnc6AMLOn75q44',
+      projectId: 'myblog-1520f'
+    });
+
+    function getCount(doc, increaseCount) {
+      // IncreaseCount will be false when not in article page
+      return doc.get().then(d => {
+        var count = 0;
+        if (!d.exists) { // Has no data, initialize count
+          if (increaseCount) {
+            doc.set({
+              count: 1
+            });
+            count = 1;
+          }
+        } else { // Has data
+          count = d.data().count;
+          if (increaseCount) {
+            // If first view this article
+            doc.set({ // Increase count
+              count: count + 1
+            });
+            count++;
+          }
+        }
+
+        return count;
+      });
+    }
+
+    function appendCountTo(el) {
+      return count => {
+        el.innerText = count;
+      }
+    }
+  </script>
+  <script>
+    (function() {
+      var db = firebase.firestore();
+      var articles = db.collection('articles');
+
+      if (CONFIG.page.isPost) { // Is article page
+        var title = document.querySelector('.post-title').innerText.trim();
+        var doc = articles.doc(title);
+        var increaseCount = CONFIG.hostname === location.hostname;
+        if (localStorage.getItem(title)) {
+          increaseCount = false;
+        } else {
+          // Mark as visited
+          localStorage.setItem(title, true);
+        }
+        getCount(doc, increaseCount).then(appendCountTo(document.querySelector('.firestore-visitors-count')));
+      } else if (CONFIG.page.isHome) { // Is index page
+        var promises = [...document.querySelectorAll('.post-title')].map(element => {
+          var title = element.innerText.trim();
+          var doc = articles.doc(title);
+          return getCount(doc);
+        });
+        Promise.all(promises).then(counts => {
+          var metas = document.querySelectorAll('.firestore-visitors-count');
+          counts.forEach((val, idx) => {
+            appendCountTo(metas[idx])(val);
+          });
+        });
+      }
+    })();
+  </script>
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>
