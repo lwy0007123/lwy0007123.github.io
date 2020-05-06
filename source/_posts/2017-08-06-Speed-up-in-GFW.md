@@ -1,5 +1,5 @@
 ---
-title: 一些节约生命的操作 (墙内加速 git pip conda npm docker)
+title: 墙内加速 git pip conda npm docker
 date: 2017-08-06 12:49:00
 tags: 
 - git
