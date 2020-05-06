@@ -1,5 +1,5 @@
 ---
-title: 使用 Terminator & ZSH的配置
+title: 配置使用 Terminator & ZSH
 date: 2016-10-01 21:11:38
 tags: 
 - Linux
