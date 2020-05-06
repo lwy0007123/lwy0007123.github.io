@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Go 内存模型</title>
+    <title>Go 内存模型（译）</title>
     <url>/2020/05/03/The-Go-Memory-Model/</url>
     <content><![CDATA[<p>原文： <a href="https://golang.google.cn/ref/mem" target="_blank" rel="noopener">The Go Memory Model - Version of May 31, 2014</a></p>
 <a id="more"></a>
