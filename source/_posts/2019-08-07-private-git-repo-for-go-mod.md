@@ -2,7 +2,7 @@
 title: 私网 git 仓库 go mod 实践
 date: 2019-08-07 10:30:05
 tags:
-- go
+- Go
 - git
 ---
 
