@@ -179,7 +179,7 @@
   </entry>
   <entry>
     <title>通俗设计模式（译）</title>
-    <url>/2020/04/23/%E9%80%9A%E4%BF%97%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%88%E8%AF%91%EF%BC%89/</url>
+    <url>/2020/04/23/Design-Patterns-for-Humans/</url>
     <content><![CDATA[<p><a href="https://roadmap.sh/guides/design-patterns-for-humans" target="_blank" rel="noopener">原文：Design Patterns for Humans</a></p>
 <p>设计模式是对反复出现的问题的解决方案；<em>解决某些问题的指南</em>。它们不是像魔法一样的类、包或者库。这个指南说的是在某些情况下如何解决某些问题。</p>
 <a id="more"></a>
@@ -833,7 +833,7 @@
   </entry>
   <entry>
     <title>SOLID 原则 —— 理解现实中的问题（译）</title>
-    <url>/2020/04/14/SOLID-%E5%8E%9F%E5%88%99/</url>
+    <url>/2020/04/14/SOLID-Principles/</url>
     <content><![CDATA[<p><a href="https://medium.com/@minhajukhan/solid-principles-and-how-we-write-code-57beb1668db3" target="_blank" rel="noopener">原文：SOLID Principles — Understanding with Real-Life Problems.</a></p>
 <p>毕业至今进入软件公司工作，我们多次接受有关 SOLID 原则的讲座，其中包括其定义和抽象示例。<br>今天我们将以不同的方式去理解这个原则。</p>
 <p>我们遵循 SOLID 原则从头开始构造一些东西。</p>
@@ -975,7 +975,7 @@
   </entry>
   <entry>
     <title>Rust 学习笔记 3.1</title>
-    <url>/2020/04/02/Rust-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-3-1/</url>
+    <url>/2020/04/02/Rust-Notes-3-1/</url>
     <content><![CDATA[<p>阅读 <a href="https://doc.rust-lang.org/book" target="_blank" rel="noopener">《 Rust 程序设计》</a>的一些笔记。</p>
 <p>第 4 章 - 理解所有权（ownership）</p>
 <a id="more"></a>
@@ -1086,13 +1086,16 @@
 <p>清单 4-5：返回参数所有权</p>
 <p>但对于一个应该是通用的概念来说，这有太多的仪式和大量的工作。幸运的是， Rust 有此概念的功能，称为参考（references） 。</p>
 ]]></content>
+      <categories>
+        <category>The Rust Programming Language</category>
+      </categories>
       <tags>
-        <tag>rust</tag>
+        <tag>Rust</tag>
       </tags>
   </entry>
   <entry>
     <title>Rust 学习笔记 2</title>
-    <url>/2020/03/30/Rust-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-2/</url>
+    <url>/2020/03/30/Rust-Notes-2/</url>
     <content><![CDATA[<p>阅读 <a href="https://doc.rust-lang.org/book" target="_blank" rel="noopener">《 Rust 程序设计》</a>的一些笔记。</p>
 <p>第 3 章 - 通用编程概念</p>
 <a id="more"></a>
@@ -1209,13 +1212,16 @@
 </ul>
 <p>当你准备好继续前进时，我们将讨论 Rust 中其他编程语言不常见的概念：所有权（ownership）。</p>
 ]]></content>
+      <categories>
+        <category>The Rust Programming Language</category>
+      </categories>
       <tags>
-        <tag>rust</tag>
+        <tag>Rust</tag>
       </tags>
   </entry>
   <entry>
     <title>Rust 学习笔记 1</title>
-    <url>/2020/03/30/Rust-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-1/</url>
+    <url>/2020/03/30/Rust-Notes-1/</url>
     <content><![CDATA[<p>阅读 <a href="https://doc.rust-lang.org/book" target="_blank" rel="noopener">《 Rust 程序设计》</a>的一些笔记。</p>
 <p>第 2 章 - 从一个猜数字游戏了解语言特性</p>
 <a id="more"></a>
@@ -1256,13 +1262,16 @@
 <p><code>parse</code> 方法作用于字符串可以将字符串解析为数字。但是这个方法可以解析出多种类型，我们要明确指定 <code>guess</code> 的类型：<code>let guess: u32</code> 。</p>
 <p>例程中的 <code>u32</code> 注解，影响到与 <code>secret_number</code> 比较时，将其也推断成 <code>u32</code> 类型。</p>
 ]]></content>
+      <categories>
+        <category>The Rust Programming Language</category>
+      </categories>
       <tags>
-        <tag>rust</tag>
+        <tag>Rust</tag>
       </tags>
   </entry>
   <entry>
     <title>Rust 学习笔记 0</title>
-    <url>/2020/03/30/Rust-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-0/</url>
+    <url>/2020/03/30/Rust-Notes-0/</url>
     <content><![CDATA[<p>阅读 <a href="https://doc.rust-lang.org/book" target="_blank" rel="noopener">《 Rust 程序设计》</a>的一些笔记。</p>
 <p>第 1 章 - 第一个 Rust 项目</p>
 <a id="more"></a>
@@ -1292,8 +1301,11 @@
 <p>复杂项目的构建使用 <code>cargo</code> 将能体现它的价值。</p>
 </blockquote>
 ]]></content>
+      <categories>
+        <category>The Rust Programming Language</category>
+      </categories>
       <tags>
-        <tag>rust</tag>
+        <tag>Rust</tag>
       </tags>
   </entry>
   <entry>
@@ -1390,7 +1402,7 @@
   </entry>
   <entry>
     <title>Go 私网开发服务搭建记录</title>
-    <url>/2019/10/29/Go-%E7%A7%81%E7%BD%91%E5%BC%80%E5%8F%91%E6%9C%8D%E5%8A%A1%E6%90%AD%E5%BB%BA%E8%AE%B0%E5%BD%95/</url>
+    <url>/2019/10/29/Deploy-Go-Dev-Services/</url>
     <content><![CDATA[<p>本文记录了私网 Go 开发所需的所有相关服务，包括版本管理，模块代理，持续集成。</p>
 <p>涉及服务如下：</p>
 <ul>
@@ -1580,13 +1592,13 @@
 </ul>
 ]]></content>
       <tags>
-        <tag>CentOS</tag>
         <tag>MySQL</tag>
+        <tag>CentOS</tag>
       </tags>
   </entry>
   <entry>
     <title>私网 git 仓库 go mod 实践</title>
-    <url>/2019/08/07/%E7%A7%81%E7%BD%91-git-%E4%BB%93%E5%BA%93-go-mod-%E5%AE%9E%E8%B7%B5/</url>
+    <url>/2019/08/07/private-git-repo-for-go-mod/</url>
     <content><![CDATA[<p>使用 gogs 搭建私网 git 服务器，搭建十分便捷，参考<a href="https://gogs.io/docs/installation" target="_blank" rel="noopener">官方文档</a></p>
 <p>本文旨在探究私网 git 服务对 <code>go get</code> 支持的问题。</p>
 <a id="more"></a>
@@ -1624,13 +1636,13 @@
 </ul>
 ]]></content>
       <tags>
+        <tag>Go</tag>
         <tag>git</tag>
-        <tag>go</tag>
       </tags>
   </entry>
   <entry>
     <title>使用 git 管理 svn</title>
-    <url>/2019/07/31/%E4%BD%BF%E7%94%A8-git-%E7%AE%A1%E7%90%86-svn/</url>
+    <url>/2019/07/31/Use-git-svn/</url>
     <content><![CDATA[<p>习惯于使用 git 的你，可能会受不了 svn 残缺的功能。</p>
 <p>还好 git 拥有一个十分好用的命令 <code>git svn</code>。</p>
 <p>本文仅记录普通场景的使用，详细内容见<a href="https://git-scm.com/docs/git-svn" target="_blank" rel="noopener">官方文档</a>。</p>
@@ -1701,9 +1713,6 @@
 <li><a href="https://stackoverflow.com/questions/728931/how-to-switch-svn-branches-using-git-svn" target="_blank" rel="noopener">How to switch svn branches using git-svn?</a></li>
 </ul>
 ]]></content>
-      <categories>
-        <category>Tools</category>
-      </categories>
       <tags>
         <tag>git</tag>
         <tag>svn</tag>
@@ -1711,7 +1720,7 @@
   </entry>
   <entry>
     <title>LoRaWAN Backend Interfaces v1.0 学习 (p3)</title>
-    <url>/2019/07/16/LoRaWAN-Backend-Interfaces-v1-0-%E5%AD%A6%E4%B9%A0-p3/</url>
+    <url>/2019/07/16/LoRaWAN-Backend-Interfaces-v1-0-p3/</url>
     <content><![CDATA[<p>接上一篇。</p>
 <p><a href="https://lora-alliance.org/resource-hub/lorawantm-back-end-interfaces-v10" target="_blank" rel="noopener">原文档链接</a></p>
 <p>本部分主要介绍漫游过程。</p>
@@ -1883,7 +1892,7 @@
 <p>或者，NS1 可以等到终端设备自己决定要初始化切换漫游，有效的跳过步骤 2 和 3，继续步骤 4 至 7 。</p>
 ]]></content>
       <categories>
-        <category>LoRaWAN</category>
+        <category>LoRaWAN Backend Interface v1.0</category>
       </categories>
       <tags>
         <tag>LoRaWAN</tag>
@@ -1891,7 +1900,7 @@
   </entry>
   <entry>
     <title>LoRaWAN Backend Interfaces v1.0 学习 (p2)</title>
-    <url>/2019/07/11/LoRaWAN-Backend-Interfaces-v1-0-%E5%AD%A6%E4%B9%A0-p2/</url>
+    <url>/2019/07/11/LoRaWAN-Backend-Interfaces-v1-0-p2/</url>
     <content><![CDATA[<p>接上一篇。</p>
 <p><a href="https://lora-alliance.org/resource-hub/lorawantm-back-end-interfaces-v10" target="_blank" rel="noopener">原文档链接</a></p>
 <p>本部分主要介绍终端状态、激活流程以及停用流程。</p>
@@ -2034,7 +2043,7 @@
 <p>t1. LoRaWAN 安全关联</p>
 ]]></content>
       <categories>
-        <category>LoRaWAN</category>
+        <category>LoRaWAN Backend Interface v1.0</category>
       </categories>
       <tags>
         <tag>LoRaWAN</tag>
@@ -2042,7 +2051,7 @@
   </entry>
   <entry>
     <title>LoRaWAN Backend Interfaces v1.0 学习 (p1)</title>
-    <url>/2019/07/10/LoRaWAN-Backend-Interfaces-v1-0-%E5%AD%A6%E4%B9%A0-p1/</url>
+    <url>/2019/07/10/LoRaWAN-Backend-Interfaces-v1-0-p1/</url>
     <content><![CDATA[<p>本文为学习 LoRaWAN 后端接口 v1.0 文档时，顺便翻译所得。文档较长，预计分为多篇。</p>
 <p><a href="https://lora-alliance.org/resource-hub/lorawantm-back-end-interfaces-v10" target="_blank" rel="noopener">原文档链接</a></p>
 <p>本部分主要介绍网络参考模型。</p>
@@ -2115,7 +2124,7 @@
 <p>AS-JS：此接口用于将应用会话密钥（AppSKey）从 JS 传送到 AS 。</p>
 ]]></content>
       <categories>
-        <category>LoRaWAN</category>
+        <category>LoRaWAN Backend Interface v1.0</category>
       </categories>
       <tags>
         <tag>LoRaWAN</tag>
@@ -2123,7 +2132,7 @@
   </entry>
   <entry>
     <title>部署 goproxy 服务</title>
-    <url>/2019/06/26/setup-private-goproxy-server/</url>
+    <url>/2019/06/26/Setup-private-goproxy-server/</url>
     <content><![CDATA[<p>上一篇已经实践了在私网环境中配置自签名的证书，并开启 https。</p>
 <p>这一切都是为了能在私网中搭建一个方便可用的 Go 集成环境。</p>
 <p>Go 在 1.11 版本添加了 Go Module 特性，成为官方推荐的包管理方式。<br><a href="https://github.com/golang/go/wiki/Modules" target="_blank" rel="noopener">详情见官方 wiki</a></p>
@@ -2199,7 +2208,7 @@
   </entry>
   <entry>
     <title>私网环境启用 https</title>
-    <url>/2019/06/26/enable-https-for-private-network/</url>
+    <url>/2019/06/26/Enable-https-for-private-network/</url>
     <content><![CDATA[<p>本文是搭建私网环境下的 go 自动集成环境的一部分。</p>
 <p>go 项目使用 go mod 作依赖包管理，遇到一些问题。<br>对于依赖库是保存在内网仓库的情况，拉取代码会失败，原因是 go mod 获取<br>依赖包版本需要使用 https 请求，而自建的 git 服务没有启用 https 。</p>
 <p>如果是传统的 gopath 依赖项目， 只需要 go get -insecure 即可绕过 https 限制，<br>但是这里我们选择用 go mod ，一方面这是 go 官方推荐的方式，也是未来的发展趋势，<br>另一方面是不希望依赖包放在 vendor 目录下一起提交到版本库造成源码目录过于庞大。</p>
@@ -2396,7 +2405,7 @@
   </entry>
   <entry>
     <title>Install PostgreSQL on CentOS7</title>
-    <url>/2019/03/14/install-postgresql-on-centos7/</url>
+    <url>/2019/03/14/Install-postgresql-on-centos7/</url>
     <content><![CDATA[<h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><blockquote>
 <p>if you want install latest version check <a href="https://www.postgresql.org/download/" target="_blank" rel="noopener">official site</a></p>
 </blockquote>
@@ -2433,7 +2442,7 @@
   </entry>
   <entry>
     <title>For-Select loop in Go</title>
-    <url>/2019/03/14/for-select-in-go/</url>
+    <url>/2019/03/14/For-Select-in-Go/</url>
     <content><![CDATA[<p>Simple <code>break</code> in for-select loop, will not break out of <code>for</code> loop. You should use <code>break label</code>.</p>
 <a id="more"></a>
 <h1 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h1><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">"fmt"</span></span><br><span class="line">    <span class="string">"time"</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line"></span><br><span class="line">    one := time.After(time.Second * <span class="number">2</span>)</span><br><span class="line">    two := time.After(time.Second * <span class="number">4</span>)</span><br><span class="line">    three := time.After(time.Second * <span class="number">6</span>)</span><br><span class="line"></span><br><span class="line">out:</span><br><span class="line">    <span class="comment">//fmt.Println("out of for") // anything here will invoke error</span></span><br><span class="line">    <span class="keyword">for</span> &#123;</span><br><span class="line">        fmt.Println(<span class="string">"head"</span>)</span><br><span class="line">        <span class="keyword">select</span> &#123;</span><br><span class="line">        <span class="keyword">case</span> &lt;-one:</span><br><span class="line">            fmt.Println(<span class="string">"one"</span>)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> &lt;-two:</span><br><span class="line">            fmt.Println(<span class="string">"two"</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> &lt;-three:</span><br><span class="line">            fmt.Println(<span class="string">"three"</span>)</span><br><span class="line">            <span class="keyword">break</span> out</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        fmt.Println(<span class="string">"tail"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//out: // break label must define before for loop</span></span><br><span class="line">    fmt.Println(<span class="string">"in the end"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -2487,9 +2496,6 @@
 </ol>
 <h2 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h2><p><a href="https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-18-04" target="_blank" rel="noopener">How To Install MySQL on Ubuntu 18.04</a></p>
 ]]></content>
-      <categories>
-        <category>WSL</category>
-      </categories>
       <tags>
         <tag>MySQL</tag>
         <tag>WSL</tag>
@@ -2512,20 +2518,15 @@
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function">Link* <span class="title">Reverse2</span><span class="params">(Link* head, Link*&amp; nhead)</span> </span>&#123;</span><br><span class="line">  nhead = <span class="literal">NULL</span>;</span><br><span class="line">  <span class="keyword">if</span> (head == <span class="literal">NULL</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">  <span class="keyword">if</span> (head-&gt;next == <span class="literal">NULL</span>) &#123;</span><br><span class="line">    nhead = head;</span><br><span class="line">    <span class="keyword">return</span> head;</span><br><span class="line">  &#125;</span><br><span class="line">  Link* tail = Reverse2(head-&gt;next, nhead);</span><br><span class="line">  tail-&gt;next = head;</span><br><span class="line">  head-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">  <span class="keyword">return</span> head;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>main function &amp; result:</p>
 <figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  Link *root, *p;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">0</span>) &#123;</span><br><span class="line">      root = p = <span class="keyword">new</span> Link(i);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      p-&gt;next = <span class="keyword">new</span> Link(i);</span><br><span class="line">      p = p-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  Print(root);</span><br><span class="line">  <span class="comment">// 0 1 2 3 4 5 6 7 8 9</span></span><br><span class="line"></span><br><span class="line">  root = Reverse(root);</span><br><span class="line">  Print(root);</span><br><span class="line">  <span class="comment">// 9 8 7 6 5 4 3 2 1 0</span></span><br><span class="line"></span><br><span class="line">  Link* nroot;</span><br><span class="line">  Reverse2(root, nroot);</span><br><span class="line">  Print(nroot);</span><br><span class="line">  <span class="comment">// 0 1 2 3 4 5 6 7 8 9</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>algorithm</category>
-      </categories>
       <tags>
         <tag>C++</tag>
         <tag>LinkdList</tag>
       </tags>
   </entry>
   <entry>
-    <title>Use VirtualBox to access OS on hard drive</title>
+    <title>使用 VirtualBox 启动物理磁盘上的系统</title>
     <url>/2018/08/15/Use-VirtualBox-to-access-OS-on-hard-drive/</url>
-    <content><![CDATA[<h1 id="What"><a href="#What" class="headerlink" title="What"></a>What</h1><p>虽然已经主要在用Arch了，但是最近有朋友让我帮他改改cpp代码。<del>代码拿过来一看，好家伙，浓浓的windows气息，没办法人家公司就是做windows桌面应用的。</del></p>
-<p>那么问题来了，我不想重启电脑切换系统，还要用windows给他调代码，怎么办？</p>
-<p>用虚拟机吧，传统流程：新建一个虚拟机-&gt;装系统-&gt;搭开发环境-&gt;调代码(-&gt;删除虚拟机)。<strong>麻烦</strong></p>
+    <content><![CDATA[<h1 id="What"><a href="#What" class="headerlink" title="What"></a>What</h1><p>虽然已经主要在用 Arch 了，但是最近有朋友让我帮他改改 MFC 代码。<br>那么问题来了，我不想重启电脑切换系统，还要用windows给他调代码，怎么办？<br>用虚拟机吧，一般流程：新建一个虚拟机-&gt;装系统-&gt;搭开发环境-&gt;调代码(-&gt;删除虚拟机)。<strong>麻烦</strong></p>
 <a id="more"></a>
 <h1 id="How"><a href="#How" class="headerlink" title="How"></a>How</h1><p>既然虚拟机也要用虚拟硬盘文件装系统，何不挂载装有系统的硬盘直接用呢？ Google一下，这是可以的。</p>
 <blockquote>
@@ -2588,12 +2589,9 @@
 <p><em>Awsome <code>pacman</code>, save my life!</em></p>
 <h1 id="Refs"><a href="#Refs" class="headerlink" title="Refs"></a>Refs</h1><p><a href="https://bbs.archlinux.org/viewtopic.php?id=95959" target="_blank" rel="noopener">how to downgrade via yaourt</a></p>
 ]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
       <tags>
-        <tag>VS Code</tag>
         <tag>Linux</tag>
+        <tag>VS Code</tag>
       </tags>
   </entry>
   <entry>
@@ -2607,9 +2605,6 @@
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">script /dev/null</span><br></pre></td></tr></table></figure>
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="http://blog.sina.com.cn/s/blog_704836f401010osn.html" target="_blank" rel="noopener">polygun2000’s blog</a></p>
 ]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
       <tags>
         <tag>Linux</tag>
         <tag>Screen</tag>
@@ -2637,12 +2632,9 @@
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment">## need python installed</span></span><br><span class="line">sudo easy_install trash-cli</span><br></pre></td></tr></table></figure>
 <h2 id="Refs-1"><a href="#Refs-1" class="headerlink" title="Refs"></a>Refs</h2><p><a href="https://github.com/Microsoft/vscode/issues/49675" target="_blank" rel="noopener">Failed to delete using Trash in Ubuntu 18.04 (#49675)</a><br><a href="https://github.com/Microsoft/vscode/issues/22820#issuecomment-288239512" target="_blank" rel="noopener">Moving files to trash always fails in Kubuntu 16.04 (#22820)</a></p>
 ]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
       <tags>
-        <tag>VS Code</tag>
         <tag>Linux</tag>
+        <tag>VS Code</tag>
       </tags>
   </entry>
   <entry>
@@ -2667,12 +2659,9 @@
 <li><a href="https://easyengine.io/tutorials/linux/increase-open-files-limit/" target="_blank" rel="noopener">Increase “Open Files Limit”</a></li>
 </ul>
 ]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
       <tags>
-        <tag>VS Code</tag>
         <tag>Linux</tag>
+        <tag>VS Code</tag>
         <tag>Arch</tag>
       </tags>
   </entry>
@@ -2697,9 +2686,6 @@
 <p>Done!</p>
 <p><a href="https://www.archlinuxcn.org/archlinux-cn-repo-and-mirror/" target="_blank" rel="noopener">reference</a></p>
 ]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
       <tags>
         <tag>Linux</tag>
         <tag>Arch</tag>
@@ -2707,7 +2693,7 @@
   </entry>
   <entry>
     <title>Rime默认简体中文配置</title>
-    <url>/2018/06/09/Rime%E9%BB%98%E8%AE%A4%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87%E9%85%8D%E7%BD%AE/</url>
+    <url>/2018/06/09/Setup-Rime-for-SC/</url>
     <content><![CDATA[<p><a href="https://rime.im/" target="_blank" rel="noopener">Rime</a>这个输入法是很强大。</p>
 <p>但是我对输入法的要求不高: 能输入中文；界面简洁；词汇联想别太”睿智”。</p>
 <a id="more"></a>
@@ -2720,9 +2706,6 @@
 <figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># luna_pinyin.custom.yaml</span></span><br><span class="line"></span><br><span class="line"><span class="attr">patch:</span></span><br><span class="line">  <span class="attr">switches:</span>                   <span class="comment"># 注意缩进</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">ascii_mode</span></span><br><span class="line">      <span class="attr">reset:</span> <span class="number">0</span>                <span class="comment"># reset 0 的作用是当从其他输入法切换到本输入法重设为指定状态</span></span><br><span class="line">      <span class="attr">states:</span> <span class="string">[</span> <span class="string">中文,</span> <span class="string">西文</span> <span class="string">]</span>   <span class="comment"># 选择输入方案后通常需要立即输入中文，故重设 ascii_mode = 0</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">full_shape</span></span><br><span class="line">      <span class="attr">states:</span> <span class="string">[</span> <span class="string">半角,</span> <span class="string">全角</span> <span class="string">]</span>   <span class="comment"># 而全／半角则可沿用之前方案的用法。</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">simplification</span></span><br><span class="line">      <span class="attr">reset:</span> <span class="number">1</span>                <span class="comment"># 增加这一行：默认启用「繁→簡」转换。</span></span><br><span class="line">      <span class="attr">states:</span> <span class="string">[</span> <span class="string">漢字,</span> <span class="string">汉字</span> <span class="string">]</span></span><br></pre></td></tr></table></figure>
 <p>参考 <a href="https://github.com/rime/home/wiki/CustomizationG" target="_blank" rel="noopener">Rime 定制指南</a></p>
 ]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
       <tags>
         <tag>Linux</tag>
         <tag>Rime</tag>
@@ -2730,7 +2713,7 @@
   </entry>
   <entry>
     <title>ArchLinux安装记录</title>
-    <url>/2018/06/03/ArchLinux%E5%AE%89%E8%A3%85%E8%AE%B0%E5%BD%95/</url>
+    <url>/2018/06/03/Setup-Arch-Linux/</url>
     <content><![CDATA[<blockquote>
 <p>本教程在EFI启动的Windows10台式机上完成。</p>
 </blockquote>
@@ -2836,9 +2819,6 @@
 <li><a href="https://wiki.archlinux.org/index.php/IBus" target="_blank" rel="noopener">IBus</a></li>
 </ul>
 ]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
       <tags>
         <tag>Linux</tag>
         <tag>Arch</tag>
@@ -2892,9 +2872,6 @@
 <p>我上面写的教程没开 Cave，你可以通过看视频把 Cave 服务打开，过程类似。</p>
 </blockquote>
 ]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
       <tags>
         <tag>Linux</tag>
         <tag>DST</tag>
@@ -2902,7 +2879,7 @@
   </entry>
   <entry>
     <title>Ubuntu16.04上Docker免sudo使用的解决方式</title>
-    <url>/2018/04/15/Ubuntu16-04%E4%B8%8ADocker%E5%85%8Dsudo%E4%BD%BF%E7%94%A8%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F/</url>
+    <url>/2018/04/15/No-sudo-for-docker/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在Ubuntu16.04上安装Docker-ce后，发现<code>docker run</code>不需要在<code>sudo</code>下运行，这就导致了一个问题VScode和PyCharm都连不上Docker，都是因为去访问权限的问题，因为不建议用root权限，所以就要找解决办法。</p>
 <a id="more"></a>
 <h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><ol>
@@ -2925,17 +2902,14 @@
 </ol>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://forums.docker.com/t/cannot-connect-to-the-docker-daemon-is-the-docker-daemon-running-on-this-host/8925/15" target="_blank" rel="noopener">cannot-connect-to-the-docker-daemon-is-the-docker-daemon-running-on-this-host</a></p>
 ]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
       <tags>
-        <tag>Ubuntu</tag>
         <tag>docker</tag>
+        <tag>Ubuntu</tag>
       </tags>
   </entry>
   <entry>
     <title>Linux下使用SS本地代理</title>
-    <url>/2018/04/15/Linux%E4%B8%8B%E4%BD%BF%E7%94%A8SS%E6%9C%AC%E5%9C%B0%E4%BB%A3%E7%90%86/</url>
+    <url>/2018/04/15/Setup-SS-on-Linux/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>凡是要Coding，免不了上Google，不得不说SS的Windows版体验更好。</p>
 <p>Linux版我总是挂全局代理，国外IP不能看B站正版番就很难受。</p>
 <p>因为懒一直没折腾，这次为了更好的体验，我决定花点时间。</p>
@@ -2952,9 +2926,6 @@
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># vim ~/.profile 或者 sudo vim /etc/profile</span></span><br><span class="line"><span class="comment"># 设置临时变量，privoxy 默认监听端口为 8118</span></span><br><span class="line">proxy=http://127.0.0.1:8118</span><br><span class="line"><span class="built_in">export</span> http_proxy=<span class="variable">$proxy</span></span><br><span class="line"><span class="built_in">export</span> https_proxy=<span class="variable">$proxy</span></span><br><span class="line"><span class="built_in">export</span> no_proxy=<span class="string">"localhost, 127.0.0.1, ::1"</span></span><br></pre></td></tr></table></figure>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.zfl9.com/ss-local.html" target="_blank" rel="noopener">ss-local + privoxy 代理</a><br><a href="https://www.privoxy.org/user-manual/actions-file.html" target="_blank" rel="noopener">Proivoxy用户手册</a></p>
 ]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
       <tags>
         <tag>Linux</tag>
         <tag>Shadowsocks</tag>
@@ -2963,7 +2934,7 @@
   </entry>
   <entry>
     <title>Ubuntu16.04安装Node.js&amp;npm</title>
-    <url>/2018/04/15/Ubuntu16-04%E5%AE%89%E8%A3%85Node-js-npm/</url>
+    <url>/2018/04/15/Install-Node-js-npm-on-Ubuntu16-04/</url>
     <content><![CDATA[<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p>Ubuntu16.04 官方仓库提供的Node.js版本是4.x，不推荐使用apt安装。</p>
 <p>我们需要从<a href="https://nodejs.org/zh-cn/" target="_blank" rel="noopener">官网</a>获得更新的版本。</p>
 <a id="more"></a>
@@ -2976,19 +2947,16 @@
 <h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://stackoverflow.com/questions/33033538/installing-a-tar-gz-on-linux?utm_medium=organic&amp;utm_source=google_rich_qa&amp;utm_campaign=google_rich_qa" target="_blank" rel="noopener">Installing a tar.gz on linux</a></p>
 <p><a href="http://www.findshank.com/2017/08/06/%E4%B8%80%E4%BA%9B%E8%8A%82%E7%BA%A6%E7%94%9F%E5%91%BD%E7%9A%84%E6%93%8D%E4%BD%9C/#more">我的另一篇文章，有关npm加速</a></p>
 ]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
       <tags>
         <tag>Linux</tag>
-        <tag>Ubuntu</tag>
-        <tag>Nodejs</tag>
         <tag>npm</tag>
+        <tag>Nodejs</tag>
+        <tag>Ubuntu</tag>
       </tags>
   </entry>
   <entry>
     <title>Windows下zip安装MySQL总结</title>
-    <url>/2018/04/01/Windows%E4%B8%8Bzip%E5%AE%89%E8%A3%85MySQL%E6%80%BB%E7%BB%93/</url>
+    <url>/2018/04/01/Install-portal-MySQL-on-Windows/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>安装MySQL不想用官方安装工具，因为它会添加开机计划任务，自动启动不说还会时不时更新，就很烦。我希望随用随启动，所以要选择zip安装，这样方便可控。<br>由于记性不好，每次这么装都要查资料，看到网上各种拙劣的教程就很无语，所以决定抽空自己总结下。</p>
 <a id="more"></a>
 <h1 id="下载-amp-解压"><a href="#下载-amp-解压" class="headerlink" title="下载&amp;解压"></a>下载&amp;解压</h1><ul>
@@ -3046,17 +3014,14 @@
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">+<span class="comment">--------------------------+-------------------------------------------+</span></span><br><span class="line">| Variable_name            | Value                                     |</span><br><span class="line">+<span class="comment">--------------------------+-------------------------------------------+</span></span><br><span class="line">| character_set_client     | utf8                                      |</span><br><span class="line">| character_set_connection | utf8                                      |</span><br><span class="line">| character_set_database   | utf8                                      |</span><br><span class="line">| character_set_filesystem | binary                                    |</span><br><span class="line">| character_set_results    | utf8                                      |</span><br><span class="line">| character_set_server     | utf8                                      |</span><br><span class="line">| character_set_system     | utf8                                      |</span><br><span class="line">| character_sets_dir       | D:\mysql-5.7.18-win32\share\charsets\     |</span><br><span class="line">+<span class="comment">--------------------------+-------------------------------------------+</span></span><br></pre></td></tr></table></figure>
 <p>至此，安装完成。</p>
 <h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 停止MySQL服务</span></span><br><span class="line">net stop mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除MySQL服务</span></span><br><span class="line">sc delete mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解除安装</span></span><br><span class="line">mysqld remove</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Database</category>
-      </categories>
       <tags>
-        <tag>MySQL</tag>
         <tag>Windows</tag>
+        <tag>MySQL</tag>
       </tags>
   </entry>
   <entry>
     <title>如何在Windows上使用GLUT</title>
-    <url>/2018/03/09/%E5%A6%82%E4%BD%95%E5%9C%A8Windows%E4%B8%8A%E4%BD%BF%E7%94%A8GLUT/</url>
+    <url>/2018/03/09/GLUT-on-Windows/</url>
     <content><![CDATA[<p>最近在看计算机图形学<br>书里的代码要用到OpenGL，然而在Windows上少了GLUT，需要自己手动配置。</p>
 <a id="more"></a>
 <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ul>
@@ -3092,7 +3057,7 @@
 </blockquote>
 </li>
 <li><p><code>ConsoleApplication1?.cpp</code>中写入以下代码：</p>
- <figure class="highlight cxx"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdafx.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;gl/glut.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    glClearColor(<span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>, <span class="number">1.0</span>);</span><br><span class="line">    glMatrixMode(GL_PROJECTION);</span><br><span class="line">    gluOrtho2D(<span class="number">0.0</span>, <span class="number">200.0</span>, <span class="number">0.0</span>, <span class="number">250.0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">lineSegment</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    glClear(GL_COLOR_BUFFER_BIT);</span><br><span class="line"></span><br><span class="line">    glColor3f(<span class="number">0.0</span>, <span class="number">0.4</span>, <span class="number">0.2</span>);</span><br><span class="line">    glBegin(GL_LINES);</span><br><span class="line">    glVertex2i(<span class="number">180</span>, <span class="number">15</span>);</span><br><span class="line">    glVertex2i(<span class="number">10</span>, <span class="number">145</span>);</span><br><span class="line">    glEnd();</span><br><span class="line">    glFlush();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    glutInit(&amp;argc, argv);</span><br><span class="line">    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);</span><br><span class="line">    glutInitWindowPosition(<span class="number">50</span>, <span class="number">100</span>);</span><br><span class="line">    glutInitWindowSize(<span class="number">400</span>, <span class="number">300</span>);</span><br><span class="line">    glutCreateWindow(<span class="string">"An Example OpenGL Program"</span>);</span><br><span class="line"></span><br><span class="line">    init();</span><br><span class="line">    glutDisplayFunc(lineSegment);</span><br><span class="line">    glutMainLoop();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#include &quot;stdafx.h&quot;</span><br><span class="line">#include &lt;gl/glut.h&gt;</span><br><span class="line"></span><br><span class="line">void init(void)</span><br><span class="line">&#123;</span><br><span class="line">    glClearColor(1.0, 1.0, 1.0, 1.0);</span><br><span class="line">    glMatrixMode(GL_PROJECTION);</span><br><span class="line">    gluOrtho2D(0.0, 200.0, 0.0, 250.0);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void lineSegment(void)</span><br><span class="line">&#123;</span><br><span class="line">    glClear(GL_COLOR_BUFFER_BIT);</span><br><span class="line"></span><br><span class="line">    glColor3f(0.0, 0.4, 0.2);</span><br><span class="line">    glBegin(GL_LINES);</span><br><span class="line">    glVertex2i(180, 15);</span><br><span class="line">    glVertex2i(10, 145);</span><br><span class="line">    glEnd();</span><br><span class="line">    glFlush();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, char** argv)</span><br><span class="line">&#123;</span><br><span class="line">    glutInit(&amp;argc, argv);</span><br><span class="line">    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);</span><br><span class="line">    glutInitWindowPosition(50, 100);</span><br><span class="line">    glutInitWindowSize(400, 300);</span><br><span class="line">    glutCreateWindow(&quot;An Example OpenGL Program&quot;);</span><br><span class="line"></span><br><span class="line">    init();</span><br><span class="line">    glutDisplayFunc(lineSegment);</span><br><span class="line">    glutMainLoop();</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>F5调试，你可以看到图像是一条斜线。</p>
 </li>
@@ -3104,17 +3069,14 @@
 </li>
 </ul>
 ]]></content>
-      <categories>
-        <category>图形学</category>
-      </categories>
       <tags>
         <tag>Windows</tag>
         <tag>GLUT</tag>
       </tags>
   </entry>
   <entry>
-    <title>Protocal Buffer 学习 (语言指南)</title>
-    <url>/2018/02/23/Protocal-Buffer-%E5%AD%A6%E4%B9%A0/</url>
+    <title>Protocal Buffer 语言指南（译）</title>
+    <url>/2018/02/23/Protocal-Buffer-Language-Guide/</url>
     <content><![CDATA[<h2 id="官方指南"><a href="#官方指南" class="headerlink" title="官方指南"></a>官方指南</h2><p><a href="https://developers.google.com/protocol-buffers/docs/proto3#simple" target="_blank" rel="noopener">Language Guide (proto3)</a></p>
 <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>该文章为阅读官方指南顺便翻译的。</p>
 <a id="more"></a>
@@ -3640,18 +3602,14 @@
 <li><a href="https://thrift.apache.org/" target="_blank" rel="noopener">Thrift - Apache</a></li>
 </ul>
 ]]></content>
-      <categories>
-        <category>Protocol</category>
-      </categories>
       <tags>
         <tag>Protocol Buffer</tag>
       </tags>
   </entry>
   <entry>
-    <title>Google Protocol Buffer with Golang</title>
+    <title>初次了解 Google Protocol Buffer</title>
     <url>/2018/02/11/Google-Protocol-Buffer-with-Golang/</url>
-    <content><![CDATA[<h2 id="了解-Google-Protocol-Buffer"><a href="#了解-Google-Protocol-Buffer" class="headerlink" title="了解 Google Protocol Buffer"></a>了解 Google Protocol Buffer</h2><p><a href="https://developers.google.com/protocol-buffers" target="_blank" rel="noopener">官网</a></p>
-<p>Protocol buffers are a language-neutral, platform-neutral extensible mechanism for serializing structured data.</p>
+    <content><![CDATA[<p>Protocol Buffer 是一种语言无关、平台无关的可扩展机制，用于序列化结构话数据。</p>
 <a id="more"></a>
 <h2 id="下载二进制文件"><a href="#下载二进制文件" class="headerlink" title="下载二进制文件"></a>下载二进制文件</h2><p><a href="https://github.com/google/protobuf/releases" target="_blank" rel="noopener">https://github.com/google/protobuf/releases</a></p>
 <h2 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h2><h3 id="GOPATH"><a href="#GOPATH" class="headerlink" title="GOPATH"></a>GOPATH</h3><p>命令行输入:</p>
@@ -3666,18 +3624,18 @@
 <p>命令行输入以下生成命令：</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">protoc --go_out=./ ./addressbook.proto</span><br><span class="line"><span class="comment"># 命令格式 protoc -I=$SRC_DIR --go_out=$DST_DIR $SRC_DIR/addressbook.proto</span></span><br></pre></td></tr></table></figure>
 <p>在当前目录下生成<code>addressbook.pb.go</code>文件</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://developers.google.com/protocol-buffers" target="_blank" rel="noopener">官网</a></li>
+</ul>
 ]]></content>
-      <categories>
-        <category>Golang</category>
-      </categories>
       <tags>
-        <tag>Golang</tag>
+        <tag>Go</tag>
         <tag>Protocol Buffer</tag>
       </tags>
   </entry>
   <entry>
-    <title>一些节约生命的操作 (墙内加速 git pip conda npm docker)</title>
-    <url>/2017/08/06/%E4%B8%80%E4%BA%9B%E8%8A%82%E7%BA%A6%E7%94%9F%E5%91%BD%E7%9A%84%E6%93%8D%E4%BD%9C/</url>
+    <title>墙内加速 git pip conda npm docker</title>
+    <url>/2017/08/06/Speed-up-in-GFW/</url>
     <content><![CDATA[<p>你是否感觉  pip， npm, git， docker 之类的工具下载安装奇慢？<br>因为它们的默认服务器都在国外，那么需要必要的设置才能发挥咱百兆光纤的作用。下面介绍方法:</p>
 <a id="more"></a>
 <details><br><br><summary>如果你用的是 linux，别折腾了挂代理解决一切问题</summary><br><br>简单配置下全局代理，也可以将下面这句加入 profile 中<br><br><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 假如你的代理地址是 http://127.0.0.1:1080</span></span><br><span class="line"><span class="built_in">export</span> proxy=http://127.0.0.1:1080; <span class="built_in">export</span> http_proxy=<span class="variable">$proxy</span> https_proxy=<span class="variable">$proxy</span> no_proxy=<span class="string">"localhost, 127.0.0.0/8, ::1"</span></span><br></pre></td></tr></table></figure><br><br>用 <code>privoxy</code> 稍微折腾下见<a href="http://www.findshank.com/2018/04/15/Linux%E4%B8%8B%E4%BD%BF%E7%94%A8SS%E6%9C%AC%E5%9C%B0%E4%BB%A3%E7%90%86/">这篇文章</a><br><br></details>
@@ -3746,25 +3704,26 @@
 
 <h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p><del>能省一秒是一秒对吧，毕竟不是所有人都有+1s的能力</del></p>
 ]]></content>
-      <categories>
-        <category>Tools</category>
-      </categories>
       <tags>
-        <tag>docker</tag>
-        <tag>npm</tag>
         <tag>git</tag>
         <tag>pip</tag>
+        <tag>npm</tag>
+        <tag>docker</tag>
         <tag>conda</tag>
       </tags>
   </entry>
   <entry>
-    <title>MVC 部分刷新的尝试</title>
-    <url>/2017/06/15/MVC-%E9%83%A8%E5%88%86%E5%88%B7%E6%96%B0%E7%9A%84%E5%B0%9D%E8%AF%95/</url>
-    <content><![CDATA[<p><a href="#NewVersion">直接跳到2.0版本</a></p>
+    <title>页面部分刷新的尝试</title>
+    <url>/2017/06/15/Partial-Refresh/</url>
+    <content><![CDATA[<p>一些再 ASP.NET 中，使页面部分刷新的解决方案。</p>
+<blockquote>
+<p>此文仅作为黑历史留下来。</p>
+</blockquote>
+<a id="more"></a>
+<p><a href="#NewVersion">直接跳到2.0版本</a></p>
 <h1 id="版本0-1-简单的异步刷新尝试"><a href="#版本0-1-简单的异步刷新尝试" class="headerlink" title="版本0.1 - 简单的异步刷新尝试"></a>版本0.1 - 简单的异步刷新尝试</h1><ul>
 <li>ProcessController中加入</li>
 </ul>
-<a id="more"></a>
 <figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">AllowAnonymous</span>] <span class="comment">// 这是允许匿名访问的声明，没有用ASP.NET IDENTITY可以删掉</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">PartialTest</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> View();</span><br><span class="line">&#125;</span><br><span class="line">[<span class="meta">AllowAnonymous</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> ActionResult <span class="title">Fetch</span>(<span class="params"><span class="keyword">int</span> num</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="comment">// 取前num条数据</span></span><br><span class="line">  <span class="keyword">var</span> model = db.Movies.Take(num).ToList();</span><br><span class="line">  <span class="comment">// MovieList是你的Partial页面的名字,model是与该Partial页头部接受的类型一致的model</span></span><br><span class="line">  <span class="keyword">return</span> PartialView(<span class="string">"MovieList"</span>, model);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
 <li>/View/Process/PartialTest.cshtml</li>
@@ -3817,12 +3776,8 @@
 <ul>
 <li>运行后地址栏访问/Process/PartialTest2即可</li>
 </ul>
-<h2 id="总结：JS大法好"><a href="#总结：JS大法好" class="headerlink" title="总结：JS大法好"></a>总结：JS大法好</h2><p>弱弱问一句垃圾代码有人要看吗：</p>
-<p><a href="https://github.com/sko00o/ZeroMovie" target="_blank">传送门</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>JS大法好</p>
 ]]></content>
-      <categories>
-        <category>.NET</category>
-      </categories>
       <tags>
         <tag>JavaScript</tag>
         <tag>MVC</tag>
@@ -3831,7 +3786,7 @@
   </entry>
   <entry>
     <title>EF框架配置使用各种数据库</title>
-    <url>/2017/06/04/EF%E6%A1%86%E6%9E%B6%E9%85%8D%E7%BD%AE%E4%BD%BF%E7%94%A8%E5%90%84%E7%A7%8D%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <url>/2017/06/04/Use-EntityFramework/</url>
     <content><![CDATA[<h3 id="Content"><a href="#Content" class="headerlink" title="Content"></a>Content</h3><ul>
 <li><a href="#localdb">LocalDB</a></li>
 <li><a href="#sql-server">SQL Server</a></li>
@@ -3958,9 +3913,6 @@
 <p><img src="10.png" alt="pic10"></p>
 <p><strong>最后一次测试时，发现一个BUG，如果把刚生成的表全删除，试图通过重新运行项目重新建表，会失败。这个情况只在Oracle上发生，大概官方还没注意到这个BUG。“一次性”用户真是尴尬……</strong></p>
 ]]></content>
-      <categories>
-        <category>.NET</category>
-      </categories>
       <tags>
         <tag>MySQL</tag>
         <tag>Database</tag>
@@ -3972,7 +3924,7 @@
   </entry>
   <entry>
     <title>OSMC的使用</title>
-    <url>/2017/01/18/OSMC%E4%BD%BF%E7%94%A8/</url>
+    <url>/2017/01/18/Use-OSMC/</url>
     <content><![CDATA[<p>去年某宝上买了 Raspberry Pi 2B，期间玩过一段时间的Raspbian，没有买其他配件，全当练习使用linux了。最近盯上了 OSMC，所以，要搞事情！</p>
 <a id="more"></a>
 <h2 id="设备"><a href="#设备" class="headerlink" title="设备"></a>设备</h2><ul>
@@ -4060,16 +4012,13 @@
 </li>
 </ul>
 ]]></content>
-      <categories>
-        <category>闲扯</category>
-      </categories>
       <tags>
         <tag>OSMC</tag>
       </tags>
   </entry>
   <entry>
     <title>重装Ubuntu的配置及折腾rEFInd</title>
-    <url>/2017/01/17/%E9%87%8D%E8%A3%85Ubuntu%E7%9A%84%E9%85%8D%E7%BD%AE%E5%8F%8A%E6%8A%98%E8%85%BErEFInd/</url>
+    <url>/2017/01/17/Setup-Ubuntu-and-rEFInd/</url>
     <content><![CDATA[<p>为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到<a href="#refind">rEFInd的配置</a>。</p>
 <a id="more"></a>
 <h2 id="先安装win10"><a href="#先安装win10" class="headerlink" title="先安装win10"></a>先安装win10</h2><p>用<a href="https://www.microsoft.com/zh-cn/software-download/windows10" target="_blank" rel="noopener">官方工具</a>做一个安装盘，bios选择中启动方式<strong>EFI Only</strong>，并开启<strong>Secure Boot</strong> 。（<em>对，网上那些辣鸡教程都TM教你关掉，但是不告诉你原因，听我的，不用关，装ubuntu也不用关，因为ubuntu申请了EFI安全证书的！</em>）</p>
@@ -4224,9 +4173,6 @@
 <p>授权后的一些调整</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo su</span><br><span class="line"><span class="meta">#</span><span class="bash"> 删除一个多余启动文件</span></span><br><span class="line">rm -f /boot/efi/EFI/Boot/bkpbootx64.efi</span><br><span class="line"><span class="meta">#</span><span class="bash"> 想要refind选择ubuntu就直接进系统，不用再显示grub2菜单</span></span><br><span class="line">vim /etc/default/grub # 修改 GRUB_TIMEOUT=0</span><br><span class="line">rm -f /etc/grub.d/30_os-prober # grub不记录win10引导</span><br><span class="line"><span class="meta">#</span><span class="bash"> 更新gurb</span></span><br><span class="line">update-grub</span><br></pre></td></tr></table></figure>
 ]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
       <tags>
         <tag>Linux</tag>
         <tag>Ubuntu</tag>
@@ -4235,8 +4181,8 @@
       </tags>
   </entry>
   <entry>
-    <title>从放弃Windows到使用IRC</title>
-    <url>/2017/01/08/%E4%BB%8E%E6%94%BE%E5%BC%83Windows%E5%88%B0%E4%BD%BF%E7%94%A8IRC/</url>
+    <title>简单 IRC 服务的搭建</title>
+    <url>/2017/01/08/Deploy-IRC/</url>
     <content><![CDATA[<p>Windows 已经删了，最近都在 Ubuntu 上，不小心接触了IRC这个古老的东西，研究了一晚上，给破站加点新玩意。</p>
 <a id="more"></a>
 <p> 博客迁移后，聊天室已不存在。</p>
@@ -4271,9 +4217,6 @@
 <p>来自2018/10/29：“ 放弃 Windows… Steam on linux… 真香~ ”</p>
 </blockquote>
 ]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
       <tags>
         <tag>Linux</tag>
         <tag>IRC</tag>
@@ -4281,7 +4224,7 @@
   </entry>
   <entry>
     <title>一点数据库笔记</title>
-    <url>/2017/01/03/%E4%B8%80%E7%82%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%94%E8%AE%B0/</url>
+    <url>/2017/01/03/Some-DB-Notes/</url>
     <content><![CDATA[<blockquote>
 <p>Markdown 是个好东西，用了一段时间，这次把自己一点数据库课的笔记放上来，练习下 Markdown 。</p>
 </blockquote>
@@ -4720,17 +4663,14 @@
 </blockquote>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">instead of <span class="keyword">insert</span></span><br><span class="line"><span class="keyword">as</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"><span class="keyword">SET</span> NOCOUNT <span class="keyword">ON</span>;</span><br><span class="line"><span class="comment">/* process */</span></span><br><span class="line">if @age &gt; 25</span><br><span class="line">print 'Too old!'</span><br><span class="line">else</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> score(<span class="keyword">name</span>,age) <span class="keyword">values</span>(@<span class="keyword">name</span>,@age)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">go</span></span><br></pre></td></tr></table></figure>
 ]]></content>
-      <categories>
-        <category>Database</category>
-      </categories>
       <tags>
-        <tag>Database</tag>
         <tag>SQL</tag>
+        <tag>Database</tag>
       </tags>
   </entry>
   <entry>
     <title>iPod touch 上搭建开发环境</title>
-    <url>/2017/01/01/iPod-touch-%E4%B8%8A%E6%90%AD%E5%BB%BA%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</url>
+    <url>/2017/01/01/Dev-Env-on-iTouch/</url>
     <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>老touch在抽屉里躺了好几年，偶然把它翻出来，这么一个PDA，现在顶多用来听歌，怪可惜的，好像用它搞事情啊。</p>
 <a id="more"></a>
 <h1 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h1><p>闲来无事google了一下”iTouch c++”，发现一个大神的博客</p>
@@ -4765,16 +4705,13 @@
 <p><a href="http://m.blog.csdn.net/article/details?id=50855627" target="_blank">博客传送门</a></p>
 <h1 id="最后感谢-iOS-Jailbreak"><a href="#最后感谢-iOS-Jailbreak" class="headerlink" title="最后感谢 iOS Jailbreak"></a>最后感谢 iOS Jailbreak</h1><p><a href="https://www.reddit.com/r/jailbreak/" target="_blank">iOS Jailbreak</a></p>
 ]]></content>
-      <categories>
-        <category>闲扯</category>
-      </categories>
       <tags>
         <tag>iOS</tag>
       </tags>
   </entry>
   <entry>
     <title>将UWP应用部署到其他win10设备</title>
-    <url>/2016/12/20/%E5%B0%86UWP%E5%BA%94%E7%94%A8%E9%83%A8%E7%BD%B2%E5%88%B0%E5%85%B6%E4%BB%96win10%E8%AE%BE%E5%A4%87/</url>
+    <url>/2016/12/20/Install-UWP-App-On-Remote-Device/</url>
     <content><![CDATA[<h2 id="What"><a href="#What" class="headerlink" title="What"></a>What</h2><p>老夫有台VenuePro8，系统是win10，所以想把它作为UWP测试机，一直不知道怎么把应用部署到平板上。</p>
 <a id="more"></a>
 <p>最近才发现，原来vs2015早就有这个功能了，下面来讲一讲具体的操作。</p>
@@ -4790,76 +4727,13 @@
 <li>然后你的UWP项目就会在你的平板上安装了。(-_-||) 请无视我的low逼课程表UWP……<br> <img src="snipaste20161220_123214.png" alt="snipaste20161220_123214"></li>
 </ul>
 ]]></content>
-      <categories>
-        <category>UWP</category>
-      </categories>
       <tags>
         <tag>UWP</tag>
       </tags>
   </entry>
   <entry>
-    <title>使用 Terminator &amp; ZSH的配置</title>
-    <url>/2016/10/01/%E4%BD%BF%E7%94%A8-Terminator-ZSH%E7%9A%84%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<p> 在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。</p>
-<a id="more"></a>
-<h2 id="安装-Terminator"><a href="#安装-Terminator" class="headerlink" title="安装 Terminator"></a>安装 Terminator</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install terminator</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>利用 Debian 的重新配置命令选择默认终端：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo update-alternatives --config x-terminal-emulator</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>非ubuntu系统设置terminator快捷键</em></li>
-</ul>
-<p>Setting -&gt; Keyboard -&gt; Shortcuts -&gt; Custom Shortcuts -&gt; add(+)<br>Name : Terminal<br>Command : /usr/bin/terminator<br>Apply<br>Click “Disable”<br>press Ctrl + Alt + T</p>
-<h2 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">/* 打开Terminator ，进行如下操作 */</span><br><span class="line">Preferenvces -&gt; General</span><br><span class="line">Disable ‘Show titlebar’</span><br><span class="line">Preferenvces -&gt; Profiles -&gt; Colors -&gt; Foreground and Background -&gt; Build-in schemes</span><br><span class="line">Choose ‘Solarized dark’</span><br></pre></td></tr></table></figure>
-<h2 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install zsh</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>设置当前用户使用zsh</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
-<h2 id="安装-on-my-zsh"><a href="#安装-on-my-zsh" class="headerlink" title="安装 on my zsh"></a>安装 on my zsh</h2><ul>
-<li><em>自动安装：(推荐)</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>手动安装：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh</span><br><span class="line">cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</span><br></pre></td></tr></table></figure>
-<h2 id="安装powerline字体"><a href="#安装powerline字体" class="headerlink" title="安装powerline字体"></a>安装powerline字体</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/powerline/fonts</span><br><span class="line"><span class="built_in">cd</span> fonts</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
-<p>然后在终端中使用powerline字体</p>
-<h2 id="编辑：-zshrc"><a href="#编辑：-zshrc" class="headerlink" title="编辑： ~/.zshrc"></a>编辑： ~/.zshrc</h2><ul>
-<li><em>增加自己的用户名：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">DEFAULT_USER=<span class="string">"Shank"</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>PS：上面 Shank 替换成你当前的用户名，用whoami查看你的用户名</p>
-</blockquote>
-<ul>
-<li><em>修改主题：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ZSH_THEME=<span class="string">"agnoster"</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>启用几个功能：</em></li>
-</ul>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span><br></pre></td></tr></table></figure>
-<h3 id="或者用以下简单粗暴的方式屏蔽zsh中的用户名"><a href="#或者用以下简单粗暴的方式屏蔽zsh中的用户名" class="headerlink" title="或者用以下简单粗暴的方式屏蔽zsh中的用户名"></a>或者用以下简单粗暴的方式屏蔽zsh中的用户名</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.oh-my-zsh/themes</span><br><span class="line">sudo vim 当前主题名称</span><br></pre></td></tr></table></figure>
-<p>找到最下面对<code>build_prompt</code>的定义，把<code>prompt_context</code>用<code>#</code>注释掉即可</p>
-<blockquote>
-<p>来自2018/10/29：“以前的自己 Markdown 写得这么烂还敢贴出来。”</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-        <tag>Terminator</tag>
-        <tag>ZSH</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Thinkpad X250 安装ubuntu16.04.1LTS 的记录</title>
-    <url>/2016/10/01/Thinkpad-X250-%E5%AE%89%E8%A3%85ubuntu16-04-1LTS-%E7%9A%84%E8%AE%B0%E5%BD%95/</url>
+    <url>/2016/10/01/Setup-Ubuntu-16.04.1LTS/</url>
     <content><![CDATA[<p>X250 上有两块硬盘，sda有win10，sdb一直坐为数据盘，打算安装一个ubuntu16.04.01LTS。<br>因为轻度使用所以sdb上切20G的分区给ubuntu，压缩卷后不需要新建分区。<br>U盘制作ubuntu安装盘，开机启动到U盘。</p>
 <a id="more"></a>
 <p>安装时，对空闲20G手动分区 ：</p>
@@ -4927,9 +4801,63 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install cherrytree</span><br></pre></td></tr></table></figure>
 <p><strong>安装lantern翻墙：</strong><br><a href="https://github.com/getlantern/forum/issues/833" target="_blank" rel="noopener">传送门</a></p>
 ]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>Terminator</tag>
+        <tag>ZSH</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>配置使用 Terminator &amp; ZSH</title>
+    <url>/2016/10/01/Setup-Terminator-and-ZSH/</url>
+    <content><![CDATA[<p> 在别人博客里看到 Terminator 挺好用的，特别是和zsh搭配真是漂亮，这里总结下怎么弄吧。</p>
+<a id="more"></a>
+<h2 id="安装-Terminator"><a href="#安装-Terminator" class="headerlink" title="安装 Terminator"></a>安装 Terminator</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install terminator</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>利用 Debian 的重新配置命令选择默认终端：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo update-alternatives --config x-terminal-emulator</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>非ubuntu系统设置terminator快捷键</em></li>
+</ul>
+<p>Setting -&gt; Keyboard -&gt; Shortcuts -&gt; Custom Shortcuts -&gt; add(+)<br>Name : Terminal<br>Command : /usr/bin/terminator<br>Apply<br>Click “Disable”<br>press Ctrl + Alt + T</p>
+<h2 id="更换主题"><a href="#更换主题" class="headerlink" title="更换主题"></a>更换主题</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">/* 打开Terminator ，进行如下操作 */</span><br><span class="line">Preferenvces -&gt; General</span><br><span class="line">Disable ‘Show titlebar’</span><br><span class="line">Preferenvces -&gt; Profiles -&gt; Colors -&gt; Foreground and Background -&gt; Build-in schemes</span><br><span class="line">Choose ‘Solarized dark’</span><br></pre></td></tr></table></figure>
+<h2 id="安装zsh"><a href="#安装zsh" class="headerlink" title="安装zsh"></a>安装zsh</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">sudo apt-get install zsh</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>设置当前用户使用zsh</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">chsh -s /bin/zsh</span><br></pre></td></tr></table></figure>
+<h2 id="安装-on-my-zsh"><a href="#安装-on-my-zsh" class="headerlink" title="安装 on my zsh"></a>安装 on my zsh</h2><ul>
+<li><em>自动安装：(推荐)</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>手动安装：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh</span><br><span class="line">cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc</span><br></pre></td></tr></table></figure>
+<h2 id="安装powerline字体"><a href="#安装powerline字体" class="headerlink" title="安装powerline字体"></a>安装powerline字体</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/powerline/fonts</span><br><span class="line"><span class="built_in">cd</span> fonts</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
+<p>然后在终端中使用powerline字体</p>
+<h2 id="编辑：-zshrc"><a href="#编辑：-zshrc" class="headerlink" title="编辑： ~/.zshrc"></a>编辑： ~/.zshrc</h2><ul>
+<li><em>增加自己的用户名：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">DEFAULT_USER=<span class="string">"Shank"</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>PS：上面 Shank 替换成你当前的用户名，用whoami查看你的用户名</p>
+</blockquote>
+<ul>
+<li><em>修改主题：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ZSH_THEME=<span class="string">"agnoster"</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>启用几个功能：</em></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span><br></pre></td></tr></table></figure>
+<h3 id="或者用以下简单粗暴的方式屏蔽zsh中的用户名"><a href="#或者用以下简单粗暴的方式屏蔽zsh中的用户名" class="headerlink" title="或者用以下简单粗暴的方式屏蔽zsh中的用户名"></a>或者用以下简单粗暴的方式屏蔽zsh中的用户名</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.oh-my-zsh/themes</span><br><span class="line">sudo vim 当前主题名称</span><br></pre></td></tr></table></figure>
+<p>找到最下面对<code>build_prompt</code>的定义，把<code>prompt_context</code>用<code>#</code>注释掉即可</p>
+<blockquote>
+<p>来自2018/10/29：“以前的自己 Markdown 写得这么烂还敢贴出来。”</p>
+</blockquote>
+]]></content>
       <tags>
         <tag>Linux</tag>
         <tag>Terminator</tag>

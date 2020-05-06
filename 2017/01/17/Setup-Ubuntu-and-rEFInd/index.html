@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+  <link rel="manifest" href="/images/site.webmanifest">
+  <meta name="msapplication-config" content="/images/browserconfig.xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css?family=Lato:300,300italic,400,400italic,700,700italic|Inconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://www.findshank.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"flat"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    comments: {"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":null,"activeClass":"livere"},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":true,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到rEFInd的配置。">
+<meta name="keywords" content="Linux,Ubuntu,EFI,rEFInd">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重装Ubuntu的配置及折腾rEFInd">
+<meta property="og:url" content="https://www.findshank.com/2017/01/17/Setup-Ubuntu-and-rEFInd/index.html">
+<meta property="og:site_name" content="Shank&#39;s Notes">
+<meta property="og:description" content="为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到rEFInd的配置。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-05-06T03:17:50.109Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="重装Ubuntu的配置及折腾rEFInd">
+<meta name="twitter:description" content="为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到rEFInd的配置。">
+
+<link rel="canonical" href="https://www.findshank.com/2017/01/17/Setup-Ubuntu-and-rEFInd/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>重装Ubuntu的配置及折腾rEFInd | Shank's Notes</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128359433-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-128359433-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shank's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Code & Tech & Life</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.findshank.com/2017/01/17/Setup-Ubuntu-and-rEFInd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="sko00o">
+      <meta itemprop="description" content="Nothing or Anything">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shank's Notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          重装Ubuntu的配置及折腾rEFInd<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/2017-01-17-Setup-Ubuntu-and-rEFInd.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pencil"></i></a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-01-17 14:52:14" itemprop="dateCreated datePublished" datetime="2017-01-17T14:52:14+08:00">2017-01-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-06 11:17:50" itemprop="dateModified" datetime="2020-05-06T11:17:50+08:00">2020-05-06</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-users"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="firestore-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>为什么突然会折腾这个？因为我格盘重装了系统，因为强迫症发作，以前装得win10竟然不是EFI+GPT……虽然装固态上，启动速度没有区别，但我就是要折腾……既然折腾完了，全部过程记录下，不愿看这么多，也可以直接跳到<a href="#refind">rEFInd的配置</a>。</p>
+<a id="more"></a>
+<h2 id="先安装win10"><a href="#先安装win10" class="headerlink" title="先安装win10"></a>先安装win10</h2><p>用<a href="https://www.microsoft.com/zh-cn/software-download/windows10" target="_blank" rel="noopener">官方工具</a>做一个安装盘，bios选择中启动方式<strong>EFI Only</strong>，并开启<strong>Secure Boot</strong> 。（<em>对，网上那些辣鸡教程都TM教你关掉，但是不告诉你原因，听我的，不用关，装ubuntu也不用关，因为ubuntu申请了EFI安全证书的！</em>）</p>
+<p>接着开机插入U盘，按提示安装就好，记得把分区方式改成<strong>GPT</strong>。（<em>若你之前是MBR，要么把原来分区全删掉，要么按网上教程做个EFI+MBR，反正我是强迫症，我就要格盘！</em>）</p>
+<p>如何辨别是不是EFI启动呢？</p>
+<p>win + R ，输入 msinfo32 ，回车，引导方式那行是 EFI 就对了。</p>
+<h2 id="再安装ubuntu16-04"><a href="#再安装ubuntu16-04" class="headerlink" title="再安装ubuntu16.04"></a>再安装ubuntu16.04</h2><p>这个更简单，把官方iso镜像文件，直接解压到<strong>FAT32</strong>格式U盘的根目录，开机，进U盘，安装。到那个然要现在win下切好未分配空间，这次我切了40G。小本子有8G内存，swap分区完全不用分的。在之前我试过所有未分配空间都挂到根目录，一样用着好好的，只有一点问题，只能挂起，不能休眠。</p>
+<p>那么这次的分区方案是8G的swap，剩下全挂 / 根目录。 启动器挂在ubuntu所在硬盘，我是在第二快硬盘 /dev/sdb 上。</p>
+<h2 id="ubuntu配置记录"><a href="#ubuntu配置记录" class="headerlink" title="ubuntu配置记录"></a>ubuntu配置记录</h2><p><strong>先要感谢<a href="https://plumz.me/" target="_blank" rel="noopener">plum的博客</a>，看他的博客让我解决的不少问题</strong></p>
+<p>既然用了一段时间的ubuntu，解决了不少问题，这里的配置与上一篇有点不同，重新记录如下：</p>
+<ul>
+<li>修改本地文件夹名称为英文</li>
+</ul>
+<blockquote>
+<p>如果你安装系统时选择了中文，那么用户目录就默认是中文，带你cd目录的时候就知道多蛋疼！</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">export LANG=en_US</span><br><span class="line">xdg-user-dirs-gtk-update</span><br><span class="line">export LANG=zh_CN</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure>
+<ul>
+<li>关闭鼠标加速</li>
+</ul>
+<blockquote>
+<p>Ubuntu16.04默认开启了鼠标加速，用触控板到感觉不到，用鼠标这么飘就不能忍了！</p>
+</blockquote>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">在Dashboard里搜索:</span><br><span class="line">gnome-session-properties</span><br><span class="line">点击添加：</span><br><span class="line">名称：setmouse</span><br><span class="line">命令：xset m 0 或者 xset m default</span><br><span class="line">重启。</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装 lantern </li>
+</ul>
+<p><em>接下来要安装软件了，我希望网络要没有阻碍，梯子是必须先装的！</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~/Downloads/</span><br><span class="line">wget https://raw.githubusercontent.com/getlantern/lantern-binaries/master/lantern-installer-beta-64-bit.deb</span><br><span class="line">sudo dpkg -i lantern-installer-beta-64-bit.deb</span><br></pre></td></tr></table></figure>
+<p>打开lantern，进入设置，查看两个端口号，我的是：</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HTTP(S) proxy: 127.0.0.1:44045</span><br><span class="line">SOCKS proxy: 127.0.0.1:43355</span><br></pre></td></tr></table></figure>
+<p>然后终端输入下面两句来全局代理</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export all_proxy=socks://127.0.0.1:43355</span><br><span class="line">export ALL_PROXY=socks://127.0.0.1:43355</span><br></pre></td></tr></table></figure>
+<p>如果想取消掉的话：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">unset all_proxy</span><br><span class="line">unset ALL_PROXY</span><br></pre></td></tr></table></figure>
+<p>接着配置 lantern 的开机无界面启动</p>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">在Dashboard里搜索:</span><br><span class="line">gnome-session-properties</span><br><span class="line">点击添加：</span><br><span class="line">名称：lantern</span><br><span class="line">命令：/usr/bin/lantern -headless</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装 git</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install git -y</span><br><span class="line"><span class="meta">#</span><span class="bash"> 设置 git 代理（http &amp; https 代理）</span></span><br><span class="line">git config --global http.proxy socks5://127.0.0.1:43355</span><br><span class="line">git config --global https.proxy socks5://127.0.0.1:43355</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装功耗控制 TLP</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install tlp tlp-rdw -y</span><br><span class="line">sudo apt-get install tp-smapi-dkms acpi-call-dkms -y</span><br><span class="line">sudo apt-get install thermald -y</span><br><span class="line">sudo apt-get install powertop -y</span><br><span class="line"><span class="meta">#</span><span class="bash"> 配置 TLP</span></span><br><span class="line">sudo vim /etc/default/tlp</span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动 TLP</span></span><br><span class="line">sudo tlp start</span><br></pre></td></tr></table></figure>
+<ul>
+<li>消除 Ubuntu LightDM 登陆界面背景白点</li>
+</ul>
+<blockquote>
+<p>不能忍，影响我看锁屏壁纸！</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gsettings set com.canonical.unity-greeter draw-grid false</span><br><span class="line">sudo xhost +SI:localuser:lightdm</span><br><span class="line">sudo su lightdm -s /bin/bash</span><br><span class="line">gsettings set com.canonical.unity-greeter draw-grid false</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装 arc-flatabulous 主题</li>
+</ul>
+<p><em><a href="https://github.com/andreisergiu98/arc-flatabulous-theme" target="_blank" rel="noopener">Arc-Flatabulous Theme</a></em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装依赖</span></span><br><span class="line">sudo apt install autoconf automake libgtk-3-dev -y</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装 unity-tweek-tool</span></span><br><span class="line">sudo apt install unity-tweak-tool -y</span><br><span class="line"><span class="meta">#</span><span class="bash"> 官方安装方式</span></span><br><span class="line">sudo rm -rf /usr/share/themes/&#123;Arc-Flatabulous,Arc-Flatabulous-Darker,Arc-Flatabulous-Dark&#125;</span><br><span class="line">rm -rf ~/.local/share/themes/&#123;Arc-Flatabulous,Arc-Flatabulous-Darker,Arc-Flatabulous-Dark&#125;</span><br><span class="line">rm -rf ~/.themes/&#123;Arc-Flatabulous,Arc-Flatabulous-Darker,Arc-Flatabulous-Dark&#125;</span><br><span class="line">git clone https://github.com/andreisergiu98/arc-flatabulous-theme &amp;&amp; cd arc-flatabulous-theme</span><br><span class="line"><span class="meta">#</span><span class="bash"> 编译安装，不想见透明效果，编译时加参数 --<span class="built_in">disable</span>-transparency</span></span><br><span class="line">./autogen.sh --prefix=/usr &amp;&amp; sudo make install</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装 papirus 图标主题</li>
+</ul>
+<p><em><a href="https://github.com/PapirusDevelopmentTeam/papirus-icon-theme" target="_blank" rel="noopener">papirus-icon-theme</a></em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install wget git libqt4-svg -y </span><br><span class="line">wget -qO- https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/install-papirus-root.sh | sh</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装 Hardcode-Tray 图标修复</li>
+</ul>
+<blockquote>
+<p>对右上角那些图标风格不统一，可以试试，但是只支持部分图标修复，这个软件蛮鸡肋的……</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:andreas-angerer89/sni-qt-patched</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install sni-qt sni-qt:i386 hardcode-tray -y</span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用 Hardcode-Tray</span></span><br><span class="line">hardcode-tray --apply</span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果出现 FileNotFoundError: [Errno 2] ，建一个软链接</span></span><br><span class="line">ln -s  /usr/share/icons/ ~/.local/share/icons</span><br><span class="line">hardcode-tray --apply</span><br></pre></td></tr></table></figure>
+<ul>
+<li>更改鼠标指针样式</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">下载 Breeze-Hacked 并解压</span><br><span class="line">cp -a Breeze-Hacked/ /usr/share/icons/</span><br><span class="line">在 unity-tweek-tool 里更换</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用terminator及ZSH</li>
+</ul>
+<p>普通用户</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install terminator zsh -y</span><br><span class="line">chsh -s /bin/zsh</span><br><span class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</span><br><span class="line">vim ~/.zshrc # 添加以下内容</span><br><span class="line"><span class="meta">#</span><span class="bash"> ZSH_THEME=<span class="string">"agnoster"</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> DEFAULT_USER=<span class="string">"shank"</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span></span><br></pre></td></tr></table></figure>
+<p>root用户</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo su</span><br><span class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</span><br><span class="line">vim ~/.zshrc # 添加以下内容</span><br><span class="line"><span class="meta">#</span><span class="bash"> ZSH_THEME=<span class="string">"agnoster"</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> DEFAULT_USER=<span class="string">"root"</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> COMPLETION_WAITING_DOTS=<span class="string">"true"</span></span></span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+<p>安装PowerLine字体</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/Downloads</span><br><span class="line">git clone https://github.com/powerline/fonts</span><br><span class="line">cd fonts</span><br><span class="line">./install.sh</span><br></pre></td></tr></table></figure>
+<ul>
+<li>常规更新</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装 Deluge</li>
+</ul>
+<p>下载工具，带有BT和磁链下载</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install deluge -y</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装 caffeine</li>
+</ul>
+<p>用于暂时取消屏保和睡眠模式，用linux看视频时记得把它设为Active</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install caffeine -y</span><br><span class="line"><span class="meta">#</span><span class="bash"> 在 gnome-session-properties 开机启动中添加或修改Caffeine的命令为下面这句</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> /usr/bin/caffeine-indicator</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装 mpv</li>
+</ul>
+<blockquote>
+<p>简介而强大的播放器，不用VLC因为它对字幕支持不好！</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install mpv -y</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装 flash 支持</li>
+</ul>
+<blockquote>
+<p>B站的Html5播放器总是没速度，所以flash还是必需的！</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">先在设置中允许 Canonical Partners 打包的应用</span></span><br><span class="line">sudo apt install adobe-flashplugin -y</span><br></pre></td></tr></table></figure>
+<ul>
+<li>解决待机后重启会自动断线的 Bug</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable NetworkManager.service</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用 Canonical Livepatch Service</li>
+</ul>
+<p><em><a href="https://www.ubuntu.com/server/livepatch" target="_blank" rel="noopener">Canonical Livepatch Service</a> 免重新开机做核心</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo snap install canonical-livepatch</span><br><span class="line">sudo canonical-livepatch enable XXX #XXX从官方获取</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装指纹识别支持</li>
+</ul>
+<blockquote>
+<p>这个可以用，但是会觉得的有点烦，因为这个软件有个bug，刷指纹一定要刷两下，验证成功，还要再刷一下指纹灯才会灭，所以我已经不用了……</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:fingerprint/fprint -y &amp;&amp; sudo apt-get update</span><br><span class="line">sudo apt-get install libfprint0 fprint-demo libpam-fprintd gksu -y</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Fcitx 输入法换回原生 indicator，不用那个 qim</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt remove fcitx-ui-qimpanel -y</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装 android studio</li>
+</ul>
+<p><em><a href="https://developer.android.com/studio/index.html" target="_blank" rel="noopener">官方链接</a>下载zip安装包</em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 安装 jdk</span></span><br><span class="line">sudo apt install openjdk-8-jdk -y</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装依赖</span></span><br><span class="line">sudo apt-get install lib32z1 lib32ncurses5 lib32stdc++6 -y</span><br><span class="line"><span class="meta">#</span><span class="bash"> 解决无 pixmap 问题</span></span><br><span class="line">sudo apt-get install gtk2-engines-pixbuf -y</span><br><span class="line"><span class="meta">#</span><span class="bash"> 解决无 adwaita 问题</span></span><br><span class="line">sudo apt-get install gnome-themes-standard gnome-themes-standard-data -y</span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装a.s.，我习惯把a.s.装到 /opt 目录</span></span><br><span class="line">sudo unzip -q ~/Downloads/android-studio……… -d /opt # 省略号部分自己按TAB替换</span><br><span class="line">cd /opt/android-studio/bin/</span><br><span class="line">./studio.sh</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Firefox 字体问题 （不用改了，新版本好像解决了这个问题）</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">地址栏输入 about:config</span><br><span class="line">找到 gfx.font_rendering.fontconfig.fontlist.enabled</span><br><span class="line">设置为 false</span><br></pre></td></tr></table></figure>
+<ul>
+<li>安装 typola ,本人最喜欢的 markdown 编辑器</li>
+</ul>
+<p><em><a href="https://typora.io/" target="_blank" rel="noopener">typola官方链接</a></em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> optional, but recommended</span></span><br><span class="line">sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys BA300B7755AFCFAE</span><br><span class="line"><span class="meta">#</span><span class="bash"> add Typora<span class="string">'s repository</span></span></span><br><span class="line">sudo add-apt-repository 'deb https://typora.io ./linux/' -y</span><br><span class="line">sudo apt-get update</span><br><span class="line"><span class="meta">#</span><span class="bash"> install typora</span></span><br><span class="line">sudo apt-get install typora -y</span><br></pre></td></tr></table></figure>
+<h2 id="rEFInd"><a href="#rEFInd" class="headerlink" title="rEFInd"></a>rEFInd</h2><p><em><a href="http://www.rodsbooks.com/refind/configfile.html" target="_blank" rel="noopener">rEFInd官方链接</a></em></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-add-repository ppa:rodsmith/refind -y </span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install refind -y</span><br><span class="line">sudo cd /boot/eft/EFI/refind</span><br><span class="line">sudo su</span><br><span class="line">mkdir themes</span><br><span class="line">cd themes</span><br><span class="line"><span class="meta">#</span><span class="bash"> 下载新主题</span></span><br><span class="line">git clone https://github.com/EvanPurkhiser/rEFInd-minimal.git</span><br><span class="line">cd ..</span><br><span class="line">cp refind.conf refind.conf.bak</span><br><span class="line">gedit refind.conf</span><br></pre></td></tr></table></figure>
+<p>添加设置到文件结尾，具体看配置文件或者Google</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">resolution 1920 1080</span><br><span class="line">scan_all_linux_kernels false</span><br><span class="line">default_selection Microsoft</span><br><span class="line"><span class="meta">#</span><span class="bash"> 导入主题配置：</span></span><br><span class="line">include themes/rEFInd-minimal/theme.conf</span><br></pre></td></tr></table></figure>
+<p>这个时候重启是使用不了rEFInd的，因为开了Secure Boot的缘故。那么要解决允许Secure Boot的问题，就要给他授权。官方提供的方案有 Shim 和 PreLoader，外文博客基本介绍的也是Shim。都比较麻烦，不愿看也不愿做（—。—），偶然发现了 boot-repair 。这个软件是傻瓜化修复启动引导用的，它解决安全引导的同时也会装 Shim，正好省得我动手。<br>先装 boot-repair</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:yannubuntu/boot-repair</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install -y boot-repair &amp;&amp; boot-repair</span><br></pre></td></tr></table></figure>
+<p>选择推荐方案(Recommended repair)，接着都是“yes”<br>引导修复后，可以apt重装下refind，应该同时会申请 *.cer 文件<br>然后重启，和官方 Slim授权的方式一样，Select key选第一个，<br>给EFI/refind/key目录下的<strong>refind.cer</strong>和<strong>refind_local.cer</strong>文件授权，然后选择重启。</p>
+<p>授权后的一些调整</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo su</span><br><span class="line"><span class="meta">#</span><span class="bash"> 删除一个多余启动文件</span></span><br><span class="line">rm -f /boot/efi/EFI/Boot/bkpbootx64.efi</span><br><span class="line"><span class="meta">#</span><span class="bash"> 想要refind选择ubuntu就直接进系统，不用再显示grub2菜单</span></span><br><span class="line">vim /etc/default/grub # 修改 GRUB_TIMEOUT=0</span><br><span class="line">rm -f /etc/grub.d/30_os-prober # grub不记录win10引导</span><br><span class="line"><span class="meta">#</span><span class="bash"> 更新gurb</span></span><br><span class="line">update-grub</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+              <a href="/tags/EFI/" rel="tag"># EFI</a>
+              <a href="/tags/rEFInd/" rel="tag"># rEFInd</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/01/08/Deploy-IRC/" rel="prev" title="简单 IRC 服务的搭建">
+      <i class="fa fa-chevron-left"></i> 简单 IRC 服务的搭建
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/01/18/Use-OSMC/" rel="next" title="OSMC的使用">
+      OSMC的使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODE1OC8xNDY4OA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#先安装win10"><span class="nav-number">1.</span> <span class="nav-text">先安装win10</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#再安装ubuntu16-04"><span class="nav-number">2.</span> <span class="nav-text">再安装ubuntu16.04</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu配置记录"><span class="nav-number">3.</span> <span class="nav-text">ubuntu配置记录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rEFInd"><span class="nav-number">4.</span> <span class="nav-text">rEFInd</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="sko00o"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">sko00o</p>
+  <div class="site-description" itemprop="description">Nothing or Anything</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">61</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sko00o" title="GitHub → https://github.com/sko00o" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:lwylwy@outlook.com" title="E-Mail → mailto:lwylwy@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sko00o</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
+  <script>
+    firebase.initializeApp({
+      apiKey: 'AIzaSyAh5G6EjuxSOyExsKAcgFnc6AMLOn75q44',
+      projectId: 'myblog-1520f'
+    });
+
+    function getCount(doc, increaseCount) {
+      // IncreaseCount will be false when not in article page
+      return doc.get().then(d => {
+        var count = 0;
+        if (!d.exists) { // Has no data, initialize count
+          if (increaseCount) {
+            doc.set({
+              count: 1
+            });
+            count = 1;
+          }
+        } else { // Has data
+          count = d.data().count;
+          if (increaseCount) {
+            // If first view this article
+            doc.set({ // Increase count
+              count: count + 1
+            });
+            count++;
+          }
+        }
+
+        return count;
+      });
+    }
+
+    function appendCountTo(el) {
+      return count => {
+        el.innerText = count;
+      }
+    }
+  </script>
+  <script>
+    (function() {
+      var db = firebase.firestore();
+      var articles = db.collection('articles');
+
+      if (CONFIG.page.isPost) { // Is article page
+        var title = document.querySelector('.post-title').innerText.trim();
+        var doc = articles.doc(title);
+        var increaseCount = CONFIG.hostname === location.hostname;
+        if (localStorage.getItem(title)) {
+          increaseCount = false;
+        } else {
+          // Mark as visited
+          localStorage.setItem(title, true);
+        }
+        getCount(doc, increaseCount).then(appendCountTo(document.querySelector('.firestore-visitors-count')));
+      } else if (CONFIG.page.isHome) { // Is index page
+        var promises = [...document.querySelectorAll('.post-title')].map(element => {
+          var title = element.innerText.trim();
+          var doc = articles.doc(title);
+          return getCount(doc);
+        });
+        Promise.all(promises).then(counts => {
+          var metas = document.querySelectorAll('.firestore-visitors-count');
+          counts.forEach((val, idx) => {
+            appendCountTo(metas[idx])(val);
+          });
+        });
+      }
+    })();
+  </script>
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>

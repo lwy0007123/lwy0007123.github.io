@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#222">
+  <link rel="manifest" href="/images/site.webmanifest">
+  <meta name="msapplication-config" content="/images/browserconfig.xml">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.cnpmjs.org/css?family=Lato:300,300italic,400,400italic,700,700italic|Inconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://www.findshank.com').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"flat"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: true,
+    comments: {"style":"tabs","active":"livere","storage":true,"lazyload":true,"nav":null,"activeClass":"livere"},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":5,"unescape":true,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="Markdown 是个好东西，用了一段时间，这次把自己一点数据库课的笔记放上来，练习下 Markdown 。">
+<meta name="keywords" content="SQL,Database">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一点数据库笔记">
+<meta property="og:url" content="https://www.findshank.com/2017/01/03/Some-DB-Notes/index.html">
+<meta property="og:site_name" content="Shank&#39;s Notes">
+<meta property="og:description" content="Markdown 是个好东西，用了一段时间，这次把自己一点数据库课的笔记放上来，练习下 Markdown 。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2020-05-06T03:17:50.109Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一点数据库笔记">
+<meta name="twitter:description" content="Markdown 是个好东西，用了一段时间，这次把自己一点数据库课的笔记放上来，练习下 Markdown 。">
+
+<link rel="canonical" href="https://www.findshank.com/2017/01/03/Some-DB-Notes/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>一点数据库笔记 | Shank's Notes</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128359433-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-128359433-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Shank's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">Code & Tech & Life</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="Searching..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="en">
+    <link itemprop="mainEntityOfPage" href="https://www.findshank.com/2017/01/03/Some-DB-Notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="sko00o">
+      <meta itemprop="description" content="Nothing or Anything">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shank's Notes">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          一点数据库笔记<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/2017-01-03-Some-DB-Notes.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pencil"></i></a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-01-03 21:02:31" itemprop="dateCreated datePublished" datetime="2017-01-03T21:02:31+08:00">2017-01-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-06 11:17:50" itemprop="dateModified" datetime="2020-05-06T11:17:50+08:00">2020-05-06</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="Views">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-users"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span class="firestore-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>Markdown 是个好东西，用了一段时间，这次把自己一点数据库课的笔记放上来，练习下 Markdown 。</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="函数介绍"><a href="#函数介绍" class="headerlink" title="函数介绍"></a>函数介绍</h1><h2 id="数据语句"><a href="#数据语句" class="headerlink" title="数据语句"></a>数据语句</h2><ul>
+<li>DECLARE <em>声明若干局部变量</em></li>
+<li>SET <em>一个变量赋值</em></li>
+<li>SELECT <em>多个变量赋值</em></li>
+<li>PRINT <em>返回用户自定义信息</em></li>
+</ul>
+<h2 id="循环控制语句"><a href="#循环控制语句" class="headerlink" title="循环控制语句"></a>循环控制语句</h2><ul>
+<li><p>BEGIN END <em>语句块</em></p>
+</li>
+<li><p>GOTO <em>跳转到标签</em></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line"><span class="keyword">GOTO</span> <span class="keyword">skip</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> student</span><br><span class="line"><span class="keyword">skip</span>:</span><br><span class="line">PRINT <span class="string">'hello'</span></span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>IF ELSE <em>条件判断</em></p>
+</li>
+<li><p>CASE <em>多分支选择</em></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> score,</span><br><span class="line">(<span class="keyword">case</span></span><br><span class="line"><span class="keyword">when</span> score &gt; <span class="number">90</span> <span class="keyword">then</span> <span class="string">'excellent'</span></span><br><span class="line"><span class="keyword">when</span> score &gt; <span class="number">80</span> <span class="keyword">then</span> <span class="string">'good'</span></span><br><span class="line"><span class="keyword">when</span> score &gt; <span class="number">60</span> <span class="keyword">then</span> <span class="string">'ok'</span></span><br><span class="line"><span class="keyword">else</span> <span class="string">'not well'</span></span><br><span class="line"><span class="keyword">end</span>) <span class="keyword">as</span> rate</span><br><span class="line"><span class="keyword">from</span> student</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>WHILE _循环_</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">while</span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"><span class="comment">--code here</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>WAITFOR _暂停_</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WAITFOR DELAY '11:00'</span><br><span class="line">WAITFOR TIME '01:00'</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="聚合函数"><a href="#聚合函数" class="headerlink" title="聚合函数"></a>聚合函数</h2><ul>
+<li>AVG</li>
+<li>COUNT</li>
+<li>MAX</li>
+<li>MIN</li>
+<li>SUM</li>
+<li>DISTINCT</li>
+</ul>
+<h2 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h2><ul>
+<li>ABS <em>绝对值</em></li>
+<li>ceiling <em>大于或等于</em></li>
+<li>floor <em>小于或等于</em></li>
+<li>rand <em>返回0-1的随机数</em></li>
+<li>round <em>四舍五入到指定精度</em></li>
+</ul>
+<h2 id="字符串函数"><a href="#字符串函数" class="headerlink" title="字符串函数"></a>字符串函数</h2><ul>
+<li>ascii <em>第一字符的ascii值</em></li>
+<li>char <em>返回ascii对应字符</em></li>
+<li>charindex <em>返回匹配位置</em></li>
+<li>itrim <em>去除左空格</em></li>
+<li>rtrim <em>去除右空格</em></li>
+<li>left <em>截断左侧指定长度字符</em></li>
+<li>right <em>截断右侧指定长度字符</em></li>
+<li>len <em>返回长度</em></li>
+<li>lower _小写_</li>
+<li>upper _大写_</li>
+<li>reverse _转置_</li>
+<li>replace <em>指定字符替换</em></li>
+<li>space <em>指定空格数</em></li>
+<li>stuff <em>替换字符串的指定范围</em></li>
+<li>substring <em>返回指定范围字符串</em></li>
+</ul>
+<h2 id="日期和时间函数"><a href="#日期和时间函数" class="headerlink" title="日期和时间函数"></a>日期和时间函数</h2><ul>
+<li>dateadd <em>给指定日期添加一段时间</em></li>
+<li>datediff <em>两日期相减</em></li>
+<li>datename <em>返回指定日期的部分</em></li>
+<li>day <em>指定日期的天数</em></li>
+<li>dayofyear <em>年内天数</em></li>
+<li>month <em>返回日期的月份</em></li>
+<li>year <em>返回日期的年份</em></li>
+<li>getdate <em>返回系统时间</em></li>
+<li>datepart <em>返回指定部分整数</em></li>
+<li>isDate <em>检测日期有效性</em></li>
+</ul>
+<h1 id="语句提升"><a href="#语句提升" class="headerlink" title="语句提升"></a>语句提升</h1><h2 id="约束与规则"><a href="#约束与规则" class="headerlink" title="约束与规则"></a>约束与规则</h2><h3 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h3><ol>
+<li>规则只允许在当前数据库创建</li>
+<li>规则不能绑定到数据类型 char、 int、 image、 text 中</li>
+</ol>
+<ul>
+<li>创建规则</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> rule 规则名</span><br><span class="line"><span class="keyword">as</span> 规则</span><br><span class="line"><span class="comment">/* 规则可以是where语句任何有效的表达式 */</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>绑定规则</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> 数据库名</span><br><span class="line">exec sp_bindrule <span class="string">'规则名'</span>,<span class="string">'数据库表字段'</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>解绑规则</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> 数据库名</span><br><span class="line">exec sp_unbindrule <span class="string">'数据库表字段'</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除规则</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> rule <span class="string">'规则名'</span></span><br></pre></td></tr></table></figure>
+<h3 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h3><ul>
+<li>添加check约束</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名</span><br><span class="line"><span class="keyword">add</span> [<span class="keyword">constraint</span> 约束名] <span class="keyword">check</span>(约束)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除check约束</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名</span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">constraint</span> 约束名</span><br></pre></td></tr></table></figure>
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><ol>
+<li>约束和表的定义联系，删除表的同时约束也删除。规则是单独存储的数据库对象，独立于表外，删除表时并不能删除规则。</li>
+<li>一个字段可有多个约束，但只能有一个规则。</li>
+</ol>
+<h2 id="SELECT高级查询"><a href="#SELECT高级查询" class="headerlink" title="SELECT高级查询"></a>SELECT高级查询</h2><h3 id="IN-NULL"><a href="#IN-NULL" class="headerlink" title="IN, NULL"></a>IN, NULL</h3><ul>
+<li>IN <em>查询符合列表中任何一个值的记录</em></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table1 <span class="keyword">where</span> score <span class="keyword">in</span> (<span class="number">70</span>,<span class="number">80</span>,<span class="number">90</span>);</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table2 <span class="keyword">where</span> score <span class="keyword">in</span> (<span class="keyword">select</span> score <span class="keyword">from</span> table1);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>NULL | NOT NULL <em>字段是否为空</em></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> table1 <span class="keyword">where</span> items <span class="keyword">in</span> <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="SELECT"><a href="#SELECT" class="headerlink" title="SELECT"></a>SELECT</h3><blockquote>
+<p>用于将查询结果存储到另一个表</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> top <span class="number">5</span> *</span><br><span class="line"><span class="keyword">into</span> table3</span><br><span class="line"><span class="keyword">from</span> table2;</span><br></pre></td></tr></table></figure>
+<h3 id="GROUP-BY"><a href="#GROUP-BY" class="headerlink" title="GROUP BY"></a>GROUP BY</h3><blockquote>
+<p>用于数据汇总</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select name,avg(age) as avg_age</span><br><span class="line">from student</span><br><span class="line">group by name;</span><br></pre></td></tr></table></figure>
+<h2 id="嵌套查询"><a href="#嵌套查询" class="headerlink" title="嵌套查询"></a>嵌套查询</h2><ul>
+<li>子查询作为新增列 <em>作为外层select语句的列值</em></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> avg_score = (</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">avg</span>(score)</span><br><span class="line">  <span class="keyword">from</span> score</span><br><span class="line">)<span class="keyword">from</span> score</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> score.id;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用IN关键字 <em>主要用于where子句后面的子查询。</em></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> a.name</span><br><span class="line"><span class="keyword">from</span> student <span class="keyword">as</span> a</span><br><span class="line"><span class="keyword">where</span> a.id <span class="keyword">in</span>(</span><br><span class="line"><span class="keyword">select</span> b.id</span><br><span class="line">  <span class="keyword">from</span> score <span class="keyword">as</span> b</span><br><span class="line"><span class="keyword">where</span> b.score = <span class="number">80</span></span><br><span class="line">)<span class="keyword">order</span> <span class="keyword">by</span> a.id;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>比较运算符</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> a.name</span><br><span class="line"><span class="keyword">from</span> student <span class="keyword">as</span> a</span><br><span class="line"><span class="keyword">where</span> a.id <span class="keyword">in</span>(</span><br><span class="line"><span class="keyword">select</span> b.id</span><br><span class="line"><span class="keyword">from</span> score <span class="keyword">as</span> b</span><br><span class="line"><span class="keyword">where</span> b.score &lt;= <span class="number">80</span></span><br><span class="line">) <span class="keyword">order</span> <span class="keyword">by</span> a.id;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>BETWEEN</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> a.name</span><br><span class="line"><span class="keyword">from</span> student <span class="keyword">as</span> a</span><br><span class="line"><span class="keyword">where</span> a.id <span class="keyword">in</span>(</span><br><span class="line"><span class="keyword">select</span> b.id </span><br><span class="line"><span class="keyword">from</span> score <span class="keyword">as</span> b</span><br><span class="line"><span class="keyword">where</span> b.score</span><br><span class="line"><span class="keyword">between</span> <span class="number">80</span> <span class="keyword">and</span> <span class="number">90</span></span><br><span class="line">) <span class="keyword">order</span> <span class="keyword">by</span> a.id;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>EXISTS</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> *</span><br><span class="line"><span class="keyword">from</span> table1</span><br><span class="line"><span class="keyword">where</span> <span class="keyword">exists</span>(</span><br><span class="line"><span class="keyword">select</span> score</span><br><span class="line"><span class="keyword">from</span> table1</span><br><span class="line"><span class="keyword">where</span> score = <span class="number">80</span>)</span><br><span class="line"><span class="comment">/* IN和EXISTS都代表的是子查询存在某个值，但是IN用的时候，子查询只能是一个字段，但是EXISTS可以用多个字段。 */</span></span><br></pre></td></tr></table></figure>
+<h2 id="多表连接"><a href="#多表连接" class="headerlink" title="多表连接"></a>多表连接</h2><h3 id="JOIN…ON"><a href="#JOIN…ON" class="headerlink" title="JOIN…ON"></a>JOIN…ON</h3><h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><ul>
+<li>表A</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">name</th>
+<th style="text-align:center">age</th>
+<th style="text-align:center">sex</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">AA</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">M</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">BB</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">F</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">CC</td>
+<td style="text-align:center">24</td>
+<td style="text-align:center">M</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">DD</td>
+<td style="text-align:center">21</td>
+<td style="text-align:center">F</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>表B</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">20</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">40</td>
+</tr>
+</tbody>
+</table>
+<h4 id="inner-join"><a href="#inner-join" class="headerlink" title="inner join"></a>inner join</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">name</th>
+<th style="text-align:center">age</th>
+<th style="text-align:center">sex</th>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">AA</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">BB</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">F</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">20</td>
+</tr>
+</tbody>
+</table>
+<h4 id="left-join"><a href="#left-join" class="headerlink" title="left join"></a>left join</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">name</th>
+<th style="text-align:center">age</th>
+<th style="text-align:center">sex</th>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">AA</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">BB</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">F</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">20</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">CC</td>
+<td style="text-align:center">24</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">DD</td>
+<td style="text-align:center">21</td>
+<td style="text-align:center">F</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+</tr>
+</tbody>
+</table>
+<h4 id="right-join"><a href="#right-join" class="headerlink" title="right join"></a>right join</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">score</th>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">name</th>
+<th style="text-align:center">age</th>
+<th style="text-align:center">sex</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">AA</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">M</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">20</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">BB</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">F</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">40</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+</tr>
+</tbody>
+</table>
+<h4 id="full-join"><a href="#full-join" class="headerlink" title="full join"></a>full join</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">name</th>
+<th style="text-align:center">age</th>
+<th style="text-align:center">sex</th>
+<th style="text-align:center">snum</th>
+<th style="text-align:center">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">AA</td>
+<td style="text-align:center">12</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">10</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">BB</td>
+<td style="text-align:center">13</td>
+<td style="text-align:center">F</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">20</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">CC</td>
+<td style="text-align:center">24</td>
+<td style="text-align:center">M</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">DD</td>
+<td style="text-align:center">21</td>
+<td style="text-align:center">F</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+</tr>
+<tr>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">null</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">40</td>
+</tr>
+</tbody>
+</table>
+<h3 id="UNION"><a href="#UNION" class="headerlink" title="UNION"></a>UNION</h3><blockquote>
+<p>拼接字段相同的表</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> student <span class="keyword">as</span> a</span><br><span class="line"><span class="keyword">union</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> student <span class="keyword">as</span> b</span><br></pre></td></tr></table></figure>
+<h3 id="数据操纵进阶"><a href="#数据操纵进阶" class="headerlink" title="数据操纵进阶"></a>数据操纵进阶</h3><h2 id="insert"><a href="#insert" class="headerlink" title="insert"></a>insert</h2><h3 id="插入多行"><a href="#插入多行" class="headerlink" title="插入多行"></a>插入多行</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> table2</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">name</span>,sex,phone,email</span><br><span class="line"><span class="keyword">from</span> table2</span><br></pre></td></tr></table></figure>
+<h3 id="select-…-into"><a href="#select-…-into" class="headerlink" title="select … into"></a>select … into</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">into</span> table1 <span class="keyword">from</span> table2</span><br></pre></td></tr></table></figure>
+<h2 id="update"><a href="#update" class="headerlink" title="update"></a>update</h2><h3 id="基于级联"><a href="#基于级联" class="headerlink" title="基于级联"></a>基于级联</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> table1 <span class="keyword">set</span> table1.c = table2.c</span><br><span class="line"><span class="keyword">from</span> table1 <span class="keyword">inner</span> <span class="keyword">join</span> table2</span><br><span class="line"><span class="keyword">on</span> table1.a = table2.a</span><br><span class="line"><span class="keyword">where</span> table1.c <span class="keyword">is</span> <span class="literal">null</span></span><br></pre></td></tr></table></figure>
+<h3 id="带有output"><a href="#带有output" class="headerlink" title="带有output"></a>带有output</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查询新行的属性</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> table1(a) <span class="keyword">output</span> inserted.a <span class="keyword">values</span>(<span class="string">'123'</span>)</span><br><span class="line"><span class="comment">-- 查询旧行的属性</span></span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">into</span> table1 <span class="keyword">output</span> deleted.a <span class="keyword">where</span> a = <span class="string">'123'</span></span><br><span class="line"><span class="comment">-- 返回修改后的值</span></span><br><span class="line"><span class="keyword">update</span> table1 <span class="keyword">set</span> a = <span class="string">'b'</span> <span class="keyword">output</span> inserted.a <span class="keyword">where</span> a = <span class="string">'123'</span></span><br><span class="line"><span class="comment">-- 返回修改前的值</span></span><br><span class="line"><span class="keyword">update</span> table1 <span class="keyword">set</span> a = <span class="string">'b'</span> <span class="keyword">output</span> deleted.a wherer a = <span class="string">'123'</span></span><br></pre></td></tr></table></figure>
+<h1 id="视图、索引、触发器"><a href="#视图、索引、触发器" class="headerlink" title="视图、索引、触发器"></a>视图、索引、触发器</h1><h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><ul>
+<li>创建视图</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">view</span> 视图名</span><br><span class="line"><span class="keyword">as</span></span><br><span class="line"><span class="keyword">select</span>语句</span><br></pre></td></tr></table></figure>
+<ul>
+<li>视图结果集排序</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">view</span> stu1</span><br><span class="line"><span class="keyword">as</span></span><br><span class="line"><span class="keyword">select</span> top <span class="number">3</span> * <span class="keyword">from</span> table2</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">id</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>多张表进行视图查询</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">view</span> stu2</span><br><span class="line"><span class="keyword">as</span></span><br><span class="line"><span class="keyword">select</span> b.score,b.name,a.name,sex,age</span><br><span class="line"><span class="keyword">from</span> student <span class="keyword">as</span> a</span><br><span class="line"><span class="keyword">inner</span> <span class="keyword">join</span></span><br><span class="line">score <span class="keyword">as</span> b</span><br><span class="line"><span class="keyword">on</span> a.id = b.id</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改视图</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">view</span> 视图名</span><br><span class="line"><span class="keyword">as</span></span><br><span class="line"><span class="keyword">select</span>语句</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除视图</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">view</span> 视图名</span><br></pre></td></tr></table></figure>
+<h3 id="增删改"><a href="#增删改" class="headerlink" title="增删改"></a>增删改</h3><ol>
+<li>视图可以对基本表的数据进行查询，还可以向基本表增删改</li>
+<li>select 子句不可用聚合函数</li>
+<li>不能包含算式表达式结果的列</li>
+<li>视图引用多表，无法使用delete</li>
+</ol>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ol>
+<li>通过创建唯一索引，可以保证数据记录的唯一性。</li>
+<li>可以大大加快数据检索速度。</li>
+<li>可以加速表与表之间的连接，这一点在实现数据的参照完整性方面有特别的意义。</li>
+<li>在使用order by和group by子句中进行检索数据时，可以显著减少查询中分组和排序的时间。</li>
+<li>使用索引可以在检索数据的过程中使用优化隐藏，提高系统性能。</li>
+</ol>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ol>
+<li>创建索引要花费时间和占用存储空间。</li>
+<li>建立索引加快了数据检索速度，但是减慢了数据修改速度。</li>
+</ol>
+<h3 id="不应创建索引列的情况"><a href="#不应创建索引列的情况" class="headerlink" title="不应创建索引列的情况"></a>不应创建索引列的情况</h3><ol>
+<li>很少或从来不在查询中引用的列，因为系统很少或从来不根据这个列的值去查找数据行。</li>
+<li>只有两个或很少几个值的列，例如性别。</li>
+<li>以bit、text、image数据类型定义的列。</li>
+<li>数据行输很少的表一般也没有必要创建索引。</li>
+</ol>
+<h2 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h2><h3 id="DML触发器"><a href="#DML触发器" class="headerlink" title="DML触发器"></a>DML触发器</h3><ul>
+<li>after触发器 <em>记录改变后才激活触发器</em></li>
+</ul>
+<blockquote>
+<p>after触发器包括 insert、delete、update触发器</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">after <span class="keyword">insert</span></span><br><span class="line"><span class="keyword">as</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"><span class="keyword">SET</span> NOCOUNT <span class="keyword">ON</span>;</span><br><span class="line"><span class="comment">/* process */</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">go</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>instead of 触发器 <em>直接执行触发器，不执行sql语句</em></li>
+</ul>
+<blockquote>
+<p>instead of 触发器包括insert、delete、update触发器</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">instead of <span class="keyword">insert</span></span><br><span class="line"><span class="keyword">as</span></span><br><span class="line"><span class="keyword">begin</span></span><br><span class="line"><span class="keyword">SET</span> NOCOUNT <span class="keyword">ON</span>;</span><br><span class="line"><span class="comment">/* process */</span></span><br><span class="line">if @age &gt; 25</span><br><span class="line">print 'Too old!'</span><br><span class="line">else</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> score(<span class="keyword">name</span>,age) <span class="keyword">values</span>(@<span class="keyword">name</span>,@age)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="keyword">go</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/SQL/" rel="tag"># SQL</a>
+              <a href="/tags/Database/" rel="tag"># Database</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/01/01/Dev-Env-on-iTouch/" rel="prev" title="iPod touch 上搭建开发环境">
+      <i class="fa fa-chevron-left"></i> iPod touch 上搭建开发环境
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/01/08/Deploy-IRC/" rel="next" title="简单 IRC 服务的搭建">
+      简单 IRC 服务的搭建 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC8zODE1OC8xNDY4OA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#函数介绍"><span class="nav-number">1.</span> <span class="nav-text">函数介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据语句"><span class="nav-number">1.1.</span> <span class="nav-text">数据语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环控制语句"><span class="nav-number">1.2.</span> <span class="nav-text">循环控制语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚合函数"><span class="nav-number">1.3.</span> <span class="nav-text">聚合函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数学函数"><span class="nav-number">1.4.</span> <span class="nav-text">数学函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串函数"><span class="nav-number">1.5.</span> <span class="nav-text">字符串函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日期和时间函数"><span class="nav-number">1.6.</span> <span class="nav-text">日期和时间函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#语句提升"><span class="nav-number">2.</span> <span class="nav-text">语句提升</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#约束与规则"><span class="nav-number">2.1.</span> <span class="nav-text">约束与规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#规则"><span class="nav-number">2.1.1.</span> <span class="nav-text">规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#约束"><span class="nav-number">2.1.2.</span> <span class="nav-text">约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#区别"><span class="nav-number">2.1.3.</span> <span class="nav-text">区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SELECT高级查询"><span class="nav-number">2.2.</span> <span class="nav-text">SELECT高级查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IN-NULL"><span class="nav-number">2.2.1.</span> <span class="nav-text">IN, NULL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SELECT"><span class="nav-number">2.2.2.</span> <span class="nav-text">SELECT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GROUP-BY"><span class="nav-number">2.2.3.</span> <span class="nav-text">GROUP BY</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#嵌套查询"><span class="nav-number">2.3.</span> <span class="nav-text">嵌套查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多表连接"><span class="nav-number">2.4.</span> <span class="nav-text">多表连接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JOIN…ON"><span class="nav-number">2.4.1.</span> <span class="nav-text">JOIN…ON</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#举例"><span class="nav-number">2.4.1.1.</span> <span class="nav-text">举例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#inner-join"><span class="nav-number">2.4.1.2.</span> <span class="nav-text">inner join</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#left-join"><span class="nav-number">2.4.1.3.</span> <span class="nav-text">left join</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#right-join"><span class="nav-number">2.4.1.4.</span> <span class="nav-text">right join</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#full-join"><span class="nav-number">2.4.1.5.</span> <span class="nav-text">full join</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UNION"><span class="nav-number">2.4.2.</span> <span class="nav-text">UNION</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据操纵进阶"><span class="nav-number">2.4.3.</span> <span class="nav-text">数据操纵进阶</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#insert"><span class="nav-number">2.5.</span> <span class="nav-text">insert</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入多行"><span class="nav-number">2.5.1.</span> <span class="nav-text">插入多行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#select-…-into"><span class="nav-number">2.5.2.</span> <span class="nav-text">select … into</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#update"><span class="nav-number">2.6.</span> <span class="nav-text">update</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基于级联"><span class="nav-number">2.6.1.</span> <span class="nav-text">基于级联</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#带有output"><span class="nav-number">2.6.2.</span> <span class="nav-text">带有output</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#视图、索引、触发器"><span class="nav-number">3.</span> <span class="nav-text">视图、索引、触发器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#视图"><span class="nav-number">3.1.</span> <span class="nav-text">视图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#增删改"><span class="nav-number">3.1.1.</span> <span class="nav-text">增删改</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">3.2.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点"><span class="nav-number">3.2.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">3.2.2.</span> <span class="nav-text">缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不应创建索引列的情况"><span class="nav-number">3.2.3.</span> <span class="nav-text">不应创建索引列的情况</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#触发器"><span class="nav-number">3.3.</span> <span class="nav-text">触发器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DML触发器"><span class="nav-number">3.3.1.</span> <span class="nav-text">DML触发器</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="sko00o"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">sko00o</p>
+  <div class="site-description" itemprop="description">Nothing or Anything</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">61</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/sko00o" title="GitHub → https://github.com/sko00o" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:lwylwy@outlook.com" title="E-Mail → mailto:lwylwy@outlook.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sko00o</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/6.3.3/firebase-firestore.js"></script>
+  <script>
+    firebase.initializeApp({
+      apiKey: 'AIzaSyAh5G6EjuxSOyExsKAcgFnc6AMLOn75q44',
+      projectId: 'myblog-1520f'
+    });
+
+    function getCount(doc, increaseCount) {
+      // IncreaseCount will be false when not in article page
+      return doc.get().then(d => {
+        var count = 0;
+        if (!d.exists) { // Has no data, initialize count
+          if (increaseCount) {
+            doc.set({
+              count: 1
+            });
+            count = 1;
+          }
+        } else { // Has data
+          count = d.data().count;
+          if (increaseCount) {
+            // If first view this article
+            doc.set({ // Increase count
+              count: count + 1
+            });
+            count++;
+          }
+        }
+
+        return count;
+      });
+    }
+
+    function appendCountTo(el) {
+      return count => {
+        el.innerText = count;
+      }
+    }
+  </script>
+  <script>
+    (function() {
+      var db = firebase.firestore();
+      var articles = db.collection('articles');
+
+      if (CONFIG.page.isPost) { // Is article page
+        var title = document.querySelector('.post-title').innerText.trim();
+        var doc = articles.doc(title);
+        var increaseCount = CONFIG.hostname === location.hostname;
+        if (localStorage.getItem(title)) {
+          increaseCount = false;
+        } else {
+          // Mark as visited
+          localStorage.setItem(title, true);
+        }
+        getCount(doc, increaseCount).then(appendCountTo(document.querySelector('.firestore-visitors-count')));
+      } else if (CONFIG.page.isHome) { // Is index page
+        var promises = [...document.querySelectorAll('.post-title')].map(element => {
+          var title = element.innerText.trim();
+          var doc = articles.doc(title);
+          return getCount(doc);
+        });
+        Promise.all(promises).then(counts => {
+          var metas = document.querySelectorAll('.firestore-visitors-count');
+          counts.forEach((val, idx) => {
+            appendCountTo(metas[idx])(val);
+          });
+        });
+      }
+    })();
+  </script>
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/pangu@4/dist/browser/pangu.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>

@@ -48,19 +48,19 @@
   };
 </script>
 
-  <meta name="description" content="What虽然已经主要在用Arch了，但是最近有朋友让我帮他改改cpp代码。代码拿过来一看，好家伙，浓浓的windows气息，没办法人家公司就是做windows桌面应用的。 那么问题来了，我不想重启电脑切换系统，还要用windows给他调代码，怎么办？ 用虚拟机吧，传统流程：新建一个虚拟机-&amp;gt;装系统-&amp;gt;搭开发环境-&amp;gt;调代码(-&amp;gt;删除虚拟机)。麻烦">
+  <meta name="description" content="What虽然已经主要在用 Arch 了，但是最近有朋友让我帮他改改 MFC 代码。那么问题来了，我不想重启电脑切换系统，还要用windows给他调代码，怎么办？用虚拟机吧，一般流程：新建一个虚拟机-&amp;gt;装系统-&amp;gt;搭开发环境-&amp;gt;调代码(-&amp;gt;删除虚拟机)。麻烦">
 <meta name="keywords" content="VirtualBox">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Use VirtualBox to access OS on hard drive">
+<meta property="og:title" content="使用 VirtualBox 启动物理磁盘上的系统">
 <meta property="og:url" content="https://www.findshank.com/2018/08/15/Use-VirtualBox-to-access-OS-on-hard-drive/index.html">
 <meta property="og:site_name" content="Shank&#39;s Notes">
-<meta property="og:description" content="What虽然已经主要在用Arch了，但是最近有朋友让我帮他改改cpp代码。代码拿过来一看，好家伙，浓浓的windows气息，没办法人家公司就是做windows桌面应用的。 那么问题来了，我不想重启电脑切换系统，还要用windows给他调代码，怎么办？ 用虚拟机吧，传统流程：新建一个虚拟机-&amp;gt;装系统-&amp;gt;搭开发环境-&amp;gt;调代码(-&amp;gt;删除虚拟机)。麻烦">
+<meta property="og:description" content="What虽然已经主要在用 Arch 了，但是最近有朋友让我帮他改改 MFC 代码。那么问题来了，我不想重启电脑切换系统，还要用windows给他调代码，怎么办？用虚拟机吧，一般流程：新建一个虚拟机-&amp;gt;装系统-&amp;gt;搭开发环境-&amp;gt;调代码(-&amp;gt;删除虚拟机)。麻烦">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://www.findshank.com/2018/08/15/Use-VirtualBox-to-access-OS-on-hard-drive/result.gif">
-<meta property="og:updated_time" content="2020-05-06T01:51:35.680Z">
+<meta property="og:updated_time" content="2020-05-06T03:17:50.113Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Use VirtualBox to access OS on hard drive">
-<meta name="twitter:description" content="What虽然已经主要在用Arch了，但是最近有朋友让我帮他改改cpp代码。代码拿过来一看，好家伙，浓浓的windows气息，没办法人家公司就是做windows桌面应用的。 那么问题来了，我不想重启电脑切换系统，还要用windows给他调代码，怎么办？ 用虚拟机吧，传统流程：新建一个虚拟机-&amp;gt;装系统-&amp;gt;搭开发环境-&amp;gt;调代码(-&amp;gt;删除虚拟机)。麻烦">
+<meta name="twitter:title" content="使用 VirtualBox 启动物理磁盘上的系统">
+<meta name="twitter:description" content="What虽然已经主要在用 Arch 了，但是最近有朋友让我帮他改改 MFC 代码。那么问题来了，我不想重启电脑切换系统，还要用windows给他调代码，怎么办？用虚拟机吧，一般流程：新建一个虚拟机-&amp;gt;装系统-&amp;gt;搭开发环境-&amp;gt;调代码(-&amp;gt;删除虚拟机)。麻烦">
 <meta name="twitter:image" content="https://www.findshank.com/2018/08/15/Use-VirtualBox-to-access-OS-on-hard-drive/result.gif">
 
 <link rel="canonical" href="https://www.findshank.com/2018/08/15/Use-VirtualBox-to-access-OS-on-hard-drive/">
@@ -75,7 +75,7 @@
   };
 </script>
 
-  <title>Use VirtualBox to access OS on hard drive | Shank's Notes</title>
+  <title>使用 VirtualBox 启动物理磁盘上的系统 | Shank's Notes</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128359433-1"></script>
     <script>
@@ -234,7 +234,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Use VirtualBox to access OS on hard drive<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/Use-VirtualBox-to-access-OS-on-hard-drive.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pencil"></i></a>
+          使用 VirtualBox 启动物理磁盘上的系统<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/2018-08-15-Use-VirtualBox-to-access-OS-on-hard-drive.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pencil"></i></a>
         </h1>
 
         <div class="post-meta">
@@ -251,7 +251,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-06 09:51:35" itemprop="dateModified" datetime="2020-05-06T09:51:35+08:00">2020-05-06</time>
+                <time title="Modified: 2020-05-06 11:17:50" itemprop="dateModified" datetime="2020-05-06T11:17:50+08:00">2020-05-06</time>
               </span>
 
           
@@ -272,9 +272,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="What"><a href="#What" class="headerlink" title="What"></a>What</h1><p>虽然已经主要在用Arch了，但是最近有朋友让我帮他改改cpp代码。<del>代码拿过来一看，好家伙，浓浓的windows气息，没办法人家公司就是做windows桌面应用的。</del></p>
-<p>那么问题来了，我不想重启电脑切换系统，还要用windows给他调代码，怎么办？</p>
-<p>用虚拟机吧，传统流程：新建一个虚拟机-&gt;装系统-&gt;搭开发环境-&gt;调代码(-&gt;删除虚拟机)。<strong>麻烦</strong></p>
+        <h1 id="What"><a href="#What" class="headerlink" title="What"></a>What</h1><p>虽然已经主要在用 Arch 了，但是最近有朋友让我帮他改改 MFC 代码。<br>那么问题来了，我不想重启电脑切换系统，还要用windows给他调代码，怎么办？<br>用虚拟机吧，一般流程：新建一个虚拟机-&gt;装系统-&gt;搭开发环境-&gt;调代码(-&gt;删除虚拟机)。<strong>麻烦</strong></p>
 <a id="more"></a>
 <h1 id="How"><a href="#How" class="headerlink" title="How"></a>How</h1><p>既然虚拟机也要用虚拟硬盘文件装系统，何不挂载装有系统的硬盘直接用呢？ Google一下，这是可以的。</p>
 <blockquote>
@@ -415,13 +413,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">62</span>
+        <span class="site-state-item-count">61</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

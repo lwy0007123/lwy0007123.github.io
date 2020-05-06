@@ -48,18 +48,18 @@
   };
 </script>
 
-  <meta name="description" content="了解 Google Protocol Buffer官网 Protocol buffers are a language-neutral, platform-neutral extensible mechanism for serializing structured data.">
-<meta name="keywords" content="Golang,Protocol Buffer">
+  <meta name="description" content="Protocol Buffer 是一种语言无关、平台无关的可扩展机制，用于序列化结构话数据。">
+<meta name="keywords" content="Go,Protocol Buffer">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Google Protocol Buffer with Golang">
+<meta property="og:title" content="初次了解 Google Protocol Buffer">
 <meta property="og:url" content="https://www.findshank.com/2018/02/11/Google-Protocol-Buffer-with-Golang/index.html">
 <meta property="og:site_name" content="Shank&#39;s Notes">
-<meta property="og:description" content="了解 Google Protocol Buffer官网 Protocol buffers are a language-neutral, platform-neutral extensible mechanism for serializing structured data.">
+<meta property="og:description" content="Protocol Buffer 是一种语言无关、平台无关的可扩展机制，用于序列化结构话数据。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2020-05-06T01:51:35.676Z">
+<meta property="og:updated_time" content="2020-05-06T03:17:50.113Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Google Protocol Buffer with Golang">
-<meta name="twitter:description" content="了解 Google Protocol Buffer官网 Protocol buffers are a language-neutral, platform-neutral extensible mechanism for serializing structured data.">
+<meta name="twitter:title" content="初次了解 Google Protocol Buffer">
+<meta name="twitter:description" content="Protocol Buffer 是一种语言无关、平台无关的可扩展机制，用于序列化结构话数据。">
 
 <link rel="canonical" href="https://www.findshank.com/2018/02/11/Google-Protocol-Buffer-with-Golang/">
 
@@ -73,7 +73,7 @@
   };
 </script>
 
-  <title>Google Protocol Buffer with Golang | Shank's Notes</title>
+  <title>初次了解 Google Protocol Buffer | Shank's Notes</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-128359433-1"></script>
     <script>
@@ -232,7 +232,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Google Protocol Buffer with Golang<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/Google Protocol Buffer with Golang.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pencil"></i></a>
+          初次了解 Google Protocol Buffer<a href="https://github.com/sko00o/sko00o.github.io/edit/hexo/source/_posts/2018-02-11-Google-Protocol-Buffer-with-Golang.md" class="post-edit-link" title="Edit this post" rel="noopener" target="_blank"><i class="fa fa-pencil"></i></a>
         </h1>
 
         <div class="post-meta">
@@ -249,19 +249,8 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-06 09:51:35" itemprop="dateModified" datetime="2020-05-06T09:51:35+08:00">2020-05-06</time>
+                <time title="Modified: 2020-05-06 11:17:50" itemprop="dateModified" datetime="2020-05-06T11:17:50+08:00">2020-05-06</time>
               </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Golang/" itemprop="url" rel="index">
-                    <span itemprop="name">Golang</span>
-                  </a>
-                </span>
-            </span>
 
           
             <span class="post-meta-item" title="Views">
@@ -281,8 +270,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="了解-Google-Protocol-Buffer"><a href="#了解-Google-Protocol-Buffer" class="headerlink" title="了解 Google Protocol Buffer"></a>了解 Google Protocol Buffer</h2><p><a href="https://developers.google.com/protocol-buffers" target="_blank" rel="noopener">官网</a></p>
-<p>Protocol buffers are a language-neutral, platform-neutral extensible mechanism for serializing structured data.</p>
+        <p>Protocol Buffer 是一种语言无关、平台无关的可扩展机制，用于序列化结构话数据。</p>
 <a id="more"></a>
 <h2 id="下载二进制文件"><a href="#下载二进制文件" class="headerlink" title="下载二进制文件"></a>下载二进制文件</h2><p><a href="https://github.com/google/protobuf/releases" target="_blank" rel="noopener">https://github.com/google/protobuf/releases</a></p>
 <h2 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h2><h3 id="GOPATH"><a href="#GOPATH" class="headerlink" title="GOPATH"></a>GOPATH</h3><p>命令行输入:</p>
@@ -297,6 +285,9 @@
 <p>命令行输入以下生成命令：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">protoc --go_out=./ ./addressbook.proto</span><br><span class="line"><span class="comment"># 命令格式 protoc -I=$SRC_DIR --go_out=$DST_DIR $SRC_DIR/addressbook.proto</span></span><br></pre></td></tr></table></figure>
 <p>在当前目录下生成<code>addressbook.pb.go</code>文件</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://developers.google.com/protocol-buffers" target="_blank" rel="noopener">官网</a></li>
+</ul>
 
     </div>
 
@@ -306,7 +297,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/Golang/" rel="tag"># Golang</a>
+              <a href="/tags/Go/" rel="tag"># Go</a>
               <a href="/tags/Protocol-Buffer/" rel="tag"># Protocol Buffer</a>
           </div>
 
@@ -316,12 +307,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2017/08/06/一些节约生命的操作/" rel="prev" title="一些节约生命的操作 (墙内加速 git pip conda npm docker)">
-      <i class="fa fa-chevron-left"></i> 一些节约生命的操作 (墙内加速 git pip conda npm docker)
+    <a href="/2017/08/06/Speed-up-in-GFW/" rel="prev" title="墙内加速 git pip conda npm docker">
+      <i class="fa fa-chevron-left"></i> 墙内加速 git pip conda npm docker
     </a></div>
       <div class="post-nav-item">
-    <a href="/2018/02/23/Protocal-Buffer-学习/" rel="next" title="Protocal Buffer 学习 (语言指南)">
-      Protocal Buffer 学习 (语言指南) <i class="fa fa-chevron-right"></i>
+    <a href="/2018/02/23/Protocal-Buffer-Language-Guide/" rel="next" title="Protocal Buffer 语言指南（译）">
+      Protocal Buffer 语言指南（译） <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -387,7 +378,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#了解-Google-Protocol-Buffer"><span class="nav-number">1.</span> <span class="nav-text">了解 Google Protocol Buffer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载二进制文件"><span class="nav-number">2.</span> <span class="nav-text">下载二进制文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置环境"><span class="nav-number">3.</span> <span class="nav-text">配置环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GOPATH"><span class="nav-number">3.1.</span> <span class="nav-text">GOPATH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可执行文件加入-GOPATH"><span class="nav-number">3.2.</span> <span class="nav-text">可执行文件加入$GOPATH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加Go语言支持"><span class="nav-number">3.3.</span> <span class="nav-text">添加Go语言支持</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码生成"><span class="nav-number">4.</span> <span class="nav-text">代码生成</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载二进制文件"><span class="nav-number">1.</span> <span class="nav-text">下载二进制文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置环境"><span class="nav-number">2.</span> <span class="nav-text">配置环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GOPATH"><span class="nav-number">2.1.</span> <span class="nav-text">GOPATH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可执行文件加入-GOPATH"><span class="nav-number">2.2.</span> <span class="nav-text">可执行文件加入$GOPATH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加Go语言支持"><span class="nav-number">2.3.</span> <span class="nav-text">添加Go语言支持</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码生成"><span class="nav-number">3.</span> <span class="nav-text">代码生成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -410,13 +401,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">62</span>
+        <span class="site-state-item-count">61</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
