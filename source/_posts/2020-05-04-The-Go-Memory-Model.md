@@ -1,5 +1,5 @@
 ---
-title: Go 内存模型
+title: Go 内存模型（译）
 tags:
   - Go
   - translation
