@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Hexo to Hugo</title>
+    <url>/2020/05/07/Hexo-to-Hugo/</url>
+    <content><![CDATA[<h1 id="My-blog-already-moved-to-Gitlab-Pages-Powered-by-Hugo"><a href="#My-blog-already-moved-to-Gitlab-Pages-Powered-by-Hugo" class="headerlink" title="My blog already moved to Gitlab Pages. Powered by Hugo."></a>My blog already moved to Gitlab Pages. Powered by Hugo.</h1><h1 id="博客已经迁移至-Gitlab-Pages-。使用-Hugo-生成。"><a href="#博客已经迁移至-Gitlab-Pages-。使用-Hugo-生成。" class="headerlink" title="博客已经迁移至 Gitlab Pages 。使用 Hugo 生成。"></a>博客已经迁移至 Gitlab Pages 。使用 Hugo 生成。</h1><p><a href="https://blog.findshank.com" target="_blank" rel="noopener">blog.findshank.com</a></p>
+]]></content>
+      <tags>
+        <tag>Hugo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Go 工作窃取调度器（译）</title>
     <url>/2020/05/06/Go-s-work-stealing-scheduler/</url>
     <content><![CDATA[<p><a href="https://rakyll.org/scheduler/" target="_blank" rel="noopener">原文 Go’s work-stealing scheduler</a></p>
